@@ -53,7 +53,7 @@ async function route(request, env, url, ctx) {
     return handleCreateDonation(request, env);
   }
   if (method === 'GET' && pathname === '/api/donations') {
-    return handleListPublic(env, ctx);
+    return handleListPublic(env, ctx, url);
   }
   if (method === 'GET' && pathname === '/api/settings') {
     return handleGetPublicSettings(env);
@@ -62,7 +62,7 @@ async function route(request, env, url, ctx) {
     return handleGetStatus(env, pathname.slice('/api/donations/'.length));
   }
   if (method === 'POST' && pathname === '/api/webhooks/payos') {
-    return handleWebhook(request, env);
+    return handleWebhook(request, env, url);
   }
   if (method === 'POST' && pathname === '/api/admin/login') {
     return handleAdminLogin(request, env);
@@ -90,10 +90,10 @@ async function route(request, env, url, ctx) {
   }
   if (method === 'POST' && SHOW_RE.test(pathname)) {
     // /publish kept as an alias for older admin clients.
-    return withAdmin(request, env, () => handleAdminShow(env, orderCodeFromAdminPath(pathname)));
+    return withAdmin(request, env, () => handleAdminShow(env, orderCodeFromAdminPath(pathname), url));
   }
   if (method === 'POST' && HIDE_RE.test(pathname)) {
-    return withAdmin(request, env, () => handleAdminHide(env, orderCodeFromAdminPath(pathname)));
+    return withAdmin(request, env, () => handleAdminHide(env, orderCodeFromAdminPath(pathname), url));
   }
   if (method === 'GET' && pathname === '/return') {
     return handleReturnRedirect(url);

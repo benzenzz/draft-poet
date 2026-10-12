@@ -63,3 +63,5 @@ UPDATE donations SET status = 'pending' WHERE status = 'cancelled';
 -- Covering index: public/admin totals (SUM/COUNT of success gifts) read the
 -- index only, not full donation rows. Safe to re-run.
 CREATE INDEX IF NOT EXISTS idx_donations_success_amount ON donations (status, amount);
+
+CREATE INDEX IF NOT EXISTS idx_donations_created ON donations (created_at);

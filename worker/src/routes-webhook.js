@@ -4,7 +4,7 @@ import { verifyDataSignature } from './payos.js';
 import { findDonationForWebhook, markDonationPaid } from './store.js';
 import { purgePublicListCache } from './routes-donations.js';
 
-export async function handleWebhook(request, env) {
+export async function handleWebhook(request, env, url) {
   let payload;
   try {
     payload = await request.json();
@@ -44,7 +44,7 @@ export async function handleWebhook(request, env) {
     // Never trust these for auth; stored for later review only.
     // Payment success auto-publishes to the public wall (status = success).
     await markDonationPaid(env, data.orderCode, data, new Date().toISOString());
-    await purgePublicListCache();
+    await purgePublicListCache(url);
   }
 
   return json({ ok: true }, 200);
