@@ -15,35 +15,17 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Itim&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../style.css">
+  <script src="../components/site-header.js" defer></script>
+  <script src="../components/site-footer.js" defer></script>
   <script src="../app.js" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Bỏ qua điều hướng</a>
-  <header class="site-header" id="top">
-    <div class="container header-inner">
-      <a class="brand" href="../index.html" aria-label="POET, về trang chủ">
-        <img class="brand-logo" src="../assets/logo/1555047679990943.jpg" alt="" width="56" height="56">
-        <span class="brand-name">POET<small>TUỔI TRẺ · NHIỆT HUYẾT · NGHỆ THUẬT</small></span>
-      </a>
-      <nav class="desktop-nav" aria-label="Điều hướng chính">
-        <a href="../index.html">Trang chủ</a>
-        <a href="../team/index.html">Team</a>
-        <a href="../ung-ho/index.html">Ủng hộ</a>
-        <!-- <a href="index.html" aria-current="page">Đồng hành</a> -->
-      </nav>
-      <a class="button button-dark header-cta" href="#lien-he">Kết nối <span aria-hidden="true">↗</span></a>
-      <button class="menu-toggle" type="button" aria-label="Mở menu" aria-expanded="false" aria-controls="mobile-nav"><span></span><span></span></button>
-    </div>
-    <nav class="mobile-nav" id="mobile-nav" aria-label="Điều hướng trên điện thoại" hidden>
-      <a href="../index.html">Trang chủ</a>
-      <a href="../team/index.html">Team</a>
-      <a href="../ung-ho/index.html">Ủng hộ</a>
-      <a href="index.html" aria-current="page">Đồng hành</a>
-      <a href="#ugc">TikTok & UGC</a>
-      <a href="#goi-tai-tro">10 gói Little Joy</a>
-      <a href="#lien-he">Kết nối với POET</a>
-    </nav>
-  </header>
+  <site-header active="partner" cta="contact">
+    <a slot="extra-mobile" href="#ugc">TikTok & UGC</a>
+    <a slot="extra-mobile" href="#goi-tai-tro">10 gói Little Joy</a>
+    <a slot="extra-mobile" href="#lien-he">Kết nối với POET</a>
+  </site-header>
 
   <main id="main">
     <section class="page-hero container" aria-labelledby="partner-title">
@@ -176,33 +158,7 @@
     </section>
   </main>
 
-  <footer class="footer">
-    <div class="container footer-main">
-      <div>
-        <a class="brand footer-brand" href="../index.html" aria-label="POET, về trang chủ">
-          <img class="brand-logo" src="../assets/logo/1555047679990943.jpg" alt="" width="72" height="72">
-          <span class="brand-name">POET<small>TUỔI TRẺ · NHIỆT HUYẾT · NGHỆ THUẬT</small></span>
-        </a>
-        <p>Tổ chức thiện nguyện của người trẻ.<br>Little Joy là lời mời đồng hành trong POET Big Joy.</p>
-      </div>
-      <div class="footer-links">
-        <span>KHÁM PHÁ</span>
-        <a href="../index.html">Trang chủ</a>
-        <a href="../team/index.html">Team</a>
-        <a href="../ung-ho/index.html">Ủng hộ</a>
-        <a href="#hanh-trinh">Ba chặng</a>
-        <a href="#ugc">TikTok & UGC</a>
-        <a href="#goi-tai-tro">10 gói Little Joy</a>
-      </div>
-      <div class="footer-links">
-        <span>KẾT NỐI</span>
-        <a href="https://www.facebook.com/poetorganization" target="_blank" rel="noopener noreferrer">Facebook POET ↗</a>
-        <a href="mailto:poet.npo@gmail.com">poet.npo@gmail.com</a>
-        <a href="../docs/quyen-loi-big-joy-little-joy.pdf" target="_blank" rel="noopener">Bảng quyền lợi (PDF) ↗</a>
-      </div>
-    </div>
-    <div class="container footer-bottom"><span>© 2026 POET · LITTLE JOY</span><a href="#top">Lên đầu trang ↑</a></div>
-  </footer>
+  <site-footer variant="partner"></site-footer>
 
   <dialog class="contact-dialog" id="contact-dialog" aria-labelledby="contact-title">
     <div class="dialog-top"><span class="section-kicker">HELLO, LITTLE JOY! ✿</span><button class="dialog-close" type="button" id="contact-close" aria-label="Đóng">×</button></div>
