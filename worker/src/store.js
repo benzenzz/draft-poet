@@ -32,7 +32,13 @@ export async function isDonationsEnabled(env) {
 
 /* -- admin users / sessions -- */
 
+/**
+ * First-run seed of admin/admin. Only when ADMIN_TOKEN is configured, so a
+ * deployment without the recovery secret can never expose a default login.
+ * (With ADMIN_TOKEN set, prefer /api/admin/recover-password to set a real one.)
+ */
 export async function ensureAdminSeeded(env) {
+  if (!String(env.ADMIN_TOKEN || '').trim()) return;
   try {
     // LIMIT 1 reads one row instead of scanning the whole table.
     const row = await env.DB.prepare('SELECT 1 AS x FROM admin_users LIMIT 1').first();
@@ -90,6 +96,18 @@ export async function deleteAdminSessionsForUser(env, username) {
 }
 
 /* -- rate limiting -- */
+
+/** Global cleanup of old attempt rows (all IPs). Called on admin login. */
+export async function pruneAllAttempts(env, beforeIso) {
+  await env.DB.prepare('DELETE FROM create_attempts WHERE created_at < ?').bind(beforeIso).run();
+}
+
+/** Abandoned checkouts: PayOS links expire after 30 min, keep 2 days for audit. */
+export async function pruneStalePendingDonations(env, beforeIso) {
+  await env.DB.prepare("DELETE FROM donations WHERE status = 'pending' AND created_at < ?")
+    .bind(beforeIso)
+    .run();
+}
 
 export async function pruneAttempts(env, ipHash, beforeIso) {
   await env.DB.prepare('DELETE FROM create_attempts WHERE ip_hash = ? AND created_at < ?')
@@ -274,7 +292,7 @@ export async function listDonationsForAdmin(env) {
               virtual_account_name AS virtualAccountName,
               virtual_account_number AS virtualAccountNumber
        FROM donations
-       ORDER BY COALESCE(paid_at, created_at) DESC
+       ORDER BY created_at DESC
        LIMIT ${ADMIN_LIST_LIMIT}`,
     ).all();
     return (results || []).map(withHiddenFlag);
@@ -284,7 +302,7 @@ export async function listDonationsForAdmin(env) {
       `SELECT order_code AS orderCode, amount, display_name AS displayName,
               message, anonymous, status, paid_at AS paidAt, created_at AS createdAt
        FROM donations
-       ORDER BY COALESCE(paid_at, created_at) DESC
+       ORDER BY created_at DESC
        LIMIT ${ADMIN_LIST_LIMIT}`,
     ).all();
     return (results || []).map((row) => withHiddenFlag({ ...row, hidden: 0 }));
