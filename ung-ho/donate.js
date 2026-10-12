@@ -112,6 +112,8 @@
           displayName: isAnonymous ? '' : name,
           message: note,
           anonymous: isAnonymous,
+          returnUrl: new URL('return.html', new URL('.', location.href)).href,
+          cancelUrl: new URL('cancel.html', new URL('.', location.href)).href,
         }),
       });
       const data = await res.json().catch(() => ({}));

@@ -8,7 +8,8 @@ import {
 
 const MIN_AMOUNT = 10000;
 const MAX_AMOUNT = 20000000;
-const SITE_UNG_HO = 'https://maiphh.github.io/poet/ung-ho/';
+const PROD_RETURN_URL = 'https://maiphh.github.io/poet/ung-ho/return.html';
+const PROD_CANCEL_URL = 'https://maiphh.github.io/poet/ung-ho/cancel.html';
 
 function json(data, status = 200, extraHeaders = {}) {
   return new Response(JSON.stringify(data), {
@@ -51,6 +52,50 @@ function isLocalDevOrigin(origin) {
   } catch {
     return false;
   }
+}
+
+/** Pure resolver for PayOS return/cancel URLs. Returns null when invalid. */
+export function resolvePayosReturnUrls({ origin, allowedOrigin, returnUrl, cancelUrl }) {
+  if (!origin) {
+    return { returnUrl: PROD_RETURN_URL, cancelUrl: PROD_CANCEL_URL };
+  }
+
+  if (origin !== allowedOrigin && !isLocalDevOrigin(origin)) {
+    return null;
+  }
+
+  if (typeof returnUrl !== 'string' || typeof cancelUrl !== 'string') {
+    return null;
+  }
+
+  let parsedReturn;
+  let parsedCancel;
+  try {
+    parsedReturn = new URL(returnUrl);
+    parsedCancel = new URL(cancelUrl);
+  } catch {
+    return null;
+  }
+
+  function isAllowedCallback(url, pathSuffix) {
+    return (
+      url.origin === origin &&
+      !url.username &&
+      !url.password &&
+      !url.search &&
+      !url.hash &&
+      url.pathname.endsWith(pathSuffix)
+    );
+  }
+
+  if (
+    !isAllowedCallback(parsedReturn, '/ung-ho/return.html') ||
+    !isAllowedCallback(parsedCancel, '/ung-ho/cancel.html')
+  ) {
+    return null;
+  }
+
+  return { returnUrl: parsedReturn.href, cancelUrl: parsedCancel.href };
 }
 
 function applyCors(response, origin) {
@@ -350,15 +395,23 @@ async function handleCreateDonation(request, env) {
     return error('Lời nhắn chứa nội dung không được phép.', 400);
   }
 
+  const resolved = resolvePayosReturnUrls({
+    origin: request.headers.get('Origin'),
+    allowedOrigin: env.ALLOWED_ORIGIN,
+    returnUrl: body?.returnUrl,
+    cancelUrl: body?.cancelUrl,
+  });
+  if (!resolved) {
+    return error('Địa chỉ quay lại không hợp lệ.', 400);
+  }
+  const { returnUrl, cancelUrl } = resolved;
+
   await env.DB.prepare(
     'INSERT INTO create_attempts (ip_hash, created_at) VALUES (?, ?)',
   )
     .bind(ipHash, nowIso)
     .run();
 
-  const workerOrigin = new URL(request.url).origin;
-  const returnUrl = `${workerOrigin}/return`;
-  const cancelUrl = `${workerOrigin}/cancel`;
   const description = 'UNGHO';
   const expiredAt = Math.floor(Date.now() / 1000) + 30 * 60;
 
@@ -656,74 +709,6 @@ async function handleAdminHide(env, orderCode) {
   return json({ ok: true, status: 'hidden' });
 }
 
-function receiptPage({ title, heading, detail, orderCode, mode }) {
-  const safeTitle = escapeHtml(title);
-  const safeHeading = escapeHtml(heading);
-  const safeDetail = escapeHtml(detail);
-  const codeAttr = orderCode ? String(Number(orderCode) || '') : '';
-  return `<!doctype html>
-<html lang="vi">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>${safeTitle}</title>
-  <style>
-    :root { color-scheme: light only; }
-    body { margin: 0; font-family: system-ui, sans-serif; background: #f4e6cf; color: #4a3324; }
-    main { max-width: 520px; margin: 48px auto; padding: 28px; background: #fffaf1; border: 2.5px solid #2f2219; border-radius: 22px; box-shadow: 4px 5px 0 #2f2219; }
-    h1 { font-size: 28px; margin: 0 0 12px; }
-    p { line-height: 1.55; color: #7a5b45; }
-    a { color: #3a9e74; font-weight: 700; }
-    .status { margin-top: 16px; font-weight: 700; color: #4a3324; }
-  </style>
-</head>
-<body>
-  <main>
-    <h1>${safeHeading}</h1>
-    <p>${safeDetail}</p>
-    <p class="status" id="status"></p>
-    <p><a href="${SITE_UNG_HO}">Quay lại trang Ủng hộ</a></p>
-  </main>
-  <script>
-    (function () {
-      var mode = ${JSON.stringify(mode)};
-      var orderCode = ${JSON.stringify(codeAttr)};
-      var el = document.getElementById('status');
-      if (mode !== 'return' || !orderCode) return;
-      fetch('/api/donations/' + encodeURIComponent(orderCode))
-        .then(function (r) { return r.ok ? r.json() : null; })
-        .then(function (data) {
-          if (!data || !data.status) {
-            el.textContent = 'Chưa đọc được trạng thái. Quà của bạn vẫn được ghi nhận khi thanh toán thành công.';
-            return;
-          }
-          if (data.status === 'published') {
-            el.textContent = 'Lời nhắn đã được đăng trên tường ủng hộ.';
-          } else if (data.status === 'paid') {
-            el.textContent = 'Đã nhận thanh toán. Lời nhắn sẽ hiện sau khi được duyệt.';
-          } else if (data.status === 'pending') {
-            el.textContent = 'Đang chờ xác nhận thanh toán.';
-          } else {
-            el.textContent = 'Trạng thái hiện tại: ' + data.status + '.';
-          }
-        })
-        .catch(function () {
-          el.textContent = 'Chưa đọc được trạng thái. Quà của bạn vẫn được ghi nhận khi thanh toán thành công.';
-        });
-    })();
-  </script>
-</body>
-</html>`;
-}
-
-function escapeHtml(s) {
-  return String(s)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
-}
-
 async function requireAdmin(request, env) {
   const session = await authorizeAdmin(request, env);
   if (!session) return { response: error('Không có quyền truy cập.', 401) };
@@ -807,28 +792,13 @@ export default {
           response = await handleAdminHide(env, code);
         }
       } else if (method === 'GET' && pathname === '/return') {
-        const orderCode = url.searchParams.get('orderCode');
-        response = html(
-          receiptPage({
-            title: 'Cảm ơn bạn — POET',
-            heading: 'Cảm ơn bạn đã ủng hộ.',
-            detail:
-              'Nếu thanh toán thành công, món quà đã được ghi nhận. Tên và lời nhắn sẽ hiện trên trang ủng hộ sau khi được duyệt.',
-            orderCode,
-            mode: 'return',
-          }),
-        );
+        const dest = new URL(PROD_RETURN_URL);
+        dest.search = url.search;
+        response = Response.redirect(dest.toString(), 302);
       } else if (method === 'GET' && pathname === '/cancel') {
-        response = html(
-          receiptPage({
-            title: 'Đã hủy — POET',
-            heading: 'Thanh toán đã được hủy.',
-            detail:
-              'Không sao cả. Bạn có thể quay lại trang ủng hộ bất cứ lúc nào khi sẵn sàng.',
-            orderCode: url.searchParams.get('orderCode'),
-            mode: 'cancel',
-          }),
-        );
+        const dest = new URL(PROD_CANCEL_URL);
+        dest.search = url.search;
+        response = Response.redirect(dest.toString(), 302);
       } else if (method === 'GET' && pathname === '/admin') {
         // Admin UI now lives on the static site at /admin/.
         // Keep a hint for anyone still opening the old Worker URL.
@@ -855,5 +825,5 @@ export default {
   },
 };
 
-// Exported for deploy checks that import cancel helpers if needed.
+// Exported for deploy checks and unit tests.
 export { cancelPaymentLink };

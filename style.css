@@ -843,7 +843,13 @@ section[id] { scroll-margin-top: 80px; }
   border-radius: var(--radius);
   box-shadow: 5px 6px 0 var(--outline);
 }
+.donate-card h1,
 .donate-card h2 { font-size: clamp(28px, 4vw, 40px); margin: 0 0 22px; }
+.donate-status {
+  margin: 16px 0;
+  font-weight: 700;
+  color: var(--ink);
+}
 .donate-amounts { border: 0; margin: 0 0 18px; padding: 0; }
 .donate-amounts legend {
   font-family: var(--hand);
