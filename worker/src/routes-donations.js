@@ -25,7 +25,13 @@ import {
  * hashed key ('' keeps donation rows identical to before; 'admin:' for
  * login/recover), so no schema change is needed.
  */
-export async function checkRateLimit(request, env, scope = '', max = RATE_LIMIT_MAX_PER_HOUR) {
+export async function checkRateLimit(
+  request,
+  env,
+  scope = '',
+  max = RATE_LIMIT_MAX_PER_HOUR,
+  tooManyMessage = 'Bạn đã gửi quá nhiều lần. Vui lòng thử lại sau một giờ.',
+) {
   const ip = request.headers.get('CF-Connecting-IP');
   if (!ip) return { response: error('Không xác định được địa chỉ IP.', 400) };
 
@@ -40,7 +46,7 @@ export async function checkRateLimit(request, env, scope = '', max = RATE_LIMIT_
   // because the count below only looks at the last hour anyway.
   if (Math.random() < 0.1) await pruneAttempts(env, ipHash, twoHoursAgo);
   if ((await countRecentAttempts(env, ipHash, oneHourAgo)) >= max) {
-    return { response: error('Bạn đã gửi quá nhiều lần. Vui lòng thử lại sau một giờ.', 429) };
+    return { response: error(tooManyMessage, 429) };
   }
   return { ipHash, nowIso };
 }

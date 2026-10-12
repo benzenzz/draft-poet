@@ -1,7 +1,7 @@
 /** PayOS webhook: verify signature, mark pending gifts as paid. Idempotent. */
 import { error, json } from './http.js';
 import { verifyDataSignature } from './payos.js';
-import { findDonationForWebhook, markDonationPaid } from './store.js';
+import { enrichManualDonation, findDonationForWebhook, markDonationPaid } from './store.js';
 import { purgePublicListCache } from './routes-donations.js';
 
 export async function handleWebhook(request, env, url) {
@@ -41,7 +41,11 @@ export async function handleWebhook(request, env, url) {
   if (!successMatch) return json({ ok: true }, 200);
 
   // Already success (including hidden gifts): leave status and hidden alone.
+  // Manually confirmed earlier: just attach the PayOS audit fields.
   if (row.status === 'success') {
+    if (String(row.payos_reference || '').startsWith('manual:') && data.reference) {
+      await enrichManualDonation(env, data.orderCode, data);
+    }
     return json({ ok: true }, 200);
   }
 

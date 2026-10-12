@@ -191,7 +191,7 @@ export async function findDonationStatus(env, orderCode) {
 export async function findDonationForWebhook(env, orderCode) {
   try {
     return await env.DB.prepare(
-      'SELECT order_code, amount, status, hidden FROM donations WHERE order_code = ?',
+      'SELECT order_code, amount, status, hidden, payos_reference FROM donations WHERE order_code = ?',
     )
       .bind(orderCode)
       .first();
@@ -345,4 +345,41 @@ export async function markDonationPaidManually(env, orderCode, username, note, p
     .bind(paidAtIso, `manual:${username}`, note, orderCode)
     .run();
   return (res?.meta?.changes || 0) > 0;
+}
+
+/**
+ * A gift an admin marked paid by hand, later confirmed by the real PayOS
+ * webhook: copy in PayOS audit fields. status/amount/paid_at stay as is.
+ * The 'manual:<admin>' marker moves to the front of payos_description so
+ * who confirmed it is kept. Idempotent: only matches manual references.
+ */
+export async function enrichManualDonation(env, orderCode, data) {
+  await env.DB.prepare(
+    `UPDATE donations
+     SET payos_description = payos_reference ||
+           CASE WHEN payos_description IS NULL OR payos_description = '' THEN ''
+                ELSE ' | ' || payos_description END,
+         payos_reference = ?,
+         payos_account_number = ?, payos_transaction_time = ?, payos_currency = ?,
+         counter_account_bank_id = ?, counter_account_bank_name = ?,
+         counter_account_name = ?, counter_account_number = ?,
+         virtual_account_name = ?, virtual_account_number = ?,
+         payment_link_id = COALESCE(payment_link_id, ?)
+     WHERE order_code = ? AND status = 'success' AND payos_reference LIKE 'manual:%'`,
+  )
+    .bind(
+      data.reference ?? null,
+      data.accountNumber ?? null,
+      data.transactionDateTime ?? null,
+      data.currency ?? null,
+      data.counterAccountBankId ?? null,
+      data.counterAccountBankName ?? null,
+      data.counterAccountName ?? null,
+      data.counterAccountNumber ?? null,
+      data.virtualAccountName ?? null,
+      data.virtualAccountNumber ?? null,
+      data.paymentLinkId ?? null,
+      orderCode,
+    )
+    .run();
 }

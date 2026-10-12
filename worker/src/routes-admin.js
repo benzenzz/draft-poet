@@ -29,7 +29,10 @@ import {
 
 export async function handleAdminLogin(request, env) {
   // Only failed logins count toward the limit (separate bucket from recover).
-  const limit = await checkRateLimit(request, env, 'login:', ADMIN_AUTH_MAX_PER_HOUR);
+  const limit = await checkRateLimit(
+    request, env, 'login:', ADMIN_AUTH_MAX_PER_HOUR,
+    'Bạn đã nhập sai quá nhiều lần. Đăng nhập tạm khoá, vui lòng thử lại sau tối đa 1 giờ.',
+  );
   if (limit.response) return limit.response;
 
   const { body, response: badBody } = await readJsonBody(request);
@@ -116,7 +119,10 @@ export async function handleAdminChangePassword(request, env, session) {
  */
 export async function handleAdminRecoverPassword(request, env) {
   // Only failed recovery attempts count (separate bucket from login).
-  const limit = await checkRateLimit(request, env, 'recover:', ADMIN_AUTH_MAX_PER_HOUR);
+  const limit = await checkRateLimit(
+    request, env, 'recover:', ADMIN_AUTH_MAX_PER_HOUR,
+    'Bạn đã nhập sai mã khôi phục quá nhiều lần. Vui lòng thử lại sau tối đa 1 giờ.',
+  );
   if (limit.response) return limit.response;
 
   const { body, response: badBody } = await readJsonBody(request);

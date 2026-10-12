@@ -348,8 +348,18 @@
     const t = Date.parse(d.createdAt);
     return Number.isFinite(t) && Date.now() - t > PAYMENT_TTL_MS;
   }
+  function isManual(d) {
+    return /^manual:/.test(d.payosReference || '') || /^manual:/.test(d.payosDescription || '');
+  }
   function statusLabel(d) {
-    return isExpiredPending(d) ? 'hết hạn' : d.status || '—';
+    if (isExpiredPending(d)) return 'hết hạn';
+    if (d.status === 'success' && isManual(d)) return 'success · thủ công';
+    return d.status || '—';
+  }
+  function manualNote(d) {
+    if (!isManual(d) || !d.payosDescription) return '';
+    // Drop the leading 'manual:<admin> | ' marker when PayOS later filled the reference.
+    return d.payosDescription.replace(/^manual:[^|]*\|?\s*/, '').trim();
   }
 
   function filteredDonations() {
@@ -433,6 +443,24 @@
         td.textContent = value;
         if (index === 2) td.className = 'admin-table-amount';
         if (index === 4) td.className = 'admin-table-message';
+        if (index === 1 && d.status === 'success' && isManual(d)) {
+          const who = (/^manual:([^|\s]+)/.exec(d.payosReference || '') ||
+            /^manual:([^|\s]+)/.exec(d.payosDescription || '') || [])[1] || 'admin';
+          const note = manualNote(d);
+          td.textContent = '';
+          td.append('success ');
+          const tag = document.createElement('span');
+          tag.textContent = 'thủ công';
+          tag.title = `Xác nhận thủ công bởi ${who}`;
+          tag.style.cssText = 'display:inline-block;padding:1px 8px;border-radius:999px;background:var(--yellow);border:1.5px solid var(--outline);font-size:12px;font-weight:800';
+          td.appendChild(tag);
+          if (note) {
+            const n = document.createElement('div');
+            n.textContent = `Ghi chú: ${note}`;
+            n.style.cssText = 'font-size:12px;color:var(--ink-soft);margin-top:4px';
+            td.appendChild(n);
+          }
+        }
         if (index === 1 && isExpiredPending(d)) {
           td.title = 'Link thanh toán đã hết hạn (quá 30 phút), vẫn giữ trạng thái pending';
           td.style.color = 'var(--ink-soft)';
@@ -518,9 +546,12 @@
 
   async function markPaid(d, btn) {
     const ok = window.confirm(
-      `Xác nhận đã nhận tiền cho đơn #${d.orderCode} — ${money(d.amount)}?\n\n` +
-        `Hãy mở sao kê ngân hàng và kiểm tra có giao dịch đúng số tiền này với ` +
-        `nội dung chứa mã 9 số ${d.orderCode}. Chỉ xác nhận khi khớp.`,
+      `XÁC NHẬN ĐÃ NHẬN TIỀN\n\n` +
+        `Mã đơn:   ${d.orderCode}\n` +
+        `Số tiền:  ${money(d.amount)}\n` +
+        `Người gửi: ${d.displayName || '—'}\n\n` +
+        `Mở sao kê ngân hàng, kiểm tra có giao dịch đúng ${money(d.amount)} ` +
+        `với nội dung chứa mã 9 số ${d.orderCode}. Chỉ bấm OK khi khớp cả hai.`,
     );
     if (!ok) return;
     btn.disabled = true;
