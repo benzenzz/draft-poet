@@ -1,5 +1,5 @@
 /** Admin routes: login/logout, password, settings, donation moderation. */
-import { ADMIN_AUTH_MAX_PER_HOUR, ADMIN_SESSION_TTL_MS, STALE_PENDING_MS } from './config.js';
+import { ADMIN_AUTH_MAX_PER_HOUR, ADMIN_SESSION_TTL_MS } from './config.js';
 import { error, json, readJsonBody } from './http.js';
 import { hashPassword, randomHex, verifyPassword } from './crypto.js';
 import { timingSafeEqual } from './payos.js';
@@ -12,7 +12,6 @@ import {
   deleteOtherAdminSessions,
   pruneAllAttempts,
   pruneExpiredAdminSessions,
-  pruneStalePendingDonations,
   recordAttempt,
   ensureAdminSeeded,
   findAdminPasswordHash,
@@ -59,7 +58,6 @@ export async function handleAdminLogin(request, env) {
   // Login is the housekeeping point: a few cheap deletes, rarely run.
   await pruneExpiredAdminSessions(env, now.toISOString());
   await pruneAllAttempts(env, new Date(now.getTime() - 2 * 60 * 60 * 1000).toISOString());
-  await pruneStalePendingDonations(env, new Date(now.getTime() - STALE_PENDING_MS).toISOString());
   await createAdminSession(env, token, user.username, now.toISOString(), expiresAt);
   return json({ token, username: user.username, expiresAt });
 }

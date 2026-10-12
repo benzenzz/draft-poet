@@ -17,4 +17,3 @@ export const ADMIN_SESSION_TTL_MS = 12 * 60 * 60 * 1000;
 export const PUBLIC_WALL_LIMIT = 30;
 export const ADMIN_LIST_LIMIT = 100;
 export const ADMIN_AUTH_MAX_PER_HOUR = 10;
-export const STALE_PENDING_MS = 2 * 24 * 60 * 60 * 1000;

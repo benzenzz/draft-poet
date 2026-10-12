@@ -25,7 +25,13 @@ export async function handleWebhook(request, env, url) {
 
   const data = payload.data;
   const row = await findDonationForWebhook(env, data.orderCode);
-  if (!row) return json({ ok: true }, 200);
+  if (!row) {
+    // Signed by PayOS but unknown to us: log for follow-up (no personal data).
+    console.warn(
+      `payos webhook: no donation row for orderCode=${Number(data.orderCode)} amount=${Number(data.amount)}`,
+    );
+    return json({ ok: true }, 200);
+  }
 
   const successMatch =
     payload.success === true &&

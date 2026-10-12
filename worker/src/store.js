@@ -102,12 +102,6 @@ export async function pruneAllAttempts(env, beforeIso) {
   await env.DB.prepare('DELETE FROM create_attempts WHERE created_at < ?').bind(beforeIso).run();
 }
 
-/** Abandoned checkouts: PayOS links expire after 30 min, keep 2 days for audit. */
-export async function pruneStalePendingDonations(env, beforeIso) {
-  await env.DB.prepare("DELETE FROM donations WHERE status = 'pending' AND created_at < ?")
-    .bind(beforeIso)
-    .run();
-}
 
 export async function pruneAttempts(env, ipHash, beforeIso) {
   await env.DB.prepare('DELETE FROM create_attempts WHERE ip_hash = ? AND created_at < ?')
