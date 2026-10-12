@@ -139,6 +139,15 @@
   }
 
   customAmount.addEventListener('input', updateTotal);
+  const customToggle = document.getElementById('gift-custom-toggle');
+  const customPanel = document.getElementById('gift-custom-panel');
+  customToggle.addEventListener('click', () => {
+    const open = customToggle.getAttribute('aria-expanded') !== 'true';
+    customToggle.setAttribute('aria-expanded', String(open));
+    customPanel.hidden = !open;
+    customToggle.querySelector('.gift-custom-chev').textContent = open ? '▴' : '▾';
+    if (open) customAmount.focus();
+  });
 
   let amountValid = false;
   function setSubmitEnabled(valid) {

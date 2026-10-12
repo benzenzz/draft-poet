@@ -24,7 +24,9 @@
 .gift-step button:active { transform: translate(1px, 1px); }
 .gift-step output { min-width: 26px; font: 800 20px var(--display); }
 .gift-custom { margin-top: 12px; }
-.gift-custom summary { cursor: pointer; font-weight: 800; min-height: 44px; display: flex; align-items: center; }
+.gift-custom-toggle { cursor: pointer; font: inherit; font-weight: 800; color: inherit; background: none; border: 0; padding: 0 4px; min-height: 44px; display: flex; align-items: center; gap: 6px; text-align: left; }
+.gift-custom-toggle:focus-visible { outline: 3px solid currentColor; outline-offset: 2px; border-radius: 6px; }
+.gift-custom-chev { font-size: .85em; }
 .gift-custom .donate-field { margin-top: 4px; }
 .gift-total {
   position: sticky; bottom: 8px; z-index: 2; margin-top: 14px;

@@ -53,13 +53,15 @@
             <legend>Gửi gì cho các em hôm nay?</legend>
             <p class="gift-hint">Chọn món quà — POET sẽ mua và trao tận tay các em ở điểm trường.</p>
             <div class="gift-grid" id="gift-grid" role="group" aria-label="Chọn món quà"></div>
-            <details class="gift-custom" id="gift-custom">
-              <summary>✎ Hoặc nhập số tiền tuỳ ý</summary>
+            <div class="gift-custom" id="gift-custom">
+              <button type="button" class="gift-custom-toggle" id="gift-custom-toggle" aria-expanded="false" aria-controls="gift-custom-panel">✎ Hoặc nhập số tiền tuỳ ý <span class="gift-custom-chev" aria-hidden="true">▾</span></button>
+              <div id="gift-custom-panel" hidden>
               <label class="donate-field" for="custom-amount">
                 <span>Số tiền (VND) — thay cho các món đã chọn</span>
                 <input id="custom-amount" name="customAmount" type="number" inputmode="numeric" min="10000" max="20000000" step="1000" placeholder="Từ 10.000 đến 20.000.000">
               </label>
-            </details>
+              </div>
+            </div>
             <div class="gift-total" aria-live="polite">
               <span class="gift-total-sum" id="gift-summary">Chưa chọn món nào</span>
               <strong class="gift-total-amount" id="gift-total">0 đ</strong>
