@@ -59,3 +59,7 @@ ALTER TABLE donations ADD COLUMN hidden INTEGER NOT NULL DEFAULT 0;
 UPDATE donations SET hidden = 1, status = 'success' WHERE status = 'hidden';
 UPDATE donations SET status = 'success' WHERE status IN ('paid', 'published');
 UPDATE donations SET status = 'pending' WHERE status = 'cancelled';
+
+-- Covering index: public/admin totals (SUM/COUNT of success gifts) read the
+-- index only, not full donation rows. Safe to re-run.
+CREATE INDEX IF NOT EXISTS idx_donations_success_amount ON donations (status, amount);

@@ -31,7 +31,9 @@ async function checkRateLimit(request, env) {
   const oneHourAgo = new Date(now.getTime() - 60 * 60 * 1000).toISOString();
   const twoHoursAgo = new Date(now.getTime() - 2 * 60 * 60 * 1000).toISOString();
 
-  await pruneAttempts(env, ipHash, twoHoursAgo);
+  // Pruning on every create cost a write each time; 1 in 10 is plenty
+  // because the count below only looks at the last hour anyway.
+  if (Math.random() < 0.1) await pruneAttempts(env, ipHash, twoHoursAgo);
   if ((await countRecentAttempts(env, ipHash, oneHourAgo)) >= RATE_LIMIT_MAX_PER_HOUR) {
     return { response: error('Bạn đã gửi quá nhiều lần. Vui lòng thử lại sau một giờ.', 429) };
   }
@@ -127,13 +129,41 @@ export async function handleCreateDonation(request, env) {
   return json({ orderCode, checkoutUrl: payosRes.data.checkoutUrl });
 }
 
-export async function handleListPublic(env) {
+const PUBLIC_CACHE_KEY = 'https://poet-cache.internal/api/donations';
+const PUBLIC_CACHE_SECONDS = 30;
+
+/**
+ * Public wall, cached at the edge for 30s (caches.default) so a busy page
+ * does not hit D1 on every load. Falls back to a direct read if the Cache
+ * API is unavailable. Response contains no order codes or bank fields.
+ */
+export async function handleListPublic(env, ctx) {
+  const cache = typeof caches !== 'undefined' ? caches.default : null;
+  if (cache) {
+    try {
+      const hit = await cache.match(PUBLIC_CACHE_KEY);
+      if (hit) return new Response(hit.body, hit);
+    } catch {}
+  }
   const { donations, totalAmount, totalCount } = await listPublicDonations(env);
-  return json(
+  const res = json(
     { donations, totalAmount, totalCount },
     200,
-    { 'Cache-Control': 'public, max-age=30' },
+    { 'Cache-Control': `public, max-age=${PUBLIC_CACHE_SECONDS}` },
   );
+  if (cache) {
+    const put = cache.put(PUBLIC_CACHE_KEY, res.clone()).catch(() => {});
+    if (ctx?.waitUntil) ctx.waitUntil(put);
+    else await put;
+  }
+  return res;
+}
+
+/** Drop the cached wall after a payment or hide/show (same colo only; TTL covers others). */
+export async function purgePublicListCache() {
+  try {
+    if (typeof caches !== 'undefined') await caches.default.delete(PUBLIC_CACHE_KEY);
+  } catch {}
 }
 
 export async function handleGetStatus(env, orderCode) {

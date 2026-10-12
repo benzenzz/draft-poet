@@ -45,7 +45,7 @@ function orderCodeFromAdminPath(pathname) {
   return pathname.split('/')[4];
 }
 
-async function route(request, env, url) {
+async function route(request, env, url, ctx) {
   const { pathname } = url;
   const method = request.method.toUpperCase();
 
@@ -53,7 +53,7 @@ async function route(request, env, url) {
     return handleCreateDonation(request, env);
   }
   if (method === 'GET' && pathname === '/api/donations') {
-    return handleListPublic(env);
+    return handleListPublic(env, ctx);
   }
   if (method === 'GET' && pathname === '/api/settings') {
     return handleGetPublicSettings(env);
@@ -108,7 +108,7 @@ async function route(request, env, url) {
 }
 
 export default {
-  async fetch(request, env) {
+  async fetch(request, env, ctx) {
     const url = new URL(request.url);
     const { pathname } = url;
     const method = request.method.toUpperCase();
@@ -131,7 +131,7 @@ export default {
 
     let response;
     try {
-      response = await route(request, env, url);
+      response = await route(request, env, url, ctx);
     } catch (err) {
       console.error(String(err?.message || err));
       response = error('Lỗi máy chủ.', 500);
