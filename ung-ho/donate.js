@@ -13,6 +13,12 @@
   const wall = document.getElementById('donate-wall');
   const emptyEl = document.getElementById('donate-empty');
   const totalEl = document.getElementById('donate-total');
+  const totalAmountEl = document.getElementById('donate-total-amount');
+  const heroTitle = document.getElementById('donate-title');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let totalTarget = null;
+  let totalAnimated = false;
+  let heroVisible = false;
   const disabledBanner = document.getElementById('donate-disabled');
   let donationsEnabled = true;
 
@@ -138,9 +144,44 @@
     const count = Number(totalCount) || 0;
     if (count === 0) {
       totalEl.textContent = 'Chưa ghi nhận khoản ủng hộ nào.';
+      if (totalAmountEl) totalAmountEl.textContent = money(0);
+      totalAnimated = true;
       return;
     }
-    totalEl.textContent = `Đã nhận ${money(amount)} từ ${count} món quà.`;
+    totalEl.textContent = `Được góp từ ${count} món quà.`;
+    totalTarget = amount;
+    maybeAnimateTotal();
+  }
+
+  function maybeAnimateTotal() {
+    if (totalAnimated || totalTarget === null || !heroVisible || !totalAmountEl) return;
+    totalAnimated = true;
+    if (reduceMotion) {
+      totalAmountEl.textContent = money(totalTarget);
+      return;
+    }
+    const duration = 1600;
+    const start = performance.now();
+    function frame(now) {
+      const progress = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      totalAmountEl.textContent = money(Math.round(totalTarget * eased));
+      if (progress < 1) requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+
+  if (heroTitle && 'IntersectionObserver' in window) {
+    const heroObserver = new IntersectionObserver((entries) => {
+      if (entries.some((entry) => entry.isIntersecting)) {
+        heroVisible = true;
+        maybeAnimateTotal();
+        heroObserver.disconnect();
+      }
+    }, { threshold: 0.2 });
+    heroObserver.observe(heroTitle);
+  } else {
+    heroVisible = true;
   }
 
   function renderWall(donations) {
@@ -201,6 +242,7 @@
       renderWall(data.donations || []);
     } catch {
       if (totalEl) totalEl.textContent = 'Chưa tải được tổng ủng hộ.';
+      if (totalAmountEl) totalAmountEl.textContent = '—';
       if (emptyEl) {
         emptyEl.textContent = 'Chưa tải được tường lời nhắn. Thử lại sau nhé.';
       }
