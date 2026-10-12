@@ -28,9 +28,9 @@ import {
 } from './store.js';
 
 export async function handleAdminLogin(request, env) {
-  const limit = await checkRateLimit(request, env, 'admin:', ADMIN_AUTH_MAX_PER_HOUR);
+  // Only failed logins count toward the limit (separate bucket from recover).
+  const limit = await checkRateLimit(request, env, 'login:', ADMIN_AUTH_MAX_PER_HOUR);
   if (limit.response) return limit.response;
-  await recordAttempt(env, limit.ipHash, limit.nowIso);
 
   const { body, response: badBody } = await readJsonBody(request);
   if (badBody) return badBody;
@@ -50,6 +50,7 @@ export async function handleAdminLogin(request, env) {
     return error('Chưa có bảng tài khoản. Hãy chạy migration schema mới.', 500);
   }
   if (!user || !(await verifyPassword(password, user.password_hash))) {
+    await recordAttempt(env, limit.ipHash, limit.nowIso);
     return error('Tên đăng nhập hoặc mật khẩu không đúng.', 401);
   }
 
@@ -114,9 +115,9 @@ export async function handleAdminChangePassword(request, env, session) {
  * when the interactive password is lost. Does not require a session.
  */
 export async function handleAdminRecoverPassword(request, env) {
-  const limit = await checkRateLimit(request, env, 'admin:', ADMIN_AUTH_MAX_PER_HOUR);
+  // Only failed recovery attempts count (separate bucket from login).
+  const limit = await checkRateLimit(request, env, 'recover:', ADMIN_AUTH_MAX_PER_HOUR);
   if (limit.response) return limit.response;
-  await recordAttempt(env, limit.ipHash, limit.nowIso);
 
   const { body, response: badBody } = await readJsonBody(request);
   if (badBody) return badBody;
@@ -125,6 +126,7 @@ export async function handleAdminRecoverPassword(request, env) {
     typeof body?.recoveryToken === 'string' ? body.recoveryToken.trim() : '';
   const adminToken = String(env.ADMIN_TOKEN || '').trim();
   if (!adminToken || !recoveryToken || !timingSafeEqual(recoveryToken, adminToken)) {
+    await recordAttempt(env, limit.ipHash, limit.nowIso);
     return error('Mã khôi phục không đúng.', 401);
   }
 

@@ -3,7 +3,7 @@
  * and readable. Callers pass `env` (expects `env.DB`).
  */
 import { ADMIN_LIST_LIMIT, PUBLIC_WALL_LIMIT } from './config.js';
-import { hashPassword } from './crypto.js';
+import { hashPassword, randomHex } from './crypto.js';
 
 /* -- settings -- */
 
@@ -33,12 +33,11 @@ export async function isDonationsEnabled(env) {
 /* -- admin users / sessions -- */
 
 /**
- * First-run seed of admin/admin. Only when ADMIN_TOKEN is configured, so a
- * deployment without the recovery secret can never expose a default login.
- * (With ADMIN_TOKEN set, prefer /api/admin/recover-password to set a real one.)
+ * First-run seed: user 'admin' with a random, never-revealed password, so
+ * there is no default login. Set the first real password with
+ * POST /api/admin/recover-password using the ADMIN_TOKEN secret.
  */
 export async function ensureAdminSeeded(env) {
-  if (!String(env.ADMIN_TOKEN || '').trim()) return;
   try {
     // LIMIT 1 reads one row instead of scanning the whole table.
     const row = await env.DB.prepare('SELECT 1 AS x FROM admin_users LIMIT 1').first();
@@ -47,7 +46,7 @@ export async function ensureAdminSeeded(env) {
     await env.DB.prepare(
       'INSERT INTO admin_users (username, password_hash, updated_at) VALUES (?, ?, ?)',
     )
-      .bind('admin', await hashPassword('admin'), nowIso)
+      .bind('admin', await hashPassword(randomHex(32)), nowIso)
       .run();
   } catch {
     // Tables may not be migrated yet; login will surface the error.

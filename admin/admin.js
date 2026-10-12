@@ -358,6 +358,10 @@
     return allDonations.filter((d) => {
       if (status === 'hidden') {
         if (!isHidden(d)) return false;
+      } else if (status === 'expired') {
+        if (!isExpiredPending(d)) return false;
+      } else if (status === 'pending') {
+        if (d.status !== 'pending' || isExpiredPending(d)) return false;
       } else if (status && d.status !== status) {
         return false;
       }
