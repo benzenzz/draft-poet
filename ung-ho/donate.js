@@ -12,6 +12,7 @@
   const errorEl = document.getElementById('donate-error');
   const wall = document.getElementById('donate-wall');
   const emptyEl = document.getElementById('donate-empty');
+  const totalEl = document.getElementById('donate-total');
   const disabledBanner = document.getElementById('donate-disabled');
   let donationsEnabled = true;
 
@@ -131,13 +132,24 @@
     }
   });
 
+  function renderTotal(totalAmount, totalCount) {
+    if (!totalEl) return;
+    const amount = Number(totalAmount) || 0;
+    const count = Number(totalCount) || 0;
+    if (count === 0) {
+      totalEl.textContent = 'Chưa ghi nhận khoản ủng hộ nào.';
+      return;
+    }
+    totalEl.textContent = `Đã nhận ${money(amount)} từ ${count} món quà.`;
+  }
+
   function renderWall(donations) {
     wall.textContent = '';
     if (!donations.length) {
       const p = document.createElement('p');
       p.className = 'donate-empty';
       p.id = 'donate-empty';
-      p.textContent = 'Chưa có lời nhắn nào được đăng.';
+      p.textContent = 'Chưa có lời nhắn nào. Hãy là người đầu tiên nhé.';
       wall.appendChild(p);
       return;
     }
@@ -185,8 +197,10 @@
       const res = await fetch(`${API_BASE}/api/donations`);
       if (!res.ok) throw new Error('bad status');
       const data = await res.json();
+      renderTotal(data.totalAmount, data.totalCount);
       renderWall(data.donations || []);
     } catch {
+      if (totalEl) totalEl.textContent = 'Chưa tải được tổng ủng hộ.';
       if (emptyEl) {
         emptyEl.textContent = 'Chưa tải được tường lời nhắn. Thử lại sau nhé.';
       }

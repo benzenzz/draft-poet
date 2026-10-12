@@ -7,7 +7,7 @@
   <meta name="color-scheme" content="light only">
   <meta name="supported-color-schemes" content="light">
   <style>html,body{color-scheme:light only;background-color:#f4e6cf}</style>
-  <meta name="description" content="Ủng hộ POET bằng một món quà nhỏ. Để lại tên và lời nhắn — sẽ hiện trên tường sau khi được duyệt.">
+  <meta name="description" content="Ủng hộ POET bằng một món quà nhỏ. Để lại tên và lời nhắn — hiện trên tường ngay khi thanh toán thành công.">
   <title>Ủng hộ — POET</title>
   <link rel="icon" type="image/jpeg" href="../assets/logo/1555047679990943.jpg">
   <link rel="apple-touch-icon" href="../assets/logo/1555047679990943.jpg">
@@ -44,14 +44,14 @@
   </header>
 
   <main id="main" class="donate">
-    <section class="page-hero container" aria-labelledby="donate-title">
+    <section class="page-hero container page-hero-center" aria-labelledby="donate-title">
       <div class="section-kicker">ỦNG HỘ POET</div>
       <h1 id="donate-title">Một món quà<br>nhỏ cho <span class="underline-swoosh">nhịp vui.</span></h1>
-      <p>Bạn gửi một phần quà cho POET. Tên và lời nhắn sẽ hiện trên tường sau khi được duyệt — hoặc chọn ẩn danh nếu muốn giữ riêng.</p>
+      <p>Bạn gửi một phần quà cho POET. Tên và lời nhắn hiện trên tường ngay khi thanh toán thành công — hoặc chọn ẩn danh nếu muốn giữ riêng.</p>
     </section>
 
     <section class="section-pad container donate-form-section" aria-labelledby="form-title">
-      <div class="donate-card">
+      <div class="donate-card donate-card-center">
         <div class="section-kicker">GỬI QUÀ</div>
         <h2 id="form-title">Chọn số tiền và để lại lời nhắn.</h2>
         <p class="admin-disabled" id="donate-disabled" hidden>Trang ủng hộ đang tạm nghỉ nhận quà mới. Quay lại sau giúp nhé — tường lời nhắn bên dưới vẫn mở.</p>
@@ -94,7 +94,8 @@
 
     <section class="section-pad container donate-wall-section" aria-labelledby="wall-title">
       <div class="section-kicker">TƯỜNG LỜI NHẮN</div>
-      <h2 id="wall-title">Những món quà đã được đăng.</h2>
+      <h2 id="wall-title">Những món quà đã nhận.</h2>
+      <p class="donate-total" id="donate-total" role="status">Đang tải tổng ủng hộ…</p>
       <div class="donate-wall" id="donate-wall">
         <p class="donate-empty" id="donate-empty">Đang tải lời nhắn…</p>
       </div>

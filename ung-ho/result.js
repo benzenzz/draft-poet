@@ -16,11 +16,15 @@
           'Chưa đọc được trạng thái. Quà của bạn vẫn được ghi nhận khi thanh toán thành công.';
         return;
       }
-      if (data.status === 'published') {
-        statusEl.textContent = 'Lời nhắn đã được đăng trên tường ủng hộ.';
-      } else if (data.status === 'paid') {
+      if (
+        data.status === 'success' ||
+        data.status === 'paid' ||
+        data.status === 'published'
+      ) {
+        statusEl.textContent = 'Đã nhận thanh toán. Lời nhắn đã hiện trên tường ủng hộ.';
+      } else if (data.status === 'hidden') {
         statusEl.textContent =
-          'Đã nhận thanh toán. Lời nhắn sẽ hiện sau khi được duyệt.';
+          'Đã nhận thanh toán. Cảm ơn bạn — món quà đã được ghi nhận.';
       } else if (data.status === 'pending') {
         statusEl.textContent = 'Đang chờ xác nhận thanh toán.';
       } else {

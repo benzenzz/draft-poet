@@ -5,11 +5,15 @@ import {
   timingSafeEqual,
   verifyDataSignature,
 } from './payos.js';
+import { hasUnsafeControlChars, maskDonationText } from './mask.js';
 
 const MIN_AMOUNT = 10000;
 const MAX_AMOUNT = 20000000;
 const PROD_RETURN_URL = 'https://maiphh.github.io/poet/ung-ho/return.html';
 const PROD_CANCEL_URL = 'https://maiphh.github.io/poet/ung-ho/cancel.html';
+
+/** Public wall + totals treat these as successfully received gifts. */
+const SUCCESS_STATUSES = ['success', 'paid', 'published'];
 
 function json(data, status = 200, extraHeaders = {}) {
   return new Response(JSON.stringify(data), {
@@ -106,12 +110,12 @@ function applyCors(response, origin) {
   return new Response(response.body, { status: response.status, headers });
 }
 
-function hasForbiddenContent(value) {
-  if (/[\u0000-\u001f\u007f]/.test(value)) return true;
-  if (/[<>]/.test(value)) return true;
-  if (/https?:\/\//i.test(value)) return true;
-  if (/www\./i.test(value)) return true;
-  return false;
+function isSuccessStatus(status) {
+  return SUCCESS_STATUSES.includes(status);
+}
+
+function successStatusSqlList() {
+  return SUCCESS_STATUSES.map((s) => `'${s}'`).join(', ');
 }
 
 function randomOrderCode() {
@@ -378,21 +382,29 @@ async function handleCreateDonation(request, env) {
   if (anonymous) {
     displayName = 'Ẩn danh';
   } else {
-    displayName = typeof body?.displayName === 'string' ? body.displayName.trim() : '';
-    if (displayName.length < 1 || displayName.length > 40) {
+    const rawName = typeof body?.displayName === 'string' ? body.displayName.trim() : '';
+    if (rawName.length < 1 || rawName.length > 40) {
       return error('Tên hiển thị phải từ 1 đến 40 ký tự.', 400);
     }
-    if (hasForbiddenContent(displayName)) {
+    if (hasUnsafeControlChars(rawName)) {
       return error('Tên hiển thị chứa nội dung không được phép.', 400);
+    }
+    displayName = maskDonationText(rawName).slice(0, 40);
+    if (!displayName) {
+      return error('Tên hiển thị phải từ 1 đến 40 ký tự.', 400);
     }
   }
 
-  const message = typeof body?.message === 'string' ? body.message.trim() : '';
-  if (message.length < 1 || message.length > 160) {
+  const rawMessage = typeof body?.message === 'string' ? body.message.trim() : '';
+  if (rawMessage.length < 1 || rawMessage.length > 160) {
     return error('Lời nhắn phải từ 1 đến 160 ký tự.', 400);
   }
-  if (hasForbiddenContent(message)) {
+  if (hasUnsafeControlChars(rawMessage)) {
     return error('Lời nhắn chứa nội dung không được phép.', 400);
+  }
+  const message = maskDonationText(rawMessage).slice(0, 160);
+  if (!message) {
+    return error('Lời nhắn phải từ 1 đến 160 ký tự.', 400);
   }
 
   const resolved = resolvePayosReturnUrls({
@@ -476,15 +488,27 @@ async function handleCreateDonation(request, env) {
 }
 
 async function handleListPublic(env) {
+  const statusList = successStatusSqlList();
   const { results } = await env.DB.prepare(
     `SELECT display_name AS displayName, message, amount, paid_at AS paidAt
      FROM donations
-     WHERE status = 'published'
+     WHERE status IN (${statusList})
      ORDER BY paid_at DESC
      LIMIT 30`,
   ).all();
+
+  const totalRow = await env.DB.prepare(
+    `SELECT COALESCE(SUM(amount), 0) AS totalAmount, COUNT(*) AS totalCount
+     FROM donations
+     WHERE status IN (${statusList})`,
+  ).first();
+
   return json(
-    { donations: results || [] },
+    {
+      donations: results || [],
+      totalAmount: Number(totalRow?.totalAmount) || 0,
+      totalCount: Number(totalRow?.totalCount) || 0,
+    },
     200,
     { 'Cache-Control': 'public, max-age=30' },
   );
@@ -543,13 +567,15 @@ async function handleWebhook(request, env) {
     return json({ ok: true }, 200);
   }
 
-  if (row.status === 'paid' || row.status === 'published' || row.status === 'hidden') {
+  // Already received (or intentionally hidden): idempotent success.
+  if (isSuccessStatus(row.status) || row.status === 'hidden') {
     return json({ ok: true }, 200);
   }
 
   if (row.status === 'pending' || row.status === 'cancelled') {
     // Audit fields from PayOS: receiving account + donor (counter) bank info.
     // Never trust these for auth; they are stored for later review only.
+    // Payment success auto-publishes to the public wall (status = success).
     const audit = {
       payos_reference: data.reference ?? null,
       paid_at: new Date().toISOString(),
@@ -567,7 +593,7 @@ async function handleWebhook(request, env) {
     try {
       await env.DB.prepare(
         `UPDATE donations
-         SET status = 'paid', payos_reference = ?, paid_at = ?,
+         SET status = 'success', payos_reference = ?, paid_at = ?,
              payos_account_number = ?, payos_transaction_time = ?,
              payos_description = ?, payos_currency = ?,
              counter_account_bank_id = ?, counter_account_bank_name = ?,
@@ -597,7 +623,7 @@ async function handleWebhook(request, env) {
       // DB without the audit migration: fall back to the minimal update.
       await env.DB.prepare(
         `UPDATE donations
-         SET status = 'paid', payos_reference = ?, paid_at = ?
+         SET status = 'success', payos_reference = ?, paid_at = ?
          WHERE order_code = ? AND status IN ('pending', 'cancelled')`,
       )
         .bind(data.reference || null, new Date().toISOString(), orderCode)
@@ -611,6 +637,8 @@ async function handleWebhook(request, env) {
 async function handleAdminList(env) {
   // Full donate history for audit: every status, newest first.
   // Donor bank fields are admin-only; the public wall never sees them.
+  const statusList = successStatusSqlList();
+  let donations = [];
   try {
     const { results } = await env.DB.prepare(
       `SELECT order_code AS orderCode, amount, display_name AS displayName,
@@ -627,20 +655,32 @@ async function handleAdminList(env) {
               virtual_account_number AS virtualAccountNumber
        FROM donations
        ORDER BY COALESCE(paid_at, created_at) DESC
-       LIMIT 200`,
+       LIMIT 500`,
     ).all();
-    return json({ donations: results || [] });
+    donations = results || [];
   } catch {
     // DB without the audit migration: select the base columns only.
     const { results } = await env.DB.prepare(
       `SELECT order_code AS orderCode, amount, display_name AS displayName,
               message, anonymous, status, paid_at AS paidAt, created_at AS createdAt
        FROM donations
-       WHERE status IN ('paid', 'published', 'hidden')
-       ORDER BY COALESCE(paid_at, created_at) DESC`,
+       ORDER BY COALESCE(paid_at, created_at) DESC
+       LIMIT 500`,
     ).all();
-    return json({ donations: results || [] });
+    donations = results || [];
   }
+
+  const totalRow = await env.DB.prepare(
+    `SELECT COALESCE(SUM(amount), 0) AS totalReceived, COUNT(*) AS receivedCount
+     FROM donations
+     WHERE status IN (${statusList})`,
+  ).first();
+
+  return json({
+    donations,
+    totalReceived: Number(totalRow?.totalReceived) || 0,
+    receivedCount: Number(totalRow?.receivedCount) || 0,
+  });
 }
 
 async function handleGetPublicSettings(env) {
@@ -669,7 +709,8 @@ async function handleUpdateAdminSettings(request, env) {
   return json({ ok: true, donationsEnabled: body.donationsEnabled });
 }
 
-async function handleAdminPublish(env, orderCode) {
+/** Restore a hidden gift onto the public wall (status = success). */
+async function handleAdminShow(env, orderCode) {
   const code = Number(orderCode);
   if (!Number.isInteger(code)) return error('Mã đơn không hợp lệ.', 400);
   const row = await env.DB.prepare(
@@ -678,15 +719,15 @@ async function handleAdminPublish(env, orderCode) {
     .bind(code)
     .first();
   if (!row) return error('Không tìm thấy khoản ủng hộ.', 404);
-  if (row.status !== 'paid' && row.status !== 'hidden') {
-    return error('Chỉ có thể đăng khoản đã thanh toán hoặc đang ẩn.', 400);
+  if (row.status !== 'hidden' && !isSuccessStatus(row.status)) {
+    return error('Chỉ có thể hiện khoản đã thanh toán hoặc đang ẩn.', 400);
   }
   await env.DB.prepare(
-    `UPDATE donations SET status = 'published' WHERE order_code = ?`,
+    `UPDATE donations SET status = 'success' WHERE order_code = ?`,
   )
     .bind(code)
     .run();
-  return json({ ok: true, status: 'published' });
+  return json({ ok: true, status: 'success' });
 }
 
 async function handleAdminHide(env, orderCode) {
@@ -698,8 +739,8 @@ async function handleAdminHide(env, orderCode) {
     .bind(code)
     .first();
   if (!row) return error('Không tìm thấy khoản ủng hộ.', 404);
-  if (row.status !== 'published' && row.status !== 'paid') {
-    return error('Chỉ có thể ẩn khoản đã đăng hoặc đã thanh toán.', 400);
+  if (!isSuccessStatus(row.status)) {
+    return error('Chỉ có thể ẩn khoản đã thanh toán thành công.', 400);
   }
   await env.DB.prepare(
     `UPDATE donations SET status = 'hidden' WHERE order_code = ?`,
@@ -707,6 +748,48 @@ async function handleAdminHide(env, orderCode) {
     .bind(code)
     .run();
   return json({ ok: true, status: 'hidden' });
+}
+
+/**
+ * Dev recovery: reset admin password with the Worker ADMIN_TOKEN secret
+ * when the interactive password is lost. Does not require a session.
+ */
+async function handleAdminRecoverPassword(request, env) {
+  let body;
+  try {
+    body = await request.json();
+  } catch {
+    return error('Dữ liệu không hợp lệ.', 400);
+  }
+
+  const recoveryToken =
+    typeof body?.recoveryToken === 'string' ? body.recoveryToken.trim() : '';
+  const adminToken = String(env.ADMIN_TOKEN || '').trim();
+  if (!adminToken || !recoveryToken || !timingSafeEqual(recoveryToken, adminToken)) {
+    return error('Mã khôi phục không đúng.', 401);
+  }
+
+  const newPassword = typeof body?.newPassword === 'string' ? body.newPassword : '';
+  if (newPassword.length < 4 || newPassword.length > 72) {
+    return error('Mật khẩu mới phải từ 4 đến 72 ký tự.', 400);
+  }
+
+  const username =
+    typeof body?.username === 'string' && body.username.trim()
+      ? body.username.trim()
+      : 'admin';
+
+  await ensureAdminSeeded(env);
+  await env.DB.prepare(
+    `INSERT INTO admin_users (username, password_hash, updated_at) VALUES (?, ?, ?)
+     ON CONFLICT(username) DO UPDATE SET password_hash = excluded.password_hash, updated_at = excluded.updated_at`,
+  )
+    .bind(username, await hashPassword(newPassword), new Date().toISOString())
+    .run();
+  await env.DB.prepare('DELETE FROM admin_sessions WHERE username = ?')
+    .bind(username)
+    .run();
+  return json({ ok: true, username });
 }
 
 async function requireAdmin(request, env) {
@@ -766,6 +849,8 @@ export default {
       } else if (method === 'POST' && pathname === '/api/admin/change-password') {
         const { response: denied, session } = await requireAdmin(request, env);
         response = denied || (await handleAdminChangePassword(request, env, session));
+      } else if (method === 'POST' && pathname === '/api/admin/recover-password') {
+        response = await handleAdminRecoverPassword(request, env);
       } else if (method === 'GET' && pathname === '/api/admin/settings') {
         const { response: denied } = await requireAdmin(request, env);
         response = denied || (await handleGetAdminSettings(env));
@@ -775,13 +860,17 @@ export default {
       } else if (method === 'GET' && pathname === '/api/admin/donations') {
         const { response: denied } = await requireAdmin(request, env);
         response = denied || (await handleAdminList(env));
-      } else if (method === 'POST' && /^\/api\/admin\/donations\/\d+\/publish$/.test(pathname)) {
+      } else if (
+        method === 'POST' &&
+        /^\/api\/admin\/donations\/\d+\/(show|publish)$/.test(pathname)
+      ) {
+        // /publish kept as an alias for older admin clients.
         const { response: denied } = await requireAdmin(request, env);
         if (denied) {
           response = denied;
         } else {
           const code = pathname.split('/')[4];
-          response = await handleAdminPublish(env, code);
+          response = await handleAdminShow(env, code);
         }
       } else if (method === 'POST' && /^\/api\/admin\/donations\/\d+\/hide$/.test(pathname)) {
         const { response: denied } = await requireAdmin(request, env);
