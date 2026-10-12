@@ -120,7 +120,15 @@
   .thanks-confetti { display: none; }
 }
 .donate [hidden] { display: none !important; }
-.gift-total-amount.is-hint { font: 700 16px var(--font); color: var(--ink-soft); white-space: normal; }
+.gift-total-amount.is-hint {
+  font: 700 16px/1.35 var(--font); color: var(--ink-soft);
+  white-space: normal; overflow: visible; text-overflow: clip;
+  min-width: 0; flex: 1 1 8rem; overflow-wrap: anywhere; text-align: right;
+}
+@media (max-width: 480px) {
+  .gift-total-amount.is-hint { font-size: 0.9rem; }
+  .gift-total-sum { flex: 1 1 6rem; }
+}
 #donate-submit:disabled { opacity: .55; cursor: not-allowed; transform: none; }
 /* Long names: clamp to 2 lines with ellipsis instead of squeezing next to the amount */
 .wall-note-who { flex: 1; }
