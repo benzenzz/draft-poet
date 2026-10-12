@@ -457,6 +457,13 @@
         showBtn.textContent = 'Hiện lời nhắn';
         showBtn.addEventListener('click', () => actOn(d.orderCode, 'show', showBtn));
         actions.appendChild(showBtn);
+      } else if (d.status === 'pending') {
+        const paidBtn = document.createElement('button');
+        paidBtn.type = 'button';
+        paidBtn.className = 'button button-outline';
+        paidBtn.textContent = 'Xác nhận đã nhận tiền';
+        paidBtn.addEventListener('click', () => markPaid(d, paidBtn));
+        actions.appendChild(paidBtn);
       } else {
         const span = document.createElement('span');
         span.className = 'admin-meta';
@@ -495,6 +502,29 @@
       const res = await api(`/api/admin/donations/${orderCode}/${action}`, {
         method: 'POST',
         headers: authHeaders(),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || 'Thao tác thất bại.');
+      await loadHistory();
+    } catch (err) {
+      historySummary.textContent = err.message || 'Thao tác thất bại.';
+      btn.disabled = false;
+    }
+  }
+
+  async function markPaid(d, btn) {
+    const ok = window.confirm(
+      `Xác nhận đã nhận tiền cho đơn #${d.orderCode} — ${money(d.amount)}?\n\n` +
+        `Hãy mở sao kê ngân hàng và kiểm tra có giao dịch đúng số tiền này với ` +
+        `nội dung chứa mã 9 số ${d.orderCode}. Chỉ xác nhận khi khớp.`,
+    );
+    if (!ok) return;
+    btn.disabled = true;
+    try {
+      const res = await api(`/api/admin/donations/${d.orderCode}/mark-paid`, {
+        method: 'POST',
+        headers: authHeaders({ 'Content-Type': 'application/json' }),
+        body: JSON.stringify({ note: 'Admin xác nhận thủ công theo sao kê' }),
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(data.error || 'Thao tác thất bại.');

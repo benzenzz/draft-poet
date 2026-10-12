@@ -19,6 +19,7 @@ import {
   findDonationStatus,
   isDonationsEnabled,
   listDonationsForAdmin,
+  markDonationPaidManually,
   setDonationHidden,
   setSetting,
   totalsForAdmin,
@@ -194,6 +195,36 @@ export async function handleAdminHide(env, orderCode, url) {
   await setDonationHidden(env, code, true);
   await purgePublicListCache(url);
   return json({ ok: true, status: 'success', hidden: true });
+}
+
+/**
+ * Manual "mark as paid" for a pending gift. Audit trail: payos_reference =
+ * 'manual:<admin>', optional note (<=200 chars) in payos_description.
+ */
+export async function handleAdminMarkPaid(request, env, orderCode, url, session) {
+  const code = Number(orderCode);
+  if (!Number.isInteger(code)) return error('Mã đơn không hợp lệ.', 400);
+
+  let note = null;
+  const raw = await request.text();
+  if (raw.trim()) {
+    let body;
+    try { body = JSON.parse(raw); } catch { return error('Dữ liệu không hợp lệ.', 400); }
+    if (typeof body?.note === 'string' && body.note.trim()) {
+      note = body.note.replace(/[\u0000-\u001F\u007F]/g, ' ').trim().slice(0, 200);
+    }
+  }
+
+  const row = await findDonationStatus(env, code);
+  if (!row) return error('Không tìm thấy khoản ủng hộ.', 404);
+  if (row.status !== 'pending') return error('Khoản này không còn ở trạng thái chờ.', 409);
+
+  const changed = await markDonationPaidManually(
+    env, code, session.username || 'admin', note, new Date().toISOString(),
+  );
+  if (!changed) return error('Khoản này không còn ở trạng thái chờ.', 409);
+  await purgePublicListCache(url);
+  return json({ ok: true, status: 'success', hidden: false });
 }
 
 /** Small wrapper so the router stays flat: auth gate + handler in one call. */

@@ -331,3 +331,19 @@ export async function findAdminPasswordHash(env, username) {
     .bind(username)
     .first();
 }
+
+/**
+ * Admin manual confirmation (bank transfer seen, webhook missed).
+ * Only pending rows change; returns true when a row was updated.
+ */
+export async function markDonationPaidManually(env, orderCode, username, note, paidAtIso) {
+  const res = await env.DB.prepare(
+    `UPDATE donations
+     SET status = 'success', paid_at = ?, payos_reference = ?,
+         payos_description = COALESCE(?, payos_description)
+     WHERE order_code = ? AND status = 'pending'`,
+  )
+    .bind(paidAtIso, `manual:${username}`, note, orderCode)
+    .run();
+  return (res?.meta?.changes || 0) > 0;
+}
