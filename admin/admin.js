@@ -340,6 +340,18 @@
 
   // ---- Donate history ----
 
+  // Display only: PayOS links expire after 30 min (PAYMENT_TTL_SECONDS).
+  // The row stays 'pending' in D1 so a late webhook can still mark it paid.
+  const PAYMENT_TTL_MS = 30 * 60 * 1000;
+  function isExpiredPending(d) {
+    if (d.status !== 'pending' || !d.createdAt) return false;
+    const t = Date.parse(d.createdAt);
+    return Number.isFinite(t) && Date.now() - t > PAYMENT_TTL_MS;
+  }
+  function statusLabel(d) {
+    return isExpiredPending(d) ? 'hết hạn' : d.status || '—';
+  }
+
   function filteredDonations() {
     const status = statusFilter.value;
     const q = searchInput.value.trim().toLowerCase();
@@ -355,6 +367,7 @@
         d.message,
         d.orderCode,
         d.status,
+        statusLabel(d),
         d.counterAccountName,
         d.counterAccountNumber,
         d.counterAccountBankName,
@@ -402,7 +415,7 @@
 
       const cells = [
         d.orderCode != null ? `#${d.orderCode}` : '—',
-        d.status || '—',
+        statusLabel(d),
         money(d.amount),
         d.displayName || '—',
         d.message || '—',
@@ -416,6 +429,12 @@
         td.textContent = value;
         if (index === 2) td.className = 'admin-table-amount';
         if (index === 4) td.className = 'admin-table-message';
+        if (index === 1 && isExpiredPending(d)) {
+          td.title = 'Link thanh toán đã hết hạn (quá 30 phút), vẫn giữ trạng thái pending';
+          td.style.color = 'var(--ink-soft)';
+          td.style.fontStyle = 'italic';
+          tr.style.opacity = '0.7';
+        }
         tr.appendChild(td);
       });
 
