@@ -128,3 +128,6 @@
 .wall-progress-amount { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 6px; line-height: 1.2; }
 .wall-progress-amount > span, .wall-progress-amount small { white-space: nowrap; }
 @media (max-width: 420px) { .wall-progress-amount { font-size: 26px; } }
+.gift-limit { margin: 6px 2px 0; min-height: 1.3em; font-weight: 800; font-size: 14px; color: var(--brick); }
+.gift-limit { flex-basis: 100%; margin: 0; min-height: 0; }
+.gift-limit:empty { display: none; }

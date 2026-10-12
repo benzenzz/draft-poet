@@ -125,6 +125,11 @@
       giftTotal.textContent = money(total);
       giftTotal.classList.remove('is-hint');
     }
+    const limitEl = document.getElementById('gift-limit');
+    if (limitEl) {
+      limitEl.textContent = total > 0 && total < 10000 ? 'Tối thiểu 10.000 đ'
+        : total > 20000000 ? 'Tối đa 20.000.000 đ' : '';
+    }
     setSubmitEnabled(valid);
     if (!reduceMotion) {
       giftTotal.classList.remove('is-bump');
