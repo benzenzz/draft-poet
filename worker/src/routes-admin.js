@@ -214,6 +214,7 @@ export async function handleAdminMarkPaid(request, env, orderCode, url, session)
   if (!Number.isInteger(code)) return error('Mã đơn không hợp lệ.', 400);
 
   let note = null;
+  let receivedAmount = null;
   const raw = await request.text();
   if (raw.trim()) {
     let body;
@@ -221,18 +222,32 @@ export async function handleAdminMarkPaid(request, env, orderCode, url, session)
     if (typeof body?.note === 'string' && body.note.trim()) {
       note = body.note.replace(/[\u0000-\u001F\u007F]/g, ' ').trim().slice(0, 200);
     }
+    if (body?.receivedAmount != null) {
+      receivedAmount = Number(body.receivedAmount);
+      if (!Number.isInteger(receivedAmount) || receivedAmount <= 0 || receivedAmount > 1e10) {
+        return error('Số tiền đã nhận không hợp lệ.', 400);
+      }
+    }
   }
 
   const row = await findDonationStatus(env, code);
   if (!row) return error('Không tìm thấy khoản ủng hộ.', 404);
   if (row.status !== 'pending') return error('Khoản này không còn ở trạng thái chờ.', 409);
 
+  // Received amount is recorded for audit only; the order amount never changes.
+  let mismatch = false;
+  if (receivedAmount != null) {
+    mismatch = receivedAmount !== Number(row.amount);
+    const recv = `nhận: ${receivedAmount.toLocaleString('vi-VN')} đ${mismatch ? ' (LỆCH so với đơn)' : ''}`;
+    note = (note ? `${recv} | ${note}` : recv).slice(0, 240);
+  }
+
   const changed = await markDonationPaidManually(
     env, code, session.username || 'admin', note, new Date().toISOString(),
   );
   if (!changed) return error('Khoản này không còn ở trạng thái chờ.', 409);
   await purgePublicListCache(url);
-  return json({ ok: true, status: 'success', hidden: false });
+  return json({ ok: true, status: 'success', hidden: false, mismatch, receivedAmount });
 }
 
 /** Small wrapper so the router stays flat: auth gate + handler in one call. */

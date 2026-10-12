@@ -177,12 +177,12 @@ export async function listPublicDonations(env) {
 export async function findDonationStatus(env, orderCode) {
   try {
     return await env.DB.prepare(
-      'SELECT status, hidden FROM donations WHERE order_code = ?',
+      'SELECT status, hidden, amount FROM donations WHERE order_code = ?',
     )
       .bind(orderCode)
       .first();
   } catch {
-    return env.DB.prepare('SELECT status FROM donations WHERE order_code = ?')
+    return env.DB.prepare('SELECT status, amount FROM donations WHERE order_code = ?')
       .bind(orderCode)
       .first();
   }

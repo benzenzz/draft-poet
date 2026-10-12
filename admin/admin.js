@@ -550,20 +550,46 @@
         `Mã đơn:   ${d.orderCode}\n` +
         `Số tiền:  ${money(d.amount)}\n` +
         `Người gửi: ${d.displayName || '—'}\n\n` +
-        `Mở sao kê ngân hàng, kiểm tra có giao dịch đúng ${money(d.amount)} ` +
-        `với nội dung chứa mã 9 số ${d.orderCode}. Chỉ bấm OK khi khớp cả hai.`,
+        `Mở sao kê ngân hàng, tìm giao dịch có nội dung chứa mã 9 số ${d.orderCode}. ` +
+        `Bước tiếp theo bạn sẽ nhập số tiền thực nhận.`,
     );
     if (!ok) return;
+    const raw = window.prompt(
+      `Nhập SỐ TIỀN THỰC NHẬN trong sao kê cho đơn #${d.orderCode} (chỉ số, ví dụ 50000):`,
+      '',
+    );
+    if (raw == null) return;
+    const receivedAmount = Number(String(raw).replace(/[^\d]/g, ''));
+    if (!Number.isInteger(receivedAmount) || receivedAmount <= 0) {
+      historySummary.textContent = 'Số tiền đã nhận không hợp lệ, chưa xác nhận.';
+      return;
+    }
+    if (receivedAmount !== Number(d.amount)) {
+      const again = window.confirm(
+        `⚠ SỐ TIỀN KHÔNG KHỚP\n\n` +
+          `Đơn #${d.orderCode}: ${money(d.amount)}\n` +
+          `Thực nhận:   ${money(receivedAmount)}\n` +
+          `Lệch:        ${money(receivedAmount - Number(d.amount))}\n\n` +
+          `Số tiền của đơn sẽ KHÔNG đổi; số thực nhận được ghi vào ghi chú. ` +
+          `Bạn chắc chắn vẫn xác nhận?`,
+      );
+      if (!again) return;
+    }
     btn.disabled = true;
     try {
       const res = await api(`/api/admin/donations/${d.orderCode}/mark-paid`, {
         method: 'POST',
         headers: authHeaders({ 'Content-Type': 'application/json' }),
-        body: JSON.stringify({ note: 'Admin xác nhận thủ công theo sao kê' }),
+        body: JSON.stringify({ note: 'Admin xác nhận thủ công theo sao kê', receivedAmount }),
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(data.error || 'Thao tác thất bại.');
       await loadHistory();
+      if (data.mismatch) {
+        historySummary.textContent =
+          `⚠ Đã xác nhận đơn #${d.orderCode} nhưng số tiền thực nhận (${money(receivedAmount)}) ` +
+          `khác số tiền đơn (${money(d.amount)}). Đã ghi vào ghi chú.`;
+      }
     } catch (err) {
       historySummary.textContent = err.message || 'Thao tác thất bại.';
       btn.disabled = false;
