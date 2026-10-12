@@ -19,30 +19,65 @@
   <script src="../components/site-header.js" defer></script>
   <script src="../components/site-footer.js" defer></script>
   <script src="../app.js" defer></script>
+  <link rel="stylesheet" href="ung-ho.css">
+  <script src="items.js" defer></script>
+  <script src="card.js" defer></script>
   <script src="result.js" defer></script>
 </head>
 <body data-result="return">
   <a class="skip-link" href="#main">Bỏ qua điều hướng</a>
   <site-header active="donate"></site-header>
 
-  <main id="main" class="donate">
-    <section class="section-pad container donate-form-section" aria-labelledby="result-title">
-      <div class="donate-bg-decos" aria-hidden="true">
-        <span class="donate-bg-deco donate-bg-deco-flower">✿</span>
-        <span class="donate-bg-deco donate-bg-deco-spark">✦</span>
-        <span class="donate-bg-deco donate-bg-deco-heart">♥</span>
-        <span class="donate-bg-deco donate-bg-deco-leaf">❀</span>
-        <span class="donate-bg-deco donate-bg-deco-dot"></span>
-        <span class="donate-bg-deco donate-bg-deco-ring"></span>
-        <span class="donate-bg-deco donate-bg-deco-spark2">✦</span>
-        <span class="donate-bg-deco donate-bg-deco-smile">☻</span>
+  <canvas class="thanks-confetti" id="thanks-confetti" aria-hidden="true"></canvas>
+  <main id="main" class="donate thanks">
+    <section class="container thanks-hero" aria-labelledby="result-title">
+      <p class="thanks-status" id="result-status" role="status">Đang kiểm tra thanh toán…</p>
+
+      <!-- Shown only after /api/donations/:code says success -->
+      <div id="thanks-success" hidden>
+        <div class="thanks-stage" aria-hidden="true">
+          <span class="thanks-gift"><svg viewBox="0 0 200 200"><circle cx="100" cy="110" r="80" fill="#fffaf1" stroke="#2f2219" stroke-width="4" stroke-dasharray="8 10"/><rect x="50" y="90" width="100" height="70" rx="8" fill="#ff8a76" stroke="#2f2219" stroke-width="4"/><rect x="42" y="72" width="116" height="26" rx="6" fill="#f3a9c4" stroke="#2f2219" stroke-width="4"/><rect x="92" y="72" width="16" height="88" fill="#f6c43f" stroke="#2f2219" stroke-width="4"/><path d="M100 72q-30-30-36-8t36 8q30-30 36-8t-36 8" fill="#f6c43f" stroke="#2f2219" stroke-width="4"/><circle cx="76" cy="124" r="4" fill="#2f2219"/><circle cx="124" cy="124" r="4" fill="#2f2219"/><path d="M84 138q16 14 32 0" fill="none" stroke="#2f2219" stroke-width="4" stroke-linecap="round"/></svg></span>
+          <span class="thanks-heart">💛</span>
+        </div>
+        <div class="section-kicker">CẢM ƠN BẠN</div>
+        <h1 id="result-title">Bạn vừa làm <span class="thanks-mark">một em nhỏ</span> mỉm cười!</h1>
+        <p class="thanks-lead" id="thanks-lead">Món quà của bạn sẽ theo POET lên điểm trường vùng cao trong chuyến đi tới.</p>
+        <div class="thanks-impact" id="thanks-impact" aria-label="Quà bạn đã gửi"></div>
+        <div class="thanks-cta">
+          <a class="button button-yellow" href="#thanks-card" id="thanks-card-link">🎉 Nhận thiệp cảm ơn &amp; chia sẻ</a>
+          <a class="button button-purple" href="index.html#wall-title">Xem tường lời nhắn</a>
+          <a class="button" href="../">← Về trang chủ</a>
+        </div>
       </div>
-      <div class="donate-card donate-card-center">
+
+      <!-- Pending / unknown -->
+      <div id="thanks-wait" hidden>
         <div class="section-kicker">ỦNG HỘ POET</div>
-        <h1 id="result-title">Cảm ơn bạn đã ủng hộ.</h1>
-        <p>Nếu thanh toán thành công, món quà đã được ghi nhận. Tên và lời nhắn sẽ hiện trên tường ủng hộ ngay.</p>
-        <p class="donate-status" id="result-status" role="status"></p>
-        <p><a class="button button-purple" href="index.html">Quay lại trang ủng hộ</a></p>
+        <h1 id="thanks-wait-title">Đang chờ xác nhận thanh toán</h1>
+        <p>Nếu bạn đã chuyển khoản, POET sẽ ghi nhận ngay khi ngân hàng báo về. Bạn có thể tải lại trang sau ít phút.</p>
+        <p class="thanks-cta"><a class="button button-purple" href="index.html">Quay lại trang ủng hộ</a> <a class="button" href="../">← Về trang chủ</a></p>
+      </div>
+    </section>
+
+    <section class="section-pad container thanks-steps" id="thanks-steps" hidden aria-label="Điều gì xảy ra tiếp theo">
+      <div class="thanks-step"><span class="thanks-step-num">1</span><b>Lời nhắn lên tường</b><p id="step1-text">Tên và lời nhắn của bạn đã hiện trên tường ủng hộ.</p></div>
+      <div class="thanks-step"><span class="thanks-step-num">2</span><b>POET mua quà</b><p>Đội ngũ gom quà, đóng gói cùng tình nguyện viên.</p></div>
+      <div class="thanks-step"><span class="thanks-step-num">3</span><b>Trao tận tay</b><p>Ảnh chuyến đi sẽ được đăng trên Facebook POET.</p></div>
+    </section>
+
+    <section class="section-pad container thanks-card" id="thanks-card" hidden aria-labelledby="card-title">
+      <div class="section-kicker">THIỆP CẢM ƠN</div>
+      <h2 id="card-title">Lưu giữ khoảnh khắc tử tế</h2>
+      <p>Thiệp được vẽ ngay trên máy bạn — lưu thành ảnh dọc 1080×1350 để đăng story hoặc giữ làm kỷ niệm.</p>
+      <div class="thanks-card-layout">
+        <canvas id="card-canvas" width="1080" height="1350" role="img" aria-label="Thiệp cảm ơn của bạn"></canvas>
+        <div class="thanks-card-actions">
+          <button class="button button-purple" id="card-save" type="button">⬇ Lưu ảnh về máy</button>
+          <button class="button button-yellow" id="card-share" type="button">↗ Chia sẻ…</button>
+          <a class="button thanks-fb" id="card-fb" target="_blank" rel="noopener">f&nbsp; Chia sẻ lên Facebook</a>
+          <p class="thanks-toast" id="card-toast" role="status"></p>
+          <button class="button" id="thanks-replay" type="button">↻ Bắn pháo giấy lần nữa</button>
+        </div>
       </div>
     </section>
   </main>
