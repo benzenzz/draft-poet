@@ -34,8 +34,9 @@ export async function isDonationsEnabled(env) {
 
 export async function ensureAdminSeeded(env) {
   try {
-    const row = await env.DB.prepare('SELECT COUNT(*) AS c FROM admin_users').first();
-    if ((row?.c || 0) > 0) return;
+    // LIMIT 1 reads one row instead of scanning the whole table.
+    const row = await env.DB.prepare('SELECT 1 AS x FROM admin_users LIMIT 1').first();
+    if (row) return;
     const nowIso = new Date().toISOString();
     await env.DB.prepare(
       'INSERT INTO admin_users (username, password_hash, updated_at) VALUES (?, ?, ?)',
@@ -67,6 +68,11 @@ export async function createAdminSession(env, token, username, createdAt, expire
   )
     .bind(token, username, createdAt, expiresAt)
     .run();
+}
+
+/** Drop expired sessions. Called on login only, not on every admin request. */
+export async function pruneExpiredAdminSessions(env, nowIso) {
+  await env.DB.prepare('DELETE FROM admin_sessions WHERE expires_at <= ?').bind(nowIso).run();
 }
 
 export async function deleteAdminSession(env, token) {
@@ -129,21 +135,26 @@ export async function setPaymentLinkId(env, orderCode, paymentLinkId) {
 }
 
 export async function listPublicDonations(env) {
-  const { results } = await env.DB.prepare(
-    `SELECT display_name AS displayName,
-            CASE WHEN hidden = 1 THEN '' ELSE message END AS message,
-            amount, paid_at AS paidAt
-     FROM donations
-     WHERE status = 'success'
-     ORDER BY paid_at DESC
-     LIMIT ${PUBLIC_WALL_LIMIT}`,
-  ).all();
-
-  const totalRow = await env.DB.prepare(
-    `SELECT COALESCE(SUM(amount), 0) AS totalAmount, COUNT(*) AS totalCount
-     FROM donations
-     WHERE status = 'success'`,
-  ).first();
+  // One round trip for both queries. idx_donations_success_amount makes the
+  // SUM/COUNT an index-only scan instead of reading whole donation rows.
+  const [list, totals] = await env.DB.batch([
+    env.DB.prepare(
+      `SELECT display_name AS displayName,
+              CASE WHEN hidden = 1 THEN '' ELSE message END AS message,
+              amount, paid_at AS paidAt
+       FROM donations
+       WHERE status = 'success'
+       ORDER BY paid_at DESC
+       LIMIT ${PUBLIC_WALL_LIMIT}`,
+    ),
+    env.DB.prepare(
+      `SELECT COALESCE(SUM(amount), 0) AS totalAmount, COUNT(*) AS totalCount
+       FROM donations
+       WHERE status = 'success'`,
+    ),
+  ]);
+  const results = list.results;
+  const totalRow = totals.results?.[0];
 
   return {
     donations: results || [],

@@ -21,9 +21,6 @@ export async function authorizeAdmin(request, env) {
 
   try {
     const nowIso = new Date().toISOString();
-    await env.DB.prepare('DELETE FROM admin_sessions WHERE expires_at <= ?')
-      .bind(nowIso)
-      .run();
     const row = await env.DB.prepare(
       'SELECT username FROM admin_sessions WHERE token = ? AND expires_at > ?',
     )

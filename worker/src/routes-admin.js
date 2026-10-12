@@ -4,11 +4,13 @@ import { error, json, readJsonBody } from './http.js';
 import { hashPassword, randomHex, verifyPassword } from './crypto.js';
 import { timingSafeEqual } from './payos.js';
 import { requireAdmin } from './auth.js';
+import { purgePublicListCache } from './routes-donations.js';
 import {
   createAdminSession,
   deleteAdminSession,
   deleteAdminSessionsForUser,
   deleteOtherAdminSessions,
+  pruneExpiredAdminSessions,
   ensureAdminSeeded,
   findAdminPasswordHash,
   findAdminUser,
@@ -47,6 +49,7 @@ export async function handleAdminLogin(request, env) {
   const token = randomHex(32);
   const now = new Date();
   const expiresAt = new Date(now.getTime() + ADMIN_SESSION_TTL_MS).toISOString();
+  await pruneExpiredAdminSessions(env, now.toISOString());
   await createAdminSession(env, token, user.username, now.toISOString(), expiresAt);
   return json({ token, username: user.username, expiresAt });
 }
@@ -164,6 +167,7 @@ export async function handleAdminShow(env, orderCode) {
     return error('Chỉ có thể hiện lời nhắn của khoản đã nhận.', 400);
   }
   await setDonationHidden(env, code, false);
+  await purgePublicListCache();
   return json({ ok: true, status: 'success', hidden: false });
 }
 
@@ -176,6 +180,7 @@ export async function handleAdminHide(env, orderCode) {
     return error('Chỉ có thể ẩn lời nhắn của khoản đã nhận.', 400);
   }
   await setDonationHidden(env, code, true);
+  await purgePublicListCache();
   return json({ ok: true, status: 'success', hidden: true });
 }
 
