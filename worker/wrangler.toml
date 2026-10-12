@@ -1,0 +1,13 @@
+name = "poet-donations"
+main = "src/index.js"
+compatibility_date = "2026-01-01"
+
+workers_dev = true
+
+[[d1_databases]]
+binding = "DB"
+database_name = "poet-donations"
+database_id = "824e865d-428f-4fe2-aa68-a097809ba78c"
+
+[vars]
+ALLOWED_ORIGIN = "https://maiphh.github.io"

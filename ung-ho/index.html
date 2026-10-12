@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="vi" style="color-scheme: light only; background-color: #f4e6cf">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4e6cf">
+  <meta name="color-scheme" content="light only">
+  <meta name="supported-color-schemes" content="light">
+  <style>html,body{color-scheme:light only;background-color:#f4e6cf}</style>
+  <meta name="description" content="Ủng hộ POET bằng một món quà nhỏ. Để lại tên và lời nhắn — hiện trên tường ngay khi thanh toán thành công.">
+  <title>Ủng hộ — POET</title>
+  <link rel="icon" type="image/jpeg" href="../assets/logo/1555047679990943.jpg">
+  <link rel="apple-touch-icon" href="../assets/logo/1555047679990943.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Itim&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+  <script src="../components/site-header.js" defer></script>
+  <script src="../components/site-footer.js" defer></script>
+  <script src="../app.js" defer></script>
+  <script src="donate.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Bỏ qua điều hướng</a>
+  <site-header active="donate"></site-header>
+
+  <main id="main" class="donate">
+    <section class="page-hero container page-hero-center" aria-labelledby="donate-title">
+      <div class="section-kicker">ỦNG HỘ POET</div>
+      <h1 id="donate-title">Món quà các em sẽ nhận<br><span class="underline-swoosh"><span id="donate-total-amount">…</span></span></h1>
+      <p>Bạn gửi một phần quà cho POET. Tên và lời nhắn hiện trên tường ngay khi thanh toán thành công — hoặc chọn ẩn danh nếu muốn giữ riêng.</p>
+    </section>
+
+    <section class="section-pad container donate-form-section" aria-labelledby="form-title">
+      <div class="donate-bg-decos" aria-hidden="true">
+        <span class="donate-bg-deco donate-bg-deco-flower">✿</span>
+        <span class="donate-bg-deco donate-bg-deco-spark">✦</span>
+        <span class="donate-bg-deco donate-bg-deco-heart">♥</span>
+        <span class="donate-bg-deco donate-bg-deco-leaf">❀</span>
+        <span class="donate-bg-deco donate-bg-deco-dot"></span>
+        <span class="donate-bg-deco donate-bg-deco-ring"></span>
+        <span class="donate-bg-deco donate-bg-deco-spark2">✦</span>
+        <span class="donate-bg-deco donate-bg-deco-smile">☻</span>
+      </div>
+      <div class="donate-card donate-card-center">
+        <div class="section-kicker">GỬI QUÀ</div>
+        <h2 id="form-title">Chọn số tiền và để lại lời nhắn.</h2>
+        <p class="admin-disabled" id="donate-disabled" hidden>Trang ủng hộ đang tạm nghỉ nhận quà mới. Quay lại sau giúp nhé — tường lời nhắn bên dưới vẫn mở.</p>
+        <form id="donate-form" novalidate>
+          <fieldset class="donate-amounts">
+            <legend>Số tiền</legend>
+            <div class="donate-presets" role="group" aria-label="Mức ủng hộ gợi ý">
+              <button type="button" class="donate-preset" data-amount="50000" aria-pressed="false">50.000</button>
+              <button type="button" class="donate-preset" data-amount="100000" aria-pressed="false">100.000</button>
+              <button type="button" class="donate-preset is-selected" data-amount="200000" aria-pressed="true">200.000</button>
+              <button type="button" class="donate-preset" data-amount="500000" aria-pressed="false">500.000</button>
+              <button type="button" class="donate-preset" data-amount="1000000" aria-pressed="false">1.000.000</button>
+            </div>
+            <label class="donate-field" for="custom-amount">
+              <span>Hoặc nhập số khác (VND)</span>
+              <input id="custom-amount" name="customAmount" type="number" inputmode="numeric" min="10000" max="20000000" step="1000" placeholder="Từ 10.000 đến 20.000.000">
+            </label>
+          </fieldset>
+
+          <label class="donate-field" for="display-name">
+            <span>Tên hiển thị</span>
+            <input id="display-name" name="displayName" type="text" maxlength="40" autocomplete="nickname" required>
+          </label>
+
+          <label class="donate-field" for="message">
+            <span>Lời nhắn</span>
+            <textarea id="message" name="message" maxlength="160" rows="3" required></textarea>
+          </label>
+
+          <label class="donate-check">
+            <input id="anonymous" name="anonymous" type="checkbox">
+            <span>Ẩn danh — hiện tên là “Ẩn danh”</span>
+          </label>
+
+          <p class="donate-error" id="donate-error" role="alert" hidden></p>
+          <button class="button button-purple button-big" id="donate-submit" type="submit">Tiếp tục thanh toán <span aria-hidden="true">↗</span></button>
+        </form>
+      </div>
+    </section>
+
+    <section class="section-pad container donate-wall-section" aria-labelledby="wall-title">
+      <div class="section-kicker">TƯỜNG LỜI NHẮN</div>
+      <h2 id="wall-title">Những món quà đã nhận.</h2>
+      <p class="donate-total" id="donate-total" role="status">Đang tải tổng ủng hộ…</p>
+      <div class="donate-history-card">
+        <div class="donate-history-toolbar">
+          <label class="donate-search" for="donate-search">
+            <span aria-hidden="true">⌕</span>
+            <input id="donate-search" type="search" placeholder="Tìm theo tên…" autocomplete="off">
+          </label>
+          <p class="donate-history-count" id="donate-history-count" role="status"></p>
+        </div>
+        <div class="donate-wall" id="donate-wall">
+          <p class="donate-empty" id="donate-empty">Đang tải lời nhắn…</p>
+        </div>
+        <nav class="donate-pagination" id="donate-pagination" aria-label="Phân trang lịch sử ủng hộ"></nav>
+      </div>
+    </section>
+  </main>
+
+  <site-footer></site-footer>
+</body>
+</html>

@@ -15,32 +15,17 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Itim&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <script src="components/site-header.js" defer></script>
+  <script src="components/site-footer.js" defer></script>
+  <script src="components/site-lightbox.js" defer></script>
   <script src="app.js" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Bỏ qua điều hướng</a>
-  <header class="site-header" id="top">
-    <div class="container header-inner">
-      <a class="brand" href="index.html" aria-label="POET, về trang chủ">
-        <img class="brand-logo" src="assets/logo/1555047679990943.jpg" alt="" width="56" height="56">
-        <span class="brand-name">POET<small>TUỔI TRẺ · NHIỆT HUYẾT · NGHỆ THUẬT</small></span>
-      </a>
-      <nav class="desktop-nav" aria-label="Điều hướng chính">
-        <a href="index.html" aria-current="page">Trang chủ</a>
-        <a href="team/index.html">Team</a>
-        <!-- <a href="dong-hanh/index.html">Đồng hành</a> -->
-      </nav>
-      <a class="button button-dark header-cta" href="dong-hanh/index.html">Đồng hành <span aria-hidden="true">↗</span></a>
-      <button class="menu-toggle" type="button" aria-label="Mở menu" aria-expanded="false" aria-controls="mobile-nav"><span></span><span></span></button>
-    </div>
-    <nav class="mobile-nav" id="mobile-nav" aria-label="Điều hướng trên điện thoại" hidden>
-      <a href="index.html" aria-current="page">Trang chủ</a>
-      <a href="team/index.html">Team</a>
-      <a href="dong-hanh/index.html">Đồng hành</a>
-      <a href="#hoat-dong">Hoạt động</a>
-      <a href="#ky-niem">Kỷ niệm</a>
-    </nav>
-  </header>
+  <site-header active="home">
+    <a slot="extra-mobile" href="#hoat-dong">Hoạt động</a>
+    <a slot="extra-mobile" href="#ky-niem">Kỷ niệm</a>
+  </site-header>
 
   <main id="main">
     <section class="hero container" aria-labelledby="hero-title">
@@ -252,37 +237,8 @@
     </section>
   </main>
 
-  <footer class="footer">
-    <div class="container footer-main">
-      <div>
-        <a class="brand footer-brand" href="index.html" aria-label="POET, về trang chủ">
-          <img class="brand-logo" src="assets/logo/1555047679990943.jpg" alt="" width="72" height="72">
-          <span class="brand-name">POET<small>TUỔI TRẺ · NHIỆT HUYẾT · NGHỆ THUẬT</small></span>
-        </a>
-        <p>Tổ chức thiện nguyện của người trẻ.<br>Niềm vui nhỏ. Có mặt thật.</p>
-      </div>
-      <div class="footer-links">
-        <span>KHÁM PHÁ</span>
-        <a href="index.html#gioi-thieu">Giới thiệu</a>
-        <a href="index.html#hoat-dong">Hoạt động</a>
-        <a href="index.html#ky-niem">Kỷ niệm</a>
-        <a href="team/index.html">Team</a>
-        <a href="dong-hanh/index.html">Đồng hành</a>
-      </div>
-      <div class="footer-links">
-        <span>KẾT NỐI</span>
-        <a href="https://www.facebook.com/poetorganization" target="_blank" rel="noopener noreferrer">Facebook POET ↗</a>
-        <a href="mailto:poet.npo@gmail.com">poet.npo@gmail.com</a>
-        <a href="docs/quyen-loi-big-joy-little-joy.pdf" target="_blank" rel="noopener">Bảng quyền lợi Little Joy (PDF) ↗</a>
-      </div>
-    </div>
-    <div class="container footer-bottom"><span>© 2026 POET</span><a href="#top">Lên đầu trang ↑</a></div>
-  </footer>
+  <site-footer></site-footer>
 
-  <dialog class="lightbox" id="lightbox" aria-label="Xem ảnh lớn">
-    <button class="lightbox-close" type="button" aria-label="Đóng">×</button>
-    <img alt="">
-    <p></p>
-  </dialog>
+  <site-lightbox label="Xem ảnh lớn"></site-lightbox>
 </body>
 </html>
