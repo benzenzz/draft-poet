@@ -1,16 +1,19 @@
 /** Admin routes: login/logout, password, settings, donation moderation. */
-import { ADMIN_SESSION_TTL_MS } from './config.js';
+import { ADMIN_AUTH_MAX_PER_HOUR, ADMIN_SESSION_TTL_MS, STALE_PENDING_MS } from './config.js';
 import { error, json, readJsonBody } from './http.js';
 import { hashPassword, randomHex, verifyPassword } from './crypto.js';
 import { timingSafeEqual } from './payos.js';
 import { requireAdmin } from './auth.js';
-import { purgePublicListCache } from './routes-donations.js';
+import { checkRateLimit, purgePublicListCache } from './routes-donations.js';
 import {
   createAdminSession,
   deleteAdminSession,
   deleteAdminSessionsForUser,
   deleteOtherAdminSessions,
+  pruneAllAttempts,
   pruneExpiredAdminSessions,
+  pruneStalePendingDonations,
+  recordAttempt,
   ensureAdminSeeded,
   findAdminPasswordHash,
   findAdminUser,
@@ -25,6 +28,10 @@ import {
 } from './store.js';
 
 export async function handleAdminLogin(request, env) {
+  const limit = await checkRateLimit(request, env, 'admin:', ADMIN_AUTH_MAX_PER_HOUR);
+  if (limit.response) return limit.response;
+  await recordAttempt(env, limit.ipHash, limit.nowIso);
+
   const { body, response: badBody } = await readJsonBody(request);
   if (badBody) return badBody;
 
@@ -49,7 +56,10 @@ export async function handleAdminLogin(request, env) {
   const token = randomHex(32);
   const now = new Date();
   const expiresAt = new Date(now.getTime() + ADMIN_SESSION_TTL_MS).toISOString();
+  // Login is the housekeeping point: a few cheap deletes, rarely run.
   await pruneExpiredAdminSessions(env, now.toISOString());
+  await pruneAllAttempts(env, new Date(now.getTime() - 2 * 60 * 60 * 1000).toISOString());
+  await pruneStalePendingDonations(env, new Date(now.getTime() - STALE_PENDING_MS).toISOString());
   await createAdminSession(env, token, user.username, now.toISOString(), expiresAt);
   return json({ token, username: user.username, expiresAt });
 }
@@ -105,6 +115,10 @@ export async function handleAdminChangePassword(request, env, session) {
  * when the interactive password is lost. Does not require a session.
  */
 export async function handleAdminRecoverPassword(request, env) {
+  const limit = await checkRateLimit(request, env, 'admin:', ADMIN_AUTH_MAX_PER_HOUR);
+  if (limit.response) return limit.response;
+  await recordAttempt(env, limit.ipHash, limit.nowIso);
+
   const { body, response: badBody } = await readJsonBody(request);
   if (badBody) return badBody;
 
@@ -158,7 +172,7 @@ export async function handleUpdateAdminSettings(request, env) {
 }
 
 /** Show a gift's message on the public wall (hidden = 0). */
-export async function handleAdminShow(env, orderCode) {
+export async function handleAdminShow(env, orderCode, url) {
   const code = Number(orderCode);
   if (!Number.isInteger(code)) return error('Mã đơn không hợp lệ.', 400);
   const row = await findDonationStatus(env, code);
@@ -167,11 +181,11 @@ export async function handleAdminShow(env, orderCode) {
     return error('Chỉ có thể hiện lời nhắn của khoản đã nhận.', 400);
   }
   await setDonationHidden(env, code, false);
-  await purgePublicListCache();
+  await purgePublicListCache(url);
   return json({ ok: true, status: 'success', hidden: false });
 }
 
-export async function handleAdminHide(env, orderCode) {
+export async function handleAdminHide(env, orderCode, url) {
   const code = Number(orderCode);
   if (!Number.isInteger(code)) return error('Mã đơn không hợp lệ.', 400);
   const row = await findDonationStatus(env, code);
@@ -180,7 +194,7 @@ export async function handleAdminHide(env, orderCode) {
     return error('Chỉ có thể ẩn lời nhắn của khoản đã nhận.', 400);
   }
   await setDonationHidden(env, code, true);
-  await purgePublicListCache();
+  await purgePublicListCache(url);
   return json({ ok: true, status: 'success', hidden: true });
 }
 

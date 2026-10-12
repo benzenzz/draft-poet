@@ -20,12 +20,17 @@ import {
   setPaymentLinkId,
 } from './store.js';
 
-async function checkRateLimit(request, env) {
+/**
+ * Per-IP hourly limit backed by create_attempts. `scope` namespaces the
+ * hashed key ('' keeps donation rows identical to before; 'admin:' for
+ * login/recover), so no schema change is needed.
+ */
+export async function checkRateLimit(request, env, scope = '', max = RATE_LIMIT_MAX_PER_HOUR) {
   const ip = request.headers.get('CF-Connecting-IP');
   if (!ip) return { response: error('Không xác định được địa chỉ IP.', 400) };
 
-  const ipHashFull = await hmacSha256Hex(env.PAYOS_CHECKSUM_KEY, ip);
-  const ipHash = ipHashFull.slice(0, 32);
+  const ipHashFull = await hmacSha256Hex(env.PAYOS_CHECKSUM_KEY, scope + ip);
+  const ipHash = scope + ipHashFull.slice(0, 32);
   const now = new Date();
   const nowIso = now.toISOString();
   const oneHourAgo = new Date(now.getTime() - 60 * 60 * 1000).toISOString();
@@ -34,7 +39,7 @@ async function checkRateLimit(request, env) {
   // Pruning on every create cost a write each time; 1 in 10 is plenty
   // because the count below only looks at the last hour anyway.
   if (Math.random() < 0.1) await pruneAttempts(env, ipHash, twoHoursAgo);
-  if ((await countRecentAttempts(env, ipHash, oneHourAgo)) >= RATE_LIMIT_MAX_PER_HOUR) {
+  if ((await countRecentAttempts(env, ipHash, oneHourAgo)) >= max) {
     return { response: error('Bạn đã gửi quá nhiều lần. Vui lòng thử lại sau một giờ.', 429) };
   }
   return { ipHash, nowIso };
@@ -129,7 +134,6 @@ export async function handleCreateDonation(request, env) {
   return json({ orderCode, checkoutUrl: payosRes.data.checkoutUrl });
 }
 
-const PUBLIC_CACHE_KEY = 'https://poet-cache.internal/api/donations';
 const PUBLIC_CACHE_SECONDS = 30;
 
 /**
@@ -137,11 +141,13 @@ const PUBLIC_CACHE_SECONDS = 30;
  * does not hit D1 on every load. Falls back to a direct read if the Cache
  * API is unavailable. Response contains no order codes or bank fields.
  */
-export async function handleListPublic(env, ctx) {
+export async function handleListPublic(env, ctx, url) {
+  // Key on the Worker's real host so the Cache API actually matches in prod.
+  const cacheKey = new Request(`${url.origin}/api/donations`);
   const cache = typeof caches !== 'undefined' ? caches.default : null;
   if (cache) {
     try {
-      const hit = await cache.match(PUBLIC_CACHE_KEY);
+      const hit = await cache.match(cacheKey);
       if (hit) return new Response(hit.body, hit);
     } catch {}
   }
@@ -152,7 +158,7 @@ export async function handleListPublic(env, ctx) {
     { 'Cache-Control': `public, max-age=${PUBLIC_CACHE_SECONDS}` },
   );
   if (cache) {
-    const put = cache.put(PUBLIC_CACHE_KEY, res.clone()).catch(() => {});
+    const put = cache.put(cacheKey, res.clone()).catch(() => {});
     if (ctx?.waitUntil) ctx.waitUntil(put);
     else await put;
   }
@@ -160,9 +166,11 @@ export async function handleListPublic(env, ctx) {
 }
 
 /** Drop the cached wall after a payment or hide/show (same colo only; TTL covers others). */
-export async function purgePublicListCache() {
+export async function purgePublicListCache(url) {
   try {
-    if (typeof caches !== 'undefined') await caches.default.delete(PUBLIC_CACHE_KEY);
+    if (url && typeof caches !== 'undefined') {
+      await caches.default.delete(new Request(`${url.origin}/api/donations`));
+    }
   } catch {}
 }
 
