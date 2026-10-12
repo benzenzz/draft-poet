@@ -17,3 +17,37 @@ CREATE TABLE IF NOT EXISTS create_attempts (
   created_at TEXT NOT NULL
 );
 CREATE INDEX IF NOT EXISTS idx_attempts_ip ON create_attempts (ip_hash, created_at);
+
+-- Frontend /admin settings (donation site on/off).
+CREATE TABLE IF NOT EXISTS settings (
+  key TEXT PRIMARY KEY,
+  value TEXT NOT NULL
+);
+
+-- Simple username + password auth for the frontend /admin page.
+CREATE TABLE IF NOT EXISTS admin_users (
+  username TEXT PRIMARY KEY,
+  password_hash TEXT NOT NULL,
+  updated_at TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS admin_sessions (
+  token TEXT PRIMARY KEY,
+  username TEXT NOT NULL,
+  created_at TEXT NOT NULL,
+  expires_at TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_admin_sessions_exp ON admin_sessions (expires_at);
+
+-- Audit columns from the PayOS webhook (donor bank info for later review).
+-- Never exposed on the public wall; only on the admin API.
+ALTER TABLE donations ADD COLUMN payos_account_number TEXT;
+ALTER TABLE donations ADD COLUMN payos_transaction_time TEXT;
+ALTER TABLE donations ADD COLUMN payos_description TEXT;
+ALTER TABLE donations ADD COLUMN payos_currency TEXT;
+ALTER TABLE donations ADD COLUMN counter_account_bank_id TEXT;
+ALTER TABLE donations ADD COLUMN counter_account_bank_name TEXT;
+ALTER TABLE donations ADD COLUMN counter_account_name TEXT;
+ALTER TABLE donations ADD COLUMN counter_account_number TEXT;
+ALTER TABLE donations ADD COLUMN virtual_account_name TEXT;
+ALTER TABLE donations ADD COLUMN virtual_account_number TEXT;

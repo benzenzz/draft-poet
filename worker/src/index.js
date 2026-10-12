@@ -78,14 +78,219 @@ function randomOrderCode() {
   return min + (buf[0] % range);
 }
 
-async function authorizeAdmin(request, env) {
+function randomHex(bytes) {
+  const buf = new Uint8Array(bytes);
+  crypto.getRandomValues(buf);
+  return [...buf].map((b) => b.toString(16).padStart(2, '0')).join('');
+}
+
+async function sha256Hex(message) {
+  const enc = new TextEncoder();
+  const digest = await crypto.subtle.digest('SHA-256', enc.encode(message));
+  return [...new Uint8Array(digest)].map((b) => b.toString(16).padStart(2, '0')).join('');
+}
+
+async function hashPassword(password) {
+  const salt = randomHex(16);
+  const hash = await sha256Hex(`${salt}$${password}`);
+  return `${salt}$${hash}`;
+}
+
+async function verifyPassword(password, stored) {
+  if (typeof stored !== 'string') return false;
+  const sep = stored.indexOf('$');
+  if (sep <= 0) return false;
+  const salt = stored.slice(0, sep);
+  const expected = stored.slice(sep + 1);
+  const actual = await sha256Hex(`${salt}$${password}`);
+  return timingSafeEqual(actual, expected);
+}
+
+// Seed the default admin/admin account on first use.
+async function ensureAdminSeeded(env) {
+  try {
+    const row = await env.DB.prepare(
+      'SELECT COUNT(*) AS c FROM admin_users',
+    ).first();
+    if ((row?.c || 0) > 0) return;
+    const nowIso = new Date().toISOString();
+    await env.DB.prepare(
+      'INSERT INTO admin_users (username, password_hash, updated_at) VALUES (?, ?, ?)',
+    )
+      .bind('admin', await hashPassword('admin'), nowIso)
+      .run();
+  } catch {
+    // Tables may not be migrated yet; login will surface the error.
+  }
+}
+
+function getBearerToken(request) {
   const header = request.headers.get('Authorization') || '';
   const match = /^Bearer\s+(.+)$/i.exec(header);
-  if (!match) return false;
-  return timingSafeEqual(match[1].trim(), String(env.ADMIN_TOKEN || '').trim());
+  return match ? match[1].trim() : '';
+}
+
+// Returns { username, legacy } or null.
+async function authorizeAdmin(request, env) {
+  const token = getBearerToken(request);
+  if (!token) return null;
+  const adminToken = String(env.ADMIN_TOKEN || '').trim();
+  if (adminToken && timingSafeEqual(token, adminToken)) {
+    return { username: 'admin', legacy: true };
+  }
+  try {
+    await env.DB.prepare(
+      'DELETE FROM admin_sessions WHERE expires_at <= ?',
+    )
+      .bind(new Date().toISOString())
+      .run();
+    const row = await env.DB.prepare(
+      'SELECT username FROM admin_sessions WHERE token = ? AND expires_at > ?',
+    )
+      .bind(token, new Date().toISOString())
+      .first();
+    if (!row) return null;
+    return { username: row.username, legacy: false, token };
+  } catch {
+    return null;
+  }
+}
+
+async function getSetting(env, key, fallback) {
+  try {
+    const row = await env.DB.prepare(
+      'SELECT value FROM settings WHERE key = ?',
+    )
+      .bind(key)
+      .first();
+    return row ? row.value : fallback;
+  } catch {
+    return fallback;
+  }
+}
+
+async function setSetting(env, key, value) {
+  await env.DB.prepare(
+    'INSERT INTO settings (key, value) VALUES (?, ?) ON CONFLICT(key) DO UPDATE SET value = excluded.value',
+  )
+    .bind(key, value)
+    .run();
+}
+
+async function isDonationsEnabled(env) {
+  const value = await getSetting(env, 'donations_enabled', '1');
+  return value !== '0';
+}
+
+async function handleAdminLogin(request, env) {
+  let body;
+  try {
+    body = await request.json();
+  } catch {
+    return error('Dữ liệu không hợp lệ.', 400);
+  }
+  const username = typeof body?.username === 'string' ? body.username.trim() : '';
+  const password = typeof body?.password === 'string' ? body.password : '';
+  if (!username || !password) {
+    return error('Nhập tên đăng nhập và mật khẩu.', 400);
+  }
+
+  await ensureAdminSeeded(env);
+  let user;
+  try {
+    user = await env.DB.prepare(
+      'SELECT username, password_hash FROM admin_users WHERE username = ?',
+    )
+      .bind(username)
+      .first();
+  } catch (err) {
+    console.error(String(err?.message || err));
+    return error('Chưa có bảng tài khoản. Hãy chạy migration schema mới.', 500);
+  }
+  if (!user || !(await verifyPassword(password, user.password_hash))) {
+    return error('Tên đăng nhập hoặc mật khẩu không đúng.', 401);
+  }
+
+  const token = randomHex(32);
+  const now = new Date();
+  const expiresAt = new Date(now.getTime() + 12 * 60 * 60 * 1000).toISOString();
+  await env.DB.prepare(
+    'INSERT INTO admin_sessions (token, username, created_at, expires_at) VALUES (?, ?, ?, ?)',
+  )
+    .bind(token, user.username, now.toISOString(), expiresAt)
+    .run();
+  return json({ token, username: user.username, expiresAt });
+}
+
+async function handleAdminLogout(request, env, session) {
+  if (!session.legacy && session.token) {
+    await env.DB.prepare('DELETE FROM admin_sessions WHERE token = ?')
+      .bind(session.token)
+      .run();
+  }
+  return json({ ok: true });
+}
+
+async function handleAdminChangePassword(request, env, session) {
+  let body;
+  try {
+    body = await request.json();
+  } catch {
+    return error('Dữ liệu không hợp lệ.', 400);
+  }
+  const newPassword = typeof body?.newPassword === 'string' ? body.newPassword : '';
+  if (newPassword.length < 4 || newPassword.length > 72) {
+    return error('Mật khẩu mới phải từ 4 đến 72 ký tự.', 400);
+  }
+
+  if (session.legacy) {
+    // Old static-token sessions have no password to check against.
+    const username = typeof body?.username === 'string' && body.username.trim()
+      ? body.username.trim()
+      : 'admin';
+    await ensureAdminSeeded(env);
+    await env.DB.prepare(
+      'INSERT INTO admin_users (username, password_hash, updated_at) VALUES (?, ?, ?) ON CONFLICT(username) DO UPDATE SET password_hash = excluded.password_hash, updated_at = excluded.updated_at',
+    )
+      .bind(username, await hashPassword(newPassword), new Date().toISOString())
+      .run();
+    await env.DB.prepare('DELETE FROM admin_sessions WHERE username = ?')
+      .bind(username)
+      .run();
+    return json({ ok: true });
+  }
+
+  const currentPassword = typeof body?.currentPassword === 'string' ? body.currentPassword : '';
+  if (!currentPassword) {
+    return error('Nhập mật khẩu hiện tại.', 400);
+  }
+  const user = await env.DB.prepare(
+    'SELECT password_hash FROM admin_users WHERE username = ?',
+  )
+    .bind(session.username)
+    .first();
+  if (!user || !(await verifyPassword(currentPassword, user.password_hash))) {
+    return error('Mật khẩu hiện tại không đúng.', 401);
+  }
+  await env.DB.prepare(
+    'UPDATE admin_users SET password_hash = ?, updated_at = ? WHERE username = ?',
+  )
+    .bind(await hashPassword(newPassword), new Date().toISOString(), session.username)
+    .run();
+  // Keep the current session, drop the rest.
+  await env.DB.prepare(
+    'DELETE FROM admin_sessions WHERE username = ? AND token != ?',
+  )
+    .bind(session.username, session.token)
+    .run();
+  return json({ ok: true });
 }
 
 async function handleCreateDonation(request, env) {
+  if (!(await isDonationsEnabled(env))) {
+    return error('Trang ủng hộ đang tạm tắt. Quay lại sau giúp nhé.', 403);
+  }
+
   const ip = request.headers.get('CF-Connecting-IP');
   if (!ip) return error('Không xác định được địa chỉ IP.', 400);
 
@@ -290,27 +495,125 @@ async function handleWebhook(request, env) {
   }
 
   if (row.status === 'pending' || row.status === 'cancelled') {
-    await env.DB.prepare(
-      `UPDATE donations
-       SET status = 'paid', payos_reference = ?, paid_at = ?
-       WHERE order_code = ? AND status IN ('pending', 'cancelled')`,
-    )
-      .bind(data.reference || null, new Date().toISOString(), orderCode)
-      .run();
+    // Audit fields from PayOS: receiving account + donor (counter) bank info.
+    // Never trust these for auth; they are stored for later review only.
+    const audit = {
+      payos_reference: data.reference ?? null,
+      paid_at: new Date().toISOString(),
+      payos_account_number: data.accountNumber ?? null,
+      payos_transaction_time: data.transactionDateTime ?? null,
+      payos_description: data.description ?? null,
+      payos_currency: data.currency ?? null,
+      counter_account_bank_id: data.counterAccountBankId ?? null,
+      counter_account_bank_name: data.counterAccountBankName ?? null,
+      counter_account_name: data.counterAccountName ?? null,
+      counter_account_number: data.counterAccountNumber ?? null,
+      virtual_account_name: data.virtualAccountName ?? null,
+      virtual_account_number: data.virtualAccountNumber ?? null,
+    };
+    try {
+      await env.DB.prepare(
+        `UPDATE donations
+         SET status = 'paid', payos_reference = ?, paid_at = ?,
+             payos_account_number = ?, payos_transaction_time = ?,
+             payos_description = ?, payos_currency = ?,
+             counter_account_bank_id = ?, counter_account_bank_name = ?,
+             counter_account_name = ?, counter_account_number = ?,
+             virtual_account_name = ?, virtual_account_number = ?,
+             payment_link_id = COALESCE(payment_link_id, ?)
+         WHERE order_code = ? AND status IN ('pending', 'cancelled')`,
+      )
+        .bind(
+          audit.payos_reference,
+          audit.paid_at,
+          audit.payos_account_number,
+          audit.payos_transaction_time,
+          audit.payos_description,
+          audit.payos_currency,
+          audit.counter_account_bank_id,
+          audit.counter_account_bank_name,
+          audit.counter_account_name,
+          audit.counter_account_number,
+          audit.virtual_account_name,
+          audit.virtual_account_number,
+          data.paymentLinkId ?? null,
+          orderCode,
+        )
+        .run();
+    } catch {
+      // DB without the audit migration: fall back to the minimal update.
+      await env.DB.prepare(
+        `UPDATE donations
+         SET status = 'paid', payos_reference = ?, paid_at = ?
+         WHERE order_code = ? AND status IN ('pending', 'cancelled')`,
+      )
+        .bind(data.reference || null, new Date().toISOString(), orderCode)
+        .run();
+    }
   }
 
   return json({ ok: true }, 200);
 }
 
 async function handleAdminList(env) {
-  const { results } = await env.DB.prepare(
-    `SELECT order_code AS orderCode, amount, display_name AS displayName,
-            message, anonymous, status, paid_at AS paidAt, created_at AS createdAt
-     FROM donations
-     WHERE status IN ('paid', 'published', 'hidden')
-     ORDER BY COALESCE(paid_at, created_at) DESC`,
-  ).all();
-  return json({ donations: results || [] });
+  // Full donate history for audit: every status, newest first.
+  // Donor bank fields are admin-only; the public wall never sees them.
+  try {
+    const { results } = await env.DB.prepare(
+      `SELECT order_code AS orderCode, amount, display_name AS displayName,
+              message, anonymous, status, paid_at AS paidAt, created_at AS createdAt,
+              payment_link_id AS paymentLinkId, payos_reference AS payosReference,
+              payos_account_number AS payosAccountNumber,
+              payos_transaction_time AS payosTransactionTime,
+              payos_description AS payosDescription, payos_currency AS payosCurrency,
+              counter_account_bank_id AS counterAccountBankId,
+              counter_account_bank_name AS counterAccountBankName,
+              counter_account_name AS counterAccountName,
+              counter_account_number AS counterAccountNumber,
+              virtual_account_name AS virtualAccountName,
+              virtual_account_number AS virtualAccountNumber
+       FROM donations
+       ORDER BY COALESCE(paid_at, created_at) DESC
+       LIMIT 200`,
+    ).all();
+    return json({ donations: results || [] });
+  } catch {
+    // DB without the audit migration: select the base columns only.
+    const { results } = await env.DB.prepare(
+      `SELECT order_code AS orderCode, amount, display_name AS displayName,
+              message, anonymous, status, paid_at AS paidAt, created_at AS createdAt
+       FROM donations
+       WHERE status IN ('paid', 'published', 'hidden')
+       ORDER BY COALESCE(paid_at, created_at) DESC`,
+    ).all();
+    return json({ donations: results || [] });
+  }
+}
+
+async function handleGetPublicSettings(env) {
+  return json(
+    { donationsEnabled: await isDonationsEnabled(env) },
+    200,
+    { 'Cache-Control': 'public, max-age=30' },
+  );
+}
+
+async function handleGetAdminSettings(env) {
+  return json({ donationsEnabled: await isDonationsEnabled(env) });
+}
+
+async function handleUpdateAdminSettings(request, env) {
+  let body;
+  try {
+    body = await request.json();
+  } catch {
+    return error('Dữ liệu không hợp lệ.', 400);
+  }
+  if (typeof body?.donationsEnabled !== 'boolean') {
+    return error('Thiếu trạng thái bật/tắt ủng hộ.', 400);
+  }
+  await setSetting(env, 'donations_enabled', body.donationsEnabled ? '1' : '0');
+  return json({ ok: true, donationsEnabled: body.donationsEnabled });
 }
 
 async function handleAdminPublish(env, orderCode) {
@@ -421,122 +724,10 @@ function escapeHtml(s) {
     .replace(/"/g, '&quot;');
 }
 
-function adminPage() {
-  return `<!doctype html>
-<html lang="vi">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Admin ủng hộ — POET</title>
-  <style>
-    :root { color-scheme: light only; }
-    body { margin: 0; font-family: system-ui, sans-serif; background: #f4e6cf; color: #4a3324; }
-    main { max-width: 720px; margin: 32px auto; padding: 24px; }
-    h1 { font-size: 28px; }
-    label { display: block; margin-bottom: 6px; font-weight: 700; }
-    input[type="password"] { width: 100%; max-width: 420px; padding: 10px 12px; border: 2px solid #2f2219; border-radius: 12px; background: #fffaf1; }
-    button { margin: 8px 8px 0 0; padding: 10px 16px; border: 2px solid #2f2219; border-radius: 999px; background: #ff8a76; font-weight: 700; cursor: pointer; }
-    button.secondary { background: #fffaf1; }
-    .row { background: #fffaf1; border: 2px solid #2f2219; border-radius: 16px; padding: 14px; margin: 12px 0; }
-    .meta { color: #7a5b45; font-size: 14px; }
-    .err { color: #b5482c; font-weight: 700; }
-  </style>
-</head>
-<body>
-  <main>
-    <h1>Duyệt lời nhắn ủng hộ</h1>
-    <label for="token">Admin token</label>
-    <input id="token" type="text" autocomplete="off" spellcheck="false" autocapitalize="off">
-    <button type="button" id="save">Lưu token</button>
-    <button type="button" id="reload" class="secondary">Tải lại danh sách</button>
-    <p class="err" id="err" role="status"></p>
-    <div id="list"></div>
-  </main>
-  <script>
-    (function () {
-      var tokenInput = document.getElementById('token');
-      var list = document.getElementById('list');
-      var err = document.getElementById('err');
-      tokenInput.value = sessionStorage.getItem('poetAdminToken') || '';
-
-      function token() { return tokenInput.value.trim(); }
-
-      function setErr(msg) { err.textContent = msg || ''; }
-
-      function money(n) {
-        return new Intl.NumberFormat('vi-VN').format(n) + ' đ';
-      }
-
-      async function load() {
-        setErr('');
-        list.textContent = '';
-        if (!token()) { setErr('Nhập token trước.'); return; }
-        var res = await fetch('/api/admin/donations', {
-          headers: { Authorization: 'Bearer ' + token() }
-        });
-        if (res.status === 401) {
-          sessionStorage.removeItem('poetAdminToken');
-          setErr('Token không đúng. Đã xóa token cũ trong trình duyệt. Dán lại đúng một dòng, ' + token().length + ' ký tự.');
-          return;
-        }
-        if (!res.ok) { setErr('Không tải được danh sách.'); return; }
-        var data = await res.json();
-        (data.donations || []).forEach(function (d) {
-          var row = document.createElement('div');
-          row.className = 'row';
-          var title = document.createElement('strong');
-          title.textContent = d.displayName + ' · ' + money(d.amount);
-          var msg = document.createElement('p');
-          msg.textContent = d.message;
-          var meta = document.createElement('p');
-          meta.className = 'meta';
-          meta.textContent = '#' + d.orderCode + ' · ' + d.status + (d.paidAt ? ' · ' + d.paidAt : '');
-          var pub = document.createElement('button');
-          pub.type = 'button';
-          pub.textContent = 'Đăng';
-          pub.addEventListener('click', function () { act(d.orderCode, 'publish'); });
-          var hide = document.createElement('button');
-          hide.type = 'button';
-          hide.className = 'secondary';
-          hide.textContent = 'Ẩn';
-          hide.addEventListener('click', function () { act(d.orderCode, 'hide'); });
-          row.appendChild(title);
-          row.appendChild(msg);
-          row.appendChild(meta);
-          row.appendChild(pub);
-          row.appendChild(hide);
-          list.appendChild(row);
-        });
-      }
-
-      async function act(orderCode, action) {
-        setErr('');
-        var res = await fetch('/api/admin/donations/' + orderCode + '/' + action, {
-          method: 'POST',
-          headers: { Authorization: 'Bearer ' + token() }
-        });
-        if (res.status === 401) {
-          sessionStorage.removeItem('poetAdminToken');
-          setErr('Token không đúng. Đã xóa token cũ trong trình duyệt.');
-          return;
-        }
-        if (!res.ok) {
-          var body = await res.json().catch(function () { return {}; });
-          setErr(body.error || 'Thao tác thất bại.');
-          return;
-        }
-        load();
-      }
-
-      document.getElementById('save').addEventListener('click', function () {
-        sessionStorage.setItem('poetAdminToken', token());
-        load();
-      });
-      document.getElementById('reload').addEventListener('click', load);
-    })();
-  </script>
-</body>
-</html>`;
+async function requireAdmin(request, env) {
+  const session = await authorizeAdmin(request, env);
+  if (!session) return { response: error('Không có quyền truy cập.', 401) };
+  return { session };
 }
 
 export default {
@@ -548,8 +739,8 @@ export default {
     const origin = request.headers.get('Origin');
     const allowed = env.ALLOWED_ORIGIN;
 
-    // The admin page is served by this Worker. Its fetch sends this host as
-    // Origin, which is not the GitHub Pages origin allowed for the public site.
+    // The frontend /admin page calls this Worker from the GitHub Pages
+    // origin (or localhost during dev), same as the public donate page.
     const sameHost = origin === url.origin;
     const corsOrigin =
       origin === allowed || isLocalDevOrigin(origin) ? origin : '';
@@ -573,26 +764,44 @@ export default {
         response = await handleCreateDonation(request, env);
       } else if (method === 'GET' && pathname === '/api/donations') {
         response = await handleListPublic(env);
+      } else if (method === 'GET' && pathname === '/api/settings') {
+        response = await handleGetPublicSettings(env);
       } else if (method === 'GET' && pathname.startsWith('/api/donations/')) {
         response = await handleGetStatus(env, pathname.slice('/api/donations/'.length));
       } else if (method === 'POST' && pathname === '/api/webhooks/payos') {
         response = await handleWebhook(request, env);
+      } else if (method === 'POST' && pathname === '/api/admin/login') {
+        response = await handleAdminLogin(request, env);
+      } else if (method === 'GET' && pathname === '/api/admin/me') {
+        const { response: denied, session } = await requireAdmin(request, env);
+        response = denied || json({ username: session.username });
+      } else if (method === 'POST' && pathname === '/api/admin/logout') {
+        const { response: denied, session } = await requireAdmin(request, env);
+        response = denied || (await handleAdminLogout(request, env, session));
+      } else if (method === 'POST' && pathname === '/api/admin/change-password') {
+        const { response: denied, session } = await requireAdmin(request, env);
+        response = denied || (await handleAdminChangePassword(request, env, session));
+      } else if (method === 'GET' && pathname === '/api/admin/settings') {
+        const { response: denied } = await requireAdmin(request, env);
+        response = denied || (await handleGetAdminSettings(env));
+      } else if (method === 'POST' && pathname === '/api/admin/settings') {
+        const { response: denied } = await requireAdmin(request, env);
+        response = denied || (await handleUpdateAdminSettings(request, env));
       } else if (method === 'GET' && pathname === '/api/admin/donations') {
-        if (!(await authorizeAdmin(request, env))) {
-          response = error('Không có quyền truy cập.', 401);
-        } else {
-          response = await handleAdminList(env);
-        }
+        const { response: denied } = await requireAdmin(request, env);
+        response = denied || (await handleAdminList(env));
       } else if (method === 'POST' && /^\/api\/admin\/donations\/\d+\/publish$/.test(pathname)) {
-        if (!(await authorizeAdmin(request, env))) {
-          response = error('Không có quyền truy cập.', 401);
+        const { response: denied } = await requireAdmin(request, env);
+        if (denied) {
+          response = denied;
         } else {
           const code = pathname.split('/')[4];
           response = await handleAdminPublish(env, code);
         }
       } else if (method === 'POST' && /^\/api\/admin\/donations\/\d+\/hide$/.test(pathname)) {
-        if (!(await authorizeAdmin(request, env))) {
-          response = error('Không có quyền truy cập.', 401);
+        const { response: denied } = await requireAdmin(request, env);
+        if (denied) {
+          response = denied;
         } else {
           const code = pathname.split('/')[4];
           response = await handleAdminHide(env, code);
@@ -621,7 +830,16 @@ export default {
           }),
         );
       } else if (method === 'GET' && pathname === '/admin') {
-        response = html(adminPage());
+        // Admin UI now lives on the static site at /admin/.
+        // Keep a hint for anyone still opening the old Worker URL.
+        response = html(
+          `<!doctype html><html lang="vi"><head><meta charset="utf-8"><title>Admin — POET</title></head>` +
+            `<body style="font-family:system-ui;background:#f4e6cf;color:#4a3324;padding:40px">` +
+            `<h1>Trang admin đã chuyển chỗ.</h1>` +
+            `<p>Mở trang quản trị mới tại <a href="https://maiphh.github.io/poet/admin/">/admin/</a>.</p>` +
+            `</body></html>`,
+          410,
+        );
       } else {
         response = error('Không tìm thấy.', 404);
       }

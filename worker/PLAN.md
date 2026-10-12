@@ -14,6 +14,12 @@ Read `/Users/phu.mai/Projects/poet/.env`. It already has `PAYOS_CLIENT_ID`, `PAY
 
 Generate `ADMIN_TOKEN` as 32 random bytes, hex-encoded. Write it only to `/Users/phu.mai/Projects/poet/.admin-token` (mode 0600) and store the same value as a Worker secret. Add `.admin-token` to `.gitignore`. The existing `.gitignore` only lists `.env`; keep that line.
 
+`ADMIN_TOKEN` is kept only as a fallback credential. The admin UI lives on the
+static site at `admin/` (see below) and normally logs in with username +
+password (`admin_users` table, default `admin` / `admin`, session tokens in
+`admin_sessions`, 12h expiry). A `Bearer <ADMIN_TOKEN>` header still passes
+`authorizeAdmin` as a legacy session so the transition never locks anyone out.
+
 ## Cloudflare resources
 
 Account id: `aa1bf2458466672a05bfa5f7ad34cac2`.
@@ -47,6 +53,8 @@ Worker URL becomes `https://poet-donations.<subdomain>.workers.dev`. Put that or
 - `worker/test/signature.test.mjs` — node:test, no dependencies
 - `ung-ho/index.html`
 - `ung-ho/donate.js`
+- `admin/index.html`
+- `admin/admin.js`
 - Append donation styles to `style.css`. Do not restyle existing pages.
 - Add an “Ủng hộ” link in the header, mobile nav, and footer of `index.html`, `team/index.html`, and `dong-hanh/index.html`. Match each file’s relative paths (`ung-ho/index.html` from the root, `../ung-ho/index.html` from nested pages).
 
@@ -74,7 +82,7 @@ CREATE TABLE IF NOT EXISTS create_attempts (
 CREATE INDEX IF NOT EXISTS idx_attempts_ip ON create_attempts (ip_hash, created_at);
 ```
 
-`status` is one of `pending`, `paid`, `published`, `hidden`, `cancelled`. Do not store bank account numbers, counter-account fields, virtual account numbers, or the raw IP.
+`status` is one of `pending`, `paid`, `published`, `hidden`, `cancelled`. The public wall only sees `published`. The webhook stores PayOS audit fields on each paid row (`payos_account_number`, `payos_reference`, `payos_transaction_time`, `payos_description`, `payos_currency`, `counter_account_bank_id/name`, `counter_account_bank_name`, `counter_account_number`, `virtual_account_name/number`) for later review in the admin UI. These fields are admin-only and never appear on the public wall. Do not store the raw IP (rate limiting keeps only an HMAC prefix).
 
 ## PayOS
 
@@ -136,15 +144,24 @@ All JSON errors are `{ "error": "..." }` in Vietnamese, with the right status co
 
 | Method and path | Behavior |
 | --- | --- |
-| `POST /api/donations` | Create a pending gift and a PayOS link. |
+| `POST /api/donations` | Create a pending gift and a PayOS link. Refused with 403 while donations are turned off. |
 | `GET /api/donations` | Published wall. |
+| `GET /api/settings` | Public site flag: `{ donationsEnabled }`. |
 | `GET /api/donations/:orderCode` | Status only, for the receipt page. |
-| `POST /api/webhooks/payos` | PayOS webhook. |
+| `POST /api/webhooks/payos` | PayOS webhook. Stores donor/receiver bank audit fields on success. |
 | `GET /return` and `GET /cancel` | Small HTML receipt pages. |
-| `GET /admin` | Small HTML admin page. |
-| `GET /api/admin/donations` | Rows in `paid`, `published`, `hidden`. |
+| `POST /api/admin/login` | Username + password login, returns a 12h session token. Seeds default `admin` / `admin` on first use. |
+| `GET /api/admin/me` | Session check, returns `{ username }`. |
+| `POST /api/admin/logout` | Drop the current session. |
+| `POST /api/admin/change-password` | `{ currentPassword, newPassword }`, drops other sessions. |
+| `GET /api/admin/settings` | Read the on/off flag. |
+| `POST /api/admin/settings` | `{ donationsEnabled }` — turn the donation site on/off. |
+| `GET /api/admin/donations` | Full donate history (all statuses, newest first, max 200) with bank audit fields. |
 | `POST /api/admin/donations/:orderCode/publish` | `paid` or `hidden` becomes `published`. |
 | `POST /api/admin/donations/:orderCode/hide` | `published` or `paid` becomes `hidden`. |
+| `GET /admin` | Gone (410) — the admin UI moved to the static site at `admin/`. |
+
+Admin API requires header `Authorization: Bearer <session-token>` (or the legacy `ADMIN_TOKEN`), compared in constant time. Missing or wrong token: 401.
 
 CORS on `/api/*` for browser routes: allow origin `ALLOWED_ORIGIN` only, methods `GET, POST`, header `Content-Type` and `Authorization`, `Access-Control-Max-Age: 86400`. Reject other origins with 403 and no ACAO header. Webhook and admin HTML are not CORS requests. Do not use `*`.
 
@@ -165,7 +182,7 @@ Admin API requires header `Authorization: Bearer <ADMIN_TOKEN>`, compared in con
 
 `GET /return` and `GET /cancel` read PayOS query params (`orderCode`, `status`, `cancel`) and show Vietnamese copy. Return page says the gift is recorded and will appear after it is reviewed. It may fetch `GET /api/donations/:orderCode` and show `pending`, `paid`, or `published`. It must not tell the user the gift is published unless status is `published`. Both pages link to `https://maiphh.github.io/poet/ung-ho/`. Keep the HTML inside the Worker, with no external assets.
 
-`GET /admin` is a single HTML page: a token field stored in `sessionStorage`, a list of reviewable gifts, and publish / hide buttons. It calls the admin API. It is not linked from the public site.
+`admin/index.html` + `admin/admin.js` is the admin UI on the static site (not linked from the public nav): username + password login (default `admin` / `admin`, stored in `sessionStorage` as a session token), an on/off toggle for the donation site, full donate history with bank audit fields plus publish / hide buttons, and a change-password form. New rules live under `.admin` in `style.css`.
 
 ## Static page
 
@@ -193,7 +210,7 @@ After deploy, without printing secrets:
 1. `GET /api/donations` returns `{ "donations": [] }`.
 2. `POST /confirm-webhook` returns code `00`.
 3. Create one real payment link for 10000 VND with display name `Kiem tra` and message `Thu nghiem`, then cancel it with the cancel API. Confirm the row exists as `pending` or `cancelled` and is absent from `GET /api/donations`.
-4. `GET /admin` returns HTML. A request to the admin list without a token returns 401.
+4. `GET /admin` returns 410 (admin UI moved to the static site). A request to the admin list without a token returns 401. `POST /api/admin/login` with `admin` / `admin` returns a session token on first use.
 
 If `wrangler deploy` or `wrangler d1 execute` fails, stop and report the error with secrets redacted. Do not fall back to the Cloudflare MCP.
 

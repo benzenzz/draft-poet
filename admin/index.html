@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="vi" style="color-scheme: light only; background-color: #f4e6cf">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4e6cf">
+  <meta name="color-scheme" content="light only">
+  <meta name="supported-color-schemes" content="light">
+  <style>html,body{color-scheme:light only;background-color:#f4e6cf}</style>
+  <meta name="description" content="Trang quản trị POET: duyệt lời nhắn ủng hộ, bật/tắt ủng hộ, xem lịch sử và đối soát.">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Admin — POET</title>
+  <link rel="icon" type="image/jpeg" href="../assets/logo/1555047679990943.jpg">
+  <link rel="apple-touch-icon" href="../assets/logo/1555047679990943.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Itim&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+  <script src="../app.js" defer></script>
+  <script src="admin.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Bỏ qua điều hướng</a>
+  <header class="site-header" id="top">
+    <div class="container header-inner">
+      <a class="brand" href="../index.html" aria-label="POET, về trang chủ">
+        <img class="brand-logo" src="../assets/logo/1555047679990943.jpg" alt="" width="56" height="56">
+        <span class="brand-name">POET<small>TUỔI TRẺ · NHIỆT HUYẾT · NGHỆ THUẬT</small></span>
+      </a>
+      <nav class="desktop-nav" aria-label="Điều hướng chính">
+        <a href="../index.html">Trang chủ</a>
+        <a href="../team/index.html">Team</a>
+        <a href="../ung-ho/index.html">Ủng hộ</a>
+      </nav>
+      <a class="button button-dark header-cta" href="../dong-hanh/index.html">Đồng hành <span aria-hidden="true">↗</span></a>
+      <button class="menu-toggle" type="button" aria-label="Mở menu" aria-expanded="false" aria-controls="mobile-nav"><span></span><span></span></button>
+    </div>
+    <nav class="mobile-nav" id="mobile-nav" aria-label="Điều hướng trên điện thoại" hidden>
+      <a href="../index.html">Trang chủ</a>
+      <a href="../team/index.html">Team</a>
+      <a href="../ung-ho/index.html">Ủng hộ</a>
+      <a href="../dong-hanh/index.html">Đồng hành</a>
+    </nav>
+  </header>
+
+  <main id="main" class="admin">
+    <section class="page-hero container" aria-labelledby="admin-title">
+      <div class="section-kicker">QUẢN TRỊ</div>
+      <h1 id="admin-title">Chào team,<br><span class="underline-swoosh">giữ nhịp ở đây.</span></h1>
+      <p>Duyệt lời nhắn, bật/tắt trang ủng hộ, xem lịch sử và đối soát ngân hàng.</p>
+    </section>
+
+    <section class="section-pad container" id="login-section" aria-labelledby="login-title" hidden>
+      <div class="admin-card">
+        <div class="section-kicker">ĐĂNG NHẬP</div>
+        <h2 id="login-title">Vào khu vực quản trị.</h2>
+        <p class="admin-hint">Lần đầu dùng tài khoản mặc định <strong>admin</strong> / <strong>admin</strong>, rồi đổi mật khẩu ngay bên dưới.</p>
+        <form id="login-form" novalidate>
+          <label class="donate-field" for="login-username">
+            <span>Tên đăng nhập</span>
+            <input id="login-username" name="username" type="text" autocomplete="username" required>
+          </label>
+          <label class="donate-field" for="login-password">
+            <span>Mật khẩu</span>
+            <input id="login-password" name="password" type="password" autocomplete="current-password" required>
+          </label>
+          <p class="donate-error" id="login-error" role="alert" hidden></p>
+          <button class="button button-purple button-big" id="login-submit" type="submit">Đăng nhập</button>
+        </form>
+      </div>
+    </section>
+
+    <div id="dashboard" hidden>
+      <section class="section-pad container" aria-labelledby="dash-title">
+        <div class="admin-topbar">
+          <p id="dash-title">Đang đăng nhập với <strong id="current-user"></strong></p>
+          <button class="button button-outline" id="logout-btn" type="button">Đăng xuất</button>
+        </div>
+
+        <div class="admin-card" aria-labelledby="settings-title">
+          <div class="section-kicker">TRANG ỦNG HỘ</div>
+          <h2 id="settings-title">Bật / tắt nhận ủng hộ.</h2>
+          <p class="admin-hint">Khi tắt, trang Ủng hộ ẩn form và không tạo được link thanh toán mới. Tường lời nhắn vẫn hiện.</p>
+          <label class="admin-switch">
+            <input id="donations-toggle" type="checkbox">
+            <span class="admin-switch-ui" aria-hidden="true"></span>
+            <span id="donations-toggle-label">Đang tải…</span>
+          </label>
+          <p class="admin-status" id="settings-status" role="status"></p>
+        </div>
+
+        <div class="admin-card" aria-labelledby="history-title">
+          <div class="section-kicker">LỊCH SỬ ỦNG HỘ</div>
+          <h2 id="history-title">Mọi món quà, kể cả chưa duyệt.</h2>
+          <div class="admin-filters">
+            <label class="admin-filter" for="status-filter">
+              <span>Trạng thái</span>
+              <select id="status-filter">
+                <option value="">Tất cả</option>
+                <option value="pending">pending — chờ thanh toán</option>
+                <option value="paid">paid — đã trả, chờ duyệt</option>
+                <option value="published">published — đã đăng</option>
+                <option value="hidden">hidden — đang ẩn</option>
+                <option value="cancelled">cancelled — đã hủy</option>
+              </select>
+            </label>
+            <label class="admin-filter" for="search-input">
+              <span>Tìm kiếm</span>
+              <input id="search-input" type="search" placeholder="Tên, lời nhắn, mã đơn…">
+            </label>
+            <button class="button button-outline" id="reload-btn" type="button">Tải lại</button>
+          </div>
+          <p class="admin-summary" id="history-summary" role="status"></p>
+          <div class="admin-list" id="history-list"></div>
+        </div>
+
+        <div class="admin-card" aria-labelledby="password-title">
+          <div class="section-kicker">BẢO MẬT</div>
+          <h2 id="password-title">Đổi mật khẩu.</h2>
+          <form id="password-form" novalidate>
+            <label class="donate-field" for="current-password">
+              <span>Mật khẩu hiện tại</span>
+              <input id="current-password" type="password" autocomplete="current-password" required>
+            </label>
+            <label class="donate-field" for="new-password">
+              <span>Mật khẩu mới (từ 4 ký tự)</span>
+              <input id="new-password" type="password" autocomplete="new-password" required>
+            </label>
+            <label class="donate-field" for="confirm-password">
+              <span>Nhập lại mật khẩu mới</span>
+              <input id="confirm-password" type="password" autocomplete="new-password" required>
+            </label>
+            <p class="donate-error" id="password-error" role="alert" hidden></p>
+            <p class="admin-status" id="password-status" role="status"></p>
+            <button class="button button-purple" id="password-submit" type="submit">Đổi mật khẩu</button>
+          </form>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-main">
+      <div>
+        <a class="brand footer-brand" href="../index.html" aria-label="POET, về trang chủ">
+          <img class="brand-logo" src="../assets/logo/1555047679990943.jpg" alt="" width="72" height="72">
+          <span class="brand-name">POET<small>TUỔI TRẺ · NHIỆT HUYẾT · NGHỆ THUẬT</small></span>
+        </a>
+        <p>Tổ chức thiện nguyện của người trẻ.<br>Niềm vui nhỏ. Có mặt thật.</p>
+      </div>
+      <div class="footer-links">
+        <span>KHÁM PHÁ</span>
+        <a href="../index.html#gioi-thieu">Giới thiệu</a>
+        <a href="../index.html#hoat-dong">Hoạt động</a>
+        <a href="../index.html#ky-niem">Kỷ niệm</a>
+        <a href="../team/index.html">Team</a>
+        <a href="../ung-ho/index.html">Ủng hộ</a>
+        <a href="../dong-hanh/index.html">Đồng hành</a>
+      </div>
+      <div class="footer-links">
+        <span>KẾT NỐI</span>
+        <a href="https://www.facebook.com/poetorganization" target="_blank" rel="noopener noreferrer">Facebook POET ↗</a>
+        <a href="mailto:poet.npo@gmail.com">poet.npo@gmail.com</a>
+        <a href="../docs/quyen-loi-big-joy-little-joy.pdf" target="_blank" rel="noopener">Bảng quyền lợi Little Joy (PDF) ↗</a>
+      </div>
+    </div>
+    <div class="container footer-bottom"><span>© 2026 POET</span><a href="#top">Lên đầu trang ↑</a></div>
+  </footer>
+</body>
+</html>

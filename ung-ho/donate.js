@@ -12,6 +12,8 @@
   const errorEl = document.getElementById('donate-error');
   const wall = document.getElementById('donate-wall');
   const emptyEl = document.getElementById('donate-empty');
+  const disabledBanner = document.getElementById('donate-disabled');
+  let donationsEnabled = true;
 
   let selectedAmount = 200000;
 
@@ -73,6 +75,11 @@
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
     showError('');
+
+    if (!donationsEnabled) {
+      showError('Trang ủng hộ đang tạm tắt. Quay lại sau giúp nhé.');
+      return;
+    }
 
     const amount = resolveAmount();
     if (!Number.isInteger(amount) || amount < 10000 || amount > 20000000) {
@@ -184,6 +191,23 @@
     }
   }
 
+  async function loadSettings() {
+    try {
+      const res = await fetch(`${API_BASE}/api/settings`);
+      if (!res.ok) return;
+      const data = await res.json();
+      donationsEnabled = data.donationsEnabled !== false;
+    } catch {
+      return;
+    }
+    if (!donationsEnabled) {
+      if (disabledBanner) disabledBanner.hidden = false;
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Đang tạm tắt nhận ủng hộ';
+    }
+  }
+
   setPreset(200000);
+  loadSettings();
   loadWall();
 })();
