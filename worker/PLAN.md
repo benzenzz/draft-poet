@@ -96,7 +96,7 @@ Headers on merchant calls: `x-client-id`, `x-api-key`, `Content-Type: applicatio
 
 - `orderCode`: random integer from 100000000 through 999999999. Retry on primary-key conflict. Do not use `Date.now()` (it exceeds int32 and is guessable).
 - `amount`: integer VND, min 10000, max 20000000.
-- `description`: exactly `UNGHO` (5 ASCII characters). Unlinked PayOS bank accounts reject descriptions over 9 characters. The donor message never goes in this field.
+- `description`: the 9-digit `orderCode` as a string (e.g. `482917364`). Unique per gift, fits the 9-character limit on unlinked PayOS accounts, and is what you search for later in the bank app or sao ke. The donor message never goes in this field.
 - `returnUrl`: `https://<worker-host>/return`
 - `cancelUrl`: `https://<worker-host>/cancel`
 - `expiredAt`: unix seconds, now + 30 minutes, must fit in int32.

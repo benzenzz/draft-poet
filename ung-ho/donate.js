@@ -21,6 +21,13 @@
   let heroVisible = false;
   const disabledBanner = document.getElementById('donate-disabled');
   let donationsEnabled = true;
+  const searchInput = document.getElementById('donate-search');
+  const paginationEl = document.getElementById('donate-pagination');
+  const historyCountEl = document.getElementById('donate-history-count');
+  const PER_PAGE = 10;
+  let allDonations = [];
+  let searchQuery = '';
+  let currentPage = 1;
 
   let selectedAmount = 200000;
 
@@ -184,53 +191,194 @@
     heroVisible = true;
   }
 
-  function renderWall(donations) {
+  function normalizeName(text) {
+    return (text || '')
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/đ/g, 'd');
+  }
+
+  function filteredDonations() {
+    const q = normalizeName(searchQuery.trim());
+    if (!q) return allDonations;
+    return allDonations.filter((item) =>
+      normalizeName(item.displayName).includes(q),
+    );
+  }
+
+  function renderWallPage() {
+    const rows = filteredDonations();
+    const totalPages = Math.max(1, Math.ceil(rows.length / PER_PAGE));
+    if (currentPage > totalPages) currentPage = totalPages;
+    if (currentPage < 1) currentPage = 1;
+
     wall.textContent = '';
-    if (!donations.length) {
+    if (!rows.length) {
       const p = document.createElement('p');
       p.className = 'donate-empty';
       p.id = 'donate-empty';
-      p.textContent = 'Chưa có lời nhắn nào. Hãy là người đầu tiên nhé.';
+      p.textContent = searchQuery.trim()
+        ? `Không tìm thấy món quà nào tên “${searchQuery.trim()}”.`
+        : 'Chưa có lời nhắn nào. Hãy là người đầu tiên nhé.';
       wall.appendChild(p);
-      return;
+    } else {
+      const start = (currentPage - 1) * PER_PAGE;
+      const pageRows = rows.slice(start, start + PER_PAGE);
+      pageRows.forEach((item, index) => {
+        const card = document.createElement('article');
+        card.className = 'donate-wall-card';
+
+        const avatar = document.createElement('span');
+        avatar.className = 'donate-wall-avatar';
+        avatar.setAttribute('aria-hidden', 'true');
+        const initial = (item.displayName || '?').trim().charAt(0) || '?';
+        avatar.textContent = initial.toUpperCase();
+
+        const main = document.createElement('div');
+        main.className = 'donate-wall-main';
+
+        const head = document.createElement('div');
+        head.className = 'donate-wall-head';
+
+        const nameEl = document.createElement('strong');
+        nameEl.textContent = item.displayName;
+
+        const amountEl = document.createElement('span');
+        amountEl.className = 'donate-wall-amount';
+        amountEl.textContent = money(item.amount);
+
+        head.appendChild(nameEl);
+        head.appendChild(amountEl);
+
+        const timeEl = document.createElement('time');
+        timeEl.className = 'donate-wall-time';
+        if (item.paidAt) {
+          const d = new Date(item.paidAt);
+          timeEl.dateTime = item.paidAt;
+          timeEl.textContent = Number.isNaN(d.getTime())
+            ? item.paidAt
+            : d.toLocaleString('vi-VN');
+        }
+
+        main.appendChild(head);
+        if (item.message) {
+          const msgEl = document.createElement('p');
+          msgEl.className = 'donate-wall-message';
+          msgEl.textContent = item.message;
+          main.appendChild(msgEl);
+        }
+        main.appendChild(timeEl);
+
+        const rank = document.createElement('span');
+        rank.className = 'donate-wall-index';
+        rank.textContent = `#${start + index + 1}`;
+
+        card.appendChild(avatar);
+        card.appendChild(main);
+        card.appendChild(rank);
+        wall.appendChild(card);
+      });
     }
 
-    donations.forEach((item) => {
-      const card = document.createElement('article');
-      card.className = 'donate-wall-card';
+    renderHistoryCount(rows);
+    renderPagination(rows.length, totalPages);
+  }
 
-      const head = document.createElement('div');
-      head.className = 'donate-wall-head';
+  function renderHistoryCount(rows) {
+    if (!historyCountEl) return;
+    if (!rows.length) {
+      historyCountEl.textContent = allDonations.length
+        ? `${allDonations.length} món quà`
+        : '';
+      return;
+    }
+    const start = (currentPage - 1) * PER_PAGE + 1;
+    const end = Math.min(currentPage * PER_PAGE, rows.length);
+    const suffix = searchQuery.trim()
+      ? ` · tìm “${searchQuery.trim()}”`
+      : '';
+    historyCountEl.textContent = `${start}–${end} / ${rows.length} món quà${suffix}`;
+  }
 
-      const nameEl = document.createElement('strong');
-      nameEl.textContent = item.displayName;
+  function pageButton(label, page, { disabled = false, current = false, ariaLabel = '' } = {}) {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'donate-page-btn' + (current ? ' is-current' : '');
+    btn.textContent = label;
+    if (ariaLabel) btn.setAttribute('aria-label', ariaLabel);
+    if (current) btn.setAttribute('aria-current', 'page');
+    btn.disabled = disabled;
+    btn.dataset.page = String(page);
+    return btn;
+  }
 
-      const amountEl = document.createElement('span');
-      amountEl.className = 'donate-wall-amount';
-      amountEl.textContent = money(item.amount);
+  function pageWindow(totalPages) {
+    const windowSize = 5;
+    let from = Math.max(1, currentPage - Math.floor(windowSize / 2));
+    let to = Math.min(totalPages, from + windowSize - 1);
+    from = Math.max(1, to - windowSize + 1);
+    const list = [];
+    for (let p = from; p <= to; p++) list.push(p);
+    return list;
+  }
 
-      head.appendChild(nameEl);
-      head.appendChild(amountEl);
+  function renderPagination(totalRows, totalPages) {
+    if (!paginationEl) return;
+    paginationEl.textContent = '';
+    if (totalRows <= PER_PAGE) return;
 
-      const msgEl = document.createElement('p');
-      msgEl.className = 'donate-wall-message';
-      msgEl.textContent = item.message;
-
-      const timeEl = document.createElement('time');
-      timeEl.className = 'donate-wall-time';
-      if (item.paidAt) {
-        const d = new Date(item.paidAt);
-        timeEl.dateTime = item.paidAt;
-        timeEl.textContent = Number.isNaN(d.getTime())
-          ? item.paidAt
-          : d.toLocaleString('vi-VN');
-      }
-
-      card.appendChild(head);
-      card.appendChild(msgEl);
-      card.appendChild(timeEl);
-      wall.appendChild(card);
+    paginationEl.appendChild(
+      pageButton('←', currentPage - 1, {
+        disabled: currentPage <= 1,
+        ariaLabel: 'Trang trước',
+      }),
+    );
+    pageWindow(totalPages).forEach((p) => {
+      paginationEl.appendChild(
+        pageButton(String(p), p, {
+          current: p === currentPage,
+          ariaLabel: `Trang ${p}`,
+        }),
+      );
     });
+    paginationEl.appendChild(
+      pageButton('→', currentPage + 1, {
+        disabled: currentPage >= totalPages,
+        ariaLabel: 'Trang sau',
+      }),
+    );
+
+    const info = document.createElement('span');
+    info.className = 'donate-page-info';
+    info.textContent = `Trang ${currentPage} / ${totalPages}`;
+    paginationEl.appendChild(info);
+  }
+
+  if (paginationEl) {
+    paginationEl.addEventListener('click', (event) => {
+      const btn = event.target.closest('[data-page]');
+      if (!btn || btn.disabled) return;
+      const next = Number(btn.dataset.page);
+      if (!Number.isInteger(next) || next < 1) return;
+      currentPage = next;
+      renderWallPage();
+      wall.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    });
+  }
+
+  if (searchInput) {
+    searchInput.addEventListener('input', () => {
+      searchQuery = searchInput.value;
+      currentPage = 1;
+      renderWallPage();
+    });
+  }
+
+  function renderWall(donations) {
+    allDonations = Array.isArray(donations) ? donations : [];
+    currentPage = 1;
+    renderWallPage();
   }
 
   async function loadWall() {
@@ -243,9 +391,13 @@
     } catch {
       if (totalEl) totalEl.textContent = 'Chưa tải được tổng ủng hộ.';
       if (totalAmountEl) totalAmountEl.textContent = '—';
-      if (emptyEl) {
-        emptyEl.textContent = 'Chưa tải được tường lời nhắn. Thử lại sau nhé.';
-      }
+      wall.textContent = '';
+      const p = document.createElement('p');
+      p.className = 'donate-empty';
+      p.textContent = 'Chưa tải được tường lời nhắn. Thử lại sau nhé.';
+      wall.appendChild(p);
+      if (paginationEl) paginationEl.textContent = '';
+      if (historyCountEl) historyCountEl.textContent = '';
     }
   }
 

@@ -2,7 +2,6 @@
   const API_BASE = 'https://poet-donations.poet-ung-ho.workers.dev';
   const TOKEN_KEY = 'poetAdminToken';
   const USER_KEY = 'poetAdminUser';
-  const SUCCESS_STATUSES = new Set(['success', 'paid', 'published']);
 
   const loginSection = document.getElementById('login-section');
   const dashboard = document.getElementById('dashboard');
@@ -74,13 +73,8 @@
     return Number.isNaN(d.getTime()) ? iso : d.toLocaleString('vi-VN');
   }
 
-  function normalizeStatus(status) {
-    if (status === 'paid' || status === 'published') return 'success';
-    return status || '—';
-  }
-
-  function isSuccess(status) {
-    return SUCCESS_STATUSES.has(status);
+  function isHidden(d) {
+    return Boolean(d.hidden);
   }
 
   function showLogin() {
@@ -350,10 +344,8 @@
     const status = statusFilter.value;
     const q = searchInput.value.trim().toLowerCase();
     return allDonations.filter((d) => {
-      if (status === 'legacy') {
-        if (d.status !== 'paid' && d.status !== 'published') return false;
-      } else if (status === 'success') {
-        if (!isSuccess(d.status)) return false;
+      if (status === 'hidden') {
+        if (!isHidden(d)) return false;
       } else if (status && d.status !== status) {
         return false;
       }
@@ -396,7 +388,7 @@
     if (!rows.length) {
       const tr = document.createElement('tr');
       const td = document.createElement('td');
-      td.colSpan = 15;
+      td.colSpan = 9;
       td.className = 'admin-table-empty';
       td.textContent = 'Chưa có khoản nào khớp.';
       tr.appendChild(td);
@@ -406,23 +398,17 @@
 
     rows.forEach((d) => {
       const tr = document.createElement('tr');
-      if (d.status === 'hidden') tr.classList.add('is-hidden-row');
+      if (isHidden(d)) tr.classList.add('is-hidden-row');
 
       const cells = [
         d.orderCode != null ? `#${d.orderCode}` : '—',
-        normalizeStatus(d.status) + (d.status !== normalizeStatus(d.status) ? ` (${d.status})` : ''),
+        d.status || '—',
         money(d.amount),
         d.displayName || '—',
         d.message || '—',
         d.anonymous ? 'có' : 'không',
         fmtTime(d.createdAt),
         fmtTime(d.paidAt),
-        d.payosReference || '—',
-        d.payosAccountNumber || '—',
-        d.counterAccountBankName || d.counterAccountBankId || '—',
-        d.counterAccountName || '—',
-        d.counterAccountNumber || '—',
-        d.payosDescription || '—',
       ];
 
       cells.forEach((value, index) => {
@@ -438,18 +424,18 @@
       const actions = document.createElement('div');
       actions.className = 'admin-actions';
 
-      if (isSuccess(d.status)) {
+      if (d.status === 'success' && !isHidden(d)) {
         const hideBtn = document.createElement('button');
         hideBtn.type = 'button';
         hideBtn.className = 'button button-outline';
-        hideBtn.textContent = 'Ẩn';
+        hideBtn.textContent = 'Ẩn lời nhắn';
         hideBtn.addEventListener('click', () => actOn(d.orderCode, 'hide', hideBtn));
         actions.appendChild(hideBtn);
-      } else if (d.status === 'hidden') {
+      } else if (d.status === 'success' && isHidden(d)) {
         const showBtn = document.createElement('button');
         showBtn.type = 'button';
         showBtn.className = 'button button-purple';
-        showBtn.textContent = 'Hiện';
+        showBtn.textContent = 'Hiện lời nhắn';
         showBtn.addEventListener('click', () => actOn(d.orderCode, 'show', showBtn));
         actions.appendChild(showBtn);
       } else {
@@ -500,10 +486,237 @@
     }
   }
 
-  function csvEscape(value) {
-    const text = value == null ? '' : String(value);
-    if (/[",\n\r]/.test(text)) return `"${text.replace(/"/g, '""')}"`;
-    return text;
+  function xmlEscape(value) {
+    return String(value == null ? '' : value).replace(
+      /[&<>"'\u0000-\u0008\u000B\u000C\u000E-\u001F]/g,
+      (ch) => {
+        if (ch === '&') return '&amp;';
+        if (ch === '<') return '&lt;';
+        if (ch === '>') return '&gt;';
+        if (ch === '"') return '&quot;';
+        if (ch === "'") return '&apos;';
+        return '';
+      },
+    );
+  }
+
+  function colName(index) {
+    let name = '';
+    let n = index + 1;
+    while (n > 0) {
+      const rem = (n - 1) % 26;
+      name = String.fromCharCode(65 + rem) + name;
+      n = Math.floor((n - 1) / 26);
+    }
+    return name;
+  }
+
+  const CRC_TABLE = (() => {
+    const table = new Uint32Array(256);
+    for (let n = 0; n < 256; n++) {
+      let c = n;
+      for (let k = 0; k < 8; k++) c = c & 1 ? 0xedb88320 ^ (c >>> 1) : c >>> 1;
+      table[n] = c >>> 0;
+    }
+    return table;
+  })();
+
+  function crc32Bytes(bytes) {
+    let crc = 0xffffffff;
+    for (let i = 0; i < bytes.length; i++) {
+      crc = CRC_TABLE[(crc ^ bytes[i]) & 0xff] ^ (crc >>> 8);
+    }
+    return (crc ^ 0xffffffff) >>> 0;
+  }
+
+  // Minimal ZIP writer (stored, no compression) — enough for a valid .xlsx.
+  function zipStore(files) {
+    const enc = new TextEncoder();
+    const chunks = [];
+    const central = [];
+    let offset = 0;
+    const pushU16 = (v) => chunks.push([v & 0xff, (v >>> 8) & 0xff]);
+    const pushU32 = (v) => chunks.push([v & 0xff, (v >>> 8) & 0xff, (v >>> 16) & 0xff, (v >>> 24) & 0xff]);
+    const pushBytes = (bytes) => chunks.push(Array.from(bytes));
+
+    const centralStartCounts = [];
+    files.forEach(({ name, data }) => {
+      const nameBytes = enc.encode(name);
+      const crc = crc32Bytes(data);
+      const localOffset = offset;
+      const local = [];
+      const w16 = (v) => local.push(v & 0xff, (v >>> 8) & 0xff);
+      const w32 = (v) => local.push(v & 0xff, (v >>> 8) & 0xff, (v >>> 16) & 0xff, (v >>> 24) & 0xff);
+      // Local file header
+      w32(0x04034b50);
+      w16(20);
+      w16(0x0800); // UTF-8 filenames
+      w16(0); // stored
+      w16(0);
+      w16(0x21); // DOS date/time placeholder
+      w32(crc);
+      w32(data.length);
+      w32(data.length);
+      w16(nameBytes.length);
+      w16(0);
+      const header = new Uint8Array(local);
+      const record = new Uint8Array(header.length + nameBytes.length + data.length);
+      record.set(header, 0);
+      record.set(nameBytes, header.length);
+      record.set(data, header.length + nameBytes.length);
+      pushBytes(record);
+      offset += record.length;
+      centralStartCounts.push({ nameBytes, crc, size: data.length, localOffset });
+    });
+
+    const centralOffset = offset;
+    const centralBytes = [];
+    centralStartCounts.forEach(({ nameBytes, crc, size, localOffset }) => {
+      const c = [];
+      const w16 = (v) => c.push(v & 0xff, (v >>> 8) & 0xff);
+      const w32 = (v) => c.push(v & 0xff, (v >>> 8) & 0xff, (v >>> 16) & 0xff, (v >>> 24) & 0xff);
+      w32(0x02014b50);
+      w16(20);
+      w16(20);
+      w16(0x0800);
+      w16(0);
+      w16(0);
+      w16(0x21);
+      w32(crc);
+      w32(size);
+      w32(size);
+      w16(nameBytes.length);
+      w16(0);
+      w16(0);
+      w16(0);
+      w16(0);
+      w32(0);
+      w32(localOffset);
+      const header = new Uint8Array(c);
+      const record = new Uint8Array(header.length + nameBytes.length);
+      record.set(header, 0);
+      record.set(nameBytes, header.length);
+      for (let i = 0; i < record.length; i++) centralBytes.push(record[i]);
+    });
+    pushBytes(new Uint8Array(centralBytes));
+    offset += centralBytes.length;
+
+    const end = [];
+    const e16 = (v) => end.push(v & 0xff, (v >>> 8) & 0xff);
+    const e32 = (v) => end.push(v & 0xff, (v >>> 8) & 0xff, (v >>> 16) & 0xff, (v >>> 24) & 0xff);
+    e32(0x06054b50);
+    e16(0);
+    e16(0);
+    e16(files.length);
+    e16(files.length);
+    e32(centralBytes.length);
+    e32(centralOffset);
+    e16(0);
+    pushBytes(new Uint8Array(end));
+
+    const flat = [];
+    chunks.forEach((arr) => {
+      for (let i = 0; i < arr.length; i++) flat.push(arr[i]);
+    });
+    void central;
+    return new Uint8Array(flat);
+  }
+
+  function buildXlsx(rows, headers) {
+    const enc = new TextEncoder();
+    const sheetRows = [];
+    sheetRows.push(
+      `    <row r="1">${headers
+        .map((h, i) => `<c r="${colName(i)}1" s="1" t="inlineStr"><is><t>${xmlEscape(h)}</t></is></c>`)
+        .join('')}</row>`,
+    );
+    rows.forEach((values, r) => {
+      const rowNum = r + 2;
+      const cells = values
+        .map((value, i) => {
+          const ref = `${colName(i)}${rowNum}`;
+          if (value != null && value.type === 'n') {
+            return `<c r="${ref}"><v>${value.v}</v></c>`;
+          }
+          return `<c r="${ref}" t="inlineStr"><is><t>${xmlEscape(value != null && value.type === 's' ? value.v : value)}</t></is></c>`;
+        })
+        .join('');
+      sheetRows.push(`    <row r="${rowNum}">${cells}</row>`);
+    });
+
+    const sheetXml =
+      '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n' +
+      '<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">' +
+      '<cols><col min="1" max="' +
+      headers.length +
+      '" width="20" customWidth="1"/></cols>' +
+      '<sheetData>\n' +
+      sheetRows.join('\n') +
+      '\n</sheetData></worksheet>';
+
+    const contentTypes =
+      '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n' +
+      '<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">' +
+      '<Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>' +
+      '<Default Extension="xml" ContentType="application/xml"/>' +
+      '<Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/>' +
+      '<Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>' +
+      '<Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/>' +
+      '<Override PartName="/docProps/app.xml" ContentType="application/vnd.openxmlformats-officedocument.extended-properties+xml"/>' +
+      '<Override PartName="/docProps/core.xml" ContentType="application/vnd.openxmlformats-package.core-properties+xml"/>' +
+      '</Types>';
+
+    const rels =
+      '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n' +
+      '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">' +
+      '<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/>' +
+      '<Relationship Id="rId2" Type="http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties" Target="docProps/core.xml"/>' +
+      '<Relationship Id="rId3" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/extended-properties" Target="docProps/app.xml"/>' +
+      '</Relationships>';
+
+    const workbook =
+      '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n' +
+      '<workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">' +
+      '<sheets><sheet name="Donations" sheetId="1" r:id="rId1"/></sheets></workbook>';
+
+    const workbookRels =
+      '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n' +
+      '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">' +
+      '<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/>' +
+      '<Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/>' +
+      '</Relationships>';
+
+    const styles =
+      '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n' +
+      '<styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">' +
+      '<fonts count="2"><font><sz val="11"/><name val="Calibri"/></font><font><b/><sz val="11"/><name val="Calibri"/></font></fonts>' +
+      '<fills count="2"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill></fills>' +
+      '<borders count="1"><border><left/><right/><top/><bottom/><diagonal/></border></borders>' +
+      '<cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs>' +
+      '<cellXfs count="2"><xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/>' +
+      '<xf numFmtId="0" fontId="1" fillId="0" borderId="0" xfId="0" applyFont="1"/></cellXfs>' +
+      '</styleSheet>';
+
+    const appProps =
+      '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n' +
+      '<Properties xmlns="http://schemas.openxmlformats.org/officeDocument/2006/extended-properties" xmlns:vt="http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes">' +
+      '<Application>POET Admin</Application></Properties>';
+
+    const coreProps =
+      '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n' +
+      '<cp:coreProperties xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">' +
+      '<dc:title>POET donations</dc:title><cp:revision>1</cp:revision></cp:coreProperties>';
+
+    return zipStore([
+      { name: '[Content_Types].xml', data: enc.encode(contentTypes) },
+      { name: '_rels/.rels', data: enc.encode(rels) },
+      { name: 'docProps/app.xml', data: enc.encode(appProps) },
+      { name: 'docProps/core.xml', data: enc.encode(coreProps) },
+      { name: 'xl/workbook.xml', data: enc.encode(workbook) },
+      { name: 'xl/_rels/workbook.xml.rels', data: enc.encode(workbookRels) },
+      { name: 'xl/styles.xml', data: enc.encode(styles) },
+      { name: 'xl/worksheets/sheet1.xml', data: enc.encode(sheetXml) },
+    ]);
   }
 
   function exportExcel() {
@@ -516,6 +729,7 @@
     const headers = [
       'orderCode',
       'status',
+      'hidden',
       'amount',
       'displayName',
       'message',
@@ -536,27 +750,28 @@
       'paymentLinkId',
     ];
 
-    const lines = [headers.join(',')];
-    rows.forEach((d) => {
-      lines.push(
-        headers
-          .map((key) => {
-            if (key === 'anonymous') return d.anonymous ? '1' : '0';
-            return csvEscape(d[key]);
-          })
-          .join(','),
-      );
-    });
+    const numericKeys = new Set(['orderCode', 'amount', 'anonymous', 'hidden']);
+    const data = rows.map((d) =>
+      headers.map((key) => {
+        let raw = d[key];
+        if (key === 'anonymous') raw = d.anonymous ? 1 : 0;
+        if (key === 'hidden') raw = isHidden(d) ? 1 : 0;
+        if (numericKeys.has(key) && raw !== '' && raw != null && Number.isFinite(Number(raw))) {
+          return { type: 'n', v: String(Number(raw)) };
+        }
+        return { type: 's', v: raw == null ? '' : String(raw) };
+      }),
+    );
 
-    // UTF-8 BOM so Excel on Windows opens Vietnamese correctly.
-    const blob = new Blob(['\ufeff' + lines.join('\n')], {
-      type: 'application/vnd.ms-excel;charset=utf-8;',
+    const bytes = buildXlsx(data, headers);
+    const blob = new Blob([bytes], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
     });
     const stamp = new Date().toISOString().slice(0, 19).replace(/[:T]/g, '-');
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `poet-donations-${stamp}.xls`;
+    a.download = `poet-donations-${stamp}.xlsx`;
     document.body.appendChild(a);
     a.click();
     a.remove();

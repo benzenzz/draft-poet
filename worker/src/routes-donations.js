@@ -2,11 +2,7 @@
  * Public donation routes: create a pending gift + PayOS link,
  * published wall, per-order status, public on/off flag.
  */
-import {
-  DONATION_DESCRIPTION,
-  PAYMENT_TTL_SECONDS,
-  RATE_LIMIT_MAX_PER_HOUR,
-} from './config.js';
+import { PAYMENT_TTL_SECONDS, RATE_LIMIT_MAX_PER_HOUR } from './config.js';
 import { error, json, readJsonBody } from './http.js';
 import { randomOrderCode } from './crypto.js';
 import { resolvePayosReturnUrls } from './callback-urls.js';
@@ -96,10 +92,14 @@ export async function handleCreateDonation(request, env) {
   });
   if (!orderCode) return error('Không tạo được mã đơn. Vui lòng thử lại.', 500);
 
+  // Bank message is the 9-digit orderCode itself (e.g. "482917364").
+  // Unique per gift, fits the 9-char limit on unlinked PayOS accounts,
+  // and is what donors/admins search for in the bank app or sao ke.
+  // The donor's loi nhan stays on the wall and never goes in this field.
   const payosBody = {
     orderCode,
     amount: body.amount,
-    description: DONATION_DESCRIPTION,
+    description: String(orderCode),
     returnUrl: resolved.returnUrl,
     cancelUrl: resolved.cancelUrl,
     expiredAt: Math.floor(Date.now() / 1000) + PAYMENT_TTL_SECONDS,
@@ -141,7 +141,10 @@ export async function handleGetStatus(env, orderCode) {
   if (!Number.isInteger(code)) return error('Mã đơn không hợp lệ.', 400);
   const row = await findDonationStatus(env, code);
   if (!row) return error('Không tìm thấy khoản ủng hộ.', 404);
-  return json({ status: row.status });
+  return json({
+    status: row.status,
+    hidden: row.status === 'success' ? Boolean(row.hidden) : false,
+  });
 }
 
 export async function handleGetPublicSettings(env) {

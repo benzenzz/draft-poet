@@ -1,5 +1,4 @@
 /** PayOS webhook: verify signature, mark pending gifts as paid. Idempotent. */
-import { isSuccessStatus } from './config.js';
 import { error, json } from './http.js';
 import { verifyDataSignature } from './payos.js';
 import { findDonationForWebhook, markDonationPaid } from './store.js';
@@ -34,12 +33,12 @@ export async function handleWebhook(request, env) {
     Number(data.amount) === Number(row.amount);
   if (!successMatch) return json({ ok: true }, 200);
 
-  // Already received (or intentionally hidden): idempotent success.
-  if (isSuccessStatus(row.status) || row.status === 'hidden') {
+  // Already success (including hidden gifts): leave status and hidden alone.
+  if (row.status === 'success') {
     return json({ ok: true }, 200);
   }
 
-  if (row.status === 'pending' || row.status === 'cancelled') {
+  if (row.status === 'pending') {
     // Audit fields from PayOS: receiving account + donor (counter) bank info.
     // Never trust these for auth; stored for later review only.
     // Payment success auto-publishes to the public wall (status = success).

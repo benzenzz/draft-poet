@@ -32,6 +32,16 @@
     </section>
 
     <section class="section-pad container donate-form-section" aria-labelledby="form-title">
+      <div class="donate-bg-decos" aria-hidden="true">
+        <span class="donate-bg-deco donate-bg-deco-flower">✿</span>
+        <span class="donate-bg-deco donate-bg-deco-spark">✦</span>
+        <span class="donate-bg-deco donate-bg-deco-heart">♥</span>
+        <span class="donate-bg-deco donate-bg-deco-leaf">❀</span>
+        <span class="donate-bg-deco donate-bg-deco-dot"></span>
+        <span class="donate-bg-deco donate-bg-deco-ring"></span>
+        <span class="donate-bg-deco donate-bg-deco-spark2">✦</span>
+        <span class="donate-bg-deco donate-bg-deco-smile">☻</span>
+      </div>
       <div class="donate-card donate-card-center">
         <div class="section-kicker">GỬI QUÀ</div>
         <h2 id="form-title">Chọn số tiền và để lại lời nhắn.</h2>
@@ -77,8 +87,18 @@
       <div class="section-kicker">TƯỜNG LỜI NHẮN</div>
       <h2 id="wall-title">Những món quà đã nhận.</h2>
       <p class="donate-total" id="donate-total" role="status">Đang tải tổng ủng hộ…</p>
-      <div class="donate-wall" id="donate-wall">
-        <p class="donate-empty" id="donate-empty">Đang tải lời nhắn…</p>
+      <div class="donate-history-card">
+        <div class="donate-history-toolbar">
+          <label class="donate-search" for="donate-search">
+            <span aria-hidden="true">⌕</span>
+            <input id="donate-search" type="search" placeholder="Tìm theo tên…" autocomplete="off">
+          </label>
+          <p class="donate-history-count" id="donate-history-count" role="status"></p>
+        </div>
+        <div class="donate-wall" id="donate-wall">
+          <p class="donate-empty" id="donate-empty">Đang tải lời nhắn…</p>
+        </div>
+        <nav class="donate-pagination" id="donate-pagination" aria-label="Phân trang lịch sử ủng hộ"></nav>
       </div>
     </section>
   </main>

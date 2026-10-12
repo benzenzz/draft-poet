@@ -1,5 +1,5 @@
 /** Admin routes: login/logout, password, settings, donation moderation. */
-import { ADMIN_SESSION_TTL_MS, isSuccessStatus } from './config.js';
+import { ADMIN_SESSION_TTL_MS } from './config.js';
 import { error, json, readJsonBody } from './http.js';
 import { hashPassword, randomHex, verifyPassword } from './crypto.js';
 import { timingSafeEqual } from './payos.js';
@@ -15,7 +15,7 @@ import {
   findDonationStatus,
   isDonationsEnabled,
   listDonationsForAdmin,
-  setDonationStatus,
+  setDonationHidden,
   setSetting,
   totalsForAdmin,
   updateAdminPassword,
@@ -154,17 +154,17 @@ export async function handleUpdateAdminSettings(request, env) {
   return json({ ok: true, donationsEnabled: body.donationsEnabled });
 }
 
-/** Restore a hidden gift onto the public wall (status = success). */
+/** Show a gift's message on the public wall (hidden = 0). */
 export async function handleAdminShow(env, orderCode) {
   const code = Number(orderCode);
   if (!Number.isInteger(code)) return error('Mã đơn không hợp lệ.', 400);
   const row = await findDonationStatus(env, code);
   if (!row) return error('Không tìm thấy khoản ủng hộ.', 404);
-  if (row.status !== 'hidden' && !isSuccessStatus(row.status)) {
-    return error('Chỉ có thể hiện khoản đã thanh toán hoặc đang ẩn.', 400);
+  if (row.status !== 'success') {
+    return error('Chỉ có thể hiện lời nhắn của khoản đã nhận.', 400);
   }
-  await setDonationStatus(env, code, 'success');
-  return json({ ok: true, status: 'success' });
+  await setDonationHidden(env, code, false);
+  return json({ ok: true, status: 'success', hidden: false });
 }
 
 export async function handleAdminHide(env, orderCode) {
@@ -172,11 +172,11 @@ export async function handleAdminHide(env, orderCode) {
   if (!Number.isInteger(code)) return error('Mã đơn không hợp lệ.', 400);
   const row = await findDonationStatus(env, code);
   if (!row) return error('Không tìm thấy khoản ủng hộ.', 404);
-  if (!isSuccessStatus(row.status)) {
-    return error('Chỉ có thể ẩn khoản đã thanh toán thành công.', 400);
+  if (row.status !== 'success') {
+    return error('Chỉ có thể ẩn lời nhắn của khoản đã nhận.', 400);
   }
-  await setDonationStatus(env, code, 'hidden');
-  return json({ ok: true, status: 'hidden' });
+  await setDonationHidden(env, code, true);
+  return json({ ok: true, status: 'success', hidden: true });
 }
 
 /** Small wrapper so the router stays flat: auth gate + handler in one call. */

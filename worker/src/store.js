@@ -2,7 +2,7 @@
  * D1 access layer. All SQL lives here so route handlers stay I/O-light
  * and readable. Callers pass `env` (expects `env.DB`).
  */
-import { ADMIN_LIST_LIMIT, PUBLIC_WALL_LIMIT, successStatusSqlList } from './config.js';
+import { ADMIN_LIST_LIMIT, PUBLIC_WALL_LIMIT } from './config.js';
 import { hashPassword } from './crypto.js';
 
 /* -- settings -- */
@@ -129,11 +129,12 @@ export async function setPaymentLinkId(env, orderCode, paymentLinkId) {
 }
 
 export async function listPublicDonations(env) {
-  const statusList = successStatusSqlList();
   const { results } = await env.DB.prepare(
-    `SELECT display_name AS displayName, message, amount, paid_at AS paidAt
+    `SELECT display_name AS displayName,
+            CASE WHEN hidden = 1 THEN '' ELSE message END AS message,
+            amount, paid_at AS paidAt
      FROM donations
-     WHERE status IN (${statusList})
+     WHERE status = 'success'
      ORDER BY paid_at DESC
      LIMIT ${PUBLIC_WALL_LIMIT}`,
   ).all();
@@ -141,7 +142,7 @@ export async function listPublicDonations(env) {
   const totalRow = await env.DB.prepare(
     `SELECT COALESCE(SUM(amount), 0) AS totalAmount, COUNT(*) AS totalCount
      FROM donations
-     WHERE status IN (${statusList})`,
+     WHERE status = 'success'`,
   ).first();
 
   return {
@@ -152,21 +153,38 @@ export async function listPublicDonations(env) {
 }
 
 export async function findDonationStatus(env, orderCode) {
-  return env.DB.prepare('SELECT status FROM donations WHERE order_code = ?')
-    .bind(orderCode)
-    .first();
+  try {
+    return await env.DB.prepare(
+      'SELECT status, hidden FROM donations WHERE order_code = ?',
+    )
+      .bind(orderCode)
+      .first();
+  } catch {
+    return env.DB.prepare('SELECT status FROM donations WHERE order_code = ?')
+      .bind(orderCode)
+      .first();
+  }
 }
 
 export async function findDonationForWebhook(env, orderCode) {
-  return env.DB.prepare(
-    'SELECT order_code, amount, status FROM donations WHERE order_code = ?',
-  )
-    .bind(orderCode)
-    .first();
+  try {
+    return await env.DB.prepare(
+      'SELECT order_code, amount, status, hidden FROM donations WHERE order_code = ?',
+    )
+      .bind(orderCode)
+      .first();
+  } catch {
+    return env.DB.prepare(
+      'SELECT order_code, amount, status FROM donations WHERE order_code = ?',
+    )
+      .bind(orderCode)
+      .first();
+  }
 }
 
 /**
- * Mark a pending/cancelled donation as paid with PayOS audit fields.
+ * Mark a pending donation as success with PayOS audit fields.
+ * Does not touch hidden. Already-success rows are left alone (idempotent).
  * Falls back to the minimal update on DBs without the audit migration.
  */
 export async function markDonationPaid(env, orderCode, data, paidAtIso) {
@@ -194,7 +212,7 @@ export async function markDonationPaid(env, orderCode, data, paidAtIso) {
            counter_account_name = ?, counter_account_number = ?,
            virtual_account_name = ?, virtual_account_number = ?,
            payment_link_id = COALESCE(payment_link_id, ?)
-       WHERE order_code = ? AND status IN ('pending', 'cancelled')`,
+       WHERE order_code = ? AND status = 'pending'`,
     )
       .bind(
         audit.payos_reference,
@@ -217,18 +235,23 @@ export async function markDonationPaid(env, orderCode, data, paidAtIso) {
     await env.DB.prepare(
       `UPDATE donations
        SET status = 'success', payos_reference = ?, paid_at = ?
-       WHERE order_code = ? AND status IN ('pending', 'cancelled')`,
+       WHERE order_code = ? AND status = 'pending'`,
     )
       .bind(data.reference || null, paidAtIso, orderCode)
       .run();
   }
 }
 
+function withHiddenFlag(row) {
+  if (!row) return row;
+  return { ...row, hidden: Boolean(row.hidden) };
+}
+
 export async function listDonationsForAdmin(env) {
   try {
     const { results } = await env.DB.prepare(
       `SELECT order_code AS orderCode, amount, display_name AS displayName,
-              message, anonymous, status, paid_at AS paidAt, created_at AS createdAt,
+              message, anonymous, status, hidden, paid_at AS paidAt, created_at AS createdAt,
               payment_link_id AS paymentLinkId, payos_reference AS payosReference,
               payos_account_number AS payosAccountNumber,
               payos_transaction_time AS payosTransactionTime,
@@ -243,9 +266,9 @@ export async function listDonationsForAdmin(env) {
        ORDER BY COALESCE(paid_at, created_at) DESC
        LIMIT ${ADMIN_LIST_LIMIT}`,
     ).all();
-    return results || [];
+    return (results || []).map(withHiddenFlag);
   } catch {
-    // DB without the audit migration: select the base columns only.
+    // DB without the audit/hidden migration: select the base columns only.
     const { results } = await env.DB.prepare(
       `SELECT order_code AS orderCode, amount, display_name AS displayName,
               message, anonymous, status, paid_at AS paidAt, created_at AS createdAt
@@ -253,22 +276,22 @@ export async function listDonationsForAdmin(env) {
        ORDER BY COALESCE(paid_at, created_at) DESC
        LIMIT ${ADMIN_LIST_LIMIT}`,
     ).all();
-    return results || [];
+    return (results || []).map((row) => withHiddenFlag({ ...row, hidden: 0 }));
   }
 }
 
 export async function totalsForAdmin(env) {
-  const statusList = successStatusSqlList();
   return env.DB.prepare(
     `SELECT COALESCE(SUM(amount), 0) AS totalReceived, COUNT(*) AS receivedCount
      FROM donations
-     WHERE status IN (${statusList})`,
+     WHERE status = 'success'`,
   ).first();
 }
 
-export async function setDonationStatus(env, orderCode, status) {
-  await env.DB.prepare('UPDATE donations SET status = ? WHERE order_code = ?')
-    .bind(status, orderCode)
+/** Set message visibility. Caller must ensure status = success. */
+export async function setDonationHidden(env, orderCode, hidden) {
+  await env.DB.prepare('UPDATE donations SET hidden = ? WHERE order_code = ? AND status = ?')
+    .bind(hidden ? 1 : 0, orderCode, 'success')
     .run();
 }
 

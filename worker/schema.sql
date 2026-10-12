@@ -51,3 +51,11 @@ ALTER TABLE donations ADD COLUMN counter_account_name TEXT;
 ALTER TABLE donations ADD COLUMN counter_account_number TEXT;
 ALTER TABLE donations ADD COLUMN virtual_account_name TEXT;
 ALTER TABLE donations ADD COLUMN virtual_account_number TEXT;
+
+-- Message visibility flag (independent of payment status).
+ALTER TABLE donations ADD COLUMN hidden INTEGER NOT NULL DEFAULT 0;
+
+-- One-time, safe to re-run. Legacy statuses fold into pending/success.
+UPDATE donations SET hidden = 1, status = 'success' WHERE status = 'hidden';
+UPDATE donations SET status = 'success' WHERE status IN ('paid', 'published');
+UPDATE donations SET status = 'pending' WHERE status = 'cancelled';
