@@ -559,36 +559,59 @@
       '',
     );
     if (raw == null) return;
-    const receivedAmount = Number(String(raw).replace(/[^\d]/g, ''));
-    if (!Number.isInteger(receivedAmount) || receivedAmount <= 0) {
-      historySummary.textContent = 'Số tiền đã nhận không hợp lệ, chưa xác nhận.';
+    const digits = String(raw).replace(/[^\d]/g, '');
+    const receivedAmount = digits ? Number(digits) : 0;
+    if (!Number.isSafeInteger(receivedAmount) || receivedAmount <= 0) {
+      historySummary.textContent = 'Bắt buộc nhập số tiền thực nhận (> 0), chưa xác nhận.';
       return;
     }
-    if (receivedAmount !== Number(d.amount)) {
-      const again = window.confirm(
+    if (receivedAmount > 20000000) {
+      historySummary.textContent = 'Số tiền thực nhận vượt quá 20.000.000 đ, chưa xác nhận.';
+      return;
+    }
+    const confirmMismatchDialog = (expected) =>
+      window.confirm(
         `⚠ SỐ TIỀN KHÔNG KHỚP\n\n` +
-          `Đơn #${d.orderCode}: ${money(d.amount)}\n` +
+          `Đơn #${d.orderCode}: ${money(expected)}\n` +
           `Thực nhận:   ${money(receivedAmount)}\n` +
-          `Lệch:        ${money(receivedAmount - Number(d.amount))}\n\n` +
-          `Số tiền của đơn sẽ KHÔNG đổi; số thực nhận được ghi vào ghi chú. ` +
+          `Lệch:        ${money(receivedAmount - expected)}\n\n` +
+          `Đơn sẽ được tính theo SỐ THỰC NHẬN (${money(receivedAmount)}); số tiền gốc được ghi vào ghi chú. ` +
           `Bạn chắc chắn vẫn xác nhận?`,
       );
-      if (!again) return;
+    let confirmMismatch = false;
+    if (receivedAmount !== Number(d.amount)) {
+      if (!confirmMismatchDialog(Number(d.amount))) return;
+      confirmMismatch = true;
     }
     btn.disabled = true;
-    try {
-      const res = await api(`/api/admin/donations/${d.orderCode}/mark-paid`, {
+    const send = (flag) =>
+      api(`/api/admin/donations/${d.orderCode}/mark-paid`, {
         method: 'POST',
         headers: authHeaders({ 'Content-Type': 'application/json' }),
-        body: JSON.stringify({ note: 'Admin xác nhận thủ công theo sao kê', receivedAmount }),
+        body: JSON.stringify({
+          note: 'Admin xác nhận thủ công theo sao kê',
+          receivedAmount,
+          ...(flag ? { confirmMismatch: true } : {}),
+        }),
       });
-      const data = await res.json().catch(() => ({}));
+    try {
+      let res = await send(confirmMismatch);
+      let data = await res.json().catch(() => ({}));
+      if (res.status === 409 && data.mismatch && !confirmMismatch) {
+        // Server says amounts differ: ask the second confirm, then resend with the flag.
+        if (!confirmMismatchDialog(Number(data.expected))) {
+          btn.disabled = false;
+          return;
+        }
+        res = await send(true);
+        data = await res.json().catch(() => ({}));
+      }
       if (!res.ok) throw new Error(data.error || 'Thao tác thất bại.');
       await loadHistory();
       if (data.mismatch) {
         historySummary.textContent =
           `⚠ Đã xác nhận đơn #${d.orderCode} nhưng số tiền thực nhận (${money(receivedAmount)}) ` +
-          `khác số tiền đơn (${money(d.amount)}). Đã ghi vào ghi chú.`;
+          `khác số tiền đơn (${money(d.amount)}). Đơn được tính theo số thực nhận; số gốc ghi vào ghi chú.`;
       }
     } catch (err) {
       historySummary.textContent = err.message || 'Thao tác thất bại.';

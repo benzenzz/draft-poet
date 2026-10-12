@@ -335,14 +335,16 @@ export async function findAdminPasswordHash(env, username) {
  * Admin manual confirmation (bank transfer seen, webhook missed).
  * Only pending rows change; returns true when a row was updated.
  */
-export async function markDonationPaidManually(env, orderCode, username, note, paidAtIso) {
+export async function markDonationPaidManually(env, orderCode, username, note, paidAtIso, newAmount = null) {
+  // newAmount (confirmed mismatch) replaces the counted amount; null keeps it.
   const res = await env.DB.prepare(
     `UPDATE donations
      SET status = 'success', paid_at = ?, payos_reference = ?,
-         payos_description = COALESCE(?, payos_description)
+         payos_description = COALESCE(?, payos_description),
+         amount = COALESCE(?, amount)
      WHERE order_code = ? AND status = 'pending'`,
   )
-    .bind(paidAtIso, `manual:${username}`, note, orderCode)
+    .bind(paidAtIso, `manual:${username}`, note, newAmount, orderCode)
     .run();
   return (res?.meta?.changes || 0) > 0;
 }

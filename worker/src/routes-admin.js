@@ -5,6 +5,7 @@ import { hashPassword, randomHex, verifyPassword } from './crypto.js';
 import { timingSafeEqual } from './payos.js';
 import { requireAdmin } from './auth.js';
 import { checkRateLimit, purgePublicListCache } from './routes-donations.js';
+import { parseReceivedAmount } from './validation.js';
 import {
   createAdminSession,
   deleteAdminSession,
@@ -214,40 +215,45 @@ export async function handleAdminMarkPaid(request, env, orderCode, url, session)
   if (!Number.isInteger(code)) return error('Mã đơn không hợp lệ.', 400);
 
   let note = null;
-  let receivedAmount = null;
-  const raw = await request.text();
-  if (raw.trim()) {
-    let body;
-    try { body = JSON.parse(raw); } catch { return error('Dữ liệu không hợp lệ.', 400); }
-    if (typeof body?.note === 'string' && body.note.trim()) {
-      note = body.note.replace(/[\u0000-\u001F\u007F]/g, ' ').trim().slice(0, 200);
-    }
-    if (body?.receivedAmount != null) {
-      receivedAmount = Number(body.receivedAmount);
-      if (!Number.isInteger(receivedAmount) || receivedAmount <= 0 || receivedAmount > 1e10) {
-        return error('Số tiền đã nhận không hợp lệ.', 400);
-      }
-    }
+  let body;
+  try { body = JSON.parse((await request.text()) || 'null'); } catch { return error('Dữ liệu không hợp lệ.', 400); }
+  if (!body || typeof body !== 'object' || Array.isArray(body)) {
+    return error('Vui lòng nhập số tiền đã nhận.', 400);
   }
+  if (typeof body.note === 'string' && body.note.trim()) {
+    note = body.note.replace(/[\u0000-\u001F\u007F]/g, ' ').trim().slice(0, 200);
+  }
+  const parsed = parseReceivedAmount(body.receivedAmount);
+  if (parsed.error) return error(parsed.error, 400);
+  const receivedAmount = parsed.value;
+  const confirmMismatch = body.confirmMismatch === true;
 
   const row = await findDonationStatus(env, code);
   if (!row) return error('Không tìm thấy khoản ủng hộ.', 404);
   if (row.status !== 'pending') return error('Khoản này không còn ở trạng thái chờ.', 409);
 
-  // Received amount is recorded for audit only; the order amount never changes.
-  let mismatch = false;
-  if (receivedAmount != null) {
-    mismatch = receivedAmount !== Number(row.amount);
-    const recv = `nhận: ${receivedAmount.toLocaleString('vi-VN')} đ${mismatch ? ' (LỆCH so với đơn)' : ''}`;
-    note = (note ? `${recv} | ${note}` : recv).slice(0, 240);
+  // Confirmed mismatch: the order counts the received amount; original kept in note.
+  const expected = Number(row.amount);
+  const mismatch = receivedAmount !== expected;
+  if (mismatch && !confirmMismatch) {
+    return json({
+      ok: false, mismatch: true, expected, received: receivedAmount,
+      error: 'Số tiền đã nhận không khớp với đơn. Cần xác nhận lại.',
+    }, 409);
   }
+  const vnd = (n) => `${n.toLocaleString('vi-VN')} đ`;
+  const recv = mismatch
+    ? `đơn gốc: ${vnd(expected)}, nhận: ${vnd(receivedAmount)} (LỆCH)`
+    : `nhận: ${vnd(receivedAmount)}`;
+  note = (note ? `${recv} | ${note}` : recv).slice(0, 240);
 
   const changed = await markDonationPaidManually(
     env, code, session.username || 'admin', note, new Date().toISOString(),
+    mismatch ? receivedAmount : null,
   );
   if (!changed) return error('Khoản này không còn ở trạng thái chờ.', 409);
   await purgePublicListCache(url);
-  return json({ ok: true, status: 'success', hidden: false, mismatch, receivedAmount });
+  return json({ ok: true, status: 'success', hidden: false, mismatch, receivedAmount, expected, amount: receivedAmount });
 }
 
 /** Small wrapper so the router stays flat: auth gate + handler in one call. */

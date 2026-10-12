@@ -33,11 +33,11 @@ export async function handleWebhook(request, env, url) {
     return json({ ok: true }, 200);
   }
 
-  const successMatch =
-    payload.success === true &&
-    payload.code === '00' &&
-    data.code === '00' &&
-    Number(data.amount) === Number(row.amount);
+  const paidOk = payload.success === true && payload.code === '00' && data.code === '00';
+  const isManual = row.status === 'success' && String(row.payos_reference || '').startsWith('manual:');
+  // Manual rows may carry an admin-corrected amount, so the PayOS amount
+  // is not compared; enrichment never touches amount/status/paid_at.
+  const successMatch = paidOk && (isManual || Number(data.amount) === Number(row.amount));
   if (!successMatch) return json({ ok: true }, 200);
 
   // Already success (including hidden gifts): leave status and hidden alone.
