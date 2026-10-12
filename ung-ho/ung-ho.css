@@ -118,3 +118,13 @@
   .thanks-confetti { display: none; }
 }
 .donate [hidden] { display: none !important; }
+.gift-total-amount.is-hint { font: 700 16px var(--font); color: var(--ink-soft); white-space: normal; }
+#donate-submit:disabled { opacity: .55; cursor: not-allowed; transform: none; }
+/* Long names: clamp to 2 lines with ellipsis instead of squeezing next to the amount */
+.wall-note-who { flex: 1; }
+.wall-note-who b { display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; overflow-wrap: anywhere; }
+.wall-note-amount { flex: none; }
+/* Raised / goal: keep each figure whole; goal drops below on narrow screens */
+.wall-progress-amount { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 6px; line-height: 1.2; }
+.wall-progress-amount > span, .wall-progress-amount small { white-space: nowrap; }
+@media (max-width: 420px) { .wall-progress-amount { font-size: 26px; } }

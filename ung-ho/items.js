@@ -11,7 +11,7 @@ window.POET_DONATE_CONFIG = {
 {id:'ao',name:'Áo ấm',unit:'chiếc',price:120000,color:'#3a9e74',svg:'<svg viewBox="0 0 64 64"><path d="M22 8l-14 10 6 10 6-4v32h24V24l6 4 6-10-14-10q-5 6-10 6t-10-6z" fill="#3a9e74" stroke="#2f2219" stroke-width="3" stroke-linejoin="round"/></svg>'}
 ],
   // Mặc định khi mở trang (id: số lượng). Để {} nếu muốn bắt đầu từ 0.
-  defaultQty: { tap: 5, but: 10 },
+  defaultQty: {},
   // Thẻ tiến độ trên tường lời nhắn. Đặt campaign: null để ẩn hoàn toàn.
   campaign: { name: 'Chuyến đi Hà Giang 12/2026', goal: 20000000 },
   // Thiệp cảm ơn

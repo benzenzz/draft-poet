@@ -116,7 +116,16 @@
       const parts = ITEMS.filter((i) => qty[i.id]).map((i) => `${qty[i.id]} ${i.name.toLowerCase()}`);
       giftSummary.textContent = parts.join(' · ') || 'Chưa chọn món nào';
     }
-    giftTotal.textContent = money(total);
+    const valid = Number.isInteger(total) && total >= 10000 && total <= 20000000;
+    if (total === 0) {
+      giftTotal.textContent = 'Chọn món quà hoặc nhập số tiền';
+      giftTotal.classList.add('is-hint');
+      giftSummary.textContent = '';
+    } else {
+      giftTotal.textContent = money(total);
+      giftTotal.classList.remove('is-hint');
+    }
+    setSubmitEnabled(valid);
     if (!reduceMotion) {
       giftTotal.classList.remove('is-bump');
       void giftTotal.offsetWidth;
@@ -125,6 +134,14 @@
   }
 
   customAmount.addEventListener('input', updateTotal);
+
+  let amountValid = false;
+  function setSubmitEnabled(valid) {
+    amountValid = valid;
+    if (!donationsEnabled || submitBtn.dataset.busy === '1') return;
+    submitBtn.disabled = !valid;
+    submitBtn.setAttribute('aria-disabled', valid ? 'false' : 'true');
+  }
 
   anonymous.addEventListener('change', () => {
     displayName.disabled = anonymous.checked;
