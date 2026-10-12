@@ -102,8 +102,8 @@
       showError('Tên hiển thị phải từ 1 đến 40 ký tự.');
       return;
     }
-    if (note.length < 1 || note.length > 160) {
-      showError('Lời nhắn phải từ 1 đến 160 ký tự.');
+    if (note.length > 160) {
+      showError('Lời tối đa 160 ký tự.');
       return;
     }
 
