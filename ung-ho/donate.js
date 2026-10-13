@@ -1,12 +1,17 @@
 (() => {
   const API_BASE = 'https://poet-donations.poet-ung-ho.workers.dev';
-  const CONFIG = window.POET_DONATE_CONFIG || { items: [], defaultQty: {}, campaign: null };
-  const ITEMS = CONFIG.items || [];
-  const qty = {};
-  ITEMS.forEach((i) => { qty[i.id] = (CONFIG.defaultQty && CONFIG.defaultQty[i.id]) || 0; });
+  const CONFIG = window.POET_DONATE_CONFIG || { items: [], campaign: null };
+  const ITEMS = (CONFIG.items || []).slice().sort((x, y) => x.price - y.price);
+  const MIN = 10000;
+  const MAX = 20000000;
+  const QTY_CHIPS = [1, 2, 5, 10];
+  const SUGGEST = [50000, 100000, 200000, 500000];
+  // Concept D: one gift type per donation. sel = item or null (custom amount).
+  let sel = null;
+  let count = 0;
+  let capHit = false;
 
   const form = document.getElementById('donate-form');
-  const giftGrid = document.getElementById('gift-grid');
   const giftTotal = document.getElementById('gift-total');
   const giftSummary = document.getElementById('gift-summary');
   const customAmount = document.getElementById('custom-amount');
@@ -43,94 +48,191 @@
     errorEl.textContent = text || '';
   }
 
-  // ---- Item grid (concept A). Only the total amount goes to the API. ----
-  function itemsTotal() {
-    return ITEMS.reduce((sum, i) => sum + i.price * qty[i.id], 0);
+  const rail = document.getElementById('gift-rail');
+  const qtyBox = document.getElementById('gift-qty');
+  const suggestBox = document.getElementById('gift-suggest');
+  const previewEl = document.getElementById('gift-preview');
+  const limitEl = document.getElementById('gift-limit');
+  const customToggle = document.getElementById('gift-custom-toggle');
+  const customPanel = document.getElementById('gift-custom-panel');
+  const SUBMIT_DEFAULT = 'Tiếp tục thanh toán';
+
+  function chip(label, onClick, aria) {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'gift-chip';
+    btn.textContent = label;
+    if (aria) btn.setAttribute('aria-label', aria);
+    btn.setAttribute('aria-pressed', 'false');
+    btn.addEventListener('click', onClick);
+    return btn;
   }
 
-  function chosenItems() {
-    return ITEMS.filter((i) => qty[i.id] > 0).map((i) => ({ id: i.id, qty: qty[i.id] }));
+  function customValue() {
+    const raw = customAmount.value.trim();
+    return raw === '' ? null : Number(raw);
   }
 
-  function buildGrid() {
-    if (!giftGrid) return;
+  function usingCustom() {
+    return !sel && customValue() !== null;
+  }
+
+  // Try to set the gift count; refuses (and flags the cap) above MAX.
+  function setCount(n) {
+    if (!sel) return false;
+    if (sel.price * n > MAX) { capHit = true; return false; }
+    capHit = false;
+    count = n;
+    return true;
+  }
+
+  function clearCustom() {
+    customAmount.value = '';
+  }
+
+  function popPlus(card) {
+    if (reduceMotion) return;
+    const p = document.createElement('span');
+    p.className = 'gift-plus';
+    p.setAttribute('aria-hidden', 'true');
+    p.textContent = '+1';
+    card.appendChild(p);
+    p.addEventListener('animationend', () => p.remove());
+  }
+
+  function shake(el) {
+    if (reduceMotion || !el) return;
+    el.classList.remove('is-shake');
+    void el.offsetWidth;
+    el.classList.add('is-shake');
+  }
+
+  function buildPicker() {
+    if (!rail) return;
     ITEMS.forEach((i) => {
-      const card = document.createElement('div');
-      card.className = 'gift-item';
+      const card = document.createElement('button');
+      card.type = 'button';
+      card.className = 'gift-card';
       card.dataset.id = i.id;
+      card.setAttribute('aria-pressed', 'false');
       const icon = document.createElement('span');
       icon.className = 'gift-icon';
       icon.setAttribute('aria-hidden', 'true');
       icon.innerHTML = i.svg; // static SVG from items.js, never user input
       const name = document.createElement('b');
       name.textContent = i.name;
-      const price = document.createElement('span');
+      const price = document.createElement('small');
       price.className = 'gift-price';
-      price.textContent = `${money(i.price)} / ${i.unit}`;
-      const step = document.createElement('div');
-      step.className = 'gift-step';
-      const minus = document.createElement('button');
-      minus.type = 'button';
-      minus.dataset.d = '-1';
-      minus.setAttribute('aria-label', `Bớt 1 ${i.name}`);
-      minus.textContent = '−';
-      const out = document.createElement('output');
-      out.setAttribute('aria-label', `Số ${i.name}`);
-      const plus = document.createElement('button');
-      plus.type = 'button';
-      plus.dataset.d = '1';
-      plus.setAttribute('aria-label', `Thêm 1 ${i.name}`);
-      plus.textContent = '+';
-      step.append(minus, out, plus);
-      card.append(icon, name, price, step);
-      giftGrid.appendChild(card);
+      price.textContent = money(i.price);
+      const badge = document.createElement('span');
+      badge.className = 'gift-badge';
+      badge.hidden = true;
+      card.append(icon, name, price, badge);
+      card.addEventListener('click', () => {
+        showError('');
+        if (sel === i) {
+          if (setCount(count + 1)) popPlus(card);
+          else shake(badge);
+        } else {
+          sel = i;
+          count = 1;
+          capHit = false;
+          clearCustom();
+          popPlus(card);
+        }
+        update();
+      });
+      rail.appendChild(card);
     });
-    giftGrid.addEventListener('click', (e) => {
-      const btn = e.target.closest('[data-d]');
-      if (!btn) return;
-      const id = btn.closest('.gift-item').dataset.id;
-      qty[id] = Math.max(0, Math.min(99, qty[id] + Number(btn.dataset.d)));
-      customAmount.value = '';
-      showError('');
-      updateTotal();
+    QTY_CHIPS.forEach((n) => {
+      const btn = chip(`×${n}`, () => {
+        showError('');
+        if (!sel) { sel = ITEMS[0]; count = 1; }
+        clearCustom();
+        if (!setCount(n)) shake(rail.querySelector(`[data-id="${sel.id}"] .gift-badge`));
+        update();
+      }, `Số lượng ${n}`);
+      btn.dataset.n = String(n);
+      qtyBox.appendChild(btn);
+    });
+    SUGGEST.forEach((v) => {
+      const btn = chip(`${v / 1000}k`, () => {
+        customAmount.value = String(v);
+        sel = null; count = 0; capHit = false;
+        update();
+      }, money(v));
+      btn.dataset.v = String(v);
+      suggestBox.appendChild(btn);
     });
   }
 
-  function updateTotal() {
-    if (giftGrid) {
-      giftGrid.querySelectorAll('.gift-item').forEach((card) => {
-        const n = qty[card.dataset.id];
-        card.classList.toggle('is-on', n > 0);
-        card.querySelector('output').textContent = String(n);
-      });
-    }
-    const custom = customAmount.value.trim();
-    let total;
-    if (custom !== '' && Number(custom) > 0) {
-      total = Number(custom);
-      giftSummary.textContent = 'Số tiền tuỳ ý (thay cho các món đã chọn)';
-      if (giftGrid) giftGrid.classList.add('is-overridden');
+  function currentAmount() {
+    if (sel) return sel.price * count;
+    const c = customValue();
+    return c === null ? 0 : c;
+  }
+
+  function donorName() {
+    if (anonymous.checked) return 'Một nhà hảo tâm';
+    return displayName.value.trim() || 'Một nhà hảo tâm';
+  }
+
+  function update() {
+    const custom = usingCustom();
+    rail.querySelectorAll('.gift-card').forEach((card) => {
+      const on = !!sel && card.dataset.id === sel.id;
+      card.setAttribute('aria-pressed', String(on));
+      card.classList.toggle('is-on', on);
+      const badge = card.querySelector('.gift-badge');
+      badge.hidden = !on;
+      badge.textContent = on ? `×${count}` : '';
+    });
+    qtyBox.querySelectorAll('.gift-chip').forEach((btn) => {
+      btn.setAttribute('aria-pressed', String(!!sel && Number(btn.dataset.n) === count));
+    });
+    const cv = customValue();
+    suggestBox.querySelectorAll('.gift-chip').forEach((btn) => {
+      btn.setAttribute('aria-pressed', String(custom && Number(btn.dataset.v) === cv));
+    });
+    rail.classList.toggle('is-overridden', custom);
+
+    const total = currentAmount();
+    if (sel) {
+      giftSummary.textContent = `${count} ${sel.name} ${sel.emoji || ''}`.trim();
+    } else if (custom) {
+      giftSummary.textContent = 'Số tiền tuỳ ý';
     } else {
-      total = itemsTotal();
-      if (giftGrid) giftGrid.classList.remove('is-overridden');
-      const parts = ITEMS.filter((i) => qty[i.id]).map((i) => `${qty[i.id]} ${i.name.toLowerCase()}`);
-      giftSummary.textContent = parts.join(' · ') || 'Chưa chọn món nào';
+      giftSummary.textContent = '';
     }
-    const valid = Number.isInteger(total) && total >= 10000 && total <= 20000000;
     if (total === 0) {
       giftTotal.textContent = 'Chọn món quà hoặc nhập số tiền';
       giftTotal.classList.add('is-hint');
-      giftSummary.textContent = '';
     } else {
       giftTotal.textContent = money(total);
       giftTotal.classList.remove('is-hint');
     }
-    const limitEl = document.getElementById('gift-limit');
+    const wholeK = Number.isInteger(total) && total % 1000 === 0;
+    const valid = total >= MIN && total <= MAX && wholeK;
     if (limitEl) {
-      limitEl.textContent = total > 0 && total < 10000 ? 'Tối thiểu 10.000 đ'
-        : total > 20000000 ? 'Tối đa 20.000.000 đ' : '';
+      limitEl.textContent = capHit || total > MAX ? 'Tối đa 20.000.000 đ'
+        : total > 0 && total < MIN ? 'Tối thiểu 10.000 đ'
+          : total > 0 && !wholeK ? 'Số tiền phải là bội số của 1.000 đ' : '';
     }
+
+    // Live wall-line preview (textContent only).
+    const note = message.value.trim();
+    let line = donorName();
+    if (sel) line += ` tặng ${count} ${sel.name} ${sel.emoji || ''}`.trimEnd();
+    else if (custom && valid) line += ` · ${money(total)}`;
+    else line += ' tặng …';
+    if (note) line += ` — ${note}`;
+    previewEl.textContent = line;
+
     setSubmitEnabled(valid);
+    if (submitBtn.dataset.busy !== '1' && donationsEnabled) {
+      submitBtn.textContent = sel ? `Tặng ${count} ${sel.name} · ${money(total)}`
+        : custom && valid ? `Tặng ${money(total)}` : SUBMIT_DEFAULT;
+    }
     if (!reduceMotion) {
       giftTotal.classList.remove('is-bump');
       void giftTotal.offsetWidth;
@@ -138,9 +240,12 @@
     }
   }
 
-  customAmount.addEventListener('input', updateTotal);
-  const customToggle = document.getElementById('gift-custom-toggle');
-  const customPanel = document.getElementById('gift-custom-panel');
+  customAmount.addEventListener('input', () => {
+    if (customAmount.value.trim() !== '') { sel = null; count = 0; capHit = false; }
+    update();
+  });
+  displayName.addEventListener('input', update);
+  message.addEventListener('input', update);
   customToggle.addEventListener('click', () => {
     const open = customToggle.getAttribute('aria-expanded') !== 'true';
     customToggle.setAttribute('aria-expanded', String(open));
@@ -161,17 +266,8 @@
     displayName.disabled = anonymous.checked;
     displayName.required = !anonymous.checked;
     if (anonymous.checked) displayName.value = '';
+    update();
   });
-
-  function resolveAmount() {
-    const custom = customAmount.value.trim();
-    if (custom !== '') {
-      const n = Number(custom);
-      if (!Number.isInteger(n)) return null;
-      return n;
-    }
-    return itemsTotal();
-  }
 
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
@@ -182,11 +278,12 @@
       return;
     }
 
-    const amount = resolveAmount();
-    if (!Number.isInteger(amount) || amount < 10000 || amount > 20000000) {
-      showError('Số tiền phải từ 10.000 đến 20.000.000 đồng.');
+    const amount = currentAmount();
+    if (!Number.isInteger(amount) || amount < MIN || amount > MAX || amount % 1000 !== 0) {
+      showError('Số tiền phải từ 10.000 đến 20.000.000 đồng, là bội số của 1.000 đ.');
       return;
     }
+    const gift = sel ? { id: sel.id, qty: count } : null;
 
     const isAnonymous = anonymous.checked;
     const name = displayName.value.trim();
@@ -201,6 +298,7 @@
       return;
     }
 
+    submitBtn.dataset.busy = '1';
     submitBtn.disabled = true;
     submitBtn.textContent = 'Đang mở thanh toán…';
 
@@ -213,6 +311,7 @@
           displayName: isAnonymous ? '' : name,
           message: note,
           anonymous: isAnonymous,
+          ...(gift ? { giftId: gift.id, giftQty: gift.qty } : {}),
           returnUrl: new URL('return.html', new URL('.', location.href)).href,
           cancelUrl: new URL('cancel.html', new URL('.', location.href)).href,
         }),
@@ -220,21 +319,23 @@
       const data = await res.json().catch(() => ({}));
       if (!res.ok || !data.checkoutUrl) {
         showError(data.error || 'Không tạo được liên kết thanh toán.');
+        delete submitBtn.dataset.busy;
         submitBtn.disabled = false;
-        submitBtn.innerHTML = 'Tiếp tục thanh toán <span aria-hidden="true">↗</span>';
+        update();
         return;
       }
       // Keep donor details in THIS browser only, so the success page and
       // thank-you card can show them without the public status API ever
       // returning names/messages (orderCodes are enumerable).
       if (data.orderCode) {
-        const usedCustom = customAmount.value.trim() !== '';
         const record = JSON.stringify({
           amount,
           displayName: isAnonymous ? '' : name,
           anonymous: isAnonymous,
           message: note,
-          items: usedCustom ? [] : chosenItems(),
+          items: gift ? [{ id: gift.id, qty: gift.qty }] : [],
+          giftId: gift ? gift.id : null,
+          giftQty: gift ? gift.qty : null,
           createdAt: new Date().toISOString(),
         });
         const key = 'poet-donation-' + data.orderCode;
@@ -244,8 +345,9 @@
       location.href = data.checkoutUrl;
     } catch {
       showError('Không kết nối được máy chủ. Thử lại giúp nhé.');
+      delete submitBtn.dataset.busy;
       submitBtn.disabled = false;
-      submitBtn.innerHTML = 'Tiếp tục thanh toán <span aria-hidden="true">↗</span>';
+      update();
     }
   });
 
@@ -339,6 +441,13 @@
     return pick || ITEMS[0];
   }
 
+  // Gift line only for a known gift with a sane count (server already checks).
+  function giftOf(item) {
+    const it = item && ITEMS.find((i) => i.id === item.giftId);
+    const qty = Number(item && item.giftQty);
+    return it && Number.isInteger(qty) && qty >= 1 ? { item: it, qty } : null;
+  }
+
   function buildNote(item, index) {
     const note = document.createElement('article');
     note.className = 'wall-note';
@@ -365,9 +474,17 @@
     }
     note.appendChild(msg);
 
+    const gift = giftOf(item);
+    if (gift) {
+      const line = document.createElement('p');
+      line.className = 'wall-note-gift';
+      line.textContent = `${item.displayName || 'Ẩn danh'} tặng ${gift.qty} ${gift.item.name} ${gift.item.emoji || ''}`.trimEnd();
+      note.appendChild(line);
+    }
+
     const meta = document.createElement('div');
     meta.className = 'wall-note-meta';
-    const icon = iconFor(Number(item.amount) || 0);
+    const icon = gift ? gift.item : iconFor(Number(item.amount) || 0);
     if (icon) {
       const ic = document.createElement('span');
       ic.className = 'wall-note-icon';
@@ -592,8 +709,8 @@
     }
   }
 
-  buildGrid();
-  updateTotal();
+  buildPicker();
+  update();
   loadSettings();
   loadWall();
 })();

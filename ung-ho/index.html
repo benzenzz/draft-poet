@@ -51,15 +51,18 @@
         <form id="donate-form" novalidate>
           <fieldset class="donate-amounts">
             <legend>Gửi gì cho các em hôm nay?</legend>
-            <p class="gift-hint">Chọn món quà — POET sẽ mua và trao tận tay các em ở điểm trường.</p>
-            <div class="gift-grid" id="gift-grid" role="group" aria-label="Chọn món quà"></div>
+            <p class="gift-hint">Chạm vào món quà — chạm thêm để tặng nhiều hơn. POET sẽ mua và trao tận tay các em ở điểm trường.</p>
+            <div class="gift-rail" id="gift-rail" role="group" aria-label="Chọn món quà"></div>
+            <div class="gift-chips gift-qty" id="gift-qty" role="group" aria-label="Số lượng"></div>
             <div class="gift-custom" id="gift-custom">
               <button type="button" class="gift-custom-toggle" id="gift-custom-toggle" aria-expanded="false" aria-controls="gift-custom-panel">✎ Hoặc nhập số tiền tuỳ ý <span class="gift-custom-chev" aria-hidden="true">▾</span></button>
               <div id="gift-custom-panel" hidden>
               <label class="donate-field" for="custom-amount">
-                <span>Số tiền (VND) — thay cho các món đã chọn</span>
-                <input id="custom-amount" name="customAmount" type="number" inputmode="numeric" min="10000" max="20000000" step="1000" placeholder="Từ 10.000 đến 20.000.000">
+                <span>Số tiền (VND) — thay cho món quà đã chọn</span>
+                <input id="custom-amount" name="customAmount" type="number" inputmode="numeric" min="10000" max="20000000" step="1000" placeholder="Từ 10.000 đến 20.000.000" aria-describedby="custom-step-hint">
               </label>
+              <div class="gift-chips gift-suggest" id="gift-suggest" role="group" aria-label="Gợi ý số tiền"></div>
+              <p class="gift-step-hint" id="custom-step-hint">Số tiền phải là bội số của 1.000 đ</p>
               </div>
             </div>
             <div class="gift-total" aria-live="polite">
@@ -69,14 +72,19 @@
             </div>
           </fieldset>
 
+          <div class="gift-preview" aria-live="polite">
+            <span class="gift-preview-label">Sẽ hiện trên tường cảm ơn</span>
+            <span class="gift-preview-line" id="gift-preview"></span>
+          </div>
+
           <label class="donate-field" for="display-name">
             <span>Tên hiển thị</span>
             <input id="display-name" name="displayName" type="text" maxlength="40" autocomplete="nickname" required>
           </label>
 
           <label class="donate-field" for="message">
-            <span>Lời nhắn</span>
-            <textarea id="message" name="message" maxlength="160" rows="3" required></textarea>
+            <span>Lời nhắn (không bắt buộc)</span>
+            <textarea id="message" name="message" maxlength="160" rows="3"></textarea>
           </label>
 
           <label class="donate-check">

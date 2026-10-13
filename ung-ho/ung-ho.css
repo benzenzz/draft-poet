@@ -1,28 +1,63 @@
 /* Donor-facing donation UI (feat/donation-enhance). Loaded after ../style.css. */
 .button-yellow { background: var(--yellow); color: var(--outline); }
 
-/* ---------- Item grid (modal concept A) ---------- */
-.gift-hint { margin: 0 0 12px; color: var(--ink-soft); }
-.gift-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-@media (min-width: 560px) { .gift-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-.gift-item {
-  border: 2.5px solid var(--outline); border-radius: 18px; padding: 10px 6px;
-  background: #fff; text-align: center; min-width: 0;
+/* ---------- Gift picker (concept D): one gift, tap again = +1 ---------- */
+/* fieldsets default to min-width: min-content, which would stretch the rail */
+.donate-amounts { min-width: 0; max-width: 100%; }
+.gift-hint { margin: 0 0 8px; color: var(--ink-soft); }
+.gift-rail {
+  display: flex; gap: 10px; overflow-x: auto; overscroll-behavior-x: contain;
+  scroll-snap-type: x proximity; -webkit-overflow-scrolling: touch;
+  /* room for the ×N badge and the +1 pop, which sit above the cards */
+  padding: 16px 10px 10px 2px; margin: 0 -2px; scrollbar-width: thin;
+}
+/* phone: ~3.4 cards visible, so part of the 4th hints there is more */
+.gift-card {
+  flex: 0 0 calc((100% - 30px) / 3.4); min-width: 0; scroll-snap-align: start;
+  position: relative; border: 2.5px solid var(--outline); border-radius: 18px; padding: 8px 2px;
+  background: #fff; color: var(--ink); text-align: center; font: inherit; cursor: pointer; min-height: 44px;
   transition: transform .15s, background .15s, box-shadow .15s;
+  -webkit-tap-highlight-color: transparent; touch-action: manipulation;
 }
-.gift-item.is-on { background: #fff3c4; transform: translateY(-2px); box-shadow: 3px 3px 0 var(--outline); }
-.gift-grid.is-overridden .gift-item { opacity: .55; }
+.gift-card:focus-visible { outline: 3px solid var(--outline); outline-offset: 2px; }
+.gift-card.is-on { background: #fff3c4; transform: translateY(-3px); box-shadow: 3px 3px 0 var(--outline); }
+.gift-rail.is-overridden .gift-card { opacity: .55; }
+@media (min-width: 760px) {
+  .gift-rail { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); overflow: visible; margin: 0; }
+  .gift-card { min-width: 0; }
+}
 .gift-icon { display: block; }
-.gift-icon svg { width: 54px; height: 54px; }
-.gift-item b { display: block; font: 800 18px var(--display); }
-.gift-price { display: block; font-size: 13px; color: var(--ink-soft); }
-.gift-step { display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 6px; }
-.gift-step button {
-  width: 40px; height: 40px; border-radius: 50%; border: 2.5px solid var(--outline);
-  background: var(--card); color: var(--ink); font: 800 20px var(--font); cursor: pointer; padding: 0; flex: none;
+.gift-icon svg { width: 44px; height: 44px; display: block; margin: 0 auto; }
+.gift-card b { display: block; font: 800 16px/1.2 var(--display); }
+.gift-price { display: block; font-size: 12px; letter-spacing: -.02em; color: var(--ink-soft); white-space: nowrap; }
+.gift-badge {
+  position: absolute; top: -12px; right: -6px; z-index: 1;
+  min-width: 30px; padding: 0 7px; box-sizing: border-box; white-space: nowrap;
+  background: #ff8a76; color: #fff; border: 2px solid var(--outline); border-radius: 999px;
+  font: 800 14px/20px var(--display); text-align: center; font-variant-numeric: tabular-nums;
 }
-.gift-step button:active { transform: translate(1px, 1px); }
-.gift-step output { min-width: 26px; font: 800 20px var(--display); }
+.gift-badge.is-shake { animation: gift-shake .35s; }
+@keyframes gift-shake { 25% { transform: translateX(-3px); } 75% { transform: translateX(3px); } }
+.gift-plus {
+  position: absolute; left: 50%; top: 0; pointer-events: none;
+  font: 800 18px var(--display); color: #ff8a76; animation: gift-up .6s cubic-bezier(.3, 1.6, .5, 1) forwards;
+}
+@keyframes gift-up { from { transform: translate(-50%, 0) scale(.6); opacity: 1; } to { transform: translate(-50%, -26px) scale(1.15); opacity: 0; } }
+.gift-chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 6px 0 10px; }
+.gift-chip {
+  flex: 1 1 0; min-width: 0; min-height: 44px; padding: 0 4px; white-space: nowrap;
+  border: 2.5px solid var(--outline); border-radius: 999px; background: #fff; color: var(--ink);
+  font: 800 16px var(--display); cursor: pointer; touch-action: manipulation;
+}
+.gift-chip[aria-pressed="true"] { background: var(--yellow); }
+.gift-chip:focus-visible { outline: 3px solid var(--outline); outline-offset: 2px; }
+.gift-step-hint { margin: 0 2px; font-size: 13px; color: var(--ink-soft); }
+.gift-preview {
+  background: #fff; border: 2px dashed var(--outline); border-radius: 16px; padding: 12px; margin: 14px 0 4px;
+}
+.gift-preview-label { display: block; font: 700 12px var(--font); color: var(--green); margin-bottom: 4px; }
+.gift-preview-line { display: block; font: 18px/1.35 var(--hand); overflow-wrap: anywhere; }
+.wall-note-gift { margin: 0 0 8px; font: 800 15px/1.3 var(--display); color: var(--green); overflow-wrap: anywhere; }
 .gift-custom { margin-top: 12px; }
 .gift-custom-toggle { cursor: pointer; font: inherit; font-weight: 800; color: inherit; background: none; border: 0; padding: 0 4px; min-height: 44px; display: flex; align-items: center; gap: 6px; text-align: left; }
 .gift-custom-toggle:focus-visible { outline: 3px solid currentColor; outline-offset: 2px; border-radius: 6px; }
@@ -116,8 +151,9 @@
 .thanks-toast { min-height: 1.5em; font-weight: 700; color: var(--green); margin: 0; }
 
 @media (prefers-reduced-motion: reduce) {
-  .gift-item, .wall-note, .wall-meter i, .thanks-hero * { animation: none !important; transition: none !important; }
+  .gift-card, .gift-badge, .wall-note, .wall-meter i, .thanks-hero * { animation: none !important; transition: none !important; }
   .thanks-confetti { display: none; }
+  .gift-plus { display: none; }
 }
 .donate [hidden] { display: none !important; }
 .gift-total-amount.is-hint {
@@ -142,3 +178,9 @@
 .gift-limit { margin: 6px 2px 0; min-height: 1.3em; font-weight: 800; font-size: 14px; color: var(--brick); }
 .gift-limit { flex-basis: 100%; margin: 0; min-height: 0; }
 .gift-limit:empty { display: none; }
+@media (max-width: 359px) {
+  .gift-rail { gap: 8px; }
+  .gift-card { flex-basis: calc((100% - 24px) / 3.4); padding: 8px 1px; }
+  .gift-price { font-size: 11px; }
+  .gift-card b { font-size: 15px; }
+}
