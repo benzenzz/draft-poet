@@ -111,7 +111,8 @@
 .thanks-hero.container { padding-inline: 16px; width: 100%; max-width: 100%; }
 @media (max-width: 480px) { .thanks-letter canvas { transform: none; box-shadow: 4px 5px 0 var(--outline); border-radius: 16px; } }
 .thanks-card-actions { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 28px; }
-.thanks-card-actions .button { min-height: 52px; }
+.thanks-card-actions .button { min-height: 52px; flex: 1 1 0; min-width: 0; justify-content: center; text-align: center; padding-inline: 12px; }
+@media (max-width: 400px) { .thanks-card-actions .button { flex-basis: 100%; } }
 .thanks-fb { background: #1877f2; color: #fff; }
 .thanks-back { margin: 18px 0 8px; font-weight: 700; }
 .thanks-back a { color: var(--ink); }
