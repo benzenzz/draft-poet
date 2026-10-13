@@ -1,10 +1,10 @@
 (() => {
   const API_BASE = 'https://poet-donations.poet-ung-ho.workers.dev';
+  const ANON_NAME = 'Một nhà hảo tâm';
   const CONFIG = window.POET_DONATE_CONFIG || { items: [], campaign: null };
   const ITEMS = (CONFIG.items || []).slice().sort((x, y) => x.price - y.price);
   const MIN = 10000;
   const MAX = 20000000;
-  const QTY_CHIPS = [1, 2, 5, 10];
   const SUGGEST = [50000, 100000, 200000, 500000];
   // Concept D: one gift type per donation. sel = item or null (custom amount).
   let sel = null;
@@ -51,7 +51,6 @@
   const rail = document.getElementById('gift-rail');
   const qtyBox = document.getElementById('gift-qty');
   const suggestBox = document.getElementById('gift-suggest');
-  const previewEl = document.getElementById('gift-preview');
   const limitEl = document.getElementById('gift-limit');
   const customToggle = document.getElementById('gift-custom-toggle');
   const customPanel = document.getElementById('gift-custom-panel');
@@ -144,17 +143,23 @@
       });
       rail.appendChild(card);
     });
-    QTY_CHIPS.forEach((n) => {
-      const btn = chip(`×${n}`, () => {
+    // Repeat taps add +1; this one button takes one away (0 = deselect).
+    if (qtyBox) {
+      const minus = document.createElement('button');
+      minus.type = 'button';
+      minus.className = 'gift-minus';
+      minus.id = 'gift-minus';
+      minus.addEventListener('click', () => {
+        if (!sel) return;
         showError('');
-        if (!sel) { sel = ITEMS[0]; count = 1; }
-        clearCustom();
-        if (!setCount(n)) shake(rail.querySelector(`[data-id="${sel.id}"] .gift-badge`));
+        capHit = false;
+        if (count > 1) count -= 1;
+        else { sel = null; count = 0; }
         update();
-      }, `Số lượng ${n}`);
-      btn.dataset.n = String(n);
-      qtyBox.appendChild(btn);
-    });
+        if (!sel) { const first = rail.querySelector('.gift-card'); if (first) first.focus(); }
+      });
+      qtyBox.appendChild(minus);
+    }
     SUGGEST.forEach((v) => {
       const btn = chip(`${v / 1000}k`, () => {
         customAmount.value = String(v);
@@ -172,12 +177,6 @@
     return c === null ? 0 : c;
   }
 
-  // Preview name: empty + not anonymous → "Bạn"; anonymous → "Một nhà hảo tâm".
-  function previewName() {
-    if (anonymous.checked) return 'Một nhà hảo tâm';
-    return displayName.value.trim() || 'Bạn';
-  }
-
   function update() {
     const custom = usingCustom();
     rail.querySelectorAll('.gift-card').forEach((card) => {
@@ -188,9 +187,14 @@
       badge.hidden = !on;
       badge.textContent = on ? `×${count}` : '';
     });
-    qtyBox.querySelectorAll('.gift-chip').forEach((btn) => {
-      btn.setAttribute('aria-pressed', String(!!sel && Number(btn.dataset.n) === count));
-    });
+    const minusBtn = qtyBox && qtyBox.querySelector('.gift-minus');
+    if (minusBtn) {
+      qtyBox.hidden = !sel;
+      if (sel) {
+        minusBtn.textContent = count > 1 ? `− Bớt 1 ${sel.name}` : `✕ Bỏ chọn ${sel.name}`;
+        minusBtn.setAttribute('aria-label', count > 1 ? `Bớt 1 ${sel.name}, còn ${count - 1}` : `Bỏ chọn ${sel.name}`);
+      }
+    }
     const cv = customValue();
     suggestBox.querySelectorAll('.gift-chip').forEach((btn) => {
       btn.setAttribute('aria-pressed', String(custom && Number(btn.dataset.v) === cv));
@@ -218,21 +222,6 @@
       limitEl.textContent = capHit || total > MAX ? 'Tối đa 20.000.000 đ'
         : total > 0 && total < MIN ? 'Tối thiểu 10.000 đ'
           : total > 0 && !wholeK ? 'Số tiền phải là bội số của 1.000 đ' : '';
-    }
-
-    // Live wall-line preview (textContent only). Hidden until gift or valid custom.
-    const previewBox = previewEl && previewEl.closest('.gift-preview');
-    const note = message.value.trim();
-    const showPreview = !!(sel && count >= 1) || !!(custom && valid);
-    if (previewBox) previewBox.hidden = !showPreview;
-    if (showPreview && previewEl) {
-      let line = previewName();
-      if (sel) line += ` tặng ${count} ${sel.name} ${sel.emoji || ''}`.trimEnd();
-      else line += ` ủng hộ ${money(total)} 💛`;
-      if (note) line += ` — ${note}`;
-      previewEl.textContent = line;
-    } else if (previewEl) {
-      previewEl.textContent = '';
     }
 
     setSubmitEnabled(valid);
@@ -502,7 +491,8 @@
     const who = document.createElement('div');
     who.className = 'wall-note-who';
     const nameEl = document.createElement('b');
-    nameEl.textContent = item.displayName || 'Ẩn danh';
+    // Old rows stored 'Ẩn danh'; show the warmer wording everywhere.
+    nameEl.textContent = !item.displayName || item.displayName === 'Ẩn danh' ? ANON_NAME : item.displayName;
     who.appendChild(nameEl);
     if (item.paidAt) {
       const timeEl = document.createElement('time');
@@ -522,38 +512,6 @@
     meta.appendChild(amt);
     note.appendChild(meta);
     return note;
-  }
-
-  // Progress card. Remove `campaign` from items.js (set null) to hide it.
-  function renderCampaign(totalAmount, totalCount) {
-    const hearts = document.getElementById('wall-hearts');
-    if (hearts) hearts.textContent = totalCount ? `${totalCount} tấm lòng` : 'Những tấm lòng';
-    const box = document.getElementById('wall-progress');
-    const c = CONFIG.campaign;
-    if (!box || !c || !c.goal) return;
-    const raised = Number(totalAmount) || 0;
-    const pct = Math.min(100, Math.round((raised / c.goal) * 100));
-    document.getElementById('campaign-name').textContent = c.name || 'Mục tiêu gây quỹ';
-    document.getElementById('campaign-raised').textContent = money(raised);
-    document.getElementById('campaign-goal').textContent = money(c.goal);
-    const meter = document.getElementById('campaign-meter');
-    meter.setAttribute('aria-valuenow', String(pct));
-    meter.setAttribute('aria-valuetext', `${pct}%`);
-    meter.firstElementChild.style.width = `${pct}%`;
-    const stats = document.getElementById('campaign-stats');
-    stats.textContent = '';
-    ['tap', 'but', 'sach', 'balo'].forEach((id) => {
-      const it = ITEMS.find((i) => i.id === id);
-      if (!it || !raised) return;
-      const chip = document.createElement('span');
-      const ic = document.createElement('span');
-      ic.setAttribute('aria-hidden', 'true');
-      ic.innerHTML = it.svg;
-      chip.appendChild(ic);
-      chip.append(`≈ ${Math.floor(raised / it.price)} ${it.name.toLowerCase()}`);
-      stats.appendChild(chip);
-    });
-    box.hidden = false;
   }
 
   function renderWallPage() {
@@ -679,14 +637,29 @@
     renderWallPage();
   }
 
+  // Sorting happens on the server (same row limit, own cache key per sort).
+  let wallSort = 'new';
+  const sortBox = document.getElementById('donate-sort');
+  if (sortBox) {
+    sortBox.querySelectorAll('button[data-sort]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        if (btn.dataset.sort === wallSort) return;
+        wallSort = btn.dataset.sort;
+        sortBox.querySelectorAll('button[data-sort]').forEach((b) =>
+          b.setAttribute('aria-pressed', String(b === btn)));
+        loadWall();
+      });
+    });
+  }
+
   async function loadWall() {
     try {
-      const res = await fetch(`${API_BASE}/api/donations`);
+      const q = wallSort === 'amount' ? '?sort=amount' : '';
+      const res = await fetch(`${API_BASE}/api/donations${q}`);
       if (!res.ok) throw new Error('bad status');
       const data = await res.json();
       renderTotal(data.totalAmount, data.totalCount);
       renderWall(data.donations || []);
-      renderCampaign(data.totalAmount, data.totalCount);
     } catch {
       if (totalEl) totalEl.textContent = 'Chưa tải được tổng ủng hộ.';
       if (totalAmountEl) totalAmountEl.textContent = '—';

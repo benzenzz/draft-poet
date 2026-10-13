@@ -13,8 +13,6 @@ window.POET_DONATE_CONFIG = {
 ],
   // Mặc định khi mở trang (id: số lượng). Để {} nếu muốn bắt đầu từ 0.
   defaultQty: {},
-  // Thẻ tiến độ trên tường lời nhắn. Đặt campaign: null để ẩn hoàn toàn.
-  campaign: { name: 'Chuyến đi Hà Giang 12/2026', goal: 20000000 },
   // Thiệp cảm ơn
   card: {
     slogan: 'Tuổi trẻ · Nhiệt huyết · Nghệ thuật',

@@ -45,7 +45,7 @@ export function validateAmountAndGift(body) {
 }
 
 export function validateDisplayName(rawName, anonymous) {
-  if (anonymous) return { displayName: 'Ẩn danh', error: null };
+  if (anonymous) return { displayName: 'Một nhà hảo tâm', error: null };
   const name = typeof rawName === 'string' ? rawName.trim() : '';
   if (name.length < 1 || name.length > 40) {
     return { displayName: null, error: 'Tên hiển thị phải từ 1 đến 40 ký tự.' };

@@ -89,3 +89,8 @@ describe('router', () => {
     assert.equal(res.status, 401);
   });
 });
+
+import { validateDisplayName } from '../src/validation.js';
+describe('anonymous wording', () => {
+  it('stores "Một nhà hảo tâm"', () => assert.equal(validateDisplayName('Lan', true).displayName, 'Một nhà hảo tâm'));
+});

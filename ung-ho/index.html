@@ -9,6 +9,14 @@
   <style>html,body{color-scheme:light only;background-color:#f4e6cf}</style>
   <meta name="description" content="Ủng hộ POET bằng một món quà nhỏ. Để lại tên và lời nhắn — hiện trên tường ngay khi thanh toán thành công.">
   <title>Ủng hộ — POET</title>
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="POET">
+  <meta property="og:title" content="Gửi một món quà nhỏ cho các em cùng POET">
+  <meta property="og:description" content="Tặng tập, bút, sách hay balo cho các em ở điểm trường. Để lại tên và lời nhắn trên tường cảm ơn của POET.">
+  <meta property="og:url" content="https://maiphh.github.io/poet/ung-ho/">
+  <meta property="og:image" content="https://maiphh.github.io/poet/assets/photos/1530906879071690.jpg">
+  <meta property="og:locale" content="vi_VN">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" type="image/jpeg" href="../assets/logo/1555047679990943.jpg">
   <link rel="apple-touch-icon" href="../assets/logo/1555047679990943.jpg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -53,7 +61,7 @@
             <legend>Gửi gì cho các em hôm nay?</legend>
             <p class="gift-hint">Chạm vào món quà — chạm thêm để tặng nhiều hơn. POET sẽ mua và trao tận tay các em ở điểm trường.</p>
             <div class="gift-rail" id="gift-rail" role="group" aria-label="Chọn món quà"></div>
-            <div class="gift-chips gift-qty" id="gift-qty" role="group" aria-label="Số lượng"></div>
+            <div class="gift-qty" id="gift-qty" hidden></div>
             <div class="gift-custom" id="gift-custom">
               <button type="button" class="gift-custom-toggle" id="gift-custom-toggle" aria-expanded="false" aria-controls="gift-custom-panel">✎ Hoặc nhập số tiền tuỳ ý <span class="gift-custom-chev" aria-hidden="true">▾</span></button>
               <div id="gift-custom-panel" hidden>
@@ -72,11 +80,6 @@
             </div>
           </fieldset>
 
-          <div class="gift-preview" aria-live="polite">
-            <span class="gift-preview-label">Sẽ hiện trên tường cảm ơn</span>
-            <span class="gift-preview-line" id="gift-preview"></span>
-          </div>
-
           <label class="donate-field" for="display-name">
             <span>Tên hiển thị</span>
             <input id="display-name" name="displayName" type="text" maxlength="40" autocomplete="nickname" required>
@@ -89,7 +92,7 @@
 
           <label class="donate-check">
             <input id="anonymous" name="anonymous" type="checkbox">
-            <span>Ẩn danh — hiện tên là “Ẩn danh”</span>
+            <span>Ẩn danh — hiện tên là “Một nhà hảo tâm”</span>
           </label>
 
           <p class="donate-error" id="donate-error" role="alert" hidden></p>
@@ -102,25 +105,16 @@
       <div class="section-kicker">TƯỜNG LỜI NHẮN</div>
       <h2 id="wall-title">Những món quà đã nhận.</h2>
       <p class="donate-total" id="donate-total" role="status">Đang tải tổng ủng hộ…</p>
-      <div class="wall-top" id="wall-top">
-        <div class="wall-progress" id="wall-progress" hidden>
-          <b id="campaign-name"></b>
-          <p class="wall-progress-amount"><span id="campaign-raised">0 đ</span> <small>/ <span id="campaign-goal"></span></small></p>
-          <div class="wall-meter" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Tiến độ gây quỹ" id="campaign-meter"><i></i></div>
-          <div class="wall-stats" id="campaign-stats"></div>
-        </div>
-        <div class="wall-cta">
-          <b id="wall-hearts">Những tấm lòng</b>
-          <p>“Mỗi lời nhắn sẽ được in ra và dán ở điểm trường.”</p>
-          <a class="button button-purple" href="#form-title">Gửi quà ngay</a>
-        </div>
-      </div>
       <div class="donate-history-card">
         <div class="donate-history-toolbar">
           <label class="donate-search" for="donate-search">
             <span aria-hidden="true">⌕</span>
             <input id="donate-search" type="search" placeholder="Tìm theo tên…" autocomplete="off">
           </label>
+          <div class="donate-sort" id="donate-sort" role="group" aria-label="Sắp xếp">
+            <button type="button" data-sort="new" aria-pressed="true">Mới nhất</button>
+            <button type="button" data-sort="amount" aria-pressed="false">Cao → thấp</button>
+          </div>
           <p class="donate-history-count" id="donate-history-count" role="status"></p>
         </div>
         <div class="donate-wall" id="donate-wall">
