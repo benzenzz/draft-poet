@@ -72,25 +72,3 @@ export function validateMessage(rawMessage) {
   const message = maskDonationText(text).slice(0, 160);
   return { message, error: null };
 }
-
-/**
- * Admin "received amount" for manual mark-paid. Required. Accepts only a
- * positive safe-integer JS number or a digits-only string (no booleans,
- * arrays, decimals, signs). Capped at MAX_AMOUNT.
- */
-export function parseReceivedAmount(value) {
-  const bad = { value: null, error: 'Số tiền đã nhận không hợp lệ.' };
-  let n;
-  if (typeof value === 'number') {
-    n = value;
-  } else if (typeof value === 'string' && /^\d{1,9}$/.test(value.trim())) {
-    n = Number(value.trim());
-  } else if (value == null) {
-    return { value: null, error: 'Vui lòng nhập số tiền đã nhận.' };
-  } else {
-    return bad;
-  }
-  if (!Number.isSafeInteger(n) || n <= 0) return bad;
-  if (n > MAX_AMOUNT) return { value: null, error: 'Số tiền đã nhận vượt quá 20.000.000 đ.' };
-  return { value: n, error: null };
-}

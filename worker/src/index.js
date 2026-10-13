@@ -26,7 +26,6 @@ import {
   handleAdminList,
   handleAdminLogin,
   handleAdminLogout,
-  handleAdminMarkPaid,
   handleAdminRecoverPassword,
   handleAdminShow,
   handleGetAdminSettings,
@@ -41,7 +40,6 @@ import {
 
 const SHOW_RE = /^\/api\/admin\/donations\/\d+\/(show|publish)$/;
 const HIDE_RE = /^\/api\/admin\/donations\/\d+\/hide$/;
-const MARK_PAID_RE = /^\/api\/admin\/donations\/\d+\/mark-paid$/;
 
 function orderCodeFromAdminPath(pathname) {
   return pathname.split('/')[4];
@@ -96,10 +94,6 @@ async function route(request, env, url, ctx) {
   }
   if (method === 'POST' && HIDE_RE.test(pathname)) {
     return withAdmin(request, env, () => handleAdminHide(env, orderCodeFromAdminPath(pathname), url));
-  }
-  if (method === 'POST' && MARK_PAID_RE.test(pathname)) {
-    return withAdmin(request, env, (session) =>
-      handleAdminMarkPaid(request, env, orderCodeFromAdminPath(pathname), url, session));
   }
   if (method === 'GET' && pathname === '/return') {
     return handleReturnRedirect(url);

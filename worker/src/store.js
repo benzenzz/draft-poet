@@ -230,10 +230,16 @@ export async function findDonationForWebhook(env, orderCode) {
 }
 
 /**
- * Mark a pending donation as success with PayOS audit fields.
- * Does not touch hidden. Already-success rows are left alone (idempotent).
+ * Mark an unpaid donation as success with PayOS audit fields. A valid paid
+ * webhook can arrive after the 30-min link expiry, so pending and legacy
+ * expired/cancelled rows all move to success. Does not touch hidden.
+ * Already-success rows are left alone (idempotent).
  * Falls back to the minimal update on DBs without the audit migration.
  */
+/** Statuses a late, valid PayOS 'paid' webhook may still settle. */
+export const UNPAID_STATUSES = ['pending', 'expired', 'cancelled'];
+const UNPAID_SQL = UNPAID_STATUSES.map((s) => `'${s}'`).join(', ');
+
 export async function markDonationPaid(env, orderCode, data, paidAtIso) {
   const audit = {
     payos_reference: data.reference ?? null,
@@ -259,7 +265,7 @@ export async function markDonationPaid(env, orderCode, data, paidAtIso) {
            counter_account_name = ?, counter_account_number = ?,
            virtual_account_name = ?, virtual_account_number = ?,
            payment_link_id = COALESCE(payment_link_id, ?)
-       WHERE order_code = ? AND status = 'pending'`,
+       WHERE order_code = ? AND status IN (${UNPAID_SQL})`,
     )
       .bind(
         audit.payos_reference,
@@ -282,7 +288,7 @@ export async function markDonationPaid(env, orderCode, data, paidAtIso) {
     await env.DB.prepare(
       `UPDATE donations
        SET status = 'success', payos_reference = ?, paid_at = ?
-       WHERE order_code = ? AND status = 'pending'`,
+       WHERE order_code = ? AND status IN (${UNPAID_SQL})`,
     )
       .bind(data.reference || null, paidAtIso, orderCode)
       .run();
@@ -361,57 +367,3 @@ export async function findAdminPasswordHash(env, username) {
     .first();
 }
 
-/**
- * Admin manual confirmation (bank transfer seen, webhook missed).
- * Only pending rows change; returns true when a row was updated.
- */
-export async function markDonationPaidManually(env, orderCode, username, note, paidAtIso, newAmount = null) {
-  // newAmount (confirmed mismatch) replaces the counted amount; null keeps it.
-  const res = await env.DB.prepare(
-    `UPDATE donations
-     SET status = 'success', paid_at = ?, payos_reference = ?,
-         payos_description = COALESCE(?, payos_description),
-         amount = COALESCE(?, amount)
-     WHERE order_code = ? AND status = 'pending'`,
-  )
-    .bind(paidAtIso, `manual:${username}`, note, newAmount, orderCode)
-    .run();
-  return (res?.meta?.changes || 0) > 0;
-}
-
-/**
- * A gift an admin marked paid by hand, later confirmed by the real PayOS
- * webhook: copy in PayOS audit fields. status/amount/paid_at stay as is.
- * The 'manual:<admin>' marker moves to the front of payos_description so
- * who confirmed it is kept. Idempotent: only matches manual references.
- */
-export async function enrichManualDonation(env, orderCode, data) {
-  await env.DB.prepare(
-    `UPDATE donations
-     SET payos_description = payos_reference ||
-           CASE WHEN payos_description IS NULL OR payos_description = '' THEN ''
-                ELSE ' | ' || payos_description END,
-         payos_reference = ?,
-         payos_account_number = ?, payos_transaction_time = ?, payos_currency = ?,
-         counter_account_bank_id = ?, counter_account_bank_name = ?,
-         counter_account_name = ?, counter_account_number = ?,
-         virtual_account_name = ?, virtual_account_number = ?,
-         payment_link_id = COALESCE(payment_link_id, ?)
-     WHERE order_code = ? AND status = 'success' AND payos_reference LIKE 'manual:%'`,
-  )
-    .bind(
-      data.reference ?? null,
-      data.accountNumber ?? null,
-      data.transactionDateTime ?? null,
-      data.currency ?? null,
-      data.counterAccountBankId ?? null,
-      data.counterAccountBankName ?? null,
-      data.counterAccountName ?? null,
-      data.counterAccountNumber ?? null,
-      data.virtualAccountName ?? null,
-      data.virtualAccountNumber ?? null,
-      data.paymentLinkId ?? null,
-      orderCode,
-    )
-    .run();
-}

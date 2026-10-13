@@ -1,7 +1,7 @@
-/** PayOS webhook: verify signature, mark pending gifts as paid. Idempotent. */
+/** PayOS webhook: verify signature, settle unpaid gifts. Idempotent. */
 import { error, json } from './http.js';
 import { verifyDataSignature } from './payos.js';
-import { enrichManualDonation, findDonationForWebhook, markDonationPaid } from './store.js';
+import { UNPAID_STATUSES, findDonationForWebhook, markDonationPaid } from './store.js';
 import { purgePublicListCache } from './routes-donations.js';
 
 export async function handleWebhook(request, env, url) {
@@ -34,25 +34,14 @@ export async function handleWebhook(request, env, url) {
   }
 
   const paidOk = payload.success === true && payload.code === '00' && data.code === '00';
-  const isManual = row.status === 'success' && String(row.payos_reference || '').startsWith('manual:');
-  // Manual rows may carry an admin-corrected amount, so the PayOS amount
-  // is not compared; enrichment never touches amount/status/paid_at.
-  const successMatch = paidOk && (isManual || Number(data.amount) === Number(row.amount));
-  if (!successMatch) return json({ ok: true }, 200);
+  if (!paidOk || Number(data.amount) !== Number(row.amount)) return json({ ok: true }, 200);
 
   // Already success (including hidden gifts): leave status and hidden alone.
-  // Manually confirmed earlier: just attach the PayOS audit fields.
-  if (row.status === 'success') {
-    if (String(row.payos_reference || '').startsWith('manual:') && data.reference) {
-      await enrichManualDonation(env, data.orderCode, data);
-    }
-    return json({ ok: true }, 200);
-  }
+  if (row.status === 'success') return json({ ok: true }, 200);
 
-  if (row.status === 'pending') {
-    // Audit fields from PayOS: receiving account + donor (counter) bank info.
-    // Never trust these for auth; stored for later review only.
-    // Payment success auto-publishes to the public wall (status = success).
+  if (UNPAID_STATUSES.includes(row.status)) {
+    // Pending or past the link expiry: a valid paid webhook still settles it.
+    // Audit fields are stored for review only, never trusted for auth.
     await markDonationPaid(env, data.orderCode, data, new Date().toISOString());
     await purgePublicListCache(url);
   }
