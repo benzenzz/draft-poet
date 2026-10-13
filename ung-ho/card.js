@@ -12,23 +12,38 @@ window.POETCard = (() => {
     return n || 'Một nhà hảo tâm';
   }
 
-  function wrap(c, text, x, y, maxW, lh, maxLines) {
-    const words = text.split(' ');
-    let line = '';
-    let lines = 0;
-    for (let i = 0; i < words.length; i++) {
-      const test = line ? line + ' ' + words[i] : words[i];
-      if (c.measureText(test).width > maxW && line) {
-        lines++;
-        if (lines >= maxLines) { line += '…'; break; }
-        c.fillText(line, x, y);
-        y += lh;
-        line = words[i];
-      } else {
-        line = test;
-      }
+  // Split a word wider than maxW into pieces that fit (long URLs, no spaces).
+  function splitLong(c, word, maxW) {
+    if (c.measureText(word).width <= maxW) return [word];
+    const out = [];
+    let cur = '';
+    for (const ch of Array.from(word)) {
+      if (cur && c.measureText(cur + ch).width > maxW) { out.push(cur); cur = ch; }
+      else cur += ch;
     }
-    c.fillText(line, x, y);
+    if (cur) out.push(cur);
+    return out;
+  }
+
+  function wrap(c, text, x, y, maxW, lh, maxLines) {
+    const words = String(text).split(/\s+/).filter(Boolean)
+      .flatMap((w) => splitLong(c, w, maxW));
+    const lines = [];
+    let line = '';
+    for (const w of words) {
+      const test = line ? line + ' ' + w : w;
+      if (line && c.measureText(test).width > maxW) { lines.push(line); line = w; }
+      else line = test;
+    }
+    if (line) lines.push(line);
+    const shown = lines.slice(0, maxLines);
+    if (lines.length > maxLines) {
+      let last = shown[maxLines - 1];
+      while (last && c.measureText(last + '…').width > maxW) last = Array.from(last).slice(0, -1).join('');
+      shown[maxLines - 1] = last + '…';
+    }
+    shown.forEach((l, i) => c.fillText(l, x, y + i * lh, maxW));
+    return shown.length;
   }
 
   async function draw(canvas, d) {
@@ -137,5 +152,5 @@ window.POETCard = (() => {
     });
   }
 
-  return { draw, bind, cardName };
+  return { draw, bind, cardName, wrap };
 })();
