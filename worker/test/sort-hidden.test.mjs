@@ -67,9 +67,9 @@ describe('admin hidden filter', () => {
     const { sql } = await run('?hidden=hidden');
     assert.match(sql[0], /WHERE status = 'success' AND hidden = 1 ORDER BY created_at DESC LIMIT 100/);
   });
-  it('visible: hidden = 0', async () => {
+  it('visible: success AND hidden = 0', async () => {
     const { sql } = await run('?hidden=visible');
-    assert.match(sql[0], /WHERE hidden = 0 ORDER BY/);
+    assert.match(sql[0], /WHERE status = 'success' AND hidden = 0 ORDER BY/);
   });
   it('bad value -> 400', async () => {
     const { res, sql } = await run('?hidden=yes');

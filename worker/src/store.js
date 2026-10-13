@@ -297,7 +297,7 @@ function withHiddenFlag(row) {
 export async function listDonationsForAdmin(env, hiddenFilter = null) {
   // hiddenFilter: 'hidden' | 'visible' | null (all).
   const where = hiddenFilter === 'hidden' ? "WHERE status = 'success' AND hidden = 1"
-    : hiddenFilter === 'visible' ? 'WHERE hidden = 0' : '';
+    : hiddenFilter === 'visible' ? "WHERE status = 'success' AND hidden = 0" : '';
   try {
     const { results } = await env.DB.prepare(
       `SELECT order_code AS orderCode, amount, display_name AS displayName,

@@ -693,7 +693,7 @@
   const totalBar = document.querySelector('.gift-total');
   if (totalBar && 'ResizeObserver' in window) {
     new ResizeObserver(() => {
-      document.documentElement.style.setProperty('--gift-bar-h', `${Math.ceil(totalBar.offsetHeight + 8)}px`);
+      document.documentElement.style.setProperty('--gift-bar-h', `${Math.ceil(totalBar.offsetHeight)}px`);
     }).observe(totalBar);
   }
 

@@ -112,7 +112,7 @@ window.POETCard = (() => {
   const fileName = () => 'poet-cam-on-' + new Date().toISOString().slice(0, 10) + '.png';
   const toBlob = (canvas) => new Promise((r) => canvas.toBlob(r, 'image/png'));
 
-  const SHARE_TEXT = 'Mình vừa gửi quà cho các em nhỏ vùng cao cùng POET 💛 Cùng mình ủng hộ nhé: ' + SHARE_URL;
+  const SHARE_TEXT = 'Mình vừa gửi quà cho các em nhỏ vùng cao cùng POET 💛 Cùng mình ủng hộ nhé!';
 
   function bind(canvas, els) {
     const toast = (t) => { if (els.toast) els.toast.textContent = t; };
@@ -147,8 +147,11 @@ window.POETCard = (() => {
         }
       }
       const url = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(SHARE_URL);
-      const w = window.open(url, '_blank', 'noopener,width=640,height=560');
-      if (!w) location.href = url;
+      // No 'noopener' feature: it makes window.open return null even on success.
+      const w = window.open(url, '_blank', 'width=640,height=560');
+      if (w) w.opener = null;
+      else location.href = url; // popup blocked
+
     });
   }
 
