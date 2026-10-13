@@ -652,12 +652,70 @@
     });
   }
 
+  // One request per sort per page view; the server caches each sort for 30s.
+  const wallCache = {};
+  function fetchWall(sort) {
+    if (!wallCache[sort]) {
+      const q = sort === 'amount' ? '?sort=amount' : '';
+      wallCache[sort] = fetch(`${API_BASE}/api/donations${q}`).then((res) => {
+        if (!res.ok) throw new Error('bad status');
+        return res.json();
+      });
+      wallCache[sort].catch(() => { delete wallCache[sort]; });
+    }
+    return wallCache[sort];
+  }
+
+  // Podium: top 3 single donations from the amount-sorted wall (same hidden rule).
+  const MEDALS = [
+    { place: 1, label: 'Hạng nhất', crown: '👑', cls: 'is-1' },
+    { place: 2, label: 'Hạng nhì', crown: '', cls: 'is-2' },
+    { place: 3, label: 'Hạng ba', crown: '', cls: 'is-3' },
+  ];
+  function wallName(item) {
+    return !item.displayName || item.displayName === 'Ẩn danh' ? ANON_NAME : item.displayName;
+  }
+  function renderPodium(donations) {
+    const box = document.getElementById('podium');
+    const list = document.getElementById('podium-list');
+    if (!box || !list) return;
+    const top = (donations || []).filter((d) => Number(d.amount) > 0).slice(0, 3);
+    list.textContent = '';
+    box.hidden = !top.length;
+    box.dataset.count = String(top.length);
+    top.forEach((d, i) => {
+      const m = MEDALS[i];
+      const li = document.createElement('li');
+      li.className = `podium-step ${m.cls}`;
+      li.setAttribute('aria-label', `${m.label}: ${wallName(d)}, ${money(d.amount)}`);
+      if (m.crown) {
+        const c = document.createElement('span');
+        c.className = 'podium-crown';
+        c.setAttribute('aria-hidden', 'true');
+        c.textContent = m.crown;
+        li.appendChild(c);
+      }
+      const n = document.createElement('b');
+      n.className = 'podium-name';
+      n.textContent = wallName(d);
+      const a = document.createElement('small');
+      a.className = 'podium-amount';
+      a.textContent = money(d.amount);
+      const block = document.createElement('span');
+      block.className = 'podium-block';
+      block.setAttribute('aria-hidden', 'true');
+      block.textContent = String(m.place);
+      li.append(n, a, block);
+      list.appendChild(li);
+    });
+  }
+  async function loadPodium() {
+    try { renderPodium((await fetchWall('amount')).donations); } catch { /* podium is optional */ }
+  }
+
   async function loadWall() {
     try {
-      const q = wallSort === 'amount' ? '?sort=amount' : '';
-      const res = await fetch(`${API_BASE}/api/donations${q}`);
-      if (!res.ok) throw new Error('bad status');
-      const data = await res.json();
+      const data = await fetchWall(wallSort);
       renderTotal(data.totalAmount, data.totalCount);
       renderWall(data.donations || []);
     } catch {
@@ -701,4 +759,5 @@
   update();
   loadSettings();
   loadWall();
+  loadPodium();
 })();

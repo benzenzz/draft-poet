@@ -174,3 +174,22 @@
 .donate-sort button + button { border-left: 2px solid var(--outline); }
 .donate-sort button[aria-pressed="true"] { background: var(--yellow); }
 .donate-sort button:focus-visible { outline: 3px solid var(--outline); outline-offset: -4px; }
+
+/* Podium (Option A): top 3 single donations, 2-1-3 on every width. */
+.podium { margin: 8px 0 18px; padding: 16px 16px 12px; background: var(--card); border: 2.5px solid var(--outline); border-radius: var(--radius); box-shadow: 4px 5px 0 var(--outline); }
+.podium h3 { margin: 0 0 12px; font: 800 clamp(20px, 5vw, 26px)/1.2 var(--display); text-align: center; }
+.podium-list { list-style: none; margin: 0 auto; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: end; gap: 8px; max-width: 560px; }
+.podium[data-count="1"] .podium-list { grid-template-columns: minmax(0, 200px); justify-content: center; }
+.podium[data-count="2"] .podium-list { grid-template-columns: repeat(2, minmax(0, 200px)); justify-content: center; }
+.podium-step { display: flex; flex-direction: column; align-items: center; text-align: center; min-width: 0; }
+.podium[data-count="3"] .podium-step.is-2 { order: -1; }
+.podium-crown { font-size: 28px; line-height: 1; margin-bottom: 2px; }
+.podium-name { font: 800 16px/1.2 var(--display); max-width: 100%; overflow-wrap: anywhere; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.podium-amount { font: 800 13px var(--font); color: var(--ink-soft); margin: 2px 0 6px; white-space: nowrap; }
+.podium-block { width: 100%; border: 2.5px solid var(--outline); border-bottom-width: 2.5px; border-radius: 14px 14px 0 0; font: 800 26px var(--display); color: var(--outline); padding-top: 6px; }
+.podium-step.is-1 .podium-block { height: 100px; background: var(--yellow); }
+.podium-step.is-2 .podium-block { height: 70px; background: #dfe6ec; }
+.podium-step.is-3 .podium-block { height: 50px; background: #f0c9a5; }
+.podium-step.is-1 .podium-name { font-size: 18px; }
+.podium-note { margin: 10px 0 0; font-size: 13px; color: var(--ink-soft); text-align: center; }
+@media (min-width: 760px) { .podium-name { font-size: 18px; } .podium-step.is-1 .podium-name { font-size: 21px; } .podium-amount { font-size: 15px; } }
