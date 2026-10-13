@@ -81,7 +81,7 @@
       const ic = document.createElement('span');
       ic.setAttribute('aria-hidden', 'true');
       ic.innerHTML = it.svg; // static SVG from items.js
-      chip.append(ic, `${qty} ${it.unit} ${it.name.toLowerCase()}`);
+      chip.append(ic, `${qty} ${it.name} ${it.emoji || ''}`.trimEnd());
       box.appendChild(chip);
     });
     box.hidden = !box.childElementCount;

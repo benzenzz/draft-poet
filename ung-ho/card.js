@@ -87,9 +87,18 @@ window.POETCard = (() => {
     c.fillText('đã gửi tặng các em nhỏ vùng cao', 540, 610);
     c.fillStyle = '#8a6bd1'; c.font = '800 104px "Baloo 2"';
     c.fillText(new Intl.NumberFormat('vi-VN').format(amt) + ' đ', 540, 740, 780);
+    const items = (window.POET_DONATE_CONFIG && window.POET_DONATE_CONFIG.items) || [];
+    const gift = items.find((i) => i.id === d.giftId);
+    const qty = Number(d.giftQty);
+    let msgY = 850;
+    if (gift && Number.isInteger(qty) && qty >= 1) {
+      c.fillStyle = '#3a9e74'; c.font = '800 44px "Baloo 2"';
+      c.fillText(`${name} tặng ${qty} ${gift.name} ${gift.emoji || ''}`.trimEnd(), 540, 830, 780);
+      msgY = 910;
+    }
     if (d.message) {
       c.fillStyle = '#4a3324'; c.font = '44px Itim';
-      wrap(c, '“' + d.message + '”', 540, 850, 700, 58, 3);
+      wrap(c, '“' + d.message + '”', 540, msgY, 700, 58, gift ? 2 : 3);
     }
     c.fillStyle = '#7a5b45'; c.font = '700 32px Nunito';
     c.fillText('Ngày ' + date, 540, 1070);
