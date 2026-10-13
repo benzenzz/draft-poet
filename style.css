@@ -1679,3 +1679,15 @@ main.admin {
     grid-template-columns: 1fr 1fr;
   }
 }
+.admin-table-hidden { white-space: nowrap; font-weight: 700; }
+.admin-table-hidden.is-hidden { color: var(--coral); }
+
+/* Admin sidebar stickiness: html/body use overflow-x: clip, but browsers
+   without clip (Safari < 16) fall back to overflow-x: hidden, which turns
+   body into a scroll container and the sticky rail scrolls away with the
+   table. The admin page has its own horizontal containment (.admin-main,
+   .admin-table-wrap), so drop the page-level clip here. */
+html.admin-page, html.admin-page body { overflow-x: visible; }
+@supports (height: 100dvh) {
+  .admin-layout { min-height: calc(100dvh - var(--admin-header-offset)); }
+}

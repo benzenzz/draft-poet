@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="vi" style="color-scheme: light only; background-color: #f4e6cf">
+<html lang="vi" class="admin-page" style="color-scheme: light only; background-color: #f4e6cf">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -156,7 +156,14 @@
                       <option value="pending">pending — chờ thanh toán</option>
                       <option value="expired">hết hạn — link quá 30 phút</option>
                       <option value="success">success — đã nhận</option>
-                      <option value="hidden">hidden — ẩn lời nhắn</option>
+                    </select>
+                  </label>
+                  <label class="admin-filter" for="hidden-filter">
+                    <span>Lời nhắn</span>
+                    <select id="hidden-filter">
+                      <option value="all">Tất cả</option>
+                      <option value="hidden">Đang ẩn</option>
+                      <option value="visible">Đang hiện</option>
                     </select>
                   </label>
                   <label class="admin-filter" for="search-input">
@@ -176,6 +183,7 @@
                         <th>Số tiền</th>
                         <th>Tên</th>
                         <th>Lời nhắn</th>
+                        <th>Ẩn</th>
                         <th>Ẩn danh</th>
                         <th>Tạo lúc</th>
                         <th>Trả lúc</th>
