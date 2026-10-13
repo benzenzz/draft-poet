@@ -172,9 +172,10 @@
     return c === null ? 0 : c;
   }
 
-  function donorName() {
+  // Preview name: empty + not anonymous → "Bạn"; anonymous → "Một nhà hảo tâm".
+  function previewName() {
     if (anonymous.checked) return 'Một nhà hảo tâm';
-    return displayName.value.trim() || 'Một nhà hảo tâm';
+    return displayName.value.trim() || 'Bạn';
   }
 
   function update() {
@@ -219,14 +220,20 @@
           : total > 0 && !wholeK ? 'Số tiền phải là bội số của 1.000 đ' : '';
     }
 
-    // Live wall-line preview (textContent only).
+    // Live wall-line preview (textContent only). Hidden until gift or valid custom.
+    const previewBox = previewEl && previewEl.closest('.gift-preview');
     const note = message.value.trim();
-    let line = donorName();
-    if (sel) line += ` tặng ${count} ${sel.name} ${sel.emoji || ''}`.trimEnd();
-    else if (custom && valid) line += ` · ${money(total)}`;
-    else line += ' tặng …';
-    if (note) line += ` — ${note}`;
-    previewEl.textContent = line;
+    const showPreview = !!(sel && count >= 1) || !!(custom && valid);
+    if (previewBox) previewBox.hidden = !showPreview;
+    if (showPreview && previewEl) {
+      let line = previewName();
+      if (sel) line += ` tặng ${count} ${sel.name} ${sel.emoji || ''}`.trimEnd();
+      else line += ` ủng hộ ${money(total)} 💛`;
+      if (note) line += ` — ${note}`;
+      previewEl.textContent = line;
+    } else if (previewEl) {
+      previewEl.textContent = '';
+    }
 
     setSubmitEnabled(valid);
     if (submitBtn.dataset.busy !== '1' && donationsEnabled) {
@@ -478,7 +485,7 @@
     if (gift) {
       const line = document.createElement('p');
       line.className = 'wall-note-gift';
-      line.textContent = `${item.displayName || 'Ẩn danh'} tặng ${gift.qty} ${gift.item.name} ${gift.item.emoji || ''}`.trimEnd();
+      line.textContent = `tặng ${gift.qty} ${gift.item.name} ${gift.item.emoji || ''}`.trimEnd();
       note.appendChild(line);
     }
 
