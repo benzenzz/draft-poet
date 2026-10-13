@@ -87,18 +87,10 @@ window.POETCard = (() => {
     c.fillText('đã gửi tặng các em nhỏ vùng cao', 540, 610);
     c.fillStyle = '#8a6bd1'; c.font = '800 104px "Baloo 2"';
     c.fillText(new Intl.NumberFormat('vi-VN').format(amt) + ' đ', 540, 740, 780);
-    const items = (window.POET_DONATE_CONFIG && window.POET_DONATE_CONFIG.items) || [];
-    const gift = items.find((i) => i.id === d.giftId);
-    const qty = Number(d.giftQty);
-    let msgY = 850;
-    if (gift && Number.isInteger(qty) && qty >= 1) {
-      c.fillStyle = '#3a9e74'; c.font = '800 44px "Baloo 2"';
-      c.fillText(`tặng ${qty} ${gift.name} ${gift.emoji || ''}`.trimEnd(), 540, 830, 780);
-      msgY = 910;
-    }
+    const msgY = 850;
     if (d.message) {
       c.fillStyle = '#4a3324'; c.font = '44px Itim';
-      wrap(c, '“' + d.message + '”', 540, msgY, 700, 58, gift ? 2 : 3);
+      wrap(c, '“' + d.message + '”', 540, msgY, 700, 58, 3);
     }
     c.fillStyle = '#7a5b45'; c.font = '700 32px Nunito';
     c.fillText('Ngày ' + date, 540, 1070);
@@ -111,9 +103,11 @@ window.POETCard = (() => {
   const fileName = () => 'poet-cam-on-' + new Date().toISOString().slice(0, 10) + '.png';
   const toBlob = (canvas) => new Promise((r) => canvas.toBlob(r, 'image/png'));
 
+  const SHARE_TEXT = 'Mình vừa gửi quà cho các em nhỏ vùng cao cùng POET 💛 Cùng mình ủng hộ nhé: ' + SHARE_URL;
+
   function bind(canvas, els) {
     const toast = (t) => { if (els.toast) els.toast.textContent = t; };
-    els.fb.href = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(SHARE_URL);
+    const fileOf = async () => new File([await toBlob(canvas)], fileName(), { type: 'image/png' });
     els.save.addEventListener('click', async () => {
       const blob = await toBlob(canvas);
       const file = new File([blob], fileName(), { type: 'image/png' });
@@ -130,15 +124,22 @@ window.POETCard = (() => {
       setTimeout(() => URL.revokeObjectURL(a.href), 2000);
       toast('Đã lưu ảnh ✓');
     });
-    els.share.addEventListener('click', async () => {
-      const blob = await toBlob(canvas);
-      const file = new File([blob], fileName(), { type: 'image/png' });
-      const payload = { title: 'Mình vừa ủng hộ POET', text: 'Cùng mình gửi quà cho các em nhỏ vùng cao nhé!', url: SHARE_URL };
-      try {
-        if (navigator.canShare && navigator.canShare({ files: [file] })) await navigator.share({ ...payload, files: [file] });
-        else if (navigator.share) await navigator.share(payload);
-        else { await navigator.clipboard.writeText(SHARE_URL); toast('Đã sao chép liên kết ✓'); }
-      } catch { /* user cancelled */ }
+    // Phones: share sheet with the letter PNG + message + link (pick Facebook there).
+    // Desktop: Facebook's sharer only takes a URL; the og: tags on ung-ho/ give the preview.
+    els.fb.addEventListener('click', async () => {
+      let file = null;
+      try { file = await fileOf(); } catch { /* ignore */ }
+      if (file && navigator.canShare && navigator.canShare({ files: [file] })) {
+        try {
+          await navigator.share({ files: [file], title: 'Thư cảm ơn POET', text: SHARE_TEXT, url: SHARE_URL });
+          return;
+        } catch (err) {
+          if (err && err.name === 'AbortError') return;
+        }
+      }
+      const url = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(SHARE_URL);
+      const w = window.open(url, '_blank', 'noopener,width=640,height=560');
+      if (!w) location.href = url;
     });
   }
 

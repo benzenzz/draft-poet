@@ -4,10 +4,7 @@
 
   const $ = (id) => document.getElementById(id);
   const statusEl = $('result-status');
-  const CONFIG = window.POET_DONATE_CONFIG || { items: [] };
-  const ITEMS = CONFIG.items || [];
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const money = (n) => new Intl.NumberFormat('vi-VN').format(n) + ' đ';
 
   const orderCode = new URLSearchParams(location.search).get('orderCode');
   const validCode = orderCode && /^\d{1,10}$/.test(orderCode);
@@ -69,64 +66,29 @@
     else document.body.classList.add('thanks-no-anim'); // don't re-pop the gift box on reload
   }
 
-  function renderImpact(local) {
-    const box = $('thanks-impact');
-    box.textContent = '';
-    const items = (local && Array.isArray(local.items)) ? local.items : [];
-    items.forEach(({ id, qty }) => {
-      const it = ITEMS.find((i) => i.id === id);
-      if (!it || !(qty > 0)) return;
-      const chip = document.createElement('span');
-      chip.className = 'thanks-chip';
-      const ic = document.createElement('span');
-      ic.setAttribute('aria-hidden', 'true');
-      ic.innerHTML = it.svg; // static SVG from items.js
-      chip.append(ic, `${qty} ${it.name} ${it.emoji || ''}`.trimEnd());
-      box.appendChild(chip);
-    });
-    box.hidden = !box.childElementCount;
-  }
-
   function showSuccess(data, local) {
     $('thanks-wait').hidden = true;
     $('thanks-success').hidden = false;
-    $('thanks-steps').hidden = false;
     statusEl.className = 'thanks-status is-ok';
     statusEl.textContent = '✓ Đã nhận thanh toán';
-    if (data.hidden) $('step1-text').textContent = 'Lời nhắn của bạn được giữ riêng, không hiện trên tường.';
-
-    const lead = $('thanks-lead');
-    if (local) {
+    const name = local && !local.anonymous ? String(local.displayName || '').trim() : '';
+    if (name) {
+      const lead = $('thanks-lead');
       lead.textContent = '';
-      const name = local.anonymous ? '' : String(local.displayName || '').trim();
-      if (name) {
-        const b = document.createElement('b');
-        b.textContent = name;
-        lead.append(b, ' ơi, món quà ');
-      } else {
-        lead.append('Món quà ');
-      }
-      const amt = document.createElement('b');
-      amt.textContent = money(local.amount);
-      lead.append(amt, ' của bạn sẽ theo POET lên điểm trường vùng cao trong chuyến đi tới.');
+      const b = document.createElement('b');
+      b.textContent = name;
+      lead.append(b, ' ơi, món quà của bạn đã đến POET. Đây là lá thư cảm ơn dành riêng cho bạn.');
     }
-    renderImpact(local);
     celebrateOnce();
 
-    // Card needs the donor details; without them (other device/browser) hide it.
-    const cardLink = $('thanks-card-link');
+    // The letter needs the donor details; without them (other device/browser) skip it.
     if (local && window.POETCard) {
       $('thanks-card').hidden = false;
       const canvas = $('card-canvas');
       window.POETCard.draw(canvas, local);
-      window.POETCard.bind(canvas, { save: $('card-save'), share: $('card-share'), fb: $('card-fb'), toast: $('card-toast') });
-    } else if (cardLink) {
-      cardLink.hidden = true;
-    }
-    const replay = $('thanks-replay');
-    if (replay) {
-      if (reduceMotion) replay.hidden = true;
-      else replay.addEventListener('click', burst);
+      window.POETCard.bind(canvas, { save: $('card-save'), fb: $('card-fb'), toast: $('card-toast') });
+    } else {
+      $('thanks-lead').textContent = 'Món quà của bạn đã đến POET. Cảm ơn bạn rất nhiều!';
     }
   }
 

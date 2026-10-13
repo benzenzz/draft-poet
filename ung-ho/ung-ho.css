@@ -52,11 +52,6 @@
 .gift-chip[aria-pressed="true"] { background: var(--yellow); }
 .gift-chip:focus-visible { outline: 3px solid var(--outline); outline-offset: 2px; }
 .gift-step-hint { margin: 0 2px; font-size: 13px; color: var(--ink-soft); }
-.gift-preview {
-  background: #fff; border: 2px dashed var(--outline); border-radius: 16px; padding: 12px; margin: 14px 0 4px;
-}
-.gift-preview-label { display: block; font: 700 12px var(--font); color: var(--green); margin-bottom: 4px; }
-.gift-preview-line { display: block; font: 18px/1.35 var(--hand); overflow-wrap: anywhere; }
 .wall-note-gift { margin: 0 0 8px; font: 800 15px/1.3 var(--display); color: var(--green); overflow-wrap: anywhere; }
 .gift-custom { margin-top: 12px; }
 .gift-custom-toggle { cursor: pointer; font: inherit; font-weight: 800; color: inherit; background: none; border: 0; padding: 0 4px; min-height: 44px; display: flex; align-items: center; gap: 6px; text-align: left; }
@@ -73,22 +68,6 @@
 .is-bump { animation: gift-bump .3s; }
 @keyframes gift-bump { 50% { transform: scale(1.12); } }
 
-/* ---------- Wall: progress + sticky notes ---------- */
-.wall-top { display: grid; gap: 14px; grid-template-columns: 1fr; margin: 8px 0 18px; }
-@media (min-width: 760px) { .wall-top { grid-template-columns: 2fr 1fr; } }
-.wall-progress, .wall-cta {
-  background: var(--card); border: 2.5px solid var(--outline); border-radius: var(--radius);
-  box-shadow: 4px 5px 0 var(--outline); padding: 18px 20px; min-width: 0;
-}
-.wall-cta { background: #fff3c4; }
-.wall-cta p { font: 20px/1.3 var(--hand); margin: 6px 0 12px; }
-.wall-progress-amount { font: 800 30px var(--display); margin: 6px 0; color: var(--outline); }
-.wall-progress-amount small { font-size: 18px; color: var(--ink-soft); }
-.wall-meter { height: 22px; border: 2.5px solid var(--outline); border-radius: 999px; background: #fff; overflow: hidden; }
-.wall-meter i { display: block; height: 100%; width: 0; background: repeating-linear-gradient(45deg, var(--leaf) 0 12px, #9fd65a 12px 24px); transition: width 1s ease-out; }
-.wall-stats { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
-.wall-stats > span { display: flex; align-items: center; gap: 4px; font-weight: 800; background: #fff; border: 2px solid var(--outline); border-radius: 12px; padding: 4px 10px; }
-.wall-stats svg { width: 26px; height: 26px; display: block; }
 
 .donate-wall-section .donate-wall {
   display: grid; gap: 22px 18px; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -123,35 +102,21 @@
 .thanks-status { display: inline-flex; gap: 8px; align-items: center; border-radius: 999px; padding: 6px 14px; font-weight: 800; background: var(--card); border: 2px solid var(--line); }
 .thanks-status.is-ok { background: #e4f5ea; border-color: var(--green); color: #1f6b4b; }
 .thanks-status.is-wait { background: #fff3c4; border-color: var(--yellow); }
-.thanks-stage { position: relative; width: 200px; height: 200px; margin: 6px auto 0; }
-.thanks-gift svg { width: 200px; height: 200px; display: block; animation: thanks-pop .7s cubic-bezier(.3, 1.6, .5, 1) both; }
-.thanks-heart { position: absolute; left: 50%; top: 10px; font-size: 44px; transform: translateX(-50%); animation: thanks-float 1.2s .6s ease-out both; }
-.thanks-hero h1 { font-size: clamp(32px, 7vw, 54px); margin: .2em 0; animation: thanks-rise .6s .4s both; }
-.thanks-mark { background: linear-gradient(transparent 60%, var(--yellow) 60%); }
-.thanks-lead { font-size: 18px; max-width: 560px; margin: 8px auto; animation: thanks-rise .6s .6s both; }
-.thanks-impact { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin: 18px 0; animation: thanks-rise .6s .8s both; }
-.thanks-chip { display: flex; align-items: center; gap: 8px; background: var(--card); border: 2.5px solid var(--outline); border-radius: 16px; padding: 6px 14px; font-weight: 800; }
-.thanks-chip svg { width: 34px; height: 34px; display: block; }
+.thanks-hero h1 { font-size: clamp(32px, 7vw, 48px); margin: .3em 0 0; }
+.thanks-lead { font-size: 17px; max-width: 520px; margin: 8px auto 22px; color: var(--ink-soft); }
 .thanks-cta { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin: 20px 0; }
-@keyframes thanks-pop { from { transform: scale(.3) rotate(-12deg); opacity: 0; } to { transform: none; opacity: 1; } }
-@keyframes thanks-float { from { opacity: 0; transform: translate(-50%, 40px) scale(.4); } to { opacity: 1; transform: translate(-50%, -10px); } }
-@keyframes thanks-rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
 .thanks-no-anim .thanks-hero * { animation: none !important; }
-.thanks-steps { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); padding-top: 8px; }
-.thanks-step { background: var(--card); border: 2.5px solid var(--outline); border-radius: var(--radius); box-shadow: 4px 5px 0 var(--outline); padding: 18px; text-align: center; }
-.thanks-step-num { display: block; font: 800 28px var(--display); color: var(--coral); }
-.thanks-step p { margin: 6px 0 0; }
-.thanks-card h2 { font-size: clamp(28px, 4vw, 40px); margin: 0 0 8px; }
-.thanks-card-layout { display: grid; gap: 24px; grid-template-columns: 1fr; margin-top: 16px; }
-@media (min-width: 860px) { .thanks-card-layout { grid-template-columns: 420px 1fr; align-items: start; } }
-.thanks-card-layout canvas { width: 100%; max-width: 420px; height: auto; margin: 0 auto; display: block; border-radius: 18px; border: 2.5px solid var(--outline); box-shadow: 5px 6px 0 var(--outline); }
-.thanks-card-actions { display: grid; gap: 12px; max-width: 420px; width: 100%; margin: 0 auto; }
-@media (min-width: 860px) { .thanks-card-actions { margin: 0; } }
+.thanks-letter { max-width: 440px; margin: 0 auto; }
+.thanks-letter canvas { width: 100%; height: auto; display: block; border-radius: 20px; border: 3px solid var(--outline); box-shadow: 7px 8px 0 var(--outline); transform: rotate(-1.2deg); }
+.thanks-card-actions { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 28px; }
+.thanks-card-actions .button { min-height: 52px; }
 .thanks-fb { background: #1877f2; color: #fff; }
-.thanks-toast { min-height: 1.5em; font-weight: 700; color: var(--green); margin: 0; }
+.thanks-back { margin: 18px 0 8px; font-weight: 700; }
+.thanks-back a { color: var(--ink); }
+.thanks-toast { min-height: 1.5em; text-align: center; margin-top: 10px !important; font-weight: 700; color: var(--green); margin: 0; }
 
 @media (prefers-reduced-motion: reduce) {
-  .gift-card, .gift-badge, .wall-note, .wall-meter i, .thanks-hero * { animation: none !important; transition: none !important; }
+  .gift-card, .gift-badge, .wall-note, .thanks-hero * { animation: none !important; transition: none !important; }
   .thanks-confetti { display: none; }
   .gift-plus { display: none; }
 }
@@ -184,3 +149,23 @@
   .gift-price { font-size: 11px; }
   .gift-card b { font-size: 15px; }
 }
+
+/* Decrease control: one button under the rail (repeat taps on a card add +1). */
+.gift-qty { margin: 8px 0 4px; }
+.gift-minus {
+  min-height: 44px; padding: 6px 14px; border: 2.5px solid var(--outline); border-radius: 999px;
+  background: #fff; color: var(--outline); font: 800 15px var(--display); cursor: pointer; touch-action: manipulation;
+}
+.gift-minus:focus-visible { outline: 3px solid var(--outline); outline-offset: 2px; }
+
+/* B1: the sticky total bar (~64px + 8px offset) must not cover cards/inputs. */
+.donate-amounts .gift-card, .donate-amounts .gift-minus, .donate-amounts input, .donate-amounts .gift-chip { scroll-margin-bottom: 96px; }
+.donate-amounts { padding-bottom: 8px; }
+#donate-form { scroll-padding-bottom: 96px; }
+
+/* Wall sort toggle */
+.donate-sort { display: inline-flex; border: 2.5px solid var(--outline); border-radius: 999px; overflow: hidden; background: #fff; }
+.donate-sort button { min-height: 40px; padding: 4px 14px; border: 0; background: none; font: 800 14px var(--display); color: var(--outline); cursor: pointer; }
+.donate-sort button + button { border-left: 2px solid var(--outline); }
+.donate-sort button[aria-pressed="true"] { background: var(--yellow); }
+.donate-sort button:focus-visible { outline: 3px solid var(--outline); outline-offset: -4px; }
