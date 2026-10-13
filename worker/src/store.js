@@ -156,7 +156,9 @@ export async function setPaymentLinkId(env, orderCode, paymentLinkId) {
     .run();
 }
 
-function publicListStatements(env, withGift) {
+function publicListStatements(env, withGift, sort) {
+  // sort=amount uses idx_donations_success_amount (status, amount).
+  const order = sort === 'amount' ? 'amount DESC, paid_at DESC' : 'paid_at DESC';
   return [
     env.DB.prepare(
       `SELECT display_name AS displayName,
@@ -164,7 +166,7 @@ function publicListStatements(env, withGift) {
               amount, paid_at AS paidAt${withGift ? ',\n              gift_id AS giftId, gift_qty AS giftQty' : ''}
        FROM donations
        WHERE status = 'success'
-       ORDER BY paid_at DESC
+       ORDER BY ${order}
        LIMIT ${PUBLIC_WALL_LIMIT}`,
     ),
     env.DB.prepare(
@@ -175,17 +177,17 @@ function publicListStatements(env, withGift) {
   ];
 }
 
-export async function listPublicDonations(env) {
+export async function listPublicDonations(env, sort = 'new') {
   // One round trip for both queries. idx_donations_success_amount makes the
   // SUM/COUNT an index-only scan instead of reading whole donation rows.
   // Falls back to the pre-0004 columns if the gift migration is not applied.
   let list;
   let totals;
   try {
-    [list, totals] = await env.DB.batch(publicListStatements(env, true));
+    [list, totals] = await env.DB.batch(publicListStatements(env, true, sort));
   } catch (err) {
     if (!/gift_/i.test(String(err?.message || err))) throw err;
-    [list, totals] = await env.DB.batch(publicListStatements(env, false));
+    [list, totals] = await env.DB.batch(publicListStatements(env, false, sort));
   }
   const results = list.results;
   const totalRow = totals.results?.[0];
@@ -292,7 +294,10 @@ function withHiddenFlag(row) {
   return { ...row, hidden: Boolean(row.hidden) };
 }
 
-export async function listDonationsForAdmin(env) {
+export async function listDonationsForAdmin(env, hiddenFilter = null) {
+  // hiddenFilter: 'hidden' | 'visible' | null (all).
+  const where = hiddenFilter === 'hidden' ? "WHERE status = 'success' AND hidden = 1"
+    : hiddenFilter === 'visible' ? 'WHERE hidden = 0' : '';
   try {
     const { results } = await env.DB.prepare(
       `SELECT order_code AS orderCode, amount, display_name AS displayName,
@@ -308,6 +313,7 @@ export async function listDonationsForAdmin(env) {
               virtual_account_name AS virtualAccountName,
               virtual_account_number AS virtualAccountNumber
        FROM donations
+       ${where}
        ORDER BY created_at DESC
        LIMIT ${ADMIN_LIST_LIMIT}`,
     ).all();
@@ -321,6 +327,7 @@ export async function listDonationsForAdmin(env) {
        ORDER BY created_at DESC
        LIMIT ${ADMIN_LIST_LIMIT}`,
     ).all();
+    if (hiddenFilter === 'hidden') return [];
     return (results || []).map((row) => withHiddenFlag({ ...row, hidden: 0 }));
   }
 }

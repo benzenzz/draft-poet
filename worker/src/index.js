@@ -88,7 +88,7 @@ async function route(request, env, url, ctx) {
     return withAdmin(request, env, () => handleUpdateAdminSettings(request, env));
   }
   if (method === 'GET' && pathname === '/api/admin/donations') {
-    return withAdmin(request, env, () => handleAdminList(env));
+    return withAdmin(request, env, () => handleAdminList(env, url));
   }
   if (method === 'POST' && SHOW_RE.test(pathname)) {
     // /publish kept as an alias for older admin clients.

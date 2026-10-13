@@ -148,9 +148,18 @@ const PUBLIC_CACHE_SECONDS = 30;
  * does not hit D1 on every load. Falls back to a direct read if the Cache
  * API is unavailable. Response contains no order codes or bank fields.
  */
+export const PUBLIC_SORTS = ['new', 'amount'];
+
+function publicCacheKey(origin, sort) {
+  return new Request(sort === 'new' ? `${origin}/api/donations` : `${origin}/api/donations?sort=${sort}`);
+}
+
 export async function handleListPublic(env, ctx, url) {
+  const sort = url.searchParams.get('sort') || 'new';
+  if (!PUBLIC_SORTS.includes(sort)) return error('Kiểu sắp xếp không hợp lệ.', 400);
   // Key on the Worker's real host so the Cache API actually matches in prod.
-  const cacheKey = new Request(`${url.origin}/api/donations`);
+  // One key per sort; any other query params are ignored.
+  const cacheKey = publicCacheKey(url.origin, sort);
   const cache = typeof caches !== 'undefined' ? caches.default : null;
   if (cache) {
     try {
@@ -158,7 +167,7 @@ export async function handleListPublic(env, ctx, url) {
       if (hit) return new Response(hit.body, hit);
     } catch {}
   }
-  const { donations, totalAmount, totalCount } = await listPublicDonations(env);
+  const { donations, totalAmount, totalCount } = await listPublicDonations(env, sort);
   const res = json(
     { donations, totalAmount, totalCount },
     200,
@@ -176,7 +185,7 @@ export async function handleListPublic(env, ctx, url) {
 export async function purgePublicListCache(url) {
   try {
     if (url && typeof caches !== 'undefined') {
-      await caches.default.delete(new Request(`${url.origin}/api/donations`));
+      await Promise.all(PUBLIC_SORTS.map((s) => caches.default.delete(publicCacheKey(url.origin, s))));
     }
   } catch {}
 }

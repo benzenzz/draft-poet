@@ -153,10 +153,13 @@ export async function handleAdminRecoverPassword(request, env) {
   return json({ ok: true, username });
 }
 
-export async function handleAdminList(env) {
+export async function handleAdminList(env, url) {
   // Full donate history for audit: every status, newest first.
   // Donor bank fields are admin-only; the public wall never sees them.
-  const donations = await listDonationsForAdmin(env);
+  // ?hidden=hidden|visible|all filters on the server (list is row-limited).
+  const hidden = url?.searchParams.get('hidden') || 'all';
+  if (!['all', 'hidden', 'visible'].includes(hidden)) return error('Bộ lọc không hợp lệ.', 400);
+  const donations = await listDonationsForAdmin(env, hidden === 'all' ? null : hidden);
   const totalRow = await totalsForAdmin(env);
   return json({
     donations,
