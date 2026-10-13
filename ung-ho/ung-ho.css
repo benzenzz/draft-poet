@@ -159,9 +159,9 @@
 .gift-minus:focus-visible { outline: 3px solid var(--outline); outline-offset: 2px; }
 
 /* B1: the sticky total bar (~64px + 8px offset) must not cover cards/inputs. */
-.donate-amounts .gift-card, .donate-amounts .gift-minus, .donate-amounts input, .donate-amounts .gift-chip { scroll-margin-bottom: 96px; }
-.donate-amounts { padding-bottom: 8px; }
-#donate-form { scroll-padding-bottom: 96px; }
+/* --gift-bar-h is set from donate.js (ResizeObserver) because the bar wraps on phones. */
+.donate-amounts .gift-card, .donate-amounts .gift-minus, .donate-amounts input,
+.donate-amounts .gift-chip, .donate-amounts .gift-custom-toggle { scroll-margin-bottom: calc(var(--gift-bar-h, 96px) + 20px); }
 
 /* Wall sort toggle */
 .donate-sort { display: inline-flex; border: 2.5px solid var(--outline); border-radius: 999px; overflow: hidden; background: #fff; }
