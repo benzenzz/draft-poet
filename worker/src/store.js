@@ -125,7 +125,18 @@ export async function recordAttempt(env, ipHash, nowIso) {
 
 /* -- donations -- */
 
-export async function insertPendingDonation(env, { orderCode, amount, displayName, message, anonymous, nowIso }) {
+export async function insertPendingDonation(env, { orderCode, amount, displayName, message, anonymous, gift = null, nowIso }) {
+  if (gift) {
+    // Needs migration 0004. A DB without it fails here (no silent gift loss).
+    await env.DB.prepare(
+      `INSERT INTO donations (
+         order_code, amount, display_name, message, anonymous, status, created_at, gift_id, gift_qty
+       ) VALUES (?, ?, ?, ?, ?, 'pending', ?, ?, ?)`,
+    )
+      .bind(orderCode, amount, displayName, message, anonymous ? 1 : 0, nowIso, gift.id, gift.qty)
+      .run();
+    return;
+  }
   await env.DB.prepare(
     `INSERT INTO donations (
        order_code, amount, display_name, message, anonymous, status, created_at
@@ -145,14 +156,12 @@ export async function setPaymentLinkId(env, orderCode, paymentLinkId) {
     .run();
 }
 
-export async function listPublicDonations(env) {
-  // One round trip for both queries. idx_donations_success_amount makes the
-  // SUM/COUNT an index-only scan instead of reading whole donation rows.
-  const [list, totals] = await env.DB.batch([
+function publicListStatements(env, withGift) {
+  return [
     env.DB.prepare(
       `SELECT display_name AS displayName,
               CASE WHEN hidden = 1 THEN '' ELSE message END AS message,
-              amount, paid_at AS paidAt
+              amount, paid_at AS paidAt${withGift ? ',\n              gift_id AS giftId, gift_qty AS giftQty' : ''}
        FROM donations
        WHERE status = 'success'
        ORDER BY paid_at DESC
@@ -163,7 +172,21 @@ export async function listPublicDonations(env) {
        FROM donations
        WHERE status = 'success'`,
     ),
-  ]);
+  ];
+}
+
+export async function listPublicDonations(env) {
+  // One round trip for both queries. idx_donations_success_amount makes the
+  // SUM/COUNT an index-only scan instead of reading whole donation rows.
+  // Falls back to the pre-0004 columns if the gift migration is not applied.
+  let list;
+  let totals;
+  try {
+    [list, totals] = await env.DB.batch(publicListStatements(env, true));
+  } catch (err) {
+    if (!/gift_/i.test(String(err?.message || err))) throw err;
+    [list, totals] = await env.DB.batch(publicListStatements(env, false));
+  }
   const results = list.results;
   const totalRow = totals.results?.[0];
 
