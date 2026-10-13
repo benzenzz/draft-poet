@@ -7,7 +7,7 @@ import { error, json, readJsonBody } from './http.js';
 import { randomOrderCode } from './crypto.js';
 import { resolvePayosReturnUrls } from './callback-urls.js';
 import { createPaymentLink, hmacSha256Hex, verifyDataSignature } from './payos.js';
-import { validateAmount, validateDisplayName, validateMessage } from './validation.js';
+import { validateAmountAndGift, validateDisplayName, validateMessage } from './validation.js';
 import {
   countRecentAttempts,
   deleteDonation,
@@ -20,20 +20,33 @@ import {
   setPaymentLinkId,
 } from './store.js';
 
-async function checkRateLimit(request, env) {
+/**
+ * Per-IP hourly limit backed by create_attempts. `scope` namespaces the
+ * hashed key ('' keeps donation rows identical to before; 'admin:' for
+ * login/recover), so no schema change is needed.
+ */
+export async function checkRateLimit(
+  request,
+  env,
+  scope = '',
+  max = RATE_LIMIT_MAX_PER_HOUR,
+  tooManyMessage = 'Bạn đã gửi quá nhiều lần. Vui lòng thử lại sau một giờ.',
+) {
   const ip = request.headers.get('CF-Connecting-IP');
   if (!ip) return { response: error('Không xác định được địa chỉ IP.', 400) };
 
-  const ipHashFull = await hmacSha256Hex(env.PAYOS_CHECKSUM_KEY, ip);
-  const ipHash = ipHashFull.slice(0, 32);
+  const ipHashFull = await hmacSha256Hex(env.PAYOS_CHECKSUM_KEY, scope + ip);
+  const ipHash = scope + ipHashFull.slice(0, 32);
   const now = new Date();
   const nowIso = now.toISOString();
   const oneHourAgo = new Date(now.getTime() - 60 * 60 * 1000).toISOString();
   const twoHoursAgo = new Date(now.getTime() - 2 * 60 * 60 * 1000).toISOString();
 
-  await pruneAttempts(env, ipHash, twoHoursAgo);
-  if ((await countRecentAttempts(env, ipHash, oneHourAgo)) >= RATE_LIMIT_MAX_PER_HOUR) {
-    return { response: error('Bạn đã gửi quá nhiều lần. Vui lòng thử lại sau một giờ.', 429) };
+  // Pruning on every create cost a write each time; 1 in 10 is plenty
+  // because the count below only looks at the last hour anyway.
+  if (Math.random() < 0.1) await pruneAttempts(env, ipHash, twoHoursAgo);
+  if ((await countRecentAttempts(env, ipHash, oneHourAgo)) >= max) {
+    return { response: error(tooManyMessage, 429) };
   }
   return { ipHash, nowIso };
 }
@@ -63,7 +76,7 @@ export async function handleCreateDonation(request, env) {
   const { body, response: badBody } = await readJsonBody(request);
   if (badBody) return badBody;
 
-  const amountError = validateAmount(body?.amount);
+  const { gift, error: amountError } = validateAmountAndGift(body);
   if (amountError) return error(amountError, 400);
 
   const anonymous = Boolean(body?.anonymous);
@@ -88,6 +101,7 @@ export async function handleCreateDonation(request, env) {
     displayName,
     message,
     anonymous,
+    gift,
     nowIso: limit.nowIso,
   });
   if (!orderCode) return error('Không tạo được mã đơn. Vui lòng thử lại.', 500);
@@ -127,13 +141,53 @@ export async function handleCreateDonation(request, env) {
   return json({ orderCode, checkoutUrl: payosRes.data.checkoutUrl });
 }
 
-export async function handleListPublic(env) {
-  const { donations, totalAmount, totalCount } = await listPublicDonations(env);
-  return json(
+const PUBLIC_CACHE_SECONDS = 30;
+
+/**
+ * Public wall, cached at the edge for 30s (caches.default) so a busy page
+ * does not hit D1 on every load. Falls back to a direct read if the Cache
+ * API is unavailable. Response contains no order codes or bank fields.
+ */
+export const PUBLIC_SORTS = ['new', 'amount'];
+
+function publicCacheKey(origin, sort) {
+  return new Request(sort === 'new' ? `${origin}/api/donations` : `${origin}/api/donations?sort=${sort}`);
+}
+
+export async function handleListPublic(env, ctx, url) {
+  const sort = url.searchParams.get('sort') || 'new';
+  if (!PUBLIC_SORTS.includes(sort)) return error('Kiểu sắp xếp không hợp lệ.', 400);
+  // Key on the Worker's real host so the Cache API actually matches in prod.
+  // One key per sort; any other query params are ignored.
+  const cacheKey = publicCacheKey(url.origin, sort);
+  const cache = typeof caches !== 'undefined' ? caches.default : null;
+  if (cache) {
+    try {
+      const hit = await cache.match(cacheKey);
+      if (hit) return new Response(hit.body, hit);
+    } catch {}
+  }
+  const { donations, totalAmount, totalCount } = await listPublicDonations(env, sort);
+  const res = json(
     { donations, totalAmount, totalCount },
     200,
-    { 'Cache-Control': 'public, max-age=30' },
+    { 'Cache-Control': `public, max-age=${PUBLIC_CACHE_SECONDS}` },
   );
+  if (cache) {
+    const put = cache.put(cacheKey, res.clone()).catch(() => {});
+    if (ctx?.waitUntil) ctx.waitUntil(put);
+    else await put;
+  }
+  return res;
+}
+
+/** Drop the cached wall after a payment or hide/show (same colo only; TTL covers others). */
+export async function purgePublicListCache(url) {
+  try {
+    if (url && typeof caches !== 'undefined') {
+      await Promise.all(PUBLIC_SORTS.map((s) => caches.default.delete(publicCacheKey(url.origin, s))));
+    }
+  } catch {}
 }
 
 export async function handleGetStatus(env, orderCode) {

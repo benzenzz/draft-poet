@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="vi" style="color-scheme: light only; background-color: #f4e6cf">
+<html lang="vi" class="admin-page" style="color-scheme: light only; background-color: #f4e6cf">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -82,10 +82,6 @@
       <div class="admin-layout" id="admin-layout" aria-label="Bảng quản trị">
         <aside class="admin-sidebar" id="admin-sidebar" aria-label="Menu quản trị">
           <div class="admin-sidebar-top">
-            <p class="admin-sidebar-user">
-              <span class="admin-sidebar-user-label">Đang đăng nhập</span>
-              <strong id="current-user"></strong>
-            </p>
             <button
               type="button"
               class="admin-nav-toggle"
@@ -100,18 +96,24 @@
           </div>
           <nav class="admin-side-nav" id="admin-side-nav" aria-label="Tab quản trị">
             <button type="button" class="admin-nav-btn is-active" data-tab="donations" aria-current="page" title="Ủng hộ">
-              <span class="admin-nav-icon" aria-hidden="true">✿</span>
+              <span class="admin-nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></span>
               <span class="admin-nav-label">Ủng hộ</span>
             </button>
             <button type="button" class="admin-nav-btn" data-tab="password" title="Mật khẩu">
-              <span class="admin-nav-icon" aria-hidden="true">⚿</span>
+              <span class="admin-nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><rect x="4.5" y="10.5" width="15" height="10" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/><circle cx="12" cy="15.5" r="1.3" fill="currentColor" stroke="none"/></svg></span>
               <span class="admin-nav-label">Mật khẩu</span>
             </button>
           </nav>
-          <button class="button button-outline admin-logout-btn" id="logout-btn" type="button" title="Đăng xuất">
-            <span class="admin-nav-icon" aria-hidden="true">⎋</span>
-            <span class="admin-nav-label">Đăng xuất</span>
-          </button>
+          <div class="admin-sidebar-foot">
+            <p class="admin-sidebar-user">
+              <span class="admin-sidebar-user-label">Đăng nhập bằng</span>
+              <strong id="current-user"></strong>
+            </p>
+            <button class="button button-outline admin-logout-btn" id="logout-btn" type="button" title="Đăng xuất">
+              <span class="admin-nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M14 4h3.5A2.5 2.5 0 0 1 20 6.5v11a2.5 2.5 0 0 1-2.5 2.5H14"/><path d="M10 16l-4-4 4-4"/><path d="M6 12h9"/></svg></span>
+              <span class="admin-nav-label">Đăng xuất</span>
+            </button>
+          </div>
         </aside>
 
         <div class="admin-main">
@@ -152,8 +154,16 @@
                     <select id="status-filter">
                       <option value="">Tất cả</option>
                       <option value="pending">pending — chờ thanh toán</option>
+                      <option value="expired">hết hạn — link quá 30 phút</option>
                       <option value="success">success — đã nhận</option>
-                      <option value="hidden">hidden — ẩn lời nhắn</option>
+                    </select>
+                  </label>
+                  <label class="admin-filter" for="hidden-filter">
+                    <span>Lời nhắn</span>
+                    <select id="hidden-filter">
+                      <option value="all">Tất cả</option>
+                      <option value="hidden">Đang ẩn</option>
+                      <option value="visible">Đang hiện</option>
                     </select>
                   </label>
                   <label class="admin-filter" for="search-input">
@@ -173,6 +183,7 @@
                         <th>Số tiền</th>
                         <th>Tên</th>
                         <th>Lời nhắn</th>
+                        <th>Ẩn</th>
                         <th>Ẩn danh</th>
                         <th>Tạo lúc</th>
                         <th>Trả lúc</th>

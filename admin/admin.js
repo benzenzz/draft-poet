@@ -18,6 +18,7 @@
   const settingsStatus = document.getElementById('settings-status');
 
   const statusFilter = document.getElementById('status-filter');
+  const hiddenFilter = document.getElementById('hidden-filter');
   const searchInput = document.getElementById('search-input');
   const reloadBtn = document.getElementById('reload-btn');
   const exportBtn = document.getElementById('export-btn');
@@ -340,12 +341,36 @@
 
   // ---- Donate history ----
 
+  // Display only: PayOS links expire after 30 min (PAYMENT_TTL_SECONDS).
+  // The row stays 'pending' in D1 so a late webhook can still mark it paid.
+  const PAYMENT_TTL_MS = 30 * 60 * 1000;
+  function isExpiredPending(d) {
+    if (d.status !== 'pending' || !d.createdAt) return false;
+    const t = Date.parse(d.createdAt);
+    return Number.isFinite(t) && Date.now() - t > PAYMENT_TTL_MS;
+  }
+  function isManual(d) {
+    return /^manual:/.test(d.payosReference || '') || /^manual:/.test(d.payosDescription || '');
+  }
+  function statusLabel(d) {
+    if (isExpiredPending(d)) return 'hết hạn';
+    if (d.status === 'success' && isManual(d)) return 'success · thủ công';
+    return d.status || '—';
+  }
+  function manualNote(d) {
+    if (!isManual(d) || !d.payosDescription) return '';
+    // Drop the leading 'manual:<admin> | ' marker when PayOS later filled the reference.
+    return d.payosDescription.replace(/^manual:[^|]*\|?\s*/, '').trim();
+  }
+
   function filteredDonations() {
     const status = statusFilter.value;
     const q = searchInput.value.trim().toLowerCase();
     return allDonations.filter((d) => {
-      if (status === 'hidden') {
-        if (!isHidden(d)) return false;
+      if (status === 'expired') {
+        if (!isExpiredPending(d)) return false;
+      } else if (status === 'pending') {
+        if (d.status !== 'pending' || isExpiredPending(d)) return false;
       } else if (status && d.status !== status) {
         return false;
       }
@@ -355,6 +380,7 @@
         d.message,
         d.orderCode,
         d.status,
+        statusLabel(d),
         d.counterAccountName,
         d.counterAccountNumber,
         d.counterAccountBankName,
@@ -388,7 +414,7 @@
     if (!rows.length) {
       const tr = document.createElement('tr');
       const td = document.createElement('td');
-      td.colSpan = 9;
+      td.colSpan = 10;
       td.className = 'admin-table-empty';
       td.textContent = 'Chưa có khoản nào khớp.';
       tr.appendChild(td);
@@ -402,10 +428,11 @@
 
       const cells = [
         d.orderCode != null ? `#${d.orderCode}` : '—',
-        d.status || '—',
+        statusLabel(d),
         money(d.amount),
         d.displayName || '—',
         d.message || '—',
+        d.status === 'success' ? (isHidden(d) ? 'ẩn' : 'hiện') : '—',
         d.anonymous ? 'có' : 'không',
         fmtTime(d.createdAt),
         fmtTime(d.paidAt),
@@ -416,6 +443,34 @@
         td.textContent = value;
         if (index === 2) td.className = 'admin-table-amount';
         if (index === 4) td.className = 'admin-table-message';
+        if (index === 5) {
+          td.className = 'admin-table-hidden';
+          if (isHidden(d)) td.classList.add('is-hidden');
+        }
+        if (index === 1 && d.status === 'success' && isManual(d)) {
+          const who = (/^manual:([^|\s]+)/.exec(d.payosReference || '') ||
+            /^manual:([^|\s]+)/.exec(d.payosDescription || '') || [])[1] || 'admin';
+          const note = manualNote(d);
+          td.textContent = '';
+          td.append('success ');
+          const tag = document.createElement('span');
+          tag.textContent = 'thủ công';
+          tag.title = `Xác nhận thủ công bởi ${who}`;
+          tag.style.cssText = 'display:inline-block;padding:1px 8px;border-radius:999px;background:var(--yellow);border:1.5px solid var(--outline);font-size:12px;font-weight:800';
+          td.appendChild(tag);
+          if (note) {
+            const n = document.createElement('div');
+            n.textContent = `Ghi chú: ${note}`;
+            n.style.cssText = 'font-size:12px;color:var(--ink-soft);margin-top:4px';
+            td.appendChild(n);
+          }
+        }
+        if (index === 1 && isExpiredPending(d)) {
+          td.title = 'Link thanh toán đã hết hạn (quá 30 phút), vẫn giữ trạng thái pending';
+          td.style.color = 'var(--ink-soft)';
+          td.style.fontStyle = 'italic';
+          tr.style.opacity = '0.7';
+        }
         tr.appendChild(td);
       });
 
@@ -455,7 +510,10 @@
     historySummary.textContent = 'Đang tải lịch sử…';
     historyBody.textContent = '';
     try {
-      const res = await api('/api/admin/donations', { headers: authHeaders() });
+      // Hidden filter runs on the server (the list is row-limited).
+      const hf = hiddenFilter ? hiddenFilter.value : 'all';
+      const q = hf === 'all' ? '' : `?hidden=${encodeURIComponent(hf)}`;
+      const res = await api(`/api/admin/donations${q}`, { headers: authHeaders() });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(data.error || 'Không tải được lịch sử.');
       allDonations = data.donations || [];
@@ -780,6 +838,7 @@
   }
 
   statusFilter.addEventListener('change', renderHistory);
+  if (hiddenFilter) hiddenFilter.addEventListener('change', loadHistory);
   searchInput.addEventListener('input', renderHistory);
   reloadBtn.addEventListener('click', loadHistory);
   exportBtn.addEventListener('click', exportExcel);

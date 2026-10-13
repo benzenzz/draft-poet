@@ -45,7 +45,7 @@ function orderCodeFromAdminPath(pathname) {
   return pathname.split('/')[4];
 }
 
-async function route(request, env, url) {
+async function route(request, env, url, ctx) {
   const { pathname } = url;
   const method = request.method.toUpperCase();
 
@@ -53,7 +53,7 @@ async function route(request, env, url) {
     return handleCreateDonation(request, env);
   }
   if (method === 'GET' && pathname === '/api/donations') {
-    return handleListPublic(env);
+    return handleListPublic(env, ctx, url);
   }
   if (method === 'GET' && pathname === '/api/settings') {
     return handleGetPublicSettings(env);
@@ -62,7 +62,7 @@ async function route(request, env, url) {
     return handleGetStatus(env, pathname.slice('/api/donations/'.length));
   }
   if (method === 'POST' && pathname === '/api/webhooks/payos') {
-    return handleWebhook(request, env);
+    return handleWebhook(request, env, url);
   }
   if (method === 'POST' && pathname === '/api/admin/login') {
     return handleAdminLogin(request, env);
@@ -86,14 +86,14 @@ async function route(request, env, url) {
     return withAdmin(request, env, () => handleUpdateAdminSettings(request, env));
   }
   if (method === 'GET' && pathname === '/api/admin/donations') {
-    return withAdmin(request, env, () => handleAdminList(env));
+    return withAdmin(request, env, () => handleAdminList(env, url));
   }
   if (method === 'POST' && SHOW_RE.test(pathname)) {
     // /publish kept as an alias for older admin clients.
-    return withAdmin(request, env, () => handleAdminShow(env, orderCodeFromAdminPath(pathname)));
+    return withAdmin(request, env, () => handleAdminShow(env, orderCodeFromAdminPath(pathname), url));
   }
   if (method === 'POST' && HIDE_RE.test(pathname)) {
-    return withAdmin(request, env, () => handleAdminHide(env, orderCodeFromAdminPath(pathname)));
+    return withAdmin(request, env, () => handleAdminHide(env, orderCodeFromAdminPath(pathname), url));
   }
   if (method === 'GET' && pathname === '/return') {
     return handleReturnRedirect(url);
@@ -108,7 +108,7 @@ async function route(request, env, url) {
 }
 
 export default {
-  async fetch(request, env) {
+  async fetch(request, env, ctx) {
     const url = new URL(request.url);
     const { pathname } = url;
     const method = request.method.toUpperCase();
@@ -131,7 +131,7 @@ export default {
 
     let response;
     try {
-      response = await route(request, env, url);
+      response = await route(request, env, url, ctx);
     } catch (err) {
       console.error(String(err?.message || err));
       response = error('Lỗi máy chủ.', 500);

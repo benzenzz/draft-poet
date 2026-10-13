@@ -15,4 +15,5 @@ export const RATE_LIMIT_MAX_PER_HOUR = 5;
 export const ADMIN_SESSION_TTL_MS = 12 * 60 * 60 * 1000;
 
 export const PUBLIC_WALL_LIMIT = 30;
-export const ADMIN_LIST_LIMIT = 500;
+export const ADMIN_LIST_LIMIT = 100;
+export const ADMIN_AUTH_MAX_PER_HOUR = 10;

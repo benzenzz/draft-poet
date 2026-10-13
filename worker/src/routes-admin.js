@@ -1,14 +1,18 @@
 /** Admin routes: login/logout, password, settings, donation moderation. */
-import { ADMIN_SESSION_TTL_MS } from './config.js';
+import { ADMIN_AUTH_MAX_PER_HOUR, ADMIN_SESSION_TTL_MS } from './config.js';
 import { error, json, readJsonBody } from './http.js';
 import { hashPassword, randomHex, verifyPassword } from './crypto.js';
 import { timingSafeEqual } from './payos.js';
 import { requireAdmin } from './auth.js';
+import { checkRateLimit, purgePublicListCache } from './routes-donations.js';
 import {
   createAdminSession,
   deleteAdminSession,
   deleteAdminSessionsForUser,
   deleteOtherAdminSessions,
+  pruneAllAttempts,
+  pruneExpiredAdminSessions,
+  recordAttempt,
   ensureAdminSeeded,
   findAdminPasswordHash,
   findAdminUser,
@@ -23,6 +27,13 @@ import {
 } from './store.js';
 
 export async function handleAdminLogin(request, env) {
+  // Only failed logins count toward the limit (separate bucket from recover).
+  const limit = await checkRateLimit(
+    request, env, 'login:', ADMIN_AUTH_MAX_PER_HOUR,
+    'Bạn đã nhập sai quá nhiều lần. Đăng nhập tạm khoá, vui lòng thử lại sau tối đa 1 giờ.',
+  );
+  if (limit.response) return limit.response;
+
   const { body, response: badBody } = await readJsonBody(request);
   if (badBody) return badBody;
 
@@ -41,12 +52,16 @@ export async function handleAdminLogin(request, env) {
     return error('Chưa có bảng tài khoản. Hãy chạy migration schema mới.', 500);
   }
   if (!user || !(await verifyPassword(password, user.password_hash))) {
+    await recordAttempt(env, limit.ipHash, limit.nowIso);
     return error('Tên đăng nhập hoặc mật khẩu không đúng.', 401);
   }
 
   const token = randomHex(32);
   const now = new Date();
   const expiresAt = new Date(now.getTime() + ADMIN_SESSION_TTL_MS).toISOString();
+  // Login is the housekeeping point: a few cheap deletes, rarely run.
+  await pruneExpiredAdminSessions(env, now.toISOString());
+  await pruneAllAttempts(env, new Date(now.getTime() - 2 * 60 * 60 * 1000).toISOString());
   await createAdminSession(env, token, user.username, now.toISOString(), expiresAt);
   return json({ token, username: user.username, expiresAt });
 }
@@ -102,6 +117,13 @@ export async function handleAdminChangePassword(request, env, session) {
  * when the interactive password is lost. Does not require a session.
  */
 export async function handleAdminRecoverPassword(request, env) {
+  // Only failed recovery attempts count (separate bucket from login).
+  const limit = await checkRateLimit(
+    request, env, 'recover:', ADMIN_AUTH_MAX_PER_HOUR,
+    'Bạn đã nhập sai mã khôi phục quá nhiều lần. Vui lòng thử lại sau tối đa 1 giờ.',
+  );
+  if (limit.response) return limit.response;
+
   const { body, response: badBody } = await readJsonBody(request);
   if (badBody) return badBody;
 
@@ -109,6 +131,7 @@ export async function handleAdminRecoverPassword(request, env) {
     typeof body?.recoveryToken === 'string' ? body.recoveryToken.trim() : '';
   const adminToken = String(env.ADMIN_TOKEN || '').trim();
   if (!adminToken || !recoveryToken || !timingSafeEqual(recoveryToken, adminToken)) {
+    await recordAttempt(env, limit.ipHash, limit.nowIso);
     return error('Mã khôi phục không đúng.', 401);
   }
 
@@ -128,10 +151,13 @@ export async function handleAdminRecoverPassword(request, env) {
   return json({ ok: true, username });
 }
 
-export async function handleAdminList(env) {
+export async function handleAdminList(env, url) {
   // Full donate history for audit: every status, newest first.
   // Donor bank fields are admin-only; the public wall never sees them.
-  const donations = await listDonationsForAdmin(env);
+  // ?hidden=hidden|visible|all filters on the server (list is row-limited).
+  const hidden = url?.searchParams.get('hidden') || 'all';
+  if (!['all', 'hidden', 'visible'].includes(hidden)) return error('Bộ lọc không hợp lệ.', 400);
+  const donations = await listDonationsForAdmin(env, hidden === 'all' ? null : hidden);
   const totalRow = await totalsForAdmin(env);
   return json({
     donations,
@@ -155,7 +181,7 @@ export async function handleUpdateAdminSettings(request, env) {
 }
 
 /** Show a gift's message on the public wall (hidden = 0). */
-export async function handleAdminShow(env, orderCode) {
+export async function handleAdminShow(env, orderCode, url) {
   const code = Number(orderCode);
   if (!Number.isInteger(code)) return error('Mã đơn không hợp lệ.', 400);
   const row = await findDonationStatus(env, code);
@@ -164,10 +190,11 @@ export async function handleAdminShow(env, orderCode) {
     return error('Chỉ có thể hiện lời nhắn của khoản đã nhận.', 400);
   }
   await setDonationHidden(env, code, false);
+  await purgePublicListCache(url);
   return json({ ok: true, status: 'success', hidden: false });
 }
 
-export async function handleAdminHide(env, orderCode) {
+export async function handleAdminHide(env, orderCode, url) {
   const code = Number(orderCode);
   if (!Number.isInteger(code)) return error('Mã đơn không hợp lệ.', 400);
   const row = await findDonationStatus(env, code);
@@ -176,6 +203,7 @@ export async function handleAdminHide(env, orderCode) {
     return error('Chỉ có thể ẩn lời nhắn của khoản đã nhận.', 400);
   }
   await setDonationHidden(env, code, true);
+  await purgePublicListCache(url);
   return json({ ok: true, status: 'success', hidden: true });
 }
 

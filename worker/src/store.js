@@ -3,7 +3,7 @@
  * and readable. Callers pass `env` (expects `env.DB`).
  */
 import { ADMIN_LIST_LIMIT, PUBLIC_WALL_LIMIT } from './config.js';
-import { hashPassword } from './crypto.js';
+import { hashPassword, randomHex } from './crypto.js';
 
 /* -- settings -- */
 
@@ -32,15 +32,21 @@ export async function isDonationsEnabled(env) {
 
 /* -- admin users / sessions -- */
 
+/**
+ * First-run seed: user 'admin' with a random, never-revealed password, so
+ * there is no default login. Set the first real password with
+ * POST /api/admin/recover-password using the ADMIN_TOKEN secret.
+ */
 export async function ensureAdminSeeded(env) {
   try {
-    const row = await env.DB.prepare('SELECT COUNT(*) AS c FROM admin_users').first();
-    if ((row?.c || 0) > 0) return;
+    // LIMIT 1 reads one row instead of scanning the whole table.
+    const row = await env.DB.prepare('SELECT 1 AS x FROM admin_users LIMIT 1').first();
+    if (row) return;
     const nowIso = new Date().toISOString();
     await env.DB.prepare(
       'INSERT INTO admin_users (username, password_hash, updated_at) VALUES (?, ?, ?)',
     )
-      .bind('admin', await hashPassword('admin'), nowIso)
+      .bind('admin', await hashPassword(randomHex(32)), nowIso)
       .run();
   } catch {
     // Tables may not be migrated yet; login will surface the error.
@@ -69,6 +75,11 @@ export async function createAdminSession(env, token, username, createdAt, expire
     .run();
 }
 
+/** Drop expired sessions. Called on login only, not on every admin request. */
+export async function pruneExpiredAdminSessions(env, nowIso) {
+  await env.DB.prepare('DELETE FROM admin_sessions WHERE expires_at <= ?').bind(nowIso).run();
+}
+
 export async function deleteAdminSession(env, token) {
   await env.DB.prepare('DELETE FROM admin_sessions WHERE token = ?').bind(token).run();
 }
@@ -84,6 +95,12 @@ export async function deleteAdminSessionsForUser(env, username) {
 }
 
 /* -- rate limiting -- */
+
+/** Global cleanup of old attempt rows (all IPs). Called on admin login. */
+export async function pruneAllAttempts(env, beforeIso) {
+  await env.DB.prepare('DELETE FROM create_attempts WHERE created_at < ?').bind(beforeIso).run();
+}
+
 
 export async function pruneAttempts(env, ipHash, beforeIso) {
   await env.DB.prepare('DELETE FROM create_attempts WHERE ip_hash = ? AND created_at < ?')
@@ -108,7 +125,18 @@ export async function recordAttempt(env, ipHash, nowIso) {
 
 /* -- donations -- */
 
-export async function insertPendingDonation(env, { orderCode, amount, displayName, message, anonymous, nowIso }) {
+export async function insertPendingDonation(env, { orderCode, amount, displayName, message, anonymous, gift = null, nowIso }) {
+  if (gift) {
+    // Needs migration 0004. A DB without it fails here (no silent gift loss).
+    await env.DB.prepare(
+      `INSERT INTO donations (
+         order_code, amount, display_name, message, anonymous, status, created_at, gift_id, gift_qty
+       ) VALUES (?, ?, ?, ?, ?, 'pending', ?, ?, ?)`,
+    )
+      .bind(orderCode, amount, displayName, message, anonymous ? 1 : 0, nowIso, gift.id, gift.qty)
+      .run();
+    return;
+  }
   await env.DB.prepare(
     `INSERT INTO donations (
        order_code, amount, display_name, message, anonymous, status, created_at
@@ -128,22 +156,41 @@ export async function setPaymentLinkId(env, orderCode, paymentLinkId) {
     .run();
 }
 
-export async function listPublicDonations(env) {
-  const { results } = await env.DB.prepare(
-    `SELECT display_name AS displayName,
-            CASE WHEN hidden = 1 THEN '' ELSE message END AS message,
-            amount, paid_at AS paidAt
-     FROM donations
-     WHERE status = 'success'
-     ORDER BY paid_at DESC
-     LIMIT ${PUBLIC_WALL_LIMIT}`,
-  ).all();
+function publicListStatements(env, withGift, sort) {
+  // sort=amount uses idx_donations_success_amount (status, amount).
+  const order = sort === 'amount' ? 'amount DESC, paid_at DESC' : 'paid_at DESC';
+  return [
+    env.DB.prepare(
+      `SELECT display_name AS displayName,
+              CASE WHEN hidden = 1 THEN '' ELSE message END AS message,
+              amount, paid_at AS paidAt${withGift ? ',\n              gift_id AS giftId, gift_qty AS giftQty' : ''}
+       FROM donations
+       WHERE status = 'success'
+       ORDER BY ${order}
+       LIMIT ${PUBLIC_WALL_LIMIT}`,
+    ),
+    env.DB.prepare(
+      `SELECT COALESCE(SUM(amount), 0) AS totalAmount, COUNT(*) AS totalCount
+       FROM donations
+       WHERE status = 'success'`,
+    ),
+  ];
+}
 
-  const totalRow = await env.DB.prepare(
-    `SELECT COALESCE(SUM(amount), 0) AS totalAmount, COUNT(*) AS totalCount
-     FROM donations
-     WHERE status = 'success'`,
-  ).first();
+export async function listPublicDonations(env, sort = 'new') {
+  // One round trip for both queries. idx_donations_success_amount makes the
+  // SUM/COUNT an index-only scan instead of reading whole donation rows.
+  // Falls back to the pre-0004 columns if the gift migration is not applied.
+  let list;
+  let totals;
+  try {
+    [list, totals] = await env.DB.batch(publicListStatements(env, true, sort));
+  } catch (err) {
+    if (!/gift_/i.test(String(err?.message || err))) throw err;
+    [list, totals] = await env.DB.batch(publicListStatements(env, false, sort));
+  }
+  const results = list.results;
+  const totalRow = totals.results?.[0];
 
   return {
     donations: results || [],
@@ -155,12 +202,12 @@ export async function listPublicDonations(env) {
 export async function findDonationStatus(env, orderCode) {
   try {
     return await env.DB.prepare(
-      'SELECT status, hidden FROM donations WHERE order_code = ?',
+      'SELECT status, hidden, amount FROM donations WHERE order_code = ?',
     )
       .bind(orderCode)
       .first();
   } catch {
-    return env.DB.prepare('SELECT status FROM donations WHERE order_code = ?')
+    return env.DB.prepare('SELECT status, amount FROM donations WHERE order_code = ?')
       .bind(orderCode)
       .first();
   }
@@ -169,7 +216,7 @@ export async function findDonationStatus(env, orderCode) {
 export async function findDonationForWebhook(env, orderCode) {
   try {
     return await env.DB.prepare(
-      'SELECT order_code, amount, status, hidden FROM donations WHERE order_code = ?',
+      'SELECT order_code, amount, status, hidden, payos_reference FROM donations WHERE order_code = ?',
     )
       .bind(orderCode)
       .first();
@@ -183,10 +230,16 @@ export async function findDonationForWebhook(env, orderCode) {
 }
 
 /**
- * Mark a pending donation as success with PayOS audit fields.
- * Does not touch hidden. Already-success rows are left alone (idempotent).
+ * Mark an unpaid donation as success with PayOS audit fields. A valid paid
+ * webhook can arrive after the 30-min link expiry, so pending and legacy
+ * expired/cancelled rows all move to success. Does not touch hidden.
+ * Already-success rows are left alone (idempotent).
  * Falls back to the minimal update on DBs without the audit migration.
  */
+/** Statuses a late, valid PayOS 'paid' webhook may still settle. */
+export const UNPAID_STATUSES = ['pending', 'expired', 'cancelled'];
+const UNPAID_SQL = UNPAID_STATUSES.map((s) => `'${s}'`).join(', ');
+
 export async function markDonationPaid(env, orderCode, data, paidAtIso) {
   const audit = {
     payos_reference: data.reference ?? null,
@@ -212,7 +265,7 @@ export async function markDonationPaid(env, orderCode, data, paidAtIso) {
            counter_account_name = ?, counter_account_number = ?,
            virtual_account_name = ?, virtual_account_number = ?,
            payment_link_id = COALESCE(payment_link_id, ?)
-       WHERE order_code = ? AND status = 'pending'`,
+       WHERE order_code = ? AND status IN (${UNPAID_SQL})`,
     )
       .bind(
         audit.payos_reference,
@@ -235,7 +288,7 @@ export async function markDonationPaid(env, orderCode, data, paidAtIso) {
     await env.DB.prepare(
       `UPDATE donations
        SET status = 'success', payos_reference = ?, paid_at = ?
-       WHERE order_code = ? AND status = 'pending'`,
+       WHERE order_code = ? AND status IN (${UNPAID_SQL})`,
     )
       .bind(data.reference || null, paidAtIso, orderCode)
       .run();
@@ -247,7 +300,10 @@ function withHiddenFlag(row) {
   return { ...row, hidden: Boolean(row.hidden) };
 }
 
-export async function listDonationsForAdmin(env) {
+export async function listDonationsForAdmin(env, hiddenFilter = null) {
+  // hiddenFilter: 'hidden' | 'visible' | null (all).
+  const where = hiddenFilter === 'hidden' ? "WHERE status = 'success' AND hidden = 1"
+    : hiddenFilter === 'visible' ? "WHERE status = 'success' AND hidden = 0" : '';
   try {
     const { results } = await env.DB.prepare(
       `SELECT order_code AS orderCode, amount, display_name AS displayName,
@@ -263,7 +319,8 @@ export async function listDonationsForAdmin(env) {
               virtual_account_name AS virtualAccountName,
               virtual_account_number AS virtualAccountNumber
        FROM donations
-       ORDER BY COALESCE(paid_at, created_at) DESC
+       ${where}
+       ORDER BY created_at DESC
        LIMIT ${ADMIN_LIST_LIMIT}`,
     ).all();
     return (results || []).map(withHiddenFlag);
@@ -273,9 +330,10 @@ export async function listDonationsForAdmin(env) {
       `SELECT order_code AS orderCode, amount, display_name AS displayName,
               message, anonymous, status, paid_at AS paidAt, created_at AS createdAt
        FROM donations
-       ORDER BY COALESCE(paid_at, created_at) DESC
+       ORDER BY created_at DESC
        LIMIT ${ADMIN_LIST_LIMIT}`,
     ).all();
+    if (hiddenFilter === 'hidden') return [];
     return (results || []).map((row) => withHiddenFlag({ ...row, hidden: 0 }));
   }
 }
@@ -308,3 +366,4 @@ export async function findAdminPasswordHash(env, username) {
     .bind(username)
     .first();
 }
+

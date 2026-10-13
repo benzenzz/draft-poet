@@ -56,7 +56,10 @@ export function resolveCors(request, env, url) {
   const origin = request.headers.get('Origin');
   const allowed = env.ALLOWED_ORIGIN;
   const sameHost = origin === url.origin;
-  const corsOrigin = origin === allowed || isLocalDevOrigin(origin) ? origin : '';
+  // localhost is only trusted when this Worker is itself configured for dev
+  // (ALLOWED_ORIGIN is localhost, or ALLOW_LOCALHOST_ORIGINS=1).
+  const devMode = isLocalDevOrigin(allowed) || String(env.ALLOW_LOCALHOST_ORIGINS || '') === '1';
+  const corsOrigin = origin === allowed || (devMode && isLocalDevOrigin(origin)) ? origin : '';
   return { origin, allowed, corsOrigin, sameHost };
 }
 
