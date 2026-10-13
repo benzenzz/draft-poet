@@ -106,8 +106,10 @@
 .thanks-lead { font-size: 17px; max-width: 520px; margin: 8px auto 22px; color: var(--ink-soft); }
 .thanks-cta { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin: 20px 0; }
 .thanks-no-anim .thanks-hero * { animation: none !important; }
-.thanks-letter { max-width: 440px; margin: 0 auto; }
-.thanks-letter canvas { width: 100%; height: auto; display: block; border-radius: 20px; border: 3px solid var(--outline); box-shadow: 7px 8px 0 var(--outline); transform: rotate(-1.2deg); }
+.thanks-letter { width: 100%; max-width: 520px; margin: 0 auto; }
+.thanks-letter canvas { width: 100%; height: auto; display: block; border-radius: 20px; border: 3px solid var(--outline); box-shadow: 7px 8px 0 var(--outline); transform: rotate(-1deg); }
+.thanks-hero.container { padding-inline: 16px; width: 100%; max-width: 100%; }
+@media (max-width: 480px) { .thanks-letter canvas { transform: none; box-shadow: 4px 5px 0 var(--outline); border-radius: 16px; } }
 .thanks-card-actions { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 28px; }
 .thanks-card-actions .button { min-height: 52px; }
 .thanks-fb { background: #1877f2; color: #fff; }

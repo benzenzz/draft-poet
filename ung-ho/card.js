@@ -51,53 +51,47 @@ window.POETCard = (() => {
     const date = new Intl.DateTimeFormat('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric' })
       .format(Number.isNaN(when.getTime()) ? new Date() : when);
 
-    c.clearRect(0, 0, W, H);
-    c.fillStyle = '#f4e6cf';
-    c.fillRect(0, 0, W, H);
-    c.textAlign = 'left';
-    c.font = '80px serif';
-    [['✿', 90, 120, '#ff8a76'], ['✦', 980, 160, '#f6c43f'], ['❀', 960, 1180, '#f3a9c4'],
-      ['♥', 110, 1220, '#ff8a76'], ['✦', 140, 640, '#6aa5c4'], ['✿', 950, 700, '#8cc63f']]
-      .forEach(([s, x, y, col]) => { c.fillStyle = col; c.fillText(s, x - 40, y); });
-
+    // The letter IS the canvas (no outer frame), so it reads large on phones.
     const rr = (x, y, w, h, r) => {
       c.beginPath();
       if (c.roundRect) c.roundRect(x, y, w, h, r);
       else c.rect(x, y, w, h);
     };
+    c.clearRect(0, 0, W, H);
     c.fillStyle = '#fffaf1';
-    c.strokeStyle = '#2f2219';
-    c.lineWidth = 8;
-    rr(110, 190, 860, 980, 48); c.fill(); c.stroke();
+    c.fillRect(0, 0, W, H);
     c.strokeStyle = '#e2cfb1';
-    c.lineWidth = 4;
-    c.setLineDash([16, 14]);
-    rr(140, 220, 800, 920, 36); c.stroke();
+    c.lineWidth = 5;
+    c.setLineDash([18, 14]);
+    rr(36, 36, W - 72, H - 72, 40); c.stroke();
     c.setLineDash([]);
+    c.textAlign = 'left';
+    c.font = '72px serif';
+    [['✿', 100, 140, '#ff8a76'], ['✦', 980, 140, '#f6c43f'], ['❀', 980, 1250, '#f3a9c4'], ['♥', 100, 1250, '#ff8a76']]
+      .forEach(([s, x, y, col]) => { c.fillStyle = col; c.fillText(s, x - 36, y); });
 
     c.textAlign = 'center';
-    c.fillStyle = '#ff8a76'; c.font = '800 34px Nunito';
-    c.fillText('GIẤY CẢM ƠN · POET', 540, 300);
-    c.fillStyle = '#4a3324'; c.font = '46px Itim';
-    c.fillText('Thân gửi', 540, 390);
-    c.font = `800 ${name.length > 18 ? 72 : 92}px "Baloo 2"`; c.fillStyle = '#2f2219';
-    c.fillText(name, 540, 500, 780);
-    c.fillStyle = '#f6c43f'; c.fillRect(300, 525, 480, 14);
-    c.fillStyle = '#7a5b45'; c.font = '700 36px Nunito';
-    c.fillText('đã gửi tặng các em nhỏ vùng cao', 540, 610);
-    c.fillStyle = '#8a6bd1'; c.font = '800 104px "Baloo 2"';
-    c.fillText(new Intl.NumberFormat('vi-VN').format(amt) + ' đ', 540, 740, 780);
-    const msgY = 850;
+    c.fillStyle = '#3a9e74'; c.font = '800 44px Nunito';
+    c.fillText('THƯ CẢM ƠN · POET', 540, 150);
+    c.fillStyle = '#4a3324'; c.font = '60px Itim';
+    c.fillText('Thân gửi', 540, 280);
+    c.font = `800 ${name.length > 14 ? 104 : 140}px "Baloo 2"`; c.fillStyle = '#2f2219';
+    c.fillText(name, 540, 430, 940);
+    c.fillStyle = '#f6c43f'; c.fillRect(240, 462, 600, 18);
+    c.fillStyle = '#7a5b45'; c.font = '700 48px Nunito';
+    c.fillText('đã gửi tặng các em nhỏ vùng cao', 540, 570, 940);
+    c.fillStyle = '#8a6bd1'; c.font = '800 156px "Baloo 2"';
+    c.fillText(new Intl.NumberFormat('vi-VN').format(amt) + ' đ', 540, 740, 960);
     if (d.message) {
-      c.fillStyle = '#4a3324'; c.font = '44px Itim';
-      wrap(c, '“' + d.message + '”', 540, msgY, 700, 58, 3);
+      c.fillStyle = '#4a3324'; c.font = '60px Itim';
+      wrap(c, '“' + d.message + '”', 540, 870, 900, 76, 3);
     }
-    c.fillStyle = '#7a5b45'; c.font = '700 32px Nunito';
-    c.fillText('Ngày ' + date, 540, 1070);
-    c.fillStyle = '#2f2219'; c.font = '800 40px "Baloo 2"';
-    c.fillText(SLOGAN, 540, 1260);
-    c.fillStyle = '#7a5b45'; c.font = '700 28px Nunito';
-    c.fillText(SITE, 540, 1305);
+    c.fillStyle = '#7a5b45'; c.font = '700 40px Nunito';
+    c.fillText('Ngày ' + date, 540, 1130);
+    c.fillStyle = '#ff8a76'; c.font = '800 52px "Baloo 2"';
+    c.fillText(SLOGAN, 540, 1210, 900);
+    c.fillStyle = '#7a5b45'; c.font = '700 34px Nunito';
+    c.fillText(SITE, 540, 1262);
   }
 
   const fileName = () => 'poet-cam-on-' + new Date().toISOString().slice(0, 10) + '.png';
