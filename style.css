@@ -182,16 +182,11 @@ site-header, site-footer, site-lightbox { display: contents; }
 .mini-sun { color: var(--yellow); font-size: 20px; line-height: 1; }
 .hero h1 { font-size: clamp(48px, 6.6vw, 88px); margin-bottom: 26px; }
 .underline-swoosh { position: relative; display: inline-block; color: var(--green); isolation: isolate; }
-.underline-swoosh::after {
-  content: '';
-  position: absolute;
-  left: 2%;
-  right: 4%;
-  bottom: .02em;
-  height: .2em;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 20' preserveAspectRatio='none'%3E%3Cpath d='M3 14 C 50 4, 90 18, 130 8 S 185 6, 197 11' fill='none' stroke='%23f6c43f' stroke-width='6' stroke-linecap='round'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
-  z-index: -1;
-}
+.underline-doodle { position: absolute; z-index: -1; left: 1%; bottom: -.02em; width: 102%; height: .22em; overflow: visible; }
+.underline-doodle path { fill: none; stroke: var(--yellow); stroke-width: 6; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1; animation: doodle-draw .72s cubic-bezier(.22, .8, .25, 1) 1.03s forwards; }
+.hero-title-line { display: inline-block; animation: hero-line-reveal .62s cubic-bezier(.22, .8, .25, 1) both; }
+.hero-title-line:nth-of-type(2) { animation-delay: .18s; }
+.hero-title-line:nth-of-type(3) { animation-delay: .36s; }
 .hero-lead { font-family: var(--display); font-size: 22px; font-weight: 600; line-height: 1.45; max-width: 560px; margin-bottom: 14px; }
 .hero-support { color: var(--ink-soft); max-width: 540px; margin-bottom: 32px; }
 .hero-support strong { color: var(--coral); }
@@ -302,7 +297,9 @@ site-header, site-footer, site-lightbox { display: contents; }
 .section-heading > p { color: var(--ink-soft); font-size: 17px; margin: 0; }
 .section-heading h2 span, .packages-top h2 span { color: var(--coral); }
 .scribble { position: relative; display: inline-block; }
-.scribble::after { content: ''; position: absolute; inset: -6% -4%; border: 3px solid var(--yellow); border-radius: 50% 45% 55% 40%; transform: rotate(-3deg); pointer-events: none; }
+.scribble svg { position: absolute; inset: -12% -5%; width: 110%; height: 124%; overflow: visible; transform: rotate(-2deg); pointer-events: none; }
+.scribble path { fill: none; stroke: var(--yellow); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset .82s cubic-bezier(.22, .8, .25, 1) var(--doodle-delay, 260ms); }
+.scribble.is-doodle-visible path { stroke-dashoffset: 0; }
 
 .journey { background: var(--card); border-block: 2px dashed var(--line); background-image: repeating-linear-gradient(transparent 0 35px, rgba(106, 165, 196, .14) 35px 36px); }
 .journey-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
@@ -746,6 +743,45 @@ section[id] { scroll-margin-top: 80px; }
 }
 .swipe-hint span { color: var(--coral); font-weight: 700; }
 .ugc .swipe-hint { color: rgba(255, 250, 241, .8); }
+
+/* =========================================
+   POET DOODLE MOTION SYSTEM
+========================================= */
+.doodle-heading {
+  --doodle-duration: 620ms;
+  --doodle-delay: 0ms;
+  transition: clip-path var(--doodle-duration) cubic-bezier(.22, .8, .25, 1) var(--doodle-delay), transform var(--doodle-duration) cubic-bezier(.22, .8, .25, 1) var(--doodle-delay);
+}
+.doodle-heading.is-doodle-pending:not(.is-doodle-visible) { clip-path: inset(0 100% 0 0); transform: translateY(8px); }
+.doodle-heading.is-doodle-visible { clip-path: inset(0); transform: none; }
+.doodle-highlight { position: relative; isolation: isolate; white-space: nowrap; }
+.doodle-highlight::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  left: -2%; right: -2%; bottom: .04em; height: .42em;
+  background: rgba(246, 196, 63, .58);
+  clip-path: polygon(0 28%, 21% 12%, 44% 22%, 67% 8%, 100% 18%, 98% 88%, 72% 79%, 48% 95%, 23% 82%, 2% 94%);
+  transform: scaleX(0); transform-origin: left center;
+  transition: transform 650ms cubic-bezier(.22, .8, .25, 1) calc(var(--doodle-delay, 260ms) + 240ms);
+}
+.doodle-highlight.is-doodle-visible::before { transform: scaleX(1); }
+.doodle-spark { width: 48px; height: 48px; overflow: visible; }
+.doodle-spark path { fill: none; stroke: currentColor; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 520ms cubic-bezier(.22, .8, .25, 1), transform 400ms cubic-bezier(.22, .8, .25, 1) 420ms; transform-box: fill-box; transform-origin: center; }
+.doodle-spark.is-doodle-visible path { stroke-dashoffset: 0; transform: rotate(4deg); }
+.hero-spark { animation: none; }
+@keyframes hero-line-reveal {
+  from { clip-path: inset(0 100% 0 0); transform: translateY(8px); }
+  to { clip-path: inset(0); transform: none; }
+}
+@keyframes doodle-draw { to { stroke-dashoffset: 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-title-line { animation: none; clip-path: none; transform: none; }
+  .underline-doodle path, .scribble path, .doodle-spark path { animation: none; transition: none; stroke-dashoffset: 0; }
+  .doodle-heading, .doodle-heading.is-doodle-pending, .doodle-heading.is-doodle-pending:not(.is-doodle-visible) { clip-path: none; transform: none; transition: none; }
+  .doodle-highlight::before { transform: none; transition: none; }
+}
 
 @media (max-width: 980px) {
   .keyword-grid, .story-band-grid, .invite-grid { grid-template-columns: 1fr; }

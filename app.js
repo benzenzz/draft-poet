@@ -484,14 +484,25 @@ document.querySelectorAll('.swipe-hint').forEach(hint => {
   update();
 });
 
-if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches && 'IntersectionObserver' in window) {
+const doodleTargets = [...document.querySelectorAll('[data-doodle]')];
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+if (reduceMotion || !('IntersectionObserver' in window)) {
+  doodleTargets.forEach(element => element.classList.add('is-doodle-visible'));
+}
+
+if ('IntersectionObserver' in window && !reduceMotion) {
   const revealObserver = new IntersectionObserver(entries => {
     entries.forEach(entry => {
       if (!entry.isIntersecting) return;
-      entry.target.classList.add('is-revealed');
+      if (entry.target.classList.contains('reveal')) entry.target.classList.add('is-revealed');
+      if (entry.target.matches('[data-doodle]') && entry.intersectionRatio >= .2) {
+        entry.target.classList.add('is-doodle-visible');
+      }
+      if (!entry.target.classList.contains('reveal') && !entry.target.matches('[data-doodle]')) return;
+      if (entry.target.matches('[data-doodle]') && !entry.target.classList.contains('is-doodle-visible')) return;
       revealObserver.unobserve(entry.target);
     });
-  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  }, { threshold: [.12, .2], rootMargin: '0px 0px -40px 0px' });
 
   revealGroups.forEach(selector => {
     document.querySelectorAll(selector).forEach((element, index) => {
@@ -499,5 +510,10 @@ if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches && 'Intersect
       element.style.setProperty('--reveal-delay', `${Math.min(index, 9) * 70}ms`);
       revealObserver.observe(element);
     });
+  });
+
+  doodleTargets.forEach(element => {
+    element.classList.add('is-doodle-pending');
+    revealObserver.observe(element);
   });
 }
