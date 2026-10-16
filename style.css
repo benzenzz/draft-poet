@@ -750,10 +750,17 @@ section[id] { scroll-margin-top: 80px; }
 .doodle-heading {
   --doodle-duration: 620ms;
   --doodle-delay: 0ms;
-  transition: clip-path var(--doodle-duration) cubic-bezier(.22, .8, .25, 1) var(--doodle-delay), transform var(--doodle-duration) cubic-bezier(.22, .8, .25, 1) var(--doodle-delay);
+  /* A mask, not clip-path: a zero-area clip hides the heading from IntersectionObserver, so it never revealed. */
+  -webkit-mask-image: linear-gradient(90deg, #000 50%, transparent 0);
+  mask-image: linear-gradient(90deg, #000 50%, transparent 0);
+  -webkit-mask-size: 200% 100%;
+  mask-size: 200% 100%;
+  -webkit-mask-position: 0 0;
+  mask-position: 0 0;
+  transition: -webkit-mask-position var(--doodle-duration) cubic-bezier(.22, .8, .25, 1) var(--doodle-delay), mask-position var(--doodle-duration) cubic-bezier(.22, .8, .25, 1) var(--doodle-delay), transform var(--doodle-duration) cubic-bezier(.22, .8, .25, 1) var(--doodle-delay);
 }
-.doodle-heading.is-doodle-pending:not(.is-doodle-visible) { clip-path: inset(0 100% 0 0); transform: translateY(8px); }
-.doodle-heading.is-doodle-visible { clip-path: inset(0); transform: none; }
+.doodle-heading.is-doodle-pending:not(.is-doodle-visible) { -webkit-mask-position: 100% 0; mask-position: 100% 0; transform: translateY(8px); }
+.doodle-heading.is-doodle-visible { -webkit-mask-position: 0 0; mask-position: 0 0; transform: none; }
 .doodle-highlight { position: relative; isolation: isolate; white-space: nowrap; }
 .doodle-highlight::before {
   content: '';
@@ -779,7 +786,7 @@ section[id] { scroll-margin-top: 80px; }
 @media (prefers-reduced-motion: reduce) {
   .hero-title-line { animation: none; clip-path: none; transform: none; }
   .underline-doodle path, .scribble path, .doodle-spark path { animation: none; transition: none; stroke-dashoffset: 0; }
-  .doodle-heading, .doodle-heading.is-doodle-pending, .doodle-heading.is-doodle-pending:not(.is-doodle-visible) { clip-path: none; transform: none; transition: none; }
+  .doodle-heading, .doodle-heading.is-doodle-pending, .doodle-heading.is-doodle-pending:not(.is-doodle-visible) { -webkit-mask-image: none; mask-image: none; transform: none; transition: none; }
   .doodle-highlight::before { transform: none; transition: none; }
 }
 
@@ -1726,4 +1733,118 @@ main.admin {
 html.admin-page, html.admin-page body { overflow-x: visible; }
 @supports (height: 100dvh) {
   .admin-layout { min-height: calc(100dvh - var(--admin-header-offset)); }
+}
+
+/* =========================================
+   POET PLAYGROUND — INTRO, HERO + FIRST HANDOFF (PASS 2)
+   Opt-in via html[data-opening-prototype]; ?motion=off restores legacy motion.
+   SYSTEM tokens are reusable. SEASON tokens are the only values a new season swaps
+   (plus the mascot image and greeting text in index.html).
+========================================= */
+:root {
+  /* System — micro level for CSS hovers. Component/scene timings live in motion.js; scroll story is progress-based. */
+  --motion-micro: 200ms;
+  --ease-out-strong: cubic-bezier(.23, 1, .32, 1);
+  /* Season — route crayon and greeting colour. */
+  --season-route: var(--yellow);
+  --season-hello: var(--green);
+}
+
+/* Greeting kicker: always rendered, so the static and no-JS hero read the same. */
+.hero-hello {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: max-content;
+  max-width: 100%;
+  margin: 0 0 18px;
+  font-family: var(--hand);
+  font-size: 20px;
+  line-height: 1.3;
+  color: var(--season-hello);
+  transform-origin: center;
+}
+.hero-hello img { width: 40px; height: 40px; flex: none; object-fit: contain; }
+/* Padding keeps Vietnamese diacritics inside the reveal mask; negative margin keeps layout. */
+.hello-mask { display: inline-block; overflow: hidden; padding: .2em .12em .25em; margin: -.2em -.12em -.25em; }
+.hello-text { display: inline-block; }
+
+html[data-opening-prototype] .hero { position: relative; }
+html[data-opening-prototype] .hero-copy > *,
+html[data-opening-prototype] .hero-art,
+html[data-opening-prototype] .hero-title-line,
+html[data-opening-prototype] .hero .reel-frame,
+html[data-opening-prototype] .hero .joy-seal,
+html[data-opening-prototype] .hero .joy-seal .daisy,
+html[data-opening-prototype] .hero .reel-live i {
+  animation: none;
+}
+html[data-opening-prototype] .hero-title-line { clip-path: none; }
+html[data-opening-prototype] .hero .underline-doodle path,
+html[data-opening-prototype] .hero .doodle-spark path {
+  animation: none;
+  transition: none;
+  stroke-dashoffset: 0;
+}
+html[data-opening-prototype] .hero .underline-doodle path { stroke: var(--season-route); }
+html[data-opening-prototype].opening-pending .hero-copy > *,
+html[data-opening-prototype].opening-pending .hero-art > * { opacity: 0; }
+html[data-opening-prototype].opening-pending .site-header { opacity: .2; }
+html[data-opening-prototype].opening-playing .hero-title-line,
+html[data-opening-prototype].opening-playing .hero .poster-note,
+html[data-opening-prototype].opening-playing .hero .doodle-spark path { transition: none; }
+/* While the greeting travels it must stay above the scrapbook that is being placed. */
+html[data-opening-prototype].opening-playing .hero-hello { position: relative; z-index: 7; }
+
+/* Line masks exist only while the opening plays; motion.js unwraps them afterwards. */
+html[data-opening-prototype] .opening-line-mask {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  padding: .16em .10em .20em;
+  margin: -.16em -.10em -.20em;
+}
+
+/* Hover = micro level, only where hover is real. */
+html[data-opening-prototype] .hero .poster-note { transition: transform var(--motion-micro) var(--ease-out-strong); }
+@media (hover: none), (pointer: coarse) {
+  html[data-opening-prototype] .hero .note-top:hover { transform: rotate(5deg); }
+  html[data-opening-prototype] .hero .note-bottom:hover { transform: rotate(-4deg); }
+}
+
+/* Scroll scene layering (motion.js writes translate/rotate/scale/opacity on these elements):
+   foreground intro label/heading (z 3) → ticker carrier (z 2) → hero photo on its exit (z 1).
+   The route has no z-index, so it runs under all three. The ticker clip lets the scaled band travel;
+   <main> still clips horizontal overflow. */
+html[data-opening-prototype] .hero-art { z-index: 1; }
+html[data-opening-prototype] .ticker-clip { position: relative; z-index: 2; overflow: visible; }
+html[data-opening-prototype] #gioi-thieu > * { position: relative; z-index: 3; }
+/* Desktop: the scene scrubs these with scroll, so their time-based reveal transition must not lag it. */
+@media (min-width: 981px) {
+  html[data-opening-prototype] #gioi-thieu .section-kicker,
+  html[data-opening-prototype] #gioi-thieu .intro-right { transition: none; }
+}
+
+/* Route handoff: one crayon line from the hero underline to the next section label. */
+html[data-opening-prototype] main { position: relative; }
+.route-handoff { position: absolute; top: 0; left: 0; overflow: visible; pointer-events: none; }
+.route-handoff[hidden] { display: none; }
+.route-handoff path {
+  stroke: var(--season-route);
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+
+@media (max-width: 980px) {
+  .hero-hello { font-size: 18px; gap: 8px; margin-bottom: 14px; }
+  .hero-hello img { width: 34px; height: 34px; }
+  .route-handoff path { stroke-width: 4; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html[data-opening-prototype].opening-pending .hero-copy > *,
+  html[data-opening-prototype].opening-pending .hero-art > *,
+  html[data-opening-prototype].opening-pending .site-header { opacity: 1; }
 }

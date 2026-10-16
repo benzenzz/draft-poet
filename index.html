@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="vi" style="color-scheme: light only; background-color: #f4e6cf">
+<html lang="vi" data-opening-prototype="pass2"style="color-scheme: light only; background-color: #f4e6cf">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,6 +7,24 @@
   <meta name="color-scheme" content="light only">
   <meta name="supported-color-schemes" content="light">
   <style>html,body{color-scheme:light only;background-color:#f4e6cf}</style>
+  <!-- PASS 2: remove this bootstrap, motion.js, the route svg and the data attribute to revert. -->
+  <script>
+    (function () {
+      var root = document.documentElement;
+      if (new URLSearchParams(location.search).get('motion') === 'off') {
+        root.removeAttribute('data-opening-prototype');
+        return;
+      }
+      window.poetOpeningStarted = performance.now();
+      if (!matchMedia('(prefers-reduced-motion: reduce)').matches && !location.hash) {
+        root.classList.add('opening-pending');
+        window.poetOpeningSafety = setTimeout(function () {
+          root.classList.remove('opening-pending');
+          root.dataset.openingState = 'fallback';
+        }, 1200);
+      }
+    })();
+  </script>
   <meta name="description" content="POET là tổ chức thiện nguyện của người trẻ. Tuổi trẻ, nhiệt huyết, nghệ thuật — qua những chuyến đi tới điểm trường, trò chơi cùng các em và những kỷ niệm được kể lại.">
   <title>POET — Tuổi trẻ, nhiệt huyết, nghệ thuật</title>
   <link rel="icon" type="image/jpeg" href="assets/logo/1555047679990943.jpg">
@@ -19,6 +37,7 @@
   <script src="components/site-footer.js" defer></script>
   <script src="components/site-lightbox.js" defer></script>
   <script src="app.js" defer></script>
+  <script src="motion.js" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Bỏ qua điều hướng</a>
@@ -31,6 +50,8 @@
     <section class="hero container" aria-labelledby="hero-title">
       <div class="hero-copy">
         <!-- <p class="eyebrow"><span class="mini-sun" aria-hidden="true">✿</span> Tổ chức thiện nguyện của người trẻ</p> -->
+        <!-- Greeting wording from Website Audit (“Hi, lời ngỏ từ POET”). Mascot = season asset. -->
+        <p class="hero-hello"><img src="assets/experiments/opening/flower-happy.webp" width="192" height="192" alt=""><span class="hello-mask"><span class="hello-text">Hi, lời ngỏ từ POET</span></span></p>
         <h1 id="hero-title"><span class="hero-title-line">Tuổi trẻ.</span><br><span class="hero-title-line">Nhiệt huyết.</span><br><span class="hero-title-line underline-swoosh">Nghệ thuật.<svg class="underline-doodle" viewBox="0 0 200 20" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M3 14 C 28 8 49 5 72 9 C 96 13 111 17 132 10 C 153 3 177 5 197 11" /></svg></span></h1>
         <p class="hero-lead">POET gửi thông điệp của người trẻ bằng cách có mặt: đến điểm trường, chơi cùng các em, rồi kể lại những ngày ấy cho thật gần.</p>
         <p class="hero-support">Ba từ khóa ấy là cách tụi mình làm việc. Niềm vui không dừng ở một bài đăng — nó còn ở lại trong lớp học, trong trò chơi, và trong ký ức.</p>
@@ -80,6 +101,8 @@
         <figcaption>Cả nhà POET · young, effort, aesthetic</figcaption>
       </figure>
     </section>
+    <!-- Scroll handoff: one crayon route from the hero underline to the next section label. motion.js draws it. -->
+    <svg class="route-handoff" data-route-from=".hero .underline-doodle" data-route-from-mobile=".hero-art" data-route-to="#gioi-thieu .section-kicker" fill="none" aria-hidden="true" hidden><path pathLength="1" /></svg>
 
     <section class="journey section-pad" id="hoat-dong" aria-labelledby="activity-title">
       <div class="container">
