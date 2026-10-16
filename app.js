@@ -278,7 +278,13 @@ if (reelControl && reelSlides.length) {
   }
 
   reelControl.addEventListener('click', () => (reelTimer ? pauseReel() : playReel()));
-  playReel();
+  // PASS 1: keep a still first frame for reduced motion; manual play still works.
+  const reelMotionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+  if (document.documentElement.hasAttribute('data-opening-prototype') && reelMotionPreference.matches) updateReel();
+  else playReel();
+  reelMotionPreference.addEventListener('change', event => {
+    if (document.documentElement.hasAttribute('data-opening-prototype') && event.matches) pauseReel();
+  });
 }
 
 const contactDialog = document.querySelector('#contact-dialog');
@@ -484,7 +490,10 @@ document.querySelectorAll('.swipe-hint').forEach(hint => {
   update();
 });
 
-const doodleTargets = [...document.querySelectorAll('[data-doodle]')];
+// PASS 1: the opening owns only hero doodles; every later section keeps its observer.
+const doodleTargets = [...document.querySelectorAll('[data-doodle]')].filter(element =>
+  !document.documentElement.hasAttribute('data-opening-prototype') || !element.closest('.hero')
+);
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 if (reduceMotion || !('IntersectionObserver' in window)) {
   doodleTargets.forEach(element => element.classList.add('is-doodle-visible'));
