@@ -18,7 +18,8 @@ hero, four activity thumbnails and press strip.
   Autoplay waits for the hero handoff to complete and pauses offscreen.
 - `press-strip.js` retains the final reversible press motion below the thumbnails.
 
-The homepage and generated pages use the `final-motion-2` asset revision. Run
+The motion scripts and Hero styles use `final-motion-2`; shared editorial CSS
+uses `product-sans-1` after the user's Product Sans typography update. Run
 `npm run build:site --prefix poet/v2` from DRAFT to regenerate the pages while
 preserving the intro/hero markup. Historical pass documents remain as evidence;
 the current files above are the final combined implementation.

@@ -11,12 +11,24 @@
   <script>
     (function () {
       var root = document.documentElement;
+      // DEV-ONLY section preview (?preview=gioi-thieu). Remove with the style.css block and the motion.js check.
+      var preview = new URLSearchParams(location.search).get('preview') === 'gioi-thieu';
+      if (preview) {
+        root.dataset.preview = 'gioi-thieu';
+        history.scrollRestoration = 'manual';
+        // Land at ~40% of the hero → intro scene (settle hold), so frame exit, ticker travel and intro rise play on scroll.
+        // shortcut: ignores the sticky-header floor on handoffY, fine for a dev preview.
+        addEventListener('load', function () {
+          var clip = document.querySelector('.ticker-clip');
+          if (clip) scrollTo({ top: Math.max(0, .4 * (clip.getBoundingClientRect().top + scrollY - innerHeight * .18)), behavior: 'instant' });
+        });
+      }
       if (new URLSearchParams(location.search).get('motion') === 'off') {
         root.removeAttribute('data-opening-prototype');
         return;
       }
       window.poetOpeningStarted = performance.now();
-      if (!matchMedia('(prefers-reduced-motion: reduce)').matches && !location.hash) {
+      if (!matchMedia('(prefers-reduced-motion: reduce)').matches && !location.hash && !preview) {
         root.classList.add('opening-pending');
         window.poetOpeningSafety = setTimeout(function () {
           root.classList.remove('opening-pending');
@@ -29,9 +41,6 @@
   <title>POET — Tuổi trẻ, nhiệt huyết, nghệ thuật</title>
   <link rel="icon" type="image/jpeg" href="assets/logo/1555047679990943.jpg">
   <link rel="apple-touch-icon" href="assets/logo/1555047679990943.jpg">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Itim&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <script src="components/site-header.js" defer></script>
   <script src="components/site-footer.js" defer></script>

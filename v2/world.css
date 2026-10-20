@@ -31,8 +31,7 @@ html.hero-only .hero--world { position: relative; height: 100%; min-height: 400p
   --tile-wall: color-mix(in srgb, var(--tile) 55%, white);
   --tile-wall-dark: color-mix(in srgb, var(--edge) 55%, white);
 }
-.hero--world .tile[data-mascot-active],
-html[data-world-state="reduced"] .hero--world .tile[data-order="24"] {
+.hero--world .tile[data-mascot-active] {
   --tile-cap: color-mix(in srgb, var(--tile) 75%, white);
   --tile-face: var(--tile);
   --tile-wall: var(--tile);
@@ -83,7 +82,7 @@ html[data-world-state="reduced"] .hero--world .tile :is(.path-tile-top,.path-til
 .hero--world .park-sign-pin { fill: var(--blue); }
 .hero--world .join-joy-edge { fill: var(--green-edge); }
 .hero--world .join-joy-face { fill: var(--paper); stroke: var(--green); stroke-width: 2.5; stroke-linejoin: round; transition: fill 220ms ease; }
-.hero--world .join-joy-lettering { font-family: var(--display); font-size: 20px; fill: var(--green-edge); }
+.hero--world .join-joy-lettering { font-family:var(--font-family-primary); font-size: 20px; fill: var(--green-edge); }
 .hero--world .join-joy-lettering tspan + tspan { fill: var(--coral-edge); }
 .hero--world .join-joy-arrow { fill: none; stroke: var(--green); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
 .hero--world .join-joy-link { cursor: pointer; outline: none; }
@@ -130,7 +129,7 @@ html[data-world-state="alive"][data-world-motion="paused"] .hero--world .join-jo
 .intro-pending .poet-intro { visibility: visible; opacity: 1; }
 .intro-pending [data-intro-line] { visibility: hidden; }
 .intro-curtain { position: absolute; top: 0; left: -10%; width: 120%; height: 115%; background: color-mix(in srgb, var(--coral) 12%, white); border-radius: 0 0 50% 50% / 0 0 7% 7%; }
-.intro-copy { --intro-logo-width: clamp(72px, 12vw, 168px); position: relative; display: grid; grid-template-columns: var(--intro-logo-width) max-content; align-items: center; justify-content: center; column-gap: clamp(16px, 3vw, 48px); width: min(1120px, calc(100% - 40px)); text-align: left; color: var(--green-edge); font-family: var(--display); }
+.intro-copy { --intro-logo-width: clamp(72px, 12vw, 168px); position: relative; display: grid; grid-template-columns: var(--intro-logo-width) max-content; align-items: center; justify-content: center; column-gap: clamp(16px, 3vw, 48px); width: min(1120px, calc(100% - 40px)); text-align: left; color: var(--green-edge); font-family:var(--font-family-primary); }
 .intro-copy p { margin: 0; }
 .hero--world .intro-name { width: var(--intro-logo-width); min-width: 0; margin: 0; font: inherit; line-height: 1; }
 .intro-logo { display: block; width: 100%; height: auto; overflow: visible; }
@@ -151,6 +150,7 @@ html[data-world-state="alive"][data-world-motion="paused"] .hero--world .join-jo
 .hero--world .bush-top { fill: color-mix(in srgb, var(--green) 68%, white); }
 .hero--world .bush-side { fill: var(--green); }
 .hero--world .contact { fill: var(--ink); opacity: .08; }
+.hero--world .contact[data-round-shadow] { display: none; }
 .hero--world .paint-green-top { fill: var(--green); }
 .hero--world .paint-green-side { fill: var(--green-edge); }
 .hero--world .paint-blue-top { fill: var(--blue); }
@@ -191,7 +191,7 @@ html[data-world-state="alive"][data-world-motion="paused"] .hero--world .join-jo
 .hero--world .object-hit { opacity: 0; pointer-events: visiblePainted; }
 .hero--world .object-target > .contact { pointer-events: none; }
 @media (hover: hover) and (pointer: fine) {
-  html[data-world-state="alive"][data-world-motion="playing"] .hero--world .object-target:hover > .object-hover { transform: translateY(-7px); }
+  html[data-world-state="alive"][data-world-motion="playing"] .hero--world .object-target:not(.flower-character):hover > .object-hover { transform: translateY(-7px); }
 }
 .intro-pending .hero--world .bar { opacity: 1; }
 .intro-pending .hero--world .build-item, .intro-pending .hero--world .board-shadow { opacity: 0; }
@@ -213,16 +213,16 @@ html[data-world-state="alive"][data-world-motion="paused"] .hero--world .join-jo
 .hero-replay-debug {
   position: fixed; right: 18px; bottom: 78px; z-index: 100;
   padding: 9px 13px; border: 1px solid var(--ink); border-radius: 6px;
-  background: var(--paper); color: var(--ink); font: 600 13px system-ui; cursor: pointer;
+  background: var(--paper); color: var(--ink); font: var(--font-weight-ui) 13px var(--font-family-primary); cursor: pointer;
 }
 .hero-replay-debug:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
 .hero-runtime-debug {
   position: fixed; right: 18px; bottom: 128px; z-index: 100;
   box-sizing: border-box; width: min(285px, calc(100vw - 36px)); padding: 10px;
   border: 1px solid var(--ink); border-radius: 6px; background: var(--paper); color: var(--ink);
-  font: 12px/1.4 system-ui; max-height: 48vh; overflow: auto;
+  font: 12px/1.4 var(--font-family-primary); max-height: 48vh; overflow: auto;
 }
-.hero-runtime-debug summary { font-weight: 700; cursor: pointer; }
+.hero-runtime-debug summary { font-weight: var(--font-weight-bold); cursor: pointer; }
 .hero-runtime-debug output { display: block; white-space: pre-wrap; margin: 8px 0; }
 .hero-runtime-debug button { padding: 7px; background: white; color: var(--ink); border: 1px solid var(--ink); border-radius: 3px; font: inherit; cursor: pointer; }
 .hero-runtime-actions { display: flex; gap: 5px; }
@@ -231,8 +231,50 @@ html[data-world-state="alive"][data-world-motion="paused"] .hero--world .join-jo
   .world-wrap { height: 100svh; min-height: 400px; }
   .hero--world { position: relative; display: block; height: 100%; min-height: 400px; }
   .hero--world .stage { --stage-w: 105.5vw; top: 50%; }
+  .hero--world .join-joy-hit { transform-box:fill-box;transform-origin:center;transform:scale(1.7); }
 }
 @media (prefers-reduced-motion: reduce) {
   .hero--world .join-joy-face, .hero--world .join-joy-aura, .hero--world .join-joy-lettering tspan { transition-duration: 120ms; }
   html[data-world-state="reduced"] .hero--world .object-hover { transition: none; }
 }
+/* V3 stall artwork uses the same isometric world and hover/entrance wrappers. */
+.stall-back{fill:#fff5df}.stall-cream,.stall-counter{fill:#fff9e9}.stall-sign{fill:#fffaf0;stroke:#3c9e77;stroke-width:.7}.stall-label{fill:#225c46;font:var(--font-weight-bold) 10px var(--font-family-primary)}.stall-heart{fill:#ff8a76}.stall-handle{stroke:#225c46}
+
+/* Targeted two-stall architecture; the rest of the world keeps its materials. */
+.hero--world :is(.stall-info,.stall-merch){--booth-cream:#fbf9f3;--booth-yellow:#fee161;--booth-coral:#ef8a7d;--booth-blue:#5ca6d4;--booth-green:#399f78;--booth-ink:#225c46;--booth-color:var(--booth-yellow)}
+.hero--world .stall-merch{--booth-color:var(--booth-coral)}
+.hero--world .booth-plinth-top{fill:color-mix(in srgb,var(--booth-color) 40%,var(--booth-cream))}
+.hero--world .booth-plinth-side{fill:var(--booth-color)}
+.hero--world .booth-post-top,.hero--world .booth-post-side{fill:var(--booth-green)}
+.hero--world .booth-post-side.face-dark{fill:var(--booth-ink)}
+.hero--world .booth-counter-top,.hero--world .booth-counter-side{fill:var(--booth-cream)}
+.hero--world .booth-counter-side{stroke:var(--booth-green);stroke-width:.65;stroke-linejoin:round}
+.hero--world .booth-counter-side.face-dark{fill:color-mix(in srgb,var(--booth-color) 18%,var(--booth-cream))}
+.hero--world .booth-worktop-top{fill:color-mix(in srgb,var(--booth-color) 45%,var(--booth-cream))}
+.hero--world .booth-worktop-side{fill:var(--booth-color)}
+.hero--world .booth-trim,.hero--world .booth-roof-frame{stroke:var(--booth-green)}
+.hero--world .booth-flower-petal{fill:var(--booth-green)}
+.hero--world .booth-flower-center{fill:var(--booth-yellow)}
+.hero--world .booth-hanging-rail,.hero--world .booth-hanger,.hero--world .booth-tote-handle{fill:none;stroke:var(--booth-ink);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.hero--world .booth-shirt{fill:color-mix(in srgb,var(--booth-blue) 48%,var(--booth-cream));stroke:var(--booth-blue);stroke-width:1.2;stroke-linejoin:round}
+.hero--world .booth-shirt-collar{fill:none;stroke:var(--booth-blue);stroke-width:1.5}
+.hero--world .booth-tote{fill:var(--booth-cream);stroke:var(--booth-coral);stroke-width:1.2;stroke-linejoin:round}
+.hero--world .booth-tote-side{fill:color-mix(in srgb,var(--booth-coral) 35%,var(--booth-cream))}
+.hero--world .booth-fold-blue-top,.hero--world .booth-fold-blue-side{fill:var(--booth-blue)}
+.hero--world .booth-fold-cream-top,.hero--world .booth-fold-cream-side{fill:var(--booth-cream)}
+.hero--world .booth-notice-frame-top,.hero--world .booth-notice-frame-side{fill:var(--booth-green)}
+.hero--world .booth-notice-support-top,.hero--world .booth-notice-support-side{fill:var(--booth-green)}
+.hero--world .booth-notice-paper,.hero--world .booth-card{fill:var(--booth-cream)}
+.hero--world .booth-notice-blue,.hero--world .booth-card-mark{fill:var(--booth-blue)}
+.hero--world .booth-notice-yellow{fill:var(--booth-yellow)}
+.hero--world .booth-card-holder-top,.hero--world .booth-card-holder-side{fill:var(--booth-green)}
+.hero--world .booth-awning-cream{fill:var(--booth-cream)}
+.hero--world .booth-awning-coral{fill:var(--booth-coral)}
+.hero--world .booth-roof-trim{stroke:color-mix(in srgb,var(--booth-coral) 80%,var(--booth-ink))}
+.hero--world .booth-canopy-back{fill:color-mix(in srgb,var(--booth-yellow) 78%,var(--booth-cream))}
+.hero--world .booth-canopy-front{fill:var(--booth-yellow)}
+.hero--world .booth-canopy-edge{fill:color-mix(in srgb,var(--booth-yellow) 85%,var(--booth-ink))}
+.hero--world .booth-sign{fill:var(--booth-cream);stroke:var(--booth-green);stroke-width:.7}
+.hero--world .stall-merch .booth-sign{stroke:var(--booth-coral)}
+.hero--world .booth-label{fill:var(--booth-ink);font:var(--font-weight-bold) 11.5px var(--font-family-primary)}
+.hero--world .flower-hover{transform-box:view-box;pointer-events:none}

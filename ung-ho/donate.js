@@ -299,48 +299,17 @@
     submitBtn.textContent = 'Đang mở thanh toán…';
 
     try {
-      const res = await fetch(`${API_BASE}/api/donations`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+      // Keep cached older HTML working if it predates the shared script tag.
+      if (!window.POETCheckout) await import('./checkout.js');
+      await window.POETCheckout.open({
           amount,
           displayName: isAnonymous ? '' : name,
           message: note,
           anonymous: isAnonymous,
           ...(gift ? { giftId: gift.id, giftQty: gift.qty } : {}),
-          returnUrl: new URL('return.html', new URL('.', location.href)).href,
-          cancelUrl: new URL('cancel.html', new URL('.', location.href)).href,
-        }),
       });
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok || !data.checkoutUrl) {
-        showError(data.error || 'Không tạo được liên kết thanh toán.');
-        delete submitBtn.dataset.busy;
-        submitBtn.disabled = false;
-        update();
-        return;
-      }
-      // Keep donor details in THIS browser only, so the success page and
-      // thank-you card can show them without the public status API ever
-      // returning names/messages (orderCodes are enumerable).
-      if (data.orderCode) {
-        const record = JSON.stringify({
-          amount,
-          displayName: isAnonymous ? '' : name,
-          anonymous: isAnonymous,
-          message: note,
-          items: gift ? [{ id: gift.id, qty: gift.qty }] : [],
-          giftId: gift ? gift.id : null,
-          giftQty: gift ? gift.qty : null,
-          createdAt: new Date().toISOString(),
-        });
-        const key = 'poet-donation-' + data.orderCode;
-        try { sessionStorage.setItem(key, record); } catch { /* private mode */ }
-        try { localStorage.setItem(key, record); } catch { /* private mode */ }
-      }
-      location.href = data.checkoutUrl;
-    } catch {
-      showError('Không kết nối được máy chủ. Thử lại giúp nhé.');
+    } catch (error) {
+      showError(error instanceof TypeError ? 'Không kết nối được máy chủ. Thử lại giúp nhé.' : error.message);
       delete submitBtn.dataset.busy;
       submitBtn.disabled = false;
       update();

@@ -40,11 +40,12 @@
     const tiles=select('.tile').sort((a,b)=>+a.dataset.routeIndex-+b.dataset.routeIndex);
     const tileByOrder=new Map(tiles.map(tile=>[+tile.dataset.order,tile])),tileGlows=select('.tile-activation'),glowTweens=new Map();
     const groups=select('.build-item'),pivots=select('.swing-seat,.seesaw-plank,.flower-sway,.character-body,.main-mascot-body');
+    const flowerHovers=select('.flower-hover'),flowerTweens=new Map(),hoveredFlowers=new Set();
     const leaves=select('.wind-leaf'),leafShapes=select('.leaf-shape'),finePointer=matchMedia('(hover: hover) and (pointer: fine)');
     const routeStops=tiles.map(tile=>{const[u,v]=tile.dataset.center.split(',').map(Number);return{order:+tile.dataset.order,u,v,x:765+(u-v)*Math.cos(Math.PI/6),y:80+.44*(u+v)-10};});
     const depthObjects=groups.filter(el=>el!==mascot&&el.dataset.depth).sort((a,b)=>+a.dataset.depth-+b.dataset.depth),mascotNext=mascot.nextElementSibling;
     const mark=q('.intro-mark'),shadow=q('.board-shadow'),route=q('#poet-mascot-route');
-    const owned=[...new Set([...groups,...pivots,...leaves,...leafShapes,...tileGlows,...introLines,...introWords,...introGlyphs,...cuePaths,introScene,introCopy,curtain,joinHover,cue,floating,world,mark,shadow,mascot].filter(Boolean))];
+    const owned=[...new Set([...groups,...pivots,...flowerHovers,...leaves,...leafShapes,...tileGlows,...introLines,...introWords,...introGlyphs,...cuePaths,introScene,introCopy,curtain,joinHover,cue,floating,world,mark,shadow,mascot].filter(Boolean))];
     const snapshots=new Map(owned.map(el=>[el,{style:el.getAttribute('style'),transform:el.getAttribute('transform'),svgOrigin:el.getAttribute('data-svg-origin')}]));
     const slotVisibility=slot?.style.visibility;
     const ambientTimelines=[],entries=[],phaseEvents=[];
@@ -79,7 +80,7 @@
       if(introScene)gsap.set(introScene,{autoAlpha:0});
       if(joinLink){joinLink.setAttribute('tabindex','-1');joinLink.setAttribute('aria-disabled','true');}
       if(cue)gsap.set(cue,{opacity:0});
-      world.insertBefore(mascot,mascotNext);mascot.dataset.currentTile=String(routeStops[0].order);delete mascot.dataset.nextTile;
+      world.insertBefore(mascot,mascotNext);delete mascot.dataset.currentTile;delete mascot.dataset.nextTile;
       root.classList.remove('intro-pending');
     }
     function createIntro(reducedVersion=false){
@@ -170,7 +171,7 @@
         if(name==='seesaw')master.fromTo(q('.seesaw-plank'),{rotation:-2,svgOrigin:q('.seesaw-plank').dataset.origin,smoothOrigin:false},{rotation:0,duration:.3696,ease:'power2.out',immediateRender:false},at+.308);
       });
       const start=routeStops[0],angle=p=>Math.atan2(.44*(p.u+p.v-820),(p.u-p.v)*Math.cos(Math.PI/6));
-      const startAngle=angle(start),perimeter=select('.building,.vegetation,.prop').map(el=>{
+      const startAngle=angle(start),perimeter=select('.building,.vegetation,.prop').filter(el=>el.dataset.obj!=='have-fun-sign').map(el=>{
         const[u,v]=el.dataset.ground.split(' ').map(Number),clockwise=(angle({u,v})-startAngle+Math.PI*2)%(Math.PI*2);
         return{el,clockwise};
       }).sort((a,b)=>a.clockwise-b.clockwise);
@@ -180,6 +181,7 @@
         entries.at(-1).clockwise=clockwise;entries.at(-1).perimeterOrder=i;
         master.call(()=>trace('PERIMETER_OBJECT_REVEAL',{name:el.dataset.obj,order:i,clockwise}),null,at);
       });
+      pop(q('[data-obj="have-fun-sign"]'),'sign',master.duration(),.88);
     }
     function animateMascotEntry(){
       const START=master.duration();
@@ -212,35 +214,6 @@
       glowTweens.forEach(tween=>tween.kill());glowTweens.clear();
       touched.forEach(glow=>gsap.set(glow,{opacity:0,scale:1}));
       activeTile?.tile.removeAttribute('data-mascot-active');activeTile=null;
-    }
-    function startMascotPathLoop(){
-      if(pathLoop||!route)return;
-      const first=routeStops[0];
-      function sortMascotDepth(){
-        const depth=first.u+first.v+Number(gsap.getProperty(mascot,'y'))/.44;
-        const next=depthObjects.find(el=>+el.dataset.depth>depth)||null;
-        if(mascot.nextElementSibling!==next)world.insertBefore(mascot,next);
-      }
-      pathLoop=gsap.timeline({paused:true,repeat:-1,id:'poet-mascot-path',onRepeat:()=>trace('MASCOT_ROUTE_LOOP')});
-      // The entry landing also belongs to a tile, before the first short route hold.
-      activateTile(first.order);
-      const tileHold=order=>order%8===0?.34:.18;
-      let at=tileHold(first.order);
-      routeStops.forEach((from,i)=>{
-        const to=routeStops[(i+1)%routeStops.length],duration=Math.max(.48,Math.min(.68,Math.hypot(to.x-from.x,to.y-from.y)/100));
-        from.departure=at;from.travelDuration=duration;from.hold=tileHold(from.order);
-        pathLoop.to(mascot,{x:to.x-first.x,y:to.y-first.y,duration,ease:'sine.inOut',onStart(){deactivateTile();mascot.dataset.nextTile=String(to.order);},onUpdate:sortMascotDepth,onComplete(){
-          mascot.dataset.currentTile=String(to.order);delete mascot.dataset.nextTile;
-          activateTile(to.order);
-          trace('MASCOT_TILE_STOP',{order:to.order,x:to.x,y:to.y});
-        }},at);
-        // Two small upright strides; a tiny preparation only at the longer corner rests.
-        if(from.order%8===0)pathLoop.fromTo(mascotBody,{scaleX:1,scaleY:1},{scaleX:1.008,scaleY:.985,duration:.045,repeat:1,yoyo:true,ease:'sine.inOut',immediateRender:false},at-.09);
-        pathLoop.fromTo(mascotBody,{x:0,y:0},{x:i%2?.45:-.45,y:i%2?-2.8:-3.4,duration:duration/4,repeat:3,yoyo:true,ease:'sine.inOut',immediateRender:false},at);
-        at+=duration+tileHold(to.order);
-      });
-      // The next cycle's opening hold is the rest on the starting corner; no duplicate tail.
-      ambientTimelines.push(pathLoop);
     }
     function startWind(){
       const paths=['M-70 180C250 55 435 170 650 90S1160 165 1590 45','M-100 540C180 620 300 500 520 610S1160 710 1620 650','M-80 340C160 190 300 300 520 245S1060 300 1600 170','M-100 720C240 590 420 810 720 735S1230 800 1640 610'];
@@ -286,6 +259,28 @@
       if(instant||reduceMotion()){gsap.set(joinHover,{scale});return;}
       hoverTween=gsap.to(joinHover,{scale,duration:engaged&&joinHovered?.46:.28,ease:engaged&&joinHovered?'back.out(4.5)':'power2.out',overwrite:true});
     }
+    function resetFlowerHovers(){
+      if(!flowerTweens.size&&!hoveredFlowers.size)return;
+      flowerTweens.forEach(tween=>tween.kill());flowerTweens.clear();hoveredFlowers.clear();
+      gsap.set(flowerHovers,{scale:1,y:0});
+    }
+    function reactFlower(node,enter){
+      if(enter&&(!resolved||destroyed||userPaused||!onScreen||document.hidden||pageSuspended||handoff||!finePointer.matches))return;
+      if(enter&&hoveredFlowers.has(node))return;
+      flowerTweens.get(node)?.kill();flowerTweens.delete(node);
+      enter?hoveredFlowers.add(node):hoveredFlowers.delete(node);
+      svgOrigin(node);
+      if(reduceMotion())return void gsap.set(node,{scale:enter?1.035:1,y:0});
+      let tween;
+      const complete=()=>{if(flowerTweens.get(node)===tween)flowerTweens.delete(node);};
+      if(enter){
+        tween=gsap.timeline({onComplete:complete})
+          .to(node,{scaleX:1.025,scaleY:.97,y:1,duration:.075,ease:'sine.out'})
+          .to(node,{scaleX:1.205,scaleY:1.205,y:-10,duration:.22,ease:'power2.out'})
+          .to(node,{scaleX:1.17,scaleY:1.17,y:-7,duration:.3,ease:'back.out(1.25)'});
+      }else tween=gsap.to(node,{scaleX:1,scaleY:1,y:0,duration:.3,ease:'power2.out',onComplete:complete});
+      flowerTweens.set(node,tween);
+    }
     function startDrift(){
       if(driftX||!finePointer.matches)return;
       driftX=gsap.quickTo(world,'x',{duration:.45,ease:'power3.out'});
@@ -317,22 +312,26 @@
         ambientTimelines.push(tl);
       });
       select('.character .character-body').forEach((el,i)=>{
-        const tl=gsap.timeline({paused:true,repeat:-1,repeatDelay:5.8+i*.9,delay:3+i,id:'poet-idle-'+i});
-        tl.to(el,{y:-1.5,duration:.32,ease:'sine.inOut'}).to(el,{y:0,duration:.32,ease:'sine.inOut'});
+        const tl=gsap.timeline({paused:true,repeat:-1,repeatDelay:1.8+i*.6,delay:1+i*.4,id:'poet-idle-'+i});
+        tl.to(el,{rotation:1.6,x:1,duration:1.5,ease:'sine.inOut'}).to(el,{rotation:-1.6,x:-1,duration:3,ease:'sine.inOut'}).to(el,{rotation:0,x:0,duration:1.5,ease:'sine.inOut'});
         ambientTimelines.push(tl);
       });
-      startMascotPathLoop();startWind();syncMotion();
+      const sprout=gsap.timeline({paused:true,repeat:-1,yoyo:true,id:'poet-sprout-idle'});
+      sprout.to(mascotBody,{scaleY:1.012,duration:2.2,ease:'sine.inOut'});
+      ambientTimelines.push(sprout);startWind();syncMotion();
     }
     function stopAmbientMotion(){
+      resetFlowerHovers();
       ambientTimelines.forEach(tl=>tl.kill());ambientTimelines.length=0;pathLoop=null;
       resetTileActivation();
       stopDrift();gsap.set([...pivots,mascot],{x:0,y:0,rotation:0,scale:1});gsap.set(leaves,{opacity:0});
       if(floating)gsap.set(floating,{x:0,y:0});
-      world.insertBefore(mascot,mascotNext);mascot.dataset.currentTile=String(routeStops[0].order);delete mascot.dataset.nextTile;
+      world.insertBefore(mascot,mascotNext);delete mascot.dataset.currentTile;delete mascot.dataset.nextTile;
     }
     function syncMotion(){
       if(destroyed)return;
       const paused=userPaused||!onScreen||document.hidden||pageSuspended||reduceMotion()||Boolean(handoff);
+      if(paused)resetFlowerHovers();
       if(handoff?.timeline)(document.hidden||pageSuspended)?handoff.timeline.pause():handoff.timeline.resume();
       ambientTimelines.forEach(tl=>paused?tl.pause():tl.resume());
       glowTweens.forEach(tween=>paused?tween.pause():tween.resume());
@@ -381,7 +380,7 @@
         if(el._gsap)el._gsap.uncache=1;
       }
       if(slot)slot.style.visibility=slotVisibility;
-      world.insertBefore(mascot,mascotNext);mascot.dataset.currentTile=String(routeStops[0].order);delete mascot.dataset.nextTile;
+      world.insertBefore(mascot,mascotNext);delete mascot.dataset.currentTile;delete mascot.dataset.nextTile;
       root.classList.remove('intro-pending');hero.classList.remove('world-building');toggle.hidden=true;phase('stopped');
     }
     // Edge contact alone counts as isIntersecting at a deep-link scroll position.
@@ -395,7 +394,7 @@
       // This prevents first-image decoding/layout from competing with the falling pieces.
       const urls=[...new Set([...select('image').map(el=>el.getAttribute('href')),...select('img').map(el=>el.currentSrc||el.src)])];
       await Promise.allSettled(urls.map(src=>{const image=new Image();image.src=src;return image.decode();}));
-      await document.fonts.load('24px "Cool Crayon"').catch(()=>{});
+      await document.fonts.load('24px "Product Sans"').catch(()=>{});
       await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
       if(destroyed||resolved)return;
       // A deep link/restored scroll may skip the greeting, never construction.
@@ -430,6 +429,11 @@
       syncMotion();
     }
     toggle.addEventListener('click',()=>{userPaused=!userPaused;syncMotion();},{signal:events.signal});
+    select('.flower-character').forEach(character=>{
+      const node=character.querySelector('.flower-hover');
+      character.addEventListener('pointerenter',event=>{if(event.pointerType!=='touch')reactFlower(node,true);},{signal:events.signal});
+      character.addEventListener('pointerleave',event=>{if(event.pointerType!=='touch')reactFlower(node,false);},{signal:events.signal});
+    });
     joinLink?.addEventListener('pointerenter',event=>{
       if(!resolved||!finePointer.matches||event.pointerType==='touch')return;
       joinHovered=true;updateJoinInteraction();
@@ -441,7 +445,7 @@
       if(handoff)return;
       const target=document.getElementById('hoat-dong')||document.getElementById('noi-dung');if(!target)return;
       const navigate=()=>{
-        history.replaceState(null,'','#noi-dung');
+        history.replaceState(null,'','#hoat-dong');
         target.scrollIntoView({behavior:'instant',block:'start'});
         if(source!=='scroll'){
           const heading=target.querySelector('h2');heading?.setAttribute('tabindex','-1');heading?.focus({preventScroll:true});
@@ -504,7 +508,7 @@
     },{passive:false,signal:events.signal});
     hero.addEventListener('pointermove',event=>{if(!driftX||event.pointerType==='touch')return;driftX((event.clientX/innerWidth-.5)*10);driftY((event.clientY/innerHeight-.5)*7);pointerSettle?.restart(true);},{passive:true,signal:events.signal});
     hero.addEventListener('pointerleave',()=>{pointerSettle?.pause();driftX?.(0);driftY?.(0);},{signal:events.signal});
-    finePointer.addEventListener('change',()=>{if(!finePointer.matches)joinHovered=false;updateJoinInteraction(true);syncMotion();},{signal:events.signal});
+    finePointer.addEventListener('change',()=>{if(!finePointer.matches){joinHovered=false;resetFlowerHovers();}updateJoinInteraction(true);syncMotion();},{signal:events.signal});
     document.addEventListener('visibilitychange',syncMotion,{signal:events.signal});
     reduced.addEventListener('change',respectReducedMotion,{signal:events.signal});
     addEventListener('pagehide',event=>{if(event.persisted){pageSuspended=true;syncMotion();}else stopHeroAnimation();},{signal:events.signal});

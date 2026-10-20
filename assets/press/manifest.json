@@ -1,0 +1,30 @@
+[
+  {
+    "source": "assets/press/originals/1630636423271.jpg",
+    "sourceSHA256": "b23f1b03268dbe56c20c9f90d0ff73235549ac88d0d41a1cb34522189b9804a2",
+    "sourceWidth": 200,
+    "sourceHeight": 200,
+    "crop": {
+      "left": 14,
+      "top": 45,
+      "width": 172,
+      "height": 111
+    },
+    "file": "assets/press/hoa-hoc-tro.png",
+    "bytes": 25802
+  },
+  {
+    "source": "assets/press/originals/tienphong_750x750.png",
+    "sourceSHA256": "57cc2f121022cd69bc4e7a67a8ecd56c757d1ec127ba917bd904985333f75993",
+    "sourceWidth": 750,
+    "sourceHeight": 750,
+    "crop": {
+      "left": 185,
+      "top": 321,
+      "width": 390,
+      "height": 83
+    },
+    "file": "assets/press/tien-phong.png",
+    "bytes": 26765
+  }
+]

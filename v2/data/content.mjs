@@ -1,11 +1,33 @@
 // Edit seasonal facts here, then run: node v2/tools/build-site.mjs (from poet/).
 // Sources: Website Flow (17 Oct 2026); campaign dossier, pages noted below.
 export const pending = 'Đang cần cập nhật';
+// Home visual reference only. These are NOT verified campaign/API figures.
+// Keep separate from season's confirmed facts and never feed payment reporting.
+export const homepageFundraisingPreview = Object.freeze({
+  source: 'Original prototype supplied 20 October 2026',
+  raised: 78450000, individuals: 248, businesses: 14
+});
 export const season = {
   id: 'season-6', name: 'Mùa 6', year: '2026–2027', title: 'Công Viên Niềm Vui',
   art: 'season-6/lettering/cong-vien-niem-vui.webp',
   location: 'Ea Kiết, Đắk Lắk', beneficiaries: 300, targetAmount: 121950000,
   timeframe: '09/2026 – 01/2027', trip: '22–24/01/2027',
+  headline: 'Trao nụ cười, dựng sân chơi',
+  fundraisingIntro: 'Nhận thấy không gian để các em vui chơi, vận động, khám phá và học hỏi vẫn còn khá hạn chế, POET chính thức bắt đầu hoạt động gây quỹ đầu tiên mang tên Big Joy Little Joy. Hành trình gây quỹ của POET được xây dựng qua chuỗi hoạt động xuyên suốt (Tháng 10/2026 – Tháng 01/2027) bao gồm:',
+  fundraisingActivities: [
+    'Quỹ Big Joy Little Joy',
+    'Kêu gọi tài trợ và kêu gọi quyên góp từ cộng đồng',
+    'Bộ sưu tập Young Joy Collection (Đang trong quá trình thực hiện)',
+    'Không gian trải nghiệm Big Joy Pop-up (Dự kiến: Cuối tháng 12/2026)',
+    'Chuyến đi cuối cùng đến điểm trường (Dự kiến: Tháng 01/2027)'
+  ],
+  summary: 'Cùng tạo thêm không gian vui chơi, vận động và học hỏi cho 300 em học sinh tại điểm trường thuộc Trường Tiểu học & Trung học cơ sở Hoàng Văn Thụ, xã Ea Kiết, tỉnh Đắk Lắk.',
+  narrative: [
+    'Sau một thời gian chuẩn bị cho mùa hoạt động mới, POET chính thức lựa chọn Điểm trường thuộc Trường Tiểu học & Trung học cơ sở Hoàng Văn Thụ, xã Ea Kiết, tỉnh Đắk Lắk làm điểm đến cho mùa POET 2026–2027.',
+    'Cũng qua chuyến tiền trạm ấy, POET nhận ra rằng không gian để các em vui chơi, vận động, khám phá và học hỏi vẫn còn khá hạn chế. Vì vậy, POET dự định tổ chức “Công viên niềm vui” tại điểm trường — các góc vui chơi, trải nghiệm và vận động; đồng thời cải thiện không gian sinh hoạt tại trường, để mỗi ngày đến trường của các em có thêm nhiều niềm vui và những kỷ niệm đáng nhớ.',
+    'Hành trình gây quỹ của POET được xây dựng qua chuỗi hoạt động xuyên suốt, bao gồm quỹ Big Joy Little Joy, bộ sưu tập Young Joy Collection, không gian trải nghiệm Big Joy Pop-up (dự kiến diễn ra vào cuối tháng 12), cùng các chương trình kêu gọi tài trợ và quyên góp từ cộng đồng. Khép lại chuỗi sự kiện gây quỹ, POET sẽ thực hiện chuyến đi thực tế Final Trip đến điểm trường để trực tiếp trao tặng những món quà ý nghĩa và cùng các em nhỏ hòa mình vào các hoạt động giao lưu đầy thú vị tại sân chơi.'
+  ],
+  destinationPhotos: [], // Add only approved, identified Mùa 6 school photos.
   school: 'Trường Tiểu học & Trung học cơ sở Hoàng Văn Thụ',
   schoolNote: 'Điểm trường Tiểu học Mạc Thị Bưởi cũ',
   schoolContext: [
@@ -30,13 +52,23 @@ export const journey = [ // Dossier p10. Planned dates, not a ticket announcemen
 export const activities = [
   {title:`POET ${season.year}`,tag:season.name,description:`Cùng xây ${season.title} cho ${season.beneficiaries} em học sinh tại Ea Kiết.`,art:'season',photo:'playground-joy',focus:'50% 42%',href:'du-an/#dang-thuc-hien',meta:season.timeframe},
   {title:'Big Joy Little Joy',tag:'Thương hiệu đồng hành',description:'Những đóng góp nhỏ, từ công việc mỗi ngày, cùng tạo nên niềm vui lớn.',art:'bjl-j',photo:'bicycle-joy',focus:'50% 58%',href:'dong-hanh/#doanh-nghiep',meta:'10 cột mốc đồng hành'},
-  {title:'POET Collection',tag:pending,description:'Bộ merch gây quỹ cùng POET. Tên gọi và thông tin sản phẩm chưa công bố.',art:'collection',photo:'community-day',focus:'50% 50%',href:'dong-hanh/#collection',meta:'Chưa mở bán'},
-  {title:'Big Joy Pop Up',tag:pending,description:'Một hội chợ cộng đồng kết nối các Little Joy. Thông tin tham dự sẽ được cập nhật.',art:'popup',photo:'poet-volunteers',focus:'50% 45%',href:'dong-hanh/#pop-up',meta:'Chưa mở bán vé'}
+  {title:'Young Joy Collection',tag:'Sắp được bật mí',description:'Bộ sưu tập merchandise gây quỹ cùng POET. Sản phẩm và thông tin mở bán sẽ được công bố sau.',art:'collection',photo:'community-day',focus:'50% 50%',href:'dong-hanh/#collection',meta:'Chưa mở bán'},
+  {title:'Big Joy Pop-up',tag:'Sắp được bật mí',description:'Không gian trải nghiệm và hội chợ cộng đồng kết nối các Little Joy, dự kiến vào cuối tháng 12.',art:'popup',photo:'poet-volunteers',focus:'50% 45%',href:'dong-hanh/#pop-up',meta:'Chưa mở bán vé'}
 ];
+// One project collection powers Home, the completed-project tab and detail routes.
+export const recruitment={open:false,seasonLabel:'Mùa tiếp theo',applicationUrl:null,deadline:null,videos:[]};
+export const departments=['Vận hành','Nhân sự','Truyền thông','Đối ngoại'];
 export const highlights = [
   {id:'vet-nut',title:'Đêm nhạc “Vết Nứt”',tag:'Âm nhạc gây quỹ',description:'Một đêm nhạc acoustic tại TP. Hồ Chí Minh, góp sức cải thiện điều kiện học tập tại Mỹ Thạnh Bắc, Long An.',metrics:['2022','Âm nhạc & cộng đồng'],source:'Tiền Phong, 19/07/2022',pending:'Bài viết chi tiết và ảnh chọn lọc đang chờ hoàn thiện.'},
   {id:'go-ngai',title:'Chuyến đi Gò Ngãi',tag:'Dự án giáo dục · Mùa 5',description:'Hoạt động vui chơi chạy trạm về môi trường và trao tặng vật phẩm học tập tại Trường Tiểu học Mỹ Thạnh Bắc, Long An.',metrics:['42,2 triệu đồng','35 thành viên','30 người thụ hưởng'],source:'Hồ sơ POET, trang 4',pending:'Bài viết chi tiết và ảnh chọn lọc đang chờ hoàn thiện.'}
 ];
+export const projectStories = highlights.map(item=>({...item,season:item.id==='vet-nut'?'Dấu ấn 2022':'Mùa 5',status:'completed',year:item.id==='vet-nut'?2022:null,
+  href:`du-an/${item.id}/`,cover:`story-${item.id}`,gallery:[`story-${item.id}`],
+  photoCaption:item.id==='vet-nut'?'Các bạn tham gia đêm nhạc — ảnh từ album Vết Nứt của POET.':'Các thành viên tại chuyến đi — ảnh từ album Final Trip của POET.',
+  paragraphs:[item.description],
+  sources:item.id==='vet-nut'?[{title:'Tiền Phong · 19/07/2022',url:'https://tienphong.vn/ban-tre-gap-sao-huong-ung-dem-nhac-chua-lanh-gay-quy-thien-nguyen-post1454826.tpo'}]:[],
+  album:item.id==='vet-nut'?'https://drive.google.com/drive/folders/1E4uZ1FYLX3H3x6YzxEtiGgbcaRdO0iSv':'https://drive.google.com/drive/folders/1qQuLoEB6SYtZSqAtHzARUNReY_G2mLXl'
+}));
 export const impact = [ // Season 5 only, dossier p4; never cumulative totals.
   [42200000,'đồng gây quỹ'],[35,'thành viên'],[30,'người thụ hưởng'],[5,'nguồn lực đồng hành']
 ];

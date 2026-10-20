@@ -1,0 +1,58 @@
+[
+  {
+    "source": "assets/team/team.jpg",
+    "file": "assets/editorial/poet-team-640.webp",
+    "width": 640,
+    "height": 427,
+    "bytes": 50312
+  },
+  {
+    "source": "assets/team/team.jpg",
+    "file": "assets/editorial/poet-team-1280.webp",
+    "width": 1280,
+    "height": 853,
+    "bytes": 123838
+  },
+  {
+    "source": "assets/photos/1555514176610960.jpg",
+    "file": "assets/editorial/school-friends-640.webp",
+    "width": 640,
+    "height": 427,
+    "bytes": 53244
+  },
+  {
+    "source": "assets/photos/1555514176610960.jpg",
+    "file": "assets/editorial/school-friends-1280.webp",
+    "width": 1280,
+    "height": 853,
+    "bytes": 128996
+  },
+  {
+    "source": "assets/photos/3348058525513502.jpg",
+    "file": "assets/editorial/community-day-640.webp",
+    "width": 640,
+    "height": 427,
+    "bytes": 64420
+  },
+  {
+    "source": "assets/photos/3348058525513502.jpg",
+    "file": "assets/editorial/community-day-1280.webp",
+    "width": 1280,
+    "height": 853,
+    "bytes": 146132
+  },
+  {
+    "source": "assets/photos/3348058835513471.jpg",
+    "file": "assets/editorial/poet-volunteers-640.webp",
+    "width": 640,
+    "height": 427,
+    "bytes": 52312
+  },
+  {
+    "source": "assets/photos/3348058835513471.jpg",
+    "file": "assets/editorial/poet-volunteers-1280.webp",
+    "width": 1280,
+    "height": 853,
+    "bytes": 122716
+  }
+]

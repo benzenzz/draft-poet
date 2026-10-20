@@ -47,12 +47,16 @@ window.POETCard = (() => {
   }
 
   async function draw(canvas, d) {
+    const type = getComputedStyle(document.documentElement);
+    const family = type.getPropertyValue('--font-family-primary').trim() || '"Product Sans", sans-serif';
+    const regular = type.getPropertyValue('--font-weight-regular').trim() || '400';
+    const bold = type.getPropertyValue('--font-weight-bold').trim() || '700';
+    const font = (size, weight = regular) => `${weight} ${size}px ${family}`;
     if (document.fonts && document.fonts.ready) {
       try {
         await Promise.all([
-          document.fonts.load('800 92px "Baloo 2"'),
-          document.fonts.load('46px Itim'),
-          document.fonts.load('800 34px Nunito'),
+          document.fonts.load(font(92, bold)),
+          document.fonts.load(font(46)),
         ]);
       } catch { /* draw with fallback fonts */ }
       await document.fonts.ready;
@@ -81,31 +85,31 @@ window.POETCard = (() => {
     rr(36, 36, W - 72, H - 72, 40); c.stroke();
     c.setLineDash([]);
     c.textAlign = 'left';
-    c.font = '72px serif';
+    c.font = font(72);
     [['✿', 100, 140, '#ff8a76'], ['✦', 980, 140, '#f6c43f'], ['❀', 980, 1250, '#f3a9c4'], ['♥', 100, 1250, '#ff8a76']]
       .forEach(([s, x, y, col]) => { c.fillStyle = col; c.fillText(s, x - 36, y); });
 
     c.textAlign = 'center';
-    c.fillStyle = '#3a9e74'; c.font = '800 44px Nunito';
+    c.fillStyle = '#3a9e74'; c.font = font(44, bold);
     c.fillText('THƯ CẢM ƠN · POET', 540, 150);
-    c.fillStyle = '#4a3324'; c.font = '60px Itim';
+    c.fillStyle = '#4a3324'; c.font = font(60);
     c.fillText('Thân gửi', 540, 280);
-    c.font = `800 ${name.length > 14 ? 104 : 140}px "Baloo 2"`; c.fillStyle = '#2f2219';
+    c.font = font(name.length > 14 ? 104 : 140, bold); c.fillStyle = '#2f2219';
     c.fillText(name, 540, 430, 940);
     c.fillStyle = '#f6c43f'; c.fillRect(240, 462, 600, 18);
-    c.fillStyle = '#7a5b45'; c.font = '700 48px Nunito';
+    c.fillStyle = '#7a5b45'; c.font = font(48, bold);
     c.fillText('đã gửi tặng các em nhỏ vùng cao', 540, 570, 940);
-    c.fillStyle = '#8a6bd1'; c.font = '800 156px "Baloo 2"';
+    c.fillStyle = '#8a6bd1'; c.font = font(156, bold);
     c.fillText(new Intl.NumberFormat('vi-VN').format(amt) + ' đ', 540, 740, 960);
     if (d.message) {
-      c.fillStyle = '#4a3324'; c.font = '60px Itim';
+      c.fillStyle = '#4a3324'; c.font = font(60);
       wrap(c, '“' + d.message + '”', 540, 870, 900, 76, 3);
     }
-    c.fillStyle = '#7a5b45'; c.font = '700 40px Nunito';
+    c.fillStyle = '#7a5b45'; c.font = font(40, bold);
     c.fillText('Ngày ' + date, 540, 1130);
-    c.fillStyle = '#ff8a76'; c.font = '800 52px "Baloo 2"';
+    c.fillStyle = '#ff8a76'; c.font = font(52, bold);
     c.fillText(SLOGAN, 540, 1210, 900);
-    c.fillStyle = '#7a5b45'; c.font = '700 34px Nunito';
+    c.fillStyle = '#7a5b45'; c.font = font(34, bold);
     c.fillText(SITE, 540, 1262);
   }
 

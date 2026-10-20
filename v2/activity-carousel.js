@@ -12,6 +12,7 @@ export function initActivityCarousel(wrap){
   wrap.dataset.motionReady='true';
   const viewport=wrap.querySelector('.activity-viewport');
   const slides=[...wrap.querySelectorAll('.activity-slide')];
+  if(!viewport||!slides.length){wrap.querySelector('.activity-controls')?.setAttribute('hidden','');return;}
   const dots=[...wrap.querySelectorAll('[data-slide]')];
   const playback=wrap.querySelector('.activity-playback');
   const images=slides.map(slide=>slide.querySelector('.activity-cover'));
@@ -28,7 +29,7 @@ export function initActivityCarousel(wrap){
   const ready=new Map();
   let index=0,timer,visible=false,focused=false,paused=false,suspended=false,handoff=false;
   let request=0,pending=null,transition=null,reflow=false,resizeFrame,touch=null,swiped=false;
-  const canPlay=()=>visible&&!document.hidden&&!focused&&!paused&&!suspended&&!touch&&!handoff;
+  const canPlay=()=>slides.length>1&&visible&&!document.hidden&&!focused&&!paused&&!suspended&&!touch&&!handoff;
   const stop=()=>{clearTimeout(timer);timer=undefined;};
 
   function positionDetailLink(){
@@ -55,6 +56,7 @@ export function initActivityCarousel(wrap){
   function ensureImage(next){
     if(ready.has(next))return ready.get(next);
     const image=images[next];
+    if(!image)return Promise.resolve(false);
     image.decoding='sync';
     if(image.dataset.src){
       image.loading='eager';
@@ -138,11 +140,13 @@ export function initActivityCarousel(wrap){
   function pause(){paused=true;invalidate();schedule();}
   function play(){paused=false;focused=false;schedule();}
   slides.forEach((slide,i)=>{slide.inert=i!==0;slide.setAttribute('aria-hidden',String(i!==0));});
-  wrap.classList.add('is-ready');wrap.querySelector('.activity-controls').hidden=false;
+  wrap.classList.add('is-ready');wrap.querySelector('.activity-controls').hidden=slides.length<2;
   updateDetailLink();positionDetailLink();
   ensureImage(0);ensureImage(1);
   document.fonts.ready.then(prepareHeadlines);
   dots.forEach((dot,i)=>dot.addEventListener('click',()=>transitionToSlide(i)));
+  wrap.querySelector('[data-activity-prev]')?.addEventListener('click',()=>transitionToSlide((index-1+slides.length)%slides.length));
+  wrap.querySelector('[data-activity-next]')?.addEventListener('click',()=>transitionToSlide((index+1)%slides.length));
   playback.addEventListener('click',()=>paused?play():pause());
   function syncFocus(){
     focused=wrap.contains(document.activeElement)&&document.activeElement!==playback&&document.activeElement.matches(':focus-visible');

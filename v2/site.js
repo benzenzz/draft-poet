@@ -1,4 +1,6 @@
 import '../ung-ho/checkout.js';
+import {initFundraisingProgress} from './fundraising-progress.mjs?v=header-about-funding-1';
+initFundraisingProgress();
 const base=new URL('.',import.meta.url),root=document.documentElement;
 const reduced=matchMedia('(prefers-reduced-motion:reduce)');
 const money=n=>new Intl.NumberFormat('vi-VN').format(n)+' đ';
@@ -44,8 +46,8 @@ function revealHash(scroll=false){
 revealHash(Boolean(location.hash));addEventListener('hashchange',()=>revealHash(true));
 document.querySelectorAll('.story-card a[href^="#"]').forEach(a=>a.addEventListener('click',()=>{const detail=byId(a.hash.slice(1));if(detail instanceof HTMLDetailsElement)detail.open=true;}));
 
-import './activity-carousel.js?v=final-motion-2';
-import './press-strip.js?v=final-motion-2';
+import './activity-carousel.js?v=poet-v3-1';
+import './press-strip.js?v=poet-v3-1';
 
 // Native touch scrolling, real mouse drag, buttons and arrow-key alternatives.
 document.querySelectorAll('[data-carousel]').forEach(wrap=>{
@@ -84,8 +86,33 @@ if('IntersectionObserver'in window){
 
 document.querySelectorAll('[data-journey]').forEach(journey=>{
   const buttons=[...journey.querySelectorAll('[data-stage]')],notes=JSON.parse(journey.parentElement.querySelector('[data-journey-notes]').textContent),output=byId('journey-note');
-  const select=b=>{buttons.forEach(t=>t.setAttribute('aria-pressed',String(t===b)));journey.style.setProperty('--journey-index',b.dataset.stage);output.textContent=notes[Number(b.dataset.stage)];};
-  buttons.forEach(b=>{b.addEventListener('click',()=>select(b));b.addEventListener('focus',()=>select(b));b.addEventListener('pointerenter',e=>{if(e.pointerType==='mouse')select(b);});});
+  let active=buttons[0],latched=false;
+  const position=()=>{
+    const figure=journey.querySelector('.journey-mascot'),dot=active.querySelector('.journey-dot');
+    const r=journey.getBoundingClientRect(),d=dot.getBoundingClientRect();
+    figure.style.transform=`translate3d(${d.left-r.left+d.width/2-figure.offsetWidth/2}px,${d.top-r.top-figure.offsetHeight-8}px,0)`;
+  };
+  const hide=()=>{output.hidden=true;buttons.forEach(t=>t.setAttribute('aria-expanded','false'));};
+  const select=b=>{active=b;buttons.forEach(t=>{t.setAttribute('aria-pressed',String(t===b));t.setAttribute('aria-expanded',String(t===b));});output.textContent=notes[Number(b.dataset.stage)];output.hidden=false;position();};
+  buttons.forEach(b=>{b.addEventListener('click',()=>{if(active===b&&latched){latched=false;hide();}else{latched=true;select(b);}});b.addEventListener('focus',()=>select(b));b.addEventListener('pointerenter',e=>{if(e.pointerType==='mouse'){latched=false;select(b);}});});
+  journey.addEventListener('pointerleave',()=>{if(!latched&&!journey.contains(document.activeElement))hide();});
+  journey.addEventListener('focusout',()=>queueMicrotask(()=>{if(!journey.contains(document.activeElement)){latched=false;hide();}}));
+  journey.addEventListener('keydown',e=>{if(e.key==='Escape'){latched=false;hide();}});
+  new ResizeObserver(position).observe(journey);position();
+});
+
+// Client-side correspondence only. A reviewed mailto draft never submits data.
+document.querySelectorAll('[data-partner-form]').forEach(partnerForm=>{
+  const draft=partnerForm.querySelector('.partner-draft'),text=partnerForm.elements.draft,mail=partnerForm.querySelector('[data-partner-mail]');
+  const sync=()=>{mail.href=`mailto:poet.npo@gmail.com?subject=${encodeURIComponent('Đồng hành POET Mùa 6 — '+partnerForm.elements.company.value.trim())}&body=${encodeURIComponent(text.value)}`;};
+  partnerForm.addEventListener('submit',e=>{
+    e.preventDefault();if(!partnerForm.reportValidity())return;
+    const f=partnerForm.elements;text.value=`Chào POET,\n\nMình là ${f.contact.value.trim()}, đại diện ${f.company.value.trim()}.\nEmail liên hệ: ${f.email.value.trim()}\nHình thức quan tâm: ${f.package.value}\n\n${f.message.value.trim()||'Nhờ POET tư vấn hình thức đồng hành phù hợp với đơn vị.'}\n\nCảm ơn POET!`;
+    draft.hidden=false;sync();text.focus();
+  });
+  text.addEventListener('input',sync);
+  partnerForm.querySelector('[data-copy-draft]').addEventListener('click',e=>{e.currentTarget.dataset.copy=text.value;});
+  document.querySelectorAll('[data-partner-package]').forEach(a=>a.addEventListener('click',()=>{partnerForm.elements.package.value=a.dataset.partnerPackage;draft.hidden=true;partnerForm.elements.company.focus({preventScroll:true});}));
 });
 
 // Native modal supplies focus trapping, Escape and focus restoration.

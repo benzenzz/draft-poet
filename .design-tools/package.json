@@ -1,0 +1,13 @@
+{
+  "name": "poet-design-tools",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Local design-development tools; independent of the static website runtime.",
+  "scripts": {
+    "mcp": "playwright-mcp --headless --browser msedge --isolated",
+    "verify:mcp": "node verify-mcp.mjs"
+  },
+  "devDependencies": {
+    "@playwright/mcp": "0.0.83"
+  }
+}

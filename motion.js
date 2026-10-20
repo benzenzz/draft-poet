@@ -261,9 +261,17 @@
       frame.style.scale = (1 + .04 * settle).toFixed(4);
     }
 
+    // DEV-ONLY preview diagnostics (?preview=gioi-thieu); remove with the preview mode.
+    function previewDiag() {
+      const start = m.isMobile ? routeStart : 0;
+      const end = m.isMobile ? routeEnd : m.sceneEnd;
+      document.body.dataset.previewDiag = `p ${clamp((scrollY - start) / (end - start)).toFixed(2)} · start ${Math.round(start)} · end ${Math.round(end)} · y ${Math.round(scrollY)} · ${m.isMobile ? 'mobile' : 'desktop'} · reduced ${reduced.matches}`;
+    }
+
     function update() {
       tick = 0;
       if (!m) return;
+      if (root.dataset.preview) previewDiag();
       if (reduced.matches) {
         path.style.strokeDashoffset = '0';
         return;
@@ -295,6 +303,8 @@
         const observer = new ResizeObserver(schedule);
         observer.observe(hero);
         if (intro) observer.observe(intro);
+        // The sticky header compacts on scroll (.is-scrolled), shifting <main> and the ticker's slot.
+        if (header) observer.observe(header);
       }
       addEventListener('resize', schedule);
       addEventListener('load', schedule, { once: true });
@@ -443,7 +453,7 @@
     document.addEventListener('focusin', skipOnFocus, { once: true });
   }
 
-  if (reduced.matches || location.hash || root.dataset.openingState === 'fallback') {
+  if (reduced.matches || location.hash || root.dataset.preview || root.dataset.openingState === 'fallback') {
     finish(reduced.matches ? 'reduced' : root.dataset.openingState === 'fallback' ? 'fallback' : 'skipped-position');
     return;
   }

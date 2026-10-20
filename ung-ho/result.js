@@ -50,7 +50,7 @@
         cx.save(); cx.translate(p.x, p.y); cx.rotate(p.a); cx.fillStyle = p.c;
         if (p.s === 0) cx.fillRect(-p.r, -p.r / 2, p.r * 2, p.r);
         else if (p.s === 1) { cx.beginPath(); cx.arc(0, 0, p.r / 1.4, 0, 7); cx.fill(); }
-        else { cx.font = p.r * 3 + 'px serif'; cx.fillText('✿', 0, 0); }
+        else { cx.font = p.r * 3 + 'px "Product Sans", sans-serif'; cx.fillText('✿', 0, 0); }
         cx.restore();
       });
       if (t - t0 < 3200) requestAnimationFrame(f);
@@ -71,14 +71,8 @@
     $('thanks-success').hidden = false;
     statusEl.className = 'thanks-status is-ok';
     statusEl.textContent = '✓ Đã nhận thanh toán';
-    const name = local && !local.anonymous ? String(local.displayName || '').trim() : '';
-    if (name) {
-      const lead = $('thanks-lead');
-      lead.textContent = '';
-      const b = document.createElement('b');
-      b.textContent = name;
-      lead.append(b, ' ơi, món quà của bạn đã đến POET. Đây là lá thư cảm ơn dành riêng cho bạn.');
-    }
+    $('result-title').textContent = 'Cảm ơn bạn đã tham gia xây dựng!';
+    $('thanks-lead').textContent = 'Lời nhắn và phần quyên góp của bạn đã được POET gửi gắm đến “Công viên niềm vui”. Sự đồng hành và tin tưởng của bạn là động lực rất lớn giúp chuyến xe niềm vui có thêm nhiều tiếng cười hơn!';
     celebrateOnce();
 
     // The letter needs the donor details; without them (other device/browser) skip it.
@@ -87,8 +81,6 @@
       const canvas = $('card-canvas');
       window.POETCard.draw(canvas, local);
       window.POETCard.bind(canvas, { save: $('card-save'), fb: $('card-fb'), toast: $('card-toast') });
-    } else {
-      $('thanks-lead').textContent = 'Món quà của bạn đã đến POET. Cảm ơn bạn rất nhiều!';
     }
   }
 

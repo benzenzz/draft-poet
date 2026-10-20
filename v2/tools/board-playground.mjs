@@ -23,15 +23,16 @@ function prism(cls,fp,z,depth,cap=true){
 }
 const box=(cls,a,b,c,d,z,Z,cap=true)=>prism(cls,rect(a,b,c,d),Z,Z-z,cap);
 const post=(cls,u,v,z,h,r=3)=>box(cls,u-r,u+r,v-r,v+r,z,z+h);
-const contact=(u,v,r,z=1)=>poly('contact',circle(u+10,v+6,r,z));
+const contact=(u,v,r,z=1)=>poly('contact',circle(u+10,v+6,r,z)).replace('class="contact"','class="contact" data-round-shadow');
 const objects=[];
 function item(kind,name,u,v,s,extra=''){
-    if(name!=='join-joy-sign'){
+    if(name!=='have-fun-sign'){
       // A stationary silhouette receives input; only the illustration rises.
       // Keep contact shadows on the board and preserve the entrance/ambient parents.
       const shadow=s.match(/<polygon class="contact"[^>]*\/>/)?.[0]||'';
       const id='object-art-'+name;
-      s=shadow+`<g class="object-hover"><g id="${id}" class="object-art">${s.replace(shadow,'')}</g></g><use class="object-hit" href="#${id}" aria-hidden="true"/>`;
+      const hit=kind==='character'?'flower-image-'+name:id;
+      s=shadow+`<g class="object-hover"><g id="${id}" class="object-art">${s.replace(shadow,'')}</g></g><use class="object-hit" href="#${hit}" aria-hidden="true"/>`;
       extra+=' object-target';
     }
     objects.push({depth:u+v,s:group(`build-item ${kind} ${extra}`,name,[u,v,0],s,`data-build="${kind}" data-elevation="0" data-ground="${u} ${v}" data-depth="${n(u+v)}"`)});
@@ -47,7 +48,11 @@ function icon(kind,u,v,z,r=14,direction=1){
   return poly('tile-symbol',circle(u-r*.32,v-r*.3,r*.4,z,12))+poly('tile-symbol',circle(u+r*.4,v+r*.3,r*.4,z,12));
 }
 // A closed ring: four square corner pieces, seven fitted pieces along each side.
-const route=[],ROUTE_START=24;const lo=125,hi=695,innerLo=211,innerHi=609,step=(innerHi-innerLo)/7;
+// Nine shared cells per side: 32 equal perimeter cells, including four corners.
+const GRID=Object.freeze({cells:9,cell:88,offset:14});
+const route=[],ROUTE_START=24;
+const lo=GRID.offset,hi=lo+GRID.cells*GRID.cell,innerLo=lo+GRID.cell,innerHi=hi-GRID.cell,step=GRID.cell;
+const near=lo+GRID.cell/2,far=hi-GRID.cell/2;
 function tile(a,b,c,d,u,v,kind){
   const i=route.length,color=paint[(i+Math.floor(i/8))%4],gap=1.4;
   const fp=rect(a+gap,b-gap,c+gap,d-gap),z=9;
@@ -57,19 +62,19 @@ function tile(a,b,c,d,u,v,kind){
   route.push({u,v,z,order:i,footprint:{a,b,c,d}});
   objects.push({depth:-1000,s:group(`build-item tile t-${color}`,'tile-'+(i+1),[u,v,0],s,`data-build="tile" data-order="${i}" data-route-index="${(i-ROUTE_START+32)%32}" data-elevation="9" data-center="${u},${v}"`)});
 }
-tile(lo,innerLo,innerHi,hi,168,652,'flower');
-for(let i=6;i>=0;i--)tile(lo,innerLo,innerLo+i*step,innerLo+(i+1)*step,168,innerLo+(i+.5)*step,i%3?'dots':'leaf');
-tile(lo,innerLo,lo,innerLo,168,168,'arrow');
-for(let i=0;i<7;i++)tile(innerLo+i*step,innerLo+(i+1)*step,lo,innerLo,innerLo+(i+.5)*step,168,i%3?'dots':'flower');
-tile(innerHi,hi,lo,innerLo,652,168,'flower');
-for(let i=0;i<7;i++)tile(innerHi,hi,innerLo+i*step,innerLo+(i+1)*step,652,innerLo+(i+.5)*step,i%3?'dots':'leaf');
-tile(innerHi,hi,innerHi,hi,652,652,'arrow');
-for(let i=6;i>=0;i--)tile(innerLo+i*step,innerLo+(i+1)*step,innerHi,hi,innerLo+(i+.5)*step,652,i%3?'dots':'flower');
+tile(lo,innerLo,innerHi,hi,near,far,'flower');
+for(let i=6;i>=0;i--)tile(lo,innerLo,innerLo+i*step,innerLo+(i+1)*step,near,innerLo+(i+.5)*step,i%3?'dots':'leaf');
+tile(lo,innerLo,lo,innerLo,near,near,'arrow');
+for(let i=0;i<7;i++)tile(innerLo+i*step,innerLo+(i+1)*step,lo,innerLo,innerLo+(i+.5)*step,near,i%3?'dots':'flower');
+tile(innerHi,hi,lo,innerLo,far,near,'flower');
+for(let i=0;i<7;i++)tile(innerHi,hi,innerLo+i*step,innerLo+(i+1)*step,far,innerLo+(i+.5)*step,i%3?'dots':'leaf');
+tile(innerHi,hi,innerHi,hi,far,far,'arrow');
+for(let i=6;i>=0;i--)tile(innerLo+i*step,innerLo+(i+1)*step,innerHi,hi,innerLo+(i+.5)*step,far,i%3?'dots':'flower');
 
 // Buildings have small footprints, shallow plinths and doors/windows on both visible faces.
 function building(name,u,v,w,d,h,color,roof='gable'){
   const a=u-w/2,b=u+w/2,c=v-d/2,e=v+d/2;
-  let s=contact(u,v,w*.65)+box('paint-'+color,a-4,b+4,c-4,e+4,0,5)+box('house',a,b,c,e,5,h);
+  let s=poly('contact',rect(a-3,b+12,c-3,e+10).map(p=>[...p,1]))+box('paint-'+color,a-4,b+4,c-4,e+4,0,5)+box('house',a,b,c,e,5,h);
   // A facade band has no exposed horizontal cap inside the opaque house.
   s+=box('paint-'+color,a-1,b+1,c-1,e+1,10,19,false);
   // Front is the constant-v wall; side is constant-u. Insets remain in that wall plane.
@@ -91,12 +96,124 @@ function building(name,u,v,w,d,h,color,roof='gable'){
   if(name==='school')s+=poly('book-left',[[u-16,e+1,h-7],[u,e+1,h-10],[u,e+1,h-28],[u-16,e+1,h-25]])+poly('book-right',[[u,e+1,h-10],[u+16,e+1,h-7],[u+16,e+1,h-25],[u,e+1,h-28]]);
   item('building',name,u,v,s,'t-'+color);
 }
-building('school',100,55,100,70,85,'coral');
-building('clubhouse',405,53,78,68,77,'yellow','flat');
-building('creative-workshop',746,120,74,70,68,'blue');
-building('community-center',51,365,70,96,82,'green','flat');
-building('art-house',766,465,68,74,65,'coral','flat');
-building('little-library',275,766,74,65,54,'blue');
+building('school',lo+GRID.cell*2.5,near,GRID.cell*2.85,GRID.cell*.70,65,'coral');
+building('little-house',lo+GRID.cell*6.5,near,GRID.cell*.72,GRID.cell*.68,55,'blue');
+
+// A two-cell footprint on each remaining edge. Facades face the playground.
+function stall(name,u,v,edge,color,label,variant){
+  if(variant!=='awning')return serviceStall(name,u,v,edge,label,variant);
+  const w=GRID.cell*1.72,d=GRID.cell*.63,h=57;
+  const at=(x,y,z)=>edge==='left'?[u+y,v+x,z]:edge==='right'?[u-y,v-x,z]:[u+x,v-y,z];
+  const panel=(cls,points)=>poly(cls,points.map(p=>at(...p)));
+  const wall=(cls,a,b,c,e,z,Z)=>panel(cls,[[a,e,z],[b,e,z],[b,e,Z],[a,e,Z]]);
+  let art=contact(u,v,GRID.cell*.62);
+  art+=panel('paint-'+color+'-top',[[-w/2,-d/2,3],[w/2,-d/2,3],[w/2,d/2,3],[-w/2,d/2,3]]);
+  // Counter and backboard stay in the same local coordinate system as the cell.
+  art+=wall('stall-back',-w/2+5,w/2-5,-d/2,-d/2,5,h-5);
+  for(const x of [-w/2+5,w/2-5])art+=line('frame-'+(color==='coral'?'coral':'green'),[at(x,-d/2,0),at(x,-d/2,h+18)],4);
+  art+=wall('paint-'+color+'-side face-light',-w/2,w/2,-d/2,d/2,4,25);
+  art+=panel('stall-counter',[[-w/2-3,d/2-12,25],[w/2+3,d/2-12,25],[w/2+3,d/2+4,25],[-w/2-3,d/2+4,25]]);
+  if(variant==='awning'){
+    const count=8;for(let i=0;i<count;i++){
+      const a=-w/2+i*w/count,b=a+w/count;
+      art+=panel(i%2?'stall-cream':'paint-'+color+'-top',[[a,-d/2-4,h+16],[b,-d/2-4,h+16],[b,d/2+7,h],[a,d/2+7,h]]);
+      art+=wall(i%2?'stall-cream':'paint-'+color+'-side face-light',a,b,0,d/2+7,h-8,h);
+    }
+    art+=panel('stall-heart',[[-10,d/2+.2,9],[0,d/2+.2,6],[10,d/2+.2,17],[5,d/2+.2,21],[0,d/2+.2,18],[-5,d/2+.2,21],[-10,d/2+.2,17]]);
+  }else if(variant==='merch'){
+    art+=panel('paint-'+color+'-top',[[-w/2-5,-d/2-5,h+15],[w/2+5,-d/2-5,h+15],[w/2+5,d/2+6,h],[-w/2-5,d/2+6,h]]);
+    for(const x of [-35,0,35]){
+      art+=wall('stall-cream',x-9,x+9,0,d/2+1,29,44);
+      art+=line('stall-handle',[at(x-4,d/2+1,44),at(x-4,d/2+1,49),at(x+4,d/2+1,49),at(x+4,d/2+1,44)],1.6);
+    }
+  }else{
+    art+=panel('paint-'+color+'-top',[[-w/2-5,-d/2-5,h+8],[0,-d/2-5,h+25],[w/2+5,-d/2-5,h+8],[w/2+5,d/2+6,h],[-w/2-5,d/2+6,h]]);
+    art+=wall('stall-cream',-25,25,0,d/2+.4,8,20);
+  }
+  // Readable signage follows the projected facade; never mirror lettering.
+  let a=P(...at(-w/2+6,d/2+8,h-12)),b=P(...at(w/2-6,d/2+8,h-12));if(a[0]>b[0])[a,b]=[b,a];
+  const aw=w-12;
+  art+=`<g transform="matrix(${n((b[0]-a[0])/aw)} ${n((b[1]-a[1])/aw)} 0 1 ${n(a[0])} ${n(a[1])})"><rect class="stall-sign" x="-2" y="-12" width="${aw+4}" height="19" rx="2"/><text class="stall-label" x="${aw/2}" y="1" text-anchor="middle" textLength="${aw-7}" lengthAdjust="spacingAndGlyphs">${label}</text></g>`;
+  item('building stall',name,u,v,`<title>${label}</title>${art}`,'stall-'+variant);
+}
+function serviceStall(name,u,v,edge,label,variant){
+  const w=GRID.cell*1.72,d=GRID.cell*.63,merch=variant==='merch';
+  // Local +y ALWAYS points inward: -u at the right edge, -v at the bottom.
+  // These bounds are the assigned two-by-one cells, including every overhang.
+  const at=(x,y,z)=>{
+    if(Math.abs(x)>GRID.cell||Math.abs(y)>GRID.cell/2)throw new Error(name+' exceeds its two-cell footprint');
+    return edge==='right'?[u-y,v-x,z]:[u+x,v-y,z];
+  };
+  const panel=(cls,pts)=>poly(cls,pts.map(p=>at(...p)));
+  const rail=(cls,pts,width=2)=>line(cls,pts.map(p=>at(...p)),width);
+  // Both inward-facing local frames reflect the board plane. Reverse their
+  // winding so prism() still paints the near, camera-visible vertical faces.
+  const block=(cls,a,b,c,e,z,Z)=>prism(cls,rect(a,b,c,e).map(p=>at(...p).slice(0,2)).reverse(),Z,Z-z);
+  const face=(cls,a,b,y,z,Z)=>panel(cls,[[a,y,z],[b,y,z],[b,y,Z],[a,y,Z]]);
+  const curve=(cls,commands)=>`<path class="${cls}" d="${commands.map(([op,...pts])=>op+pts.map(p=>P(...at(...p)).map(n).join(' ')).join(' ')).join(' ')}"/>`;
+  const flower=(x,y,z)=>{
+    let art='';for(let i=0;i<5;i++){const angle=i/5*Math.PI*2,px=x+Math.cos(angle)*4.2,pz=z+Math.sin(angle)*4.2;art+=panel('booth-flower-petal',Array.from({length:10},(_,j)=>[px+Math.cos(j/10*Math.PI*2)*3,y,pz+Math.sin(j/10*Math.PI*2)*3]));}
+    return art+panel('booth-flower-center',Array.from({length:12},(_,i)=>[x+Math.cos(i/12*Math.PI*2)*2.7,y,z+Math.sin(i/12*Math.PI*2)*2.7]));
+  };
+  const parts=[],part=(x,y,art)=>{const[p,q]=at(x,y,0);parts.push({depth:p+q,art});};
+  let art=contact(u,v,GRID.cell*.62)+block('booth-plinth',-w/2,w/2,-d/2,d/2,1,5);
+  // Four slender supports actually meet the canopy at their local roof heights.
+  const roofBack=-d/2-4,roofFront=d/2+4;
+  const roofHeight=y=>merch?72+(y-roofBack)/(roofFront-roofBack)*20:94-Math.abs(y)/roofFront*16;
+  for(const x of [-w/2+6,w/2-6])for(const y of [-d/2+4,d/2-4])part(x,y,block('booth-post',x-1.7,x+1.7,y-1.7,y+1.7,5,roofHeight(y)));
+  // The service counter is on the INNER edge. The back stays open to the camera,
+  // so visitors can approach the playground-facing counter and products stay visible.
+  const front=d/2-2,back=front-14;
+  let counter=(!merch?flower(0,front+.3,18):'')+block('booth-counter',-w/2+11,w/2-11,back,front,5,30)+block('booth-worktop',-w/2+8,w/2-8,back-2,front+2,30,33);
+  counter+=rail('booth-trim',[[-w/2+11,front+.2,8],[w/2-11,front+.2,8]],2);
+  if(!merch)counter+=flower(0,back-.3,18);
+  const counterCenter=at(0,(front+back)/2,0);
+  part(0,(front+back)/2,`<g class="booth-service-counter" data-counter-center="${counterCenter.slice(0,2).map(n).join(' ')}">${counter}</g>`);
+  if(merch){
+    // Representative, unbranded displays: a shirt and tote on a real hanging rail.
+    const y=-d/2+8;
+    let display=rail('booth-hanging-rail',[[-w/2+7,y,62],[w/2-7,y,62]],1.8);
+    for(const x of [-w/2+7,w/2-7])display+=rail('booth-hanging-rail',[[x,-d/2+4,62],[x,y,62]],1.8);
+    display+=curve('booth-hanger',[['M',[-33,y,60]],['Q',[-30,y,67],[-27,y,62]],['L',[-28,y,56]],['L',[-43,y,50]],['L',[-17,y,50]],['L',[-28,y,56]]]);
+    display+=panel('booth-shirt',[[-38,y-.1,53],[-22,y-.1,53],[-7,y-.1,45],[-14,y-.1,36],[-20,y-.1,40],[-20,y-.1,22],[-40,y-.1,22],[-40,y-.1,40],[-46,y-.1,36],[-53,y-.1,45]]);
+    display+=curve('booth-shirt-collar',[['M',[-37,y-.3,53]],['Q',[-30,y-.3,45],[-23,y-.3,53]]]);
+    display+=face('booth-tote',14,41,y-.2,26,48)+panel('booth-tote-side',[[41,y-.2,26],[45,y+3,28],[45,y+3,46],[41,y-.2,48]]);
+    display+=curve('booth-tote-handle',[['M',[20,y-.3,48]],['Q',[19,y-.3,63],[27,y-.3,63]],['Q',[35,y-.3,63],[35,y-.3,48]]]);
+    part(0,y,`<g class="booth-product-display"><title>Trưng bày minh họa: áo thun và túi tote</title>${display}</g>`);
+    part(-21,front-7,`<g class="booth-folded-shirts">${block('booth-fold-blue',-39,-11,front-13,front-2,33,36)}${block('booth-fold-cream',-36,-12,front-12,front-3,36,39)}</g>`);
+  }else{
+    // Two large, readable interior objects: a notice display and postcard holder.
+    const y=-d/2+7;
+    let notice=block('booth-notice-support',-39,-36,y-1,y+1,5,29)+block('booth-notice-frame',-58,-17,y-1,y+1,29,59)+face('booth-notice-paper',-55,-20,y-1.2,32,56);
+    notice+=face('booth-notice-blue',-50,-25,y-1.4,47,51)+face('booth-notice-yellow',-50,-30,y-1.4,38,42);
+    part(-37,y,`<g class="booth-notice">${notice}</g>`);
+    const brochures=block('booth-card-holder',24,45,front-12,front-3,33,38)+face('booth-card',27,42,front-10,36,48)+face('booth-card-mark',30,39,front-10.2,40,43);
+    part(35,front-7,`<g class="booth-brochures">${brochures}</g>`);
+  }
+  art+=parts.sort((a,b)=>a.depth-b.depth).map(p=>p.art).join('');
+  if(merch){
+    // Sloping striped fabric, with a scalloped vertical valance at the inner edge.
+    for(let i=0;i<6;i++){
+      const a=-w/2-4+i*(w+8)/6,b=a+(w+8)/6,cls=i%2?'booth-awning-cream':'booth-awning-coral';
+      art+=panel(cls,[[a,roofBack,72],[b,roofBack,72],[b,roofFront,92],[a,roofFront,92]]);
+      art+=curve(cls,[['M',[a,roofFront,92]],['L',[b,roofFront,92]],['L',[b,roofFront,86]],['Q',[(a+b)/2,roofFront,76],[a,roofFront,86]],['Z']]);
+    }
+    art+=rail('booth-roof-trim',[[-w/2-4,roofBack,72],[w/2+4,roofBack,72]],1.6);
+  }else{
+    art+=panel('booth-canopy-back',[[-w/2-4,roofBack,78],[w/2+4,roofBack,78],[w/2+4,0,94],[-w/2-4,0,94]])+panel('booth-canopy-front',[[-w/2-4,0,94],[w/2+4,0,94],[w/2+4,roofFront,78],[-w/2-4,roofFront,78]]);
+    art+=face('booth-canopy-edge',-w/2-4,w/2+4,roofFront,75,78);
+    for(const x of [-w/2+6,w/2-6])art+=rail('booth-roof-frame',[[x,-d/2+4,roofHeight(-d/2+4)],[x,0,94],[x,d/2-4,roofHeight(d/2-4)]],1.7);
+  }
+  // A fascia fixed to the INNER eave, not a detached sign above the roof.
+  const signZ=merch?92:78,signY=roofFront+.4,aw=w-(merch?32:12);
+  let a=P(...at(-aw/2,signY,signZ-5)),b=P(...at(aw/2,signY,signZ-5));if(a[0]>b[0])[a,b]=[b,a];
+  art+=`<g class="booth-fascia" transform="matrix(${n((b[0]-a[0])/aw)} ${n((b[1]-a[1])/aw)} 0 1 ${n(a[0])} ${n(a[1])})"><rect class="booth-sign" x="0" y="-11" width="${aw}" height="20" rx="1.5"/><text class="booth-label" x="${aw/2}" y="3" text-anchor="middle">${label.replace(' · ',' ')}</text></g>`;
+  const frontNormal=edge==='right'?'-1 0':'0 -1';
+  item('building stall',name,u,v,`<title>${label}</title><g class="booth-layout" data-front-normal="${frontNormal}" data-two-cell-bounds="${GRID.cell} ${GRID.cell/2}">${art}</g>`,'stall-'+variant);
+}
+stall('big-joy-little-joy',near,lo+GRID.cell*3,'left','green','Big Joy Little Joy','awning');
+stall('young-joy-collection',far,lo+GRID.cell*4,'right','coral','Young Joy Collection','merch');
+stall('poet-community',lo+GRID.cell*5,far,'bottom','yellow','POET · Community','info');
 
 function slide(){
   const u=280,v=320,z=95;let s=contact(u+24,v+40,60);
@@ -182,26 +299,26 @@ function sign(u,v,type='arrow'){
   item('prop','sign-'+type+'-'+u,u,v,s);
 }
 function flag(u,v,color){item('prop','flag-'+u,u,v,post('paint-blue',u,v,0,61,2)+poly('paint-'+color+'-top',[[u,v,62],[u+28,v,57],[u+23,v,40],[u,v,44]]));}
-function joinJoySign(u,v){
+function haveFunSign(u,v){
   // Small park wayfinder in the open left perimeter strip, pointing toward the foreground.
   const point=(offset,z,back=0)=>[u+back,v-offset,z];
   const face=(cls,back)=>poly(cls,[point(-50,45,back),point(57,45,back),point(57,85,back),point(-50,85,back),point(-65,65,back)]);
   let s=`<g class="join-joy-aura" aria-hidden="true" pointer-events="none">${face('join-joy-halo',0)}${face('join-joy-rim',0)}</g>`+face('join-joy-edge',3)+face('join-joy-face',0);
   const[x,y]=P(u,v+32,61);
-  s+=`<g transform="matrix(${C} -.44 0 1 ${n(x)} ${n(y)})"><text class="join-joy-lettering" x="0" y="0"><tspan>Join</tspan> <tspan dx="1">Joy</tspan></text><path class="join-joy-arrow" d="M-8-4h-13m5-5-5 5 5 5"/></g>`;
-  s+=`<title>Join Joy — next destination</title>`;
+  s+=`<g transform="matrix(${C} -.44 0 1 ${n(x)} ${n(y)})"><text class="join-joy-lettering" x="0" y="0"><tspan>Have</tspan> <tspan dx="1">fun</tspan></text><path class="join-joy-arrow" d="M-8-4h-13m5-5-5 5 5 5"/></g>`;
+  s+=`<title>Have fun — khám phá hoạt động POET</title>`;
   const[ox,oy]=P(u,v,0).map(n);
   const attachment=P(u,v,60).map(n).join(' ');
   const corners=[point(-50,45),point(57,45),point(57,85),point(-50,85),point(-65,65)].map(p=>P(...p)),xs=corners.map(p=>p[0]),ys=corners.map(p=>p[1]);
   const hit=`<rect class="join-joy-hit" x="${n(Math.min(...xs)-14)}" y="${n(Math.min(...ys)-14)}" width="${n(Math.max(...xs)-Math.min(...xs)+28)}" height="${n(Math.max(...ys)-Math.min(...ys)+28)}" fill="transparent"/>`;
-  item('prop','join-joy-sign',u,v,`<g class="join-joy-size" transform="translate(${ox} ${oy}) scale(1.35) translate(${-ox} ${-oy})"><a class="join-joy-link" href="#noi-dung" aria-label="Join Joy — khám phá câu chuyện POET" tabindex="0">${hit}<g class="join-joy-invite"><g class="join-joy-hover" data-origin="${attachment}">${s}</g></g></a></g>`);
+  item('prop','have-fun-sign',u,v,`<g class="join-joy-size" transform="translate(${ox} ${oy}) scale(1.35) translate(${-ox} ${-oy})"><a class="join-joy-link" href="#hoat-dong" aria-label="Have fun — khám phá hoạt động POET" tabindex="0">${hit}<g class="join-joy-invite"><g class="join-joy-hover" data-origin="${attachment}">${s}</g></g></a></g>`);
   // Aim at the actual middle of the upper face edge, including the sign's 1.35 scale.
   // The former freehand endpoint stopped above its far corner and looked detached.
   const a=P(...point(-50,85)).map(n),b=P(...point(57,85)).map(n);
   const tx=n(ox+((a[0]+b[0])/2-ox)*1.35),ty=n(oy+((a[1]+b[1])/2-oy)*1.35);
   const xTip=tx,yTip=n(ty-8),pt=(dx,dy)=>`${n(xTip+dx)} ${n(yTip+dy)}`;
   // Exterior root-SVG coordinates; share the sign's float/drift parents.
-  return `<g class="join-joy-cue" aria-hidden="true" data-target="join-joy-sign"><path class="cue-line" d="M${pt(-160,28)}C${pt(-194,-52)} ${pt(-157,-103)} ${pt(-88,-97)}C${pt(-44,-92)} ${pt(-14,-42)} ${pt(0,0)}"/><path class="cue-head" d="M${pt(-11,-10)}Q${pt(-5,-8)} ${pt(0,0)}L${pt(2,-14)}"/></g>`;
+  return `<g class="join-joy-cue" aria-hidden="true" data-target="have-fun-sign"><path class="cue-line" d="M${pt(-160,28)}C${pt(-194,-52)} ${pt(-157,-103)} ${pt(-88,-97)}C${pt(-44,-92)} ${pt(-14,-42)} ${pt(0,0)}"/><path class="cue-head" d="M${pt(-11,-10)}Q${pt(-5,-8)} ${pt(0,0)}L${pt(2,-14)}"/></g>`;
 }
 function parkSign(u,v){
   // Landscape Young Joy sign: reuse the official lettering on the same rear-edge plane.
@@ -228,21 +345,16 @@ function parkSign(u,v){
   item('prop','park-sign',u,v,s);
 }
 function figure(name,file,iw,ih,u,v,Z,extra=''){
-  const[x,y]=P(u,v,10),w=Z*iw/ih;
-  item('character',name,u,v,contact(u,v,17,9)+`<g class="character-body" data-origin="${P(u,v,10).map(n).join(' ')}" style="transform-origin:${origin([u,v,10])}"><image href="../assets/mascot/be-cuc/${file}.webp" x="${n(x-w/2)}" y="${n(y-Z)}" width="${n(w)}" height="${Z}"/></g>`,extra);
+  Z*=1.3;const[x,y]=P(u,v,10),w=Z*iw/ih,ground=P(u,v,10).map(n).join(' ');
+  item('character',name,u,v,contact(u,v,17,9)+`<g class="flower-hover" data-origin="${ground}" style="transform-origin:${origin([u,v,10])}"><g class="character-body" data-origin="${ground}" style="transform-origin:${origin([u,v,10])}"><image id="flower-image-${name}" href="../assets/mascot/be-cuc/${file}.webp" x="${n(x-w/2)}" y="${n(y-Z)}" width="${n(w)}" height="${n(Z)}"/></g></g>`,extra+' flower-character');
 }
-tree('school-tree',235,56,.8);tree('workshop-tree',770,280,.85);tree('east-tree',770,675,.85);tree('front-tree',555,770,.85);
-for(const p of [[555,48],[764,365],[430,770]])flowers(...p);
-for(const p of [[50,490],[720,775]])bush(...p);
-for(const p of [[565,106],[716,560]])lamp(...p);
-bench(760,590,true);bench(105,770);
-const cue=joinJoySign(48,620);
-fence(440,792,69);
-parkSign(565,-15);sign(736,190);flag(485,52,'coral');
+tree('school-tree',near,near,.8);
+for(const p of [[lo+GRID.cell*7.5,near],[far,560]])flowers(...p);
+const cue=haveFunSign(48,620);
 // Keep the walking lane clear; these two figures stand just inside the route.
-figure('daisy-explorer','du-lich',239,200,360,600,55,'npc');
-figure('daisy-juice','enjoy',183,200,574,390,57);
-figure('daisy-welcome','vui-tuoi',180,200,110,505,58);
+figure('daisy-explorer','du-lich',239,200,360,600,72,'npc');
+figure('daisy-juice','enjoy',183,200,574,390,74);
+figure('daisy-welcome','vui-tuoi',180,200,160,505,75);
 // Central graphic marks use the same plane as the board, rather than separate platforms.
 let playSurface=poly('play-area',rect(220,600,220,600).map(p=>[...p,.2]));
 playSurface+=line('play-border',[[225,225,.3],[595,225,.3],[595,595,.3],[225,595,.3],[225,225,.3]],2);
@@ -286,5 +398,5 @@ if(process.argv.includes('--write')){
     .replace(/\s*<div class="mascot"[^>]*>[\s\S]*?<\/div>/,'')
     .replace('A connected route through four floating playground terraces. No hero copy.','One flat POET game board, a closed colorful route and a miniature playground. No hero copy.');
   fs.writeFileSync(file,html);
-  console.log(JSON.stringify({written:'v2/index.html',board:1,thickness:14,tiles:route.length,closedRoute:true,buildings:6,equipment:4,mascot:anchor}));
+  console.log(JSON.stringify({written:'v2/index.html',board:1,grid:GRID,thickness:14,tiles:route.length,closedRoute:true,schools:1,schoolCells:3,houses:1,stalls:3,equipment:4,mascot:anchor}));
 }else console.log(svg);
