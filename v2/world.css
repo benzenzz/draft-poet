@@ -1,0 +1,238 @@
+/* Hero-only geometry and illustration. Palette comes from POET.pdf / existing v2 tokens.
+   Typography, site navigation, and every content section retain their existing styles. */
+.world-wrap { height: 160svh; overflow-x: clip; background: var(--paper); }
+.hero--world { height: 100svh; min-height: 520px; isolation: isolate; background: var(--paper); --pastel-pink: #f3a9c4; }
+.hero--world > poet-nav[hidden] { display: none; }
+/* Join Joy: one liquid curtain covers the section handoff, then exits upward. */
+.hero-join-wave { position:fixed;inset:0 0 auto;height:160vh;height:160svh;z-index:90;pointer-events:auto;touch-action:none;will-change:transform; }
+.hero-join-wave svg { display:block;width:100%;height:100%;overflow:visible; }
+.hero-join-wave path { fill:var(--poet-pink-light,#fbe8eb); }
+html[data-hero-transition] .hero--world .stage { will-change:transform; }
+html[data-hero-transition] .join-joy-link { pointer-events:none; }
+html.hero-only body > main,
+html.hero-only body > poet-footer,
+html.hero-only .skip-link { display: none; }
+html.hero-only .world-wrap { height: 100svh; min-height: 400px; }
+html.hero-only .hero--world { position: relative; height: 100%; min-height: 400px; }
+.hero--world .stage {
+  --stage-w: min(106.5vw, calc((100svh - 24px) * 1.82578));
+  position: absolute; left: 50%; top: 50%; bottom: auto;
+  width: var(--stage-w); aspect-ratio: 1530 / 838;
+  margin-left: calc(var(--stage-w) / -2); margin-top: calc(var(--stage-w) * -.273856);
+}
+.hero--world .playground { overflow: visible; }
+.hero--world .build-item, .hero--world .swing-seat, .hero--world .seesaw-plank, .hero--world .flower-sway {
+  transform-box: view-box;
+}
+.hero--world .tile {
+  transform-box: view-box;
+  --tile-cap: color-mix(in srgb, var(--tile) 35%, white);
+  --tile-face: color-mix(in srgb, var(--tile) 50%, white);
+  --tile-wall: color-mix(in srgb, var(--tile) 55%, white);
+  --tile-wall-dark: color-mix(in srgb, var(--edge) 55%, white);
+}
+.hero--world .tile[data-mascot-active],
+html[data-world-state="reduced"] .hero--world .tile[data-order="24"] {
+  --tile-cap: color-mix(in srgb, var(--tile) 75%, white);
+  --tile-face: var(--tile);
+  --tile-wall: var(--tile);
+  --tile-wall-dark: var(--edge);
+}
+.hero--world .t-coral { --tile: var(--coral); --edge: var(--coral-edge); }
+.hero--world .t-blue { --tile: var(--blue); --edge: var(--blue-edge); }
+.hero--world .t-yellow { --tile: var(--yellow); --edge: var(--yellow-edge); }
+.hero--world .t-green { --tile: var(--green); --edge: var(--green-edge); }
+.hero--world .board-top { fill: color-mix(in srgb, var(--pastel-pink) 25%, white); }
+.hero--world .board-rim { fill: color-mix(in srgb, var(--pastel-pink) 18%, white); }
+.hero--world .board-side { fill: color-mix(in srgb, var(--pastel-pink) 60%, white); }
+.hero--world .board-side.face-dark { fill: color-mix(in srgb, var(--pastel-pink) 78%, white); }
+.hero--world .board-shadow { fill: var(--coral-edge); opacity: .07; }
+.hero--world .play-area { fill: color-mix(in srgb, var(--yellow) 27%, white); }
+.hero--world .play-border { stroke: white; opacity: .8; }
+.hero--world .hopscotch { fill: none; stroke: white; stroke-width: 2.5; }
+.hero--world :is(.path-tile-top,.path-tile-side,.tile-inset) { transition: fill 240ms ease; }
+.hero--world .tile[data-mascot-active] :is(.path-tile-top,.path-tile-side,.tile-inset) { transition-duration: 100ms; }
+html[data-world-state="reduced"] .hero--world .tile :is(.path-tile-top,.path-tile-side,.tile-inset) { transition: none; }
+.hero--world .path-tile-top { fill: var(--tile-cap); }
+.hero--world .path-tile-side { fill: var(--tile-wall); }
+.hero--world .path-tile-side.face-dark { fill: var(--tile-wall-dark); }
+.hero--world .tile-inset { fill: var(--tile-face); }
+.hero--world .tile-activation { opacity: 0; transform-box: view-box; pointer-events: none; }
+.hero--world .tile-glow-halo { fill: none; stroke: var(--tile); stroke-width: 10; stroke-opacity: .19; stroke-linejoin: round; }
+.hero--world .tile-glow-edge { fill: none; stroke: color-mix(in srgb, var(--tile) 75%, white); stroke-width: 3.5; stroke-opacity: .8; stroke-linejoin: round; }
+.hero--world .tile-glow-wash { fill: var(--tile); fill-opacity: .55; }
+.hero--world .tile-symbol { fill: white; opacity: .72; }
+.hero--world .symbol-heart { fill: var(--yellow); }
+.hero--world .symbol-vein { stroke: var(--tile); }
+.hero--world .house-top { fill: white; }
+.hero--world .house-side { fill: #fffefa; }
+.hero--world .house-side.face-dark { fill: color-mix(in srgb, var(--blue) 19%, white); }
+.hero--world .window-rim { fill: white; }
+.hero--world .window { fill: var(--blue); }
+.hero--world .door { fill: var(--tile); }
+.hero--world .door-handle { stroke: white; }
+.hero--world .roof-inset { fill: color-mix(in srgb, var(--tile) 76%, white); }
+.hero--world .book-left { fill: var(--green); }
+.hero--world .book-right { fill: var(--green-edge); }
+.hero--world .sign-face { fill: white; }
+.hero--world .sign-arrow { fill: var(--green); }
+.hero--world .park-sign-edge { fill: var(--green-edge); }
+.hero--world .park-sign-frame { fill: var(--green); }
+.hero--world .park-sign-face { fill: #fffefa; }
+.hero--world .park-sign-accent { stroke: var(--coral); }
+.hero--world .park-sign-pin { fill: var(--blue); }
+.hero--world .join-joy-edge { fill: var(--green-edge); }
+.hero--world .join-joy-face { fill: var(--paper); stroke: var(--green); stroke-width: 2.5; stroke-linejoin: round; transition: fill 220ms ease; }
+.hero--world .join-joy-lettering { font-family: var(--display); font-size: 20px; fill: var(--green-edge); }
+.hero--world .join-joy-lettering tspan + tspan { fill: var(--coral-edge); }
+.hero--world .join-joy-arrow { fill: none; stroke: var(--green); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+.hero--world .join-joy-link { cursor: pointer; outline: none; }
+.hero--world .join-joy-link:focus-visible .join-joy-face { stroke: var(--blue-edge); stroke-width: 5; }
+.hero--world .join-joy-aura { opacity: 0; transition: opacity 220ms ease; pointer-events: none; }
+.hero--world .join-joy-halo { fill: none; stroke: var(--yellow); stroke-width: 18; stroke-opacity: .25; stroke-linejoin: round; }
+.hero--world .join-joy-rim { fill: none; stroke: var(--coral); stroke-width: 7; stroke-opacity: .35; stroke-linejoin: round; }
+.hero--world .join-joy-link:is(.is-engaged, :focus-visible, :active) .join-joy-aura { opacity: 1; }
+.hero--world .join-joy-link:is(.is-engaged, :focus-visible, :active) .join-joy-face { fill: color-mix(in srgb, var(--yellow) 25%, white); }
+.hero--world .join-joy-lettering tspan { transition: fill 220ms ease; }
+.hero--world .join-joy-link:is(.is-engaged, :focus-visible, :active) .join-joy-lettering tspan + tspan { fill: color-mix(in srgb, var(--coral-edge) 65%, var(--ink)); }
+.hero--world .join-joy-hover { transform-box: view-box; }
+.hero--world .join-joy-invite { transform-box: view-box; }
+/* A short invitation, then a long rest. Native hover/focus takes ownership immediately. */
+html[data-world-state="alive"] .hero--world .join-joy-link:not(.is-engaged):not(:focus-visible):not(:active) .join-joy-invite { animation: join-invite-bob 5.2s ease infinite; }
+html[data-world-state="alive"] .hero--world .join-joy-link:not(.is-engaged):not(:focus-visible):not(:active) .join-joy-face { animation: join-invite-color 5.2s ease infinite; }
+html[data-world-state="alive"] .hero--world .join-joy-link:not(.is-engaged):not(:focus-visible):not(:active) .join-joy-lettering tspan + tspan { animation: join-invite-ink 5.2s ease infinite; }
+html[data-world-state="alive"] .hero--world .join-joy-link:not(.is-engaged):not(:focus-visible):not(:active) .join-joy-aura { animation: join-invite-glow 5.2s ease infinite; }
+html[data-world-state="alive"][data-world-motion="paused"] .hero--world .join-joy-link:not(.is-engaged):not(:focus-visible):not(:active) :is(.join-joy-invite,.join-joy-face,.join-joy-aura,.join-joy-lettering tspan) { animation-play-state: paused; }
+@keyframes join-invite-bob {
+  0%,8%,31%,100% { transform: translateY(0); }
+  16% { transform: translateY(-4px); }
+  21% { transform: translateY(.7px); }
+  26% { transform: translateY(-1.3px); }
+}
+@keyframes join-invite-color {
+  0%,8%,38%,100% { fill: var(--paper); stroke: var(--green); }
+  16%,27% { fill: color-mix(in srgb, var(--yellow) 38%, white); stroke: var(--coral-edge); }
+}
+@keyframes join-invite-ink {
+  0%,8%,38%,100% { fill: var(--coral-edge); }
+  16%,27% { fill: color-mix(in srgb, var(--coral-edge) 65%, var(--ink)); }
+}
+@keyframes join-invite-glow {
+  0%,8%,38%,100% { opacity: 0; }
+  16%,27% { opacity: .65; }
+}
+.hero--world .join-joy-cue { opacity: 0; pointer-events: none; }
+.hero--world .join-joy-cue path { fill: none; stroke: var(--green-edge); stroke-width: 2.8; stroke-linecap: round; stroke-linejoin: round; opacity: .7; }
+.intro-pending .join-joy-link, .world-building .join-joy-link { pointer-events: none; }
+
+/* A soft, curved curtain opens into the existing miniature world. */
+.poet-intro { position: absolute; inset: 0; z-index: 8; display: grid; place-items: center; visibility: hidden; opacity: 0; overflow: hidden; pointer-events: none; }
+.intro-pending .poet-intro { visibility: visible; opacity: 1; }
+.intro-pending [data-intro-line] { visibility: hidden; }
+.intro-curtain { position: absolute; top: 0; left: -10%; width: 120%; height: 115%; background: color-mix(in srgb, var(--coral) 12%, white); border-radius: 0 0 50% 50% / 0 0 7% 7%; }
+.intro-copy { --intro-logo-width: clamp(72px, 12vw, 168px); position: relative; display: grid; grid-template-columns: var(--intro-logo-width) max-content; align-items: center; justify-content: center; column-gap: clamp(16px, 3vw, 48px); width: min(1120px, calc(100% - 40px)); text-align: left; color: var(--green-edge); font-family: var(--display); }
+.intro-copy p { margin: 0; }
+.hero--world .intro-name { width: var(--intro-logo-width); min-width: 0; margin: 0; font: inherit; line-height: 1; }
+.intro-logo { display: block; width: 100%; height: auto; overflow: visible; }
+.intro-logo-letter { transform-box: view-box; }
+.intro-poems { text-align: left; }
+.intro-poem { font-size: clamp(14px, 2.5vw, 36px); line-height: 1.8; white-space: nowrap; }
+.intro-word { display: inline-block; overflow: clip; vertical-align: bottom; padding: .18em .025em; margin: -.18em -.025em; }
+.intro-word > span { display: inline-block; }
+@media (max-width: 480px) {
+  .intro-copy { --intro-logo-width: clamp(60px, 18vw, 82px); column-gap: clamp(12px, 3.6vw, 17px); }
+  .intro-poem { font-size: clamp(11.5px, 3.6vw, 16px); }
+}
+.hero--world .character-body { transform-box: view-box; }
+.hero--world .fence-rail { stroke: var(--blue); }
+.hero--world .lamp-globe { fill: color-mix(in srgb, var(--yellow) 65%, white); }
+.hero--world .planter-top { fill: var(--coral); }
+.hero--world .planter-side { fill: var(--coral-edge); }
+.hero--world .bush-top { fill: color-mix(in srgb, var(--green) 68%, white); }
+.hero--world .bush-side { fill: var(--green); }
+.hero--world .contact { fill: var(--ink); opacity: .08; }
+.hero--world .paint-green-top { fill: var(--green); }
+.hero--world .paint-green-side { fill: var(--green-edge); }
+.hero--world .paint-blue-top { fill: var(--blue); }
+.hero--world .paint-blue-side { fill: var(--blue-edge); }
+.hero--world .paint-yellow-top { fill: var(--yellow); }
+.hero--world .paint-yellow-side { fill: var(--yellow-edge); }
+.hero--world .paint-coral-top { fill: var(--coral); }
+.hero--world .paint-coral-side { fill: var(--coral-edge); }
+.hero--world .paint-green-side.face-light { fill: color-mix(in srgb, var(--green) 85%, white); }
+.hero--world .paint-yellow-side.face-light { fill: color-mix(in srgb, var(--yellow) 85%, white); }
+.hero--world .paint-blue-side.face-light { fill: color-mix(in srgb, var(--blue) 85%, white); }
+.hero--world .paint-coral-side.face-light { fill: color-mix(in srgb, var(--coral) 85%, white); }
+.hero--world .frame-green, .hero--world .flower-stem, .hero--world .ladder-rung { stroke: var(--green-edge); }
+.hero--world .frame-coral { stroke: var(--coral); }
+.hero--world .rope { stroke: var(--ink); }
+.hero--world .slide-rail { stroke: color-mix(in srgb, var(--blue) 55%, white); }
+.hero--world .tree-crown { fill: color-mix(in srgb, var(--green) 65%, white); }
+.hero--world .tree-shade { fill: var(--green); opacity: .62; }
+.hero--world .world-float, .hero--world .world-drift, .hero--world .main-mascot, .hero--world .main-mascot-body,
+.hero--world .wind-leaf, .hero--world .leaf-shape { transform-box: view-box; }
+.hero--world .wind-layer { pointer-events: none; }
+.hero--world .leaf-fill { fill: var(--green); }
+.hero--world .wind-leaf[data-leaf="1"] .leaf-fill { fill: var(--yellow); }
+.hero--world .wind-leaf[data-leaf="3"] .leaf-fill { fill: var(--coral); }
+.hero--world .leaf-vein { fill: none; stroke: var(--paper); stroke-width: .8; }
+.hero--world .flower-petal { fill: white; }
+.hero--world .flower-heart { fill: var(--yellow); }
+.hero--world .flower-stem { stroke-width: 2; }
+.hero--world .cloud-shape { fill: white; }
+.hero--world .ball-stripe { fill: none; stroke: var(--paper); stroke-width: 5; }
+.hero--world .intro-mark { opacity: 0; transform-box: fill-box; transform-origin: center; }
+.hero--world .mascot { width: 5.2%; margin-left: -2.6%; }
+.hero--world .mascot .pose-hop { opacity: 0; translate: none; }
+.hero--world .mascot .pose-stand { opacity: 1; }
+.hero--world .mascot.is-jumping .pose-stand { opacity: 0; }
+.hero--world .mascot.is-jumping .pose-jump { opacity: 1; }
+.hero--world .object-hover { transform-box: view-box; transition: transform 220ms var(--ease-enter); pointer-events: none; }
+.hero--world .object-hit { opacity: 0; pointer-events: visiblePainted; }
+.hero--world .object-target > .contact { pointer-events: none; }
+@media (hover: hover) and (pointer: fine) {
+  html[data-world-state="alive"][data-world-motion="playing"] .hero--world .object-target:hover > .object-hover { transform: translateY(-7px); }
+}
+.intro-pending .hero--world .bar { opacity: 1; }
+.intro-pending .hero--world .build-item, .intro-pending .hero--world .board-shadow { opacity: 0; }
+.hero--world.world-building .build-item,
+.hero--world.world-building .board-shadow,
+.hero--world.world-building .mascot { opacity: 0; }
+.intro-pending .hero--world .intro-mark { opacity: 1; }
+.world-motion-toggle {
+  position: absolute; right: var(--margin); bottom: 22px; z-index: 4;
+  display: grid; place-items: center; width: 44px; height: 44px; padding: 0;
+  border: 1px solid color-mix(in srgb, var(--ink) 18%, transparent);
+  border-radius: 50%; background: var(--paper); color: var(--ink); cursor: pointer;
+}
+.world-motion-toggle[hidden] { display: none; }
+.world-motion-toggle svg { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.world-motion-toggle .motion-play { display: none; }
+.world-motion-toggle[aria-pressed="true"] .motion-pause { display: none; }
+.world-motion-toggle[aria-pressed="true"] .motion-play { display: block; }
+.hero-replay-debug {
+  position: fixed; right: 18px; bottom: 78px; z-index: 100;
+  padding: 9px 13px; border: 1px solid var(--ink); border-radius: 6px;
+  background: var(--paper); color: var(--ink); font: 600 13px system-ui; cursor: pointer;
+}
+.hero-replay-debug:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
+.hero-runtime-debug {
+  position: fixed; right: 18px; bottom: 128px; z-index: 100;
+  box-sizing: border-box; width: min(285px, calc(100vw - 36px)); padding: 10px;
+  border: 1px solid var(--ink); border-radius: 6px; background: var(--paper); color: var(--ink);
+  font: 12px/1.4 system-ui; max-height: 48vh; overflow: auto;
+}
+.hero-runtime-debug summary { font-weight: 700; cursor: pointer; }
+.hero-runtime-debug output { display: block; white-space: pre-wrap; margin: 8px 0; }
+.hero-runtime-debug button { padding: 7px; background: white; color: var(--ink); border: 1px solid var(--ink); border-radius: 3px; font: inherit; cursor: pointer; }
+.hero-runtime-actions { display: flex; gap: 5px; }
+.hero-runtime-debug p { margin: 8px 0 0; }
+@media (max-width: 700px) {
+  .world-wrap { height: 100svh; min-height: 400px; }
+  .hero--world { position: relative; display: block; height: 100%; min-height: 400px; }
+  .hero--world .stage { --stage-w: 105.5vw; top: 50%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero--world .join-joy-face, .hero--world .join-joy-aura, .hero--world .join-joy-lettering tspan { transition-duration: 120ms; }
+  html[data-world-state="reduced"] .hero--world .object-hover { transition: none; }
+}

@@ -1,0 +1,545 @@
+/* POET /v2: one GSAP master, then a small set of owned ambient timelines.
+   Static SVG is the final scene. No layout coordinates are animated or remeasured. */
+(() => {
+  'use strict';
+  const debug=window.POETHeroDebug;
+  const query=new URLSearchParams(location.search),localPreview=['localhost','127.0.0.1','[::1]'].includes(location.hostname);
+  // The user requested full playback on the plain local V2 preview, including
+  // VS Code webviews reporting reduced motion. Public hosts still honor the OS.
+  const previewMotion=localPreview&&query.get('heroMotion')!=='respect'&&query.get('heroDebug')!=='0';
+  if(localPreview&&query.get('heroMotion')==='respect'){
+    try{sessionStorage.removeItem('poet:hero:preview-motion');}catch(_){}
+  }
+  const trace=(event,extra)=>debug?.log(event,extra);
+  trace('HERO_SCRIPT_LOADED',{script:document.currentScript?.src});
+  if (window.POETWorld?.engine === 'gsap' && window.POETWorld.state !== 'stopped') return;
+  const root=document.documentElement,hero=document.querySelector('.hero--world');
+  if(!hero)return root.classList.remove('intro-pending');
+  const gsap=window.gsap,MotionPathPlugin=window.MotionPathPlugin;
+  trace('GSAP_AVAILABLE',{available:!!gsap,motionPathAvailable:!!MotionPathPlugin});
+  if(!gsap||!MotionPathPlugin){root.classList.remove('intro-pending');root.dataset.worldState='fallback';return;}
+  gsap.registerPlugin(MotionPathPlugin);
+
+  function createHeroController(forceIntro=false){
+    const reduced=matchMedia('(prefers-reduced-motion: reduce)'),events=new AbortController();
+    // Local review defaults to full; ?heroMotion=respect and public pages honor the OS.
+    const reduceMotion=()=>reduced.matches&&!(debug?.forceMotion||previewMotion);
+    const select=s=>[...hero.querySelectorAll(s)],q=s=>hero.querySelector(s);
+    const toggle=q('.world-motion-toggle'),mascot=q('.main-mascot'),mascotBody=q('.main-mascot-body'),world=q('.world-drift'),slot=document.querySelector('.mascot-slot');
+    const floating=q('.world-float');
+    const introScene=q('.poet-intro'),introCopy=q('.intro-copy'),curtain=q('.intro-curtain'),introLines=select('[data-intro-line]');
+    introLines.forEach(line=>{
+      if(line.dataset.prepared)return;
+      if(line.hasAttribute('data-intro-logo')){line.dataset.prepared='true';return;}
+      const text=line.textContent.trim(),parts=text.split(/\s+/);
+      line.setAttribute('aria-label',text);line.dataset.prepared='true';line.replaceChildren();
+      parts.forEach((part,i)=>{if(i&&!line.matches('.intro-name'))line.append(' ');const mask=document.createElement('span'),ink=document.createElement('span');mask.className='intro-word';mask.setAttribute('aria-hidden','true');ink.textContent=part;mask.append(ink);line.append(mask);});
+    });
+    const introWords=select('.intro-word > span'),joinLink=q('.join-joy-link'),joinHover=q('.join-joy-hover'),cue=q('.join-joy-cue'),cuePaths=select('.join-joy-cue path');
+    const introLogo=q('[data-intro-logo]'),introGlyphs=select('.intro-logo-letter'),poemLines=introLines.filter(line=>!line.hasAttribute('data-intro-logo'));
+    const tiles=select('.tile').sort((a,b)=>+a.dataset.routeIndex-+b.dataset.routeIndex);
+    const tileByOrder=new Map(tiles.map(tile=>[+tile.dataset.order,tile])),tileGlows=select('.tile-activation'),glowTweens=new Map();
+    const groups=select('.build-item'),pivots=select('.swing-seat,.seesaw-plank,.flower-sway,.character-body,.main-mascot-body');
+    const leaves=select('.wind-leaf'),leafShapes=select('.leaf-shape'),finePointer=matchMedia('(hover: hover) and (pointer: fine)');
+    const routeStops=tiles.map(tile=>{const[u,v]=tile.dataset.center.split(',').map(Number);return{order:+tile.dataset.order,u,v,x:765+(u-v)*Math.cos(Math.PI/6),y:80+.44*(u+v)-10};});
+    const depthObjects=groups.filter(el=>el!==mascot&&el.dataset.depth).sort((a,b)=>+a.dataset.depth-+b.dataset.depth),mascotNext=mascot.nextElementSibling;
+    const mark=q('.intro-mark'),shadow=q('.board-shadow'),route=q('#poet-mascot-route');
+    const owned=[...new Set([...groups,...pivots,...leaves,...leafShapes,...tileGlows,...introLines,...introWords,...introGlyphs,...cuePaths,introScene,introCopy,curtain,joinHover,cue,floating,world,mark,shadow,mascot].filter(Boolean))];
+    const snapshots=new Map(owned.map(el=>[el,{style:el.getAttribute('style'),transform:el.getAttribute('transform'),svgOrigin:el.getAttribute('data-svg-origin')}]));
+    const slotVisibility=slot?.style.visibility;
+    const ambientTimelines=[],entries=[],phaseEvents=[];
+    let master=null,pathLoop=null,cueTimeline=null,hoverTween=null,pointerSettle=null,resolved=false,destroyed=false,userPaused=false,onScreen=false,pageSuspended=false,introNotified=false,playingReported=false,driftX=null,driftY=null;
+    let activeTile=null,joinHovered=false,joinFocused=false,handoff=null;
+    let resolveIntro;const introFinished=new Promise(resolve=>{resolveIntro=resolve;});
+    let INTRO=.56;
+    const TILE_STAGGER=.055,TILE_DURATION=.60;
+    const phase=name=>{root.dataset.worldState=name;phaseEvents.push({name,time:master?.time()||0});if(name==='tiles')trace('TILE_ASSEMBLY_STARTED',{element:debug?.elementState(tiles[0])});if(name==='playground')trace('WORLD_POP_STARTED');};
+
+    function notifyIntroComplete(){
+      if(introNotified)return;introNotified=true;
+      introScene?.setAttribute('aria-hidden','true');
+      trace('INTRO_COMPLETE',{introDuration:INTRO});
+      resolveIntro();hero.dispatchEvent(new CustomEvent('poet:intro-complete',{bubbles:true}));
+    }
+    function svgOrigin(el){
+      if(el?.dataset.origin)gsap.set(el,{svgOrigin:el.dataset.origin,smoothOrigin:false,force3D:false});
+    }
+    function prepareHeroAnimation(){
+      // Batch attribute writes; defer SVG bounding-box work to each staggered entrance.
+      // Initializing every SVG transform here caused a long task under CPU throttling.
+      for(const[el,values]of snapshots){
+        for(const[attr,value]of[['style',values.style],['transform',values.transform],['data-svg-origin',values.svgOrigin]]){
+          if(el.getAttribute(attr)===value)continue;
+          value===null?el.removeAttribute(attr):el.setAttribute(attr,value);
+        }
+        if(el._gsap)el._gsap.uncache=1;
+      }
+      hero.classList.add('world-building');
+      if(mark)gsap.set(mark,{opacity:0,y:0,scale:.95,transformOrigin:'50% 50%'});
+      if(introScene)gsap.set(introScene,{autoAlpha:0});
+      if(joinLink){joinLink.setAttribute('tabindex','-1');joinLink.setAttribute('aria-disabled','true');}
+      if(cue)gsap.set(cue,{opacity:0});
+      world.insertBefore(mascot,mascotNext);mascot.dataset.currentTile=String(routeStops[0].order);delete mascot.dataset.nextTile;
+      root.classList.remove('intro-pending');
+    }
+    function createIntro(reducedVersion=false){
+      if(!introScene)return null;
+      gsap.set(introScene,{autoAlpha:1});gsap.set(introLines,{visibility:'visible'});introScene.setAttribute('aria-hidden','false');
+      const intro=gsap.timeline();
+      gsap.set(introLogo,{x:0,scale:1,transformOrigin:'100% 50%'});introGlyphs.forEach(svgOrigin);
+      // Fit the visible two-line typography, excluding its generous line-box leading.
+      const bounds=introLogo.getBoundingClientRect(),font=getComputedStyle(poemLines[0]),measure=document.createElement('canvas').getContext('2d');
+      measure.font=`${font.fontWeight} ${font.fontSize} ${font.fontFamily}`;
+      const first=measure.measureText(poemLines[0].getAttribute('aria-label')),last=measure.measureText(poemLines.at(-1).getAttribute('aria-label'));
+      const lineGap=poemLines.at(-1).getBoundingClientRect().top-poemLines[0].getBoundingClientRect().top;
+      const fitScale=Math.min(1,(lineGap+first.actualBoundingBoxAscent+last.actualBoundingBoxDescent)*1.12/bounds.height);
+      if(reducedVersion){
+        gsap.set(introLogo,{scale:fitScale});
+        gsap.set(introWords,{yPercent:0,rotation:0,opacity:1});
+        gsap.set(introGlyphs,{y:0,rotation:0,scale:1,opacity:1});
+        intro.to(introScene,{autoAlpha:0,duration:.2,ease:'power1.out'},3.2).call(notifyIntroComplete);
+        return intro;
+      }
+      gsap.set(introWords,{yPercent:115,rotation:1.5,opacity:0});
+      gsap.set(introGlyphs,{y:18,rotation:-3,scale:.96,opacity:0,force3D:false});
+      const centerShift=innerWidth/2-(bounds.left+bounds.width/2);
+      gsap.set(introLogo,{x:centerShift});
+      intro.to(introGlyphs,{y:0,rotation:0,scale:1,opacity:1,duration:.6,stagger:.18,ease:'power3.out'},.18);
+      introGlyphs.forEach((letter,i)=>intro.call(()=>trace('INTRO_LOGO_LETTER_REVEAL',{letter:letter.dataset.letter}),null,.18+i*.18));
+      intro.to(introLogo,{x:0,scale:fitScale,duration:.65,ease:'power3.inOut'},1.45)
+        .call(()=>trace('INTRO_LOGO_MOVED_LEFT'),null,2.1);
+      const times=[2.2,2.78];
+      poemLines.forEach((line,i)=>{
+        intro.to(line.querySelectorAll('.intro-word > span'),{yPercent:0,rotation:0,opacity:1,duration:.6,stagger:.055,ease:'power3.out'},times[i]);
+        intro.call(()=>trace('INTRO_LINE_REVEAL',{line:i+1,text:line.getAttribute('aria-label')}),null,times[i]);
+      });
+      intro.to(introCopy,{y:-12,opacity:0,duration:.65,ease:'sine.inOut'},4.7)
+        .call(()=>trace('INTRO_HANDOFF_STARTED'),null,4.75)
+        .to(curtain,{yPercent:-110,duration:1.6,ease:'sine.inOut'},4.75);
+      if(mark)intro.to(mark,{opacity:.85,scale:1,duration:.5,ease:'sine.inOut'},5.3).to(mark,{opacity:0,duration:.55,ease:'sine.inOut'},5.85);
+      // The landing zone is open while the curtain softly finishes its last .4s.
+      intro.addLabel('world-open',5.95).call(notifyIntroComplete,null,'world-open');
+      intro.set(introScene,{autoAlpha:0},6.35);
+      return intro;
+    }
+    function record(el,kind,start,duration,extra={}){
+      entries.push({name:el.dataset.obj||kind,kind,start,end:start+duration,...extra});
+    }
+    function animateTileAssembly(){
+      tiles.forEach((tile,i)=>{
+        const at=INTRO+i*TILE_STAGGER,fallDistance=420+(i%5)*46+(i%3)*13;
+        let duringReported=false;
+        master.fromTo(tile,{y:-fallDistance,opacity:1,scale:1,svgOrigin:tile.dataset.origin,smoothOrigin:false,force3D:false},
+          {y:0,duration:.36,ease:'power3.in',immediateRender:false,onUpdate:i===0?()=>{if(!duringReported&&master.time()>at+.15){duringReported=true;trace('TILE_TRANSFORM_DURING',{element:debug?.elementState(tile)});}}:undefined},at)
+          .to(tile,{y:2,scaleY:.98,duration:.06,ease:'power1.out'},at+.36)
+          .to(tile,{y:-1.6,scaleY:1.006,duration:.08,ease:'power2.out'},at+.42)
+          .to(tile,{y:0,scaleY:1,duration:.10,ease:'power2.inOut',onComplete:i===0?()=>trace('TILE_TRANSFORM_AFTER',{element:debug?.elementState(tile)}):undefined},at+.50);
+        record(tile,'tile',at,TILE_DURATION,{order:+tile.dataset.order,fallDistance,compression:.98});
+      });
+      const at=INTRO+.88;
+      master.fromTo(q('.board'),{y:18,scaleY:.98,opacity:0,svgOrigin:q('.board').dataset.origin,smoothOrigin:false},
+          {y:0,scaleY:1,opacity:1,duration:.44,ease:'power3.out',immediateRender:false},at)
+        .fromTo(shadow,{opacity:0},{opacity:.07,duration:.4,ease:'power2.out',immediateRender:false},at);
+      record(q('.board'),'board',at,.44);
+    }
+    const popPresets={
+      building:{scale:.9,y:26,lift:3,overshoot:1.025,compression:.989,rise:.32},
+      equipment:{scale:.84,y:38,lift:6,overshoot:1.055,compression:.976,rise:.32},
+      sign:{scale:.88,y:30,lift:4,overshoot:1.04,compression:.982,rise:.34},
+      environment:{scale:.84,y:24,lift:5,overshoot:1.075,compression:.97,rise:.27},
+      detail:{scale:.86,y:22,lift:5,overshoot:1.08,compression:.968,rise:.25},
+      character:{scale:.92,y:18,lift:3,overshoot:1.03,compression:.985,rise:.26},
+    };
+    function pop(el,kind,at,pace=1){
+      if(!el)return;
+      const p=popPresets[kind],rise=p.rise*pace,compression=.1*pace,rebound=.12*pace,settle=.13*pace,duration=rise+compression+rebound+settle;
+      master.fromTo(el,{y:p.y,scale:p.scale,opacity:0,rotation:0,svgOrigin:el.dataset.origin,smoothOrigin:false,force3D:false},
+        {y:-p.lift,scale:p.overshoot,opacity:1,duration:rise,ease:'power3.out',immediateRender:false},at)
+        .to(el,{y:.8,scaleX:1+(1-p.compression)*.5,scaleY:p.compression,duration:compression,ease:'power2.inOut'},at+rise)
+        .to(el,{y:-p.lift*.14,scaleX:.998,scaleY:1.005,duration:rebound,ease:'sine.inOut'},at+rise+compression)
+        .to(el,{y:0,scale:1,duration:settle,ease:'sine.inOut'},at+rise+compression+rebound);
+      record(el,kind,at,duration,{overshoot:p.overshoot});
+    }
+    function animateWorldReveal(){
+      // Derive the boundary from the final tile's actual landing/settle duration.
+      const WORLD=INTRO+Math.max(0,tiles.length-1)*TILE_STAGGER+TILE_DURATION;
+      ['slide','swing','seesaw','roundabout'].forEach((name,i)=>{
+        const el=q(`[data-obj="${name}"]`),at=WORLD+i*.075;
+        pop(el,'equipment',at,.88);
+        if(name==='swing')master.fromTo(q('.swing-seat'),{rotation:3,svgOrigin:q('.swing-seat').dataset.origin,smoothOrigin:false},{rotation:0,duration:.484,ease:'back.out(.45)',immediateRender:false},at+.3344);
+        if(name==='seesaw')master.fromTo(q('.seesaw-plank'),{rotation:-2,svgOrigin:q('.seesaw-plank').dataset.origin,smoothOrigin:false},{rotation:0,duration:.3696,ease:'power2.out',immediateRender:false},at+.308);
+      });
+      const start=routeStops[0],angle=p=>Math.atan2(.44*(p.u+p.v-820),(p.u-p.v)*Math.cos(Math.PI/6));
+      const startAngle=angle(start),perimeter=select('.building,.vegetation,.prop').map(el=>{
+        const[u,v]=el.dataset.ground.split(' ').map(Number),clockwise=(angle({u,v})-startAngle+Math.PI*2)%(Math.PI*2);
+        return{el,clockwise};
+      }).sort((a,b)=>a.clockwise-b.clockwise);
+      perimeter.forEach(({el,clockwise},i)=>{
+        const kind=el.matches('.building')?'building':el.dataset.obj==='park-sign'?'sign':el.dataset.obj.startsWith('flowers-')?'detail':'environment';
+        const at=WORLD+.18+i*.085;pop(el,kind,at,.88);el.dataset.revealOrder=String(i);
+        entries.at(-1).clockwise=clockwise;entries.at(-1).perimeterOrder=i;
+        master.call(()=>trace('PERIMETER_OBJECT_REVEAL',{name:el.dataset.obj,order:i,clockwise}),null,at);
+      });
+    }
+    function animateMascotEntry(){
+      const START=master.duration();
+      select('.character').forEach((el,i)=>pop(el,'character',START+i*.06));
+      const at=START+.18;
+      master.fromTo(mascot,{opacity:0,y:25,scale:.9,svgOrigin:mascot.dataset.origin,smoothOrigin:false,force3D:false},
+          {opacity:1,y:-4,scale:1.015,duration:.26,ease:'power2.out',immediateRender:false},at)
+        .to(mascot,{y:0,scale:1,duration:.16,ease:'power2.inOut'},at+.26);
+      record(mascot,'mascot',at,.42);
+    }
+    function stopGlowTween(glow){glowTweens.get(glow)?.kill();glowTweens.delete(glow);}
+    function deactivateTile(){
+      if(!activeTile)return;
+      const{tile,glow}=activeTile;activeTile=null;tile.removeAttribute('data-mascot-active');stopGlowTween(glow);
+      const tween=gsap.to(glow,{opacity:0,scale:1,duration:.24,ease:'power2.out',id:'poet-tile-release',onComplete(){if(glowTweens.get(glow)===tween)glowTweens.delete(glow);}});
+      glowTweens.set(glow,tween);
+    }
+    function activateTile(order){
+      if(destroyed||!resolved||reduceMotion())return;
+      deactivateTile();
+      const tile=tileByOrder.get(order),glow=tile?.querySelector('.tile-activation');if(!glow)return;
+      stopGlowTween(glow);svgOrigin(glow);activeTile={order,tile,glow};tile.dataset.mascotActive='true';
+      const pulse=gsap.timeline({id:'poet-tile-activation',onComplete(){if(glowTweens.get(glow)===pulse)glowTweens.delete(glow);}});
+      pulse.to(glow,{opacity:1,scale:1.035,duration:.12,ease:'power2.out'})
+        .to(glow,{opacity:.8,scale:1,duration:.16,ease:'sine.inOut'});
+      glowTweens.set(glow,pulse);trace('TILE_ACTIVATED',{order});
+    }
+    function resetTileActivation(){
+      const touched=new Set([...glowTweens.keys(),activeTile?.glow].filter(Boolean));
+      glowTweens.forEach(tween=>tween.kill());glowTweens.clear();
+      touched.forEach(glow=>gsap.set(glow,{opacity:0,scale:1}));
+      activeTile?.tile.removeAttribute('data-mascot-active');activeTile=null;
+    }
+    function startMascotPathLoop(){
+      if(pathLoop||!route)return;
+      const first=routeStops[0];
+      function sortMascotDepth(){
+        const depth=first.u+first.v+Number(gsap.getProperty(mascot,'y'))/.44;
+        const next=depthObjects.find(el=>+el.dataset.depth>depth)||null;
+        if(mascot.nextElementSibling!==next)world.insertBefore(mascot,next);
+      }
+      pathLoop=gsap.timeline({paused:true,repeat:-1,id:'poet-mascot-path',onRepeat:()=>trace('MASCOT_ROUTE_LOOP')});
+      // The entry landing also belongs to a tile, before the first short route hold.
+      activateTile(first.order);
+      const tileHold=order=>order%8===0?.34:.18;
+      let at=tileHold(first.order);
+      routeStops.forEach((from,i)=>{
+        const to=routeStops[(i+1)%routeStops.length],duration=Math.max(.48,Math.min(.68,Math.hypot(to.x-from.x,to.y-from.y)/100));
+        from.departure=at;from.travelDuration=duration;from.hold=tileHold(from.order);
+        pathLoop.to(mascot,{x:to.x-first.x,y:to.y-first.y,duration,ease:'sine.inOut',onStart(){deactivateTile();mascot.dataset.nextTile=String(to.order);},onUpdate:sortMascotDepth,onComplete(){
+          mascot.dataset.currentTile=String(to.order);delete mascot.dataset.nextTile;
+          activateTile(to.order);
+          trace('MASCOT_TILE_STOP',{order:to.order,x:to.x,y:to.y});
+        }},at);
+        // Two small upright strides; a tiny preparation only at the longer corner rests.
+        if(from.order%8===0)pathLoop.fromTo(mascotBody,{scaleX:1,scaleY:1},{scaleX:1.008,scaleY:.985,duration:.045,repeat:1,yoyo:true,ease:'sine.inOut',immediateRender:false},at-.09);
+        pathLoop.fromTo(mascotBody,{x:0,y:0},{x:i%2?.45:-.45,y:i%2?-2.8:-3.4,duration:duration/4,repeat:3,yoyo:true,ease:'sine.inOut',immediateRender:false},at);
+        at+=duration+tileHold(to.order);
+      });
+      // The next cycle's opening hold is the rest on the starting corner; no duplicate tail.
+      ambientTimelines.push(pathLoop);
+    }
+    function startWind(){
+      const paths=['M-70 180C250 55 435 170 650 90S1160 165 1590 45','M-100 540C180 620 300 500 520 610S1160 710 1620 650','M-80 340C160 190 300 300 520 245S1060 300 1600 170','M-100 720C240 590 420 810 720 735S1230 800 1640 610'];
+      leaves.forEach((el,i)=>{
+        const leafScale=(.9+i*.12)*1.2,duration=12+i*1.7,tl=gsap.timeline({paused:true,repeat:-1,repeatDelay:4+i*1.3,delay:i*3.4,id:'poet-wind-'+i});
+        tl.to(el,{duration,motionPath:{path:paths[i],autoRotate:false},ease:'none'},0)
+          .fromTo(el,{opacity:0},{opacity:i<2?.3:.42,duration:1.4,ease:'sine.inOut',immediateRender:false},0)
+          .to(el,{opacity:0,duration:1.5,ease:'sine.inOut'},duration-1.5)
+          .fromTo(el.querySelector('.leaf-shape'),{rotation:-35,scale:leafScale,svgOrigin:'0 0'},{rotation:70+i*12,scale:leafScale,duration,ease:'sine.inOut',immediateRender:false},0);
+        ambientTimelines.push(tl);
+      });
+    }
+    function stopDrift(){
+      pointerSettle?.kill();pointerSettle=null;
+      driftX?.tween.kill();driftY?.tween.kill();driftX=driftY=null;
+      gsap.set(world,{x:0,y:0});
+    }
+    function showStaticCue(){
+      if(!cue)return;
+      gsap.set(cue,{opacity:1});gsap.set(cuePaths,{strokeDasharray:'none',strokeDashoffset:0});
+    }
+    function startDestinationCue(){
+      if(!cue||cueTimeline)return;
+      if(reduceMotion())return showStaticCue();
+      cuePaths.forEach(path=>{const length=path.getTotalLength();gsap.set(path,{strokeDasharray:length,strokeDashoffset:length});});
+      cueTimeline=gsap.timeline({paused:true,delay:.3,id:'poet-destination-cue',onStart:()=>trace('JOIN_JOY_ARROW_STARTED'),onComplete:()=>trace('JOIN_JOY_ARROW_COMPLETE')});
+      cueTimeline.set(cue,{opacity:1},0).to(cuePaths[0],{strokeDashoffset:0,duration:.85,ease:'power1.inOut'},0)
+        .to(cuePaths[1],{strokeDashoffset:0,duration:.25,ease:'power2.out'},.8);
+      syncMotion();
+    }
+    function resetDestination(){
+      cueTimeline?.kill();cueTimeline=null;hoverTween?.kill();hoverTween=null;
+      joinLink?.classList.remove('is-engaged');
+      if(joinHover)gsap.set(joinHover,{scale:1});
+      if(cue)gsap.set(cue,{opacity:0});
+    }
+    function updateJoinInteraction(instant=false){
+      const engaged=resolved&&(joinHovered||joinFocused);
+      joinLink?.classList.toggle('is-engaged',engaged);hoverTween?.kill();hoverTween=null;
+      if(!joinHover)return;
+      svgOrigin(joinHover);
+      const scale=engaged&&!reduceMotion()?1.12:1;
+      if(instant||reduceMotion()){gsap.set(joinHover,{scale});return;}
+      hoverTween=gsap.to(joinHover,{scale,duration:engaged&&joinHovered?.46:.28,ease:engaged&&joinHovered?'back.out(4.5)':'power2.out',overwrite:true});
+    }
+    function startDrift(){
+      if(driftX||!finePointer.matches)return;
+      driftX=gsap.quickTo(world,'x',{duration:.45,ease:'power3.out'});
+      driftY=gsap.quickTo(world,'y',{duration:.45,ease:'power3.out'});
+      pointerSettle=gsap.delayedCall(.7,()=>{driftX?.(0);driftY?.(0);}).pause();
+    }
+    function startAmbientMotion(){
+      if(destroyed||reduceMotion()||ambientTimelines.length)return syncMotion();
+      pivots.forEach(svgOrigin);
+      if(floating){
+        const idle=gsap.timeline({paused:true,repeat:-1,id:'poet-board-float'});
+        idle.to(floating,{x:1.1,y:-2.2,duration:3.2,ease:'sine.inOut'})
+          .to(floating,{x:-1.1,y:1.6,duration:6.4,ease:'sine.inOut'})
+          .to(floating,{x:0,y:0,duration:3.2,ease:'sine.inOut'});
+        ambientTimelines.push(idle);
+      }
+      const swing=gsap.timeline({paused:true,repeat:-1,repeatDelay:2.2,id:'poet-swing'});
+      swing.to(q('.swing-seat'),{rotation:-2,duration:.9,ease:'sine.inOut'})
+        .to(q('.swing-seat'),{rotation:2,duration:1.8,ease:'sine.inOut'})
+        .to(q('.swing-seat'),{rotation:0,duration:.9,ease:'sine.inOut'});
+      ambientTimelines.push(swing);
+      const seesaw=gsap.timeline({paused:true,repeat:-1,repeatDelay:5.5,delay:2.5,id:'poet-seesaw'});
+      seesaw.to(q('.seesaw-plank'),{rotation:-2,duration:.85,ease:'sine.inOut'})
+        .to(q('.seesaw-plank'),{rotation:0,duration:.85,ease:'sine.inOut'},'+=1');
+      ambientTimelines.push(seesaw);
+      select('.flower-sway').forEach((el,i)=>{
+        const tl=gsap.timeline({paused:true,repeat:-1,repeatDelay:3+i*.5,delay:1.2+i*1.1,id:'poet-flower-'+i});
+        tl.to(el,{rotation:1.2,duration:.8,ease:'sine.inOut'}).to(el,{rotation:-1.2,duration:1.6,ease:'sine.inOut'}).to(el,{rotation:0,duration:.8,ease:'sine.inOut'});
+        ambientTimelines.push(tl);
+      });
+      select('.character .character-body').forEach((el,i)=>{
+        const tl=gsap.timeline({paused:true,repeat:-1,repeatDelay:5.8+i*.9,delay:3+i,id:'poet-idle-'+i});
+        tl.to(el,{y:-1.5,duration:.32,ease:'sine.inOut'}).to(el,{y:0,duration:.32,ease:'sine.inOut'});
+        ambientTimelines.push(tl);
+      });
+      startMascotPathLoop();startWind();syncMotion();
+    }
+    function stopAmbientMotion(){
+      ambientTimelines.forEach(tl=>tl.kill());ambientTimelines.length=0;pathLoop=null;
+      resetTileActivation();
+      stopDrift();gsap.set([...pivots,mascot],{x:0,y:0,rotation:0,scale:1});gsap.set(leaves,{opacity:0});
+      if(floating)gsap.set(floating,{x:0,y:0});
+      world.insertBefore(mascot,mascotNext);mascot.dataset.currentTile=String(routeStops[0].order);delete mascot.dataset.nextTile;
+    }
+    function syncMotion(){
+      if(destroyed)return;
+      const paused=userPaused||!onScreen||document.hidden||pageSuspended||reduceMotion()||Boolean(handoff);
+      if(handoff?.timeline)(document.hidden||pageSuspended)?handoff.timeline.pause():handoff.timeline.resume();
+      ambientTimelines.forEach(tl=>paused?tl.pause():tl.resume());
+      glowTweens.forEach(tween=>paused?tween.pause():tween.resume());
+      if(paused||!resolved||!finePointer.matches){if(driftX)stopDrift();}else startDrift();
+      const entrancePaused=userPaused||!onScreen||document.hidden||pageSuspended;
+      if(master&&!resolved)entrancePaused?master.pause():master.resume();
+      if(cueTimeline)paused?cueTimeline.pause():cueTimeline.resume();
+      if(master&&!resolved&&!entrancePaused&&!playingReported){playingReported=true;trace('HERO_TIMELINE_PLAYING',{onScreen,pageSuspended});}
+      if(entrancePaused)playingReported=false;
+      root.dataset.worldMotion=paused?'paused':'playing';
+      toggle.hidden=reduceMotion()||!resolved;
+      toggle.setAttribute('aria-pressed',String(userPaused));
+      toggle.setAttribute('aria-label',userPaused?'Tiếp tục chuyển động':'Tạm dừng chuyển động');
+    }
+    function completeHero(){
+      if(resolved||destroyed)return;resolved=true;notifyIntroComplete();
+      hero.classList.remove('world-building');
+      if(introScene)gsap.set(introScene,{autoAlpha:0});
+      if(joinLink){joinLink.setAttribute('tabindex','0');joinLink.removeAttribute('aria-disabled');}
+      updateJoinInteraction(true);
+      if(mark)gsap.set(mark,{opacity:0});root.classList.remove('intro-pending');
+      phase(reduceMotion()?'reduced':'alive');startAmbientMotion();
+      trace(master?'HERO_TIMELINE_COMPLETE':'HERO_STATIC',{reason:reduceMotion()?'prefers-reduced-motion':'master-complete',element:debug?.elementState(tiles[0])});
+      hero.dispatchEvent(new CustomEvent('poet:hero-ready',{bubbles:true}));
+      startDestinationCue();
+    }
+    function finish(){
+      if(destroyed||resolved)return;
+      if(master)master.totalProgress(1,false).pause();
+      completeHero();
+    }
+    function respectReducedMotion(){
+      if(reduceMotion())handoff?.finish();
+      if(reduceMotion()){finish();stopAmbientMotion();resetDestination();showStaticCue();phase('reduced');updateJoinInteraction(true);}
+      else if(resolved){phase('alive');startAmbientMotion();}
+      syncMotion();
+    }
+    function stopHeroAnimation(){
+      if(destroyed)return;destroyed=true;
+      handoff?.cancel();
+      events.abort();observer?.disconnect();master?.kill();
+      resetDestination();introScene?.setAttribute('aria-hidden','true');
+      stopAmbientMotion();
+      for(const[el,values]of snapshots){
+        for(const[attr,value]of[['style',values.style],['transform',values.transform],['data-svg-origin',values.svgOrigin]])value===null?el.removeAttribute(attr):el.setAttribute(attr,value);
+        if(el._gsap)el._gsap.uncache=1;
+      }
+      if(slot)slot.style.visibility=slotVisibility;
+      world.insertBefore(mascot,mascotNext);mascot.dataset.currentTile=String(routeStops[0].order);delete mascot.dataset.nextTile;
+      root.classList.remove('intro-pending');hero.classList.remove('world-building');toggle.hidden=true;phase('stopped');
+    }
+    // Edge contact alone counts as isIntersecting at a deep-link scroll position.
+    // Require visible area so the entrance cannot run just outside the viewport.
+    const observer='IntersectionObserver'in window?new IntersectionObserver(([entry])=>{onScreen=entry.isIntersecting&&entry.intersectionRatio>=.01;syncMotion();},{threshold:.01}):null;
+    async function initialize(){
+      if(slot)slot.style.visibility='visible';
+      phase('loading');
+      trace('HERO_INITIALIZED',{tileCount:tiles.length,worldObjectCount:groups.filter(el=>!el.matches('.tile,.board')).length});
+      // Let the real hero assets and initial SVG paint settle before timed choreography.
+      // This prevents first-image decoding/layout from competing with the falling pieces.
+      const urls=[...new Set([...select('image').map(el=>el.getAttribute('href')),...select('img').map(el=>el.currentSrc||el.src)])];
+      await Promise.allSettled(urls.map(src=>{const image=new Image();image.src=src;return image.decode();}));
+      await document.fonts.load('24px "Cool Crayon"').catch(()=>{});
+      await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
+      if(destroyed||resolved)return;
+      // A deep link/restored scroll may skip the greeting, never construction.
+      // Offscreen/hidden pages keep this one prepared timeline paused until visible.
+      const skipIntro=!introScene||(!forceIntro&&(location.hash||scrollY>4));
+      prepareHeroAnimation();phase('ready');
+      master=gsap.timeline({paused:true,id:'poet-hero-master',onComplete:completeHero});
+      if(reduceMotion()){
+        hero.classList.remove('world-building');
+        const intro=skipIntro?null:createIntro(true);INTRO=intro?.duration()||0;
+        if(intro)master.call(()=>phase('intro'),null,0).add(intro,0);else return completeHero();
+        trace('HERO_TIMELINE_CREATED',{duration:master.duration(),introDuration:INTRO,reducedVersion:true});
+        syncMotion();return;
+      }
+      const intro=skipIntro?null:createIntro();INTRO=intro?.labels['world-open']??intro?.duration()??0;
+      if(intro){
+        master.addLabel('intro',0).call(()=>phase('intro'),null,0).add(intro,0);
+      }else{
+        gsap.set(mark,{opacity:0});notifyIntroComplete();
+      }
+      master.addLabel('tiles',INTRO);
+      animateTileAssembly();animateWorldReveal();animateMascotEntry();
+      for(const[name,kind]of[['tiles','tile'],['board','board'],['playground','equipment'],['buildings','building'],['environment','environment'],['sign','sign'],['details','detail'],['mascots','character']]){
+        const times=entries.filter(entry=>entry.kind===kind).map(entry=>entry.start);
+        if(!times.length)continue;
+        const time=Math.min(...times);
+        master.addLabel(name,time).call(()=>phase(name),null,time);
+      }
+      master.addLabel('alive',master.duration());
+      trace('HERO_TIMELINE_CREATED',{duration:master.duration(),introDuration:INTRO,element:debug?.elementState(tiles[0])});
+      trace('TILE_TRANSFORM_BEFORE',{element:debug?.elementState(tiles[0])});
+      syncMotion();
+    }
+    toggle.addEventListener('click',()=>{userPaused=!userPaused;syncMotion();},{signal:events.signal});
+    joinLink?.addEventListener('pointerenter',event=>{
+      if(!resolved||!finePointer.matches||event.pointerType==='touch')return;
+      joinHovered=true;updateJoinInteraction();
+    },{signal:events.signal});
+    joinLink?.addEventListener('pointerleave',()=>{joinHovered=false;updateJoinInteraction();},{signal:events.signal});
+    joinLink?.addEventListener('focusin',()=>{joinFocused=true;updateJoinInteraction(true);},{signal:events.signal});
+    joinLink?.addEventListener('focusout',()=>{joinFocused=false;updateJoinInteraction();},{signal:events.signal});
+    function transitionToActivities({keyboard=false,source='click'}={}){
+      if(handoff)return;
+      const target=document.getElementById('hoat-dong')||document.getElementById('noi-dung');if(!target)return;
+      const navigate=()=>{
+        history.replaceState(null,'','#noi-dung');
+        target.scrollIntoView({behavior:'instant',block:'start'});
+        if(source!=='scroll'){
+          const heading=target.querySelector('h2');heading?.setAttribute('tabindex','-1');heading?.focus({preventScroll:true});
+        }
+      };
+      if(reduceMotion()||keyboard){navigate();return;}
+      const stage=q('.stage'),stageStyle=stage?.getAttribute('style');
+      const overlay=document.createElement('div');overlay.className='hero-join-wave';overlay.setAttribute('aria-hidden','true');
+      // A single flat SVG with two curved edges: no blur, raster capture, or
+      // distortion of the illustration. Equal path commands allow fluid morphs.
+      const waveA='M0 170 C240 30 480 270 720 145 C960 20 1200 230 1440 110 L1440 1110 C1200 970 960 1190 720 1065 C480 940 240 1150 0 1010 Z';
+      const waveB='M0 110 C240 250 480 10 720 135 C960 260 1200 50 1440 170 L1440 1010 C1200 1150 960 930 720 1055 C480 1180 240 970 0 1110 Z';
+      overlay.innerHTML=`<svg viewBox="0 0 1440 1200" preserveAspectRatio="none" focusable="false"><path d="${waveA}"/></svg>`;
+      document.body.append(overlay);const wave=overlay.querySelector('path');
+      const block=event=>event.preventDefault();overlay.addEventListener('wheel',block,{passive:false});overlay.addEventListener('touchmove',block,{passive:false});
+      let finished=false,navigated=false;
+      const announce=phase=>document.dispatchEvent(new CustomEvent('poet:hero-handoff',{detail:{phase,source}}));
+      const restore=()=>{
+        if(finished)return;finished=true;
+        handoff?.timeline?.kill();overlay.remove();
+        if(stage){stageStyle===null?stage.removeAttribute('style'):stage.setAttribute('style',stageStyle);if(stage._gsap)stage._gsap.uncache=1;}
+        document.removeEventListener('keydown',escape);handoff=null;delete root.dataset.heroTransition;announce('complete');syncMotion();
+      };
+      const land=()=>{if(navigated)return;navigated=true;navigate();root.dataset.heroTransition='reveal';};
+      const finish=()=>{land();restore();};
+      const escape=event=>{if(event.key==='Escape'){event.preventDefault();finish();}};
+      handoff={timeline:null,finish,cancel:restore};root.dataset.heroTransition='anticipation';announce('start');syncMotion();
+      document.addEventListener('keydown',escape);
+      const tl=gsap.timeline({id:'poet-join-wave',onComplete:restore});handoff.timeline=tl;
+      gsap.set(overlay,{y:innerHeight,force3D:true});
+      if(stage){
+        gsap.set(stage,{transformOrigin:'50% 72%',force3D:true});
+        tl.to(stage,{y:22,scaleX:1.015,scaleY:.975,duration:.24,ease:'sine.inOut'},0)
+          .to(stage,{y:-innerHeight*1.12,scaleX:.99,scaleY:1.025,duration:.72,ease:'power3.inOut'},.24);
+      }
+      tl.call(()=>{root.dataset.heroTransition='launch';},null,.24)
+        .to(overlay,{y:-innerHeight*.3,duration:.68,ease:'power3.inOut'},.2)
+        .to(wave,{attr:{d:waveB},duration:.68,ease:'sine.inOut'},.2)
+        .call(land,null,.88)
+        .to(overlay,{y:-innerHeight*1.9,duration:.65,ease:'power3.inOut'},.9)
+        .to(wave,{attr:{d:waveA},duration:.65,ease:'sine.inOut'},.9);
+    }
+    joinLink?.addEventListener('click',event=>{
+      if(!resolved){event.preventDefault();return;}
+      if(root.classList.contains('hero-only')){event.preventDefault();return;}
+      event.preventDefault();transitionToActivities({keyboard:event.detail===0});
+    },{signal:events.signal});
+    // Intercept only a downward wheel gesture while the completed Hero still
+    // occupies most of the viewport. Other sections keep their native scrolling.
+    addEventListener('wheel',event=>{
+      if(event.defaultPrevented||event.ctrlKey||event.metaKey||!event.cancelable||Math.abs(event.deltaX)>=Math.abs(event.deltaY))return;
+      // Also cover the anticipation beat, before the curtain enters the viewport.
+      if(handoff){event.preventDefault();return;}
+      if(event.deltaY<=0||!resolved||destroyed||reduceMotion()||root.classList.contains('hero-only')||!document.getElementById('hoat-dong'))return;
+      if(document.querySelector('.site-dialog[open],.site-nav.is-open'))return;
+      if(event.target instanceof Element&&event.target.closest('input,textarea,select,dialog,.hero-runtime-debug'))return;
+      const bounds=hero.getBoundingClientRect();
+      if(bounds.top>8||bounds.bottom<innerHeight*.65)return;
+      event.preventDefault();transitionToActivities({source:'scroll'});
+    },{passive:false,signal:events.signal});
+    hero.addEventListener('pointermove',event=>{if(!driftX||event.pointerType==='touch')return;driftX((event.clientX/innerWidth-.5)*10);driftY((event.clientY/innerHeight-.5)*7);pointerSettle?.restart(true);},{passive:true,signal:events.signal});
+    hero.addEventListener('pointerleave',()=>{pointerSettle?.pause();driftX?.(0);driftY?.(0);},{signal:events.signal});
+    finePointer.addEventListener('change',()=>{if(!finePointer.matches)joinHovered=false;updateJoinInteraction(true);syncMotion();},{signal:events.signal});
+    document.addEventListener('visibilitychange',syncMotion,{signal:events.signal});
+    reduced.addEventListener('change',respectReducedMotion,{signal:events.signal});
+    addEventListener('pagehide',event=>{if(event.persisted){pageSuspended=true;syncMotion();}else stopHeroAnimation();},{signal:events.signal});
+    addEventListener('pageshow',()=>{pageSuspended=false;syncMotion();},{signal:events.signal});
+    document.addEventListener('freeze',()=>{pageSuspended=true;syncMotion();},{signal:events.signal});
+    document.addEventListener('resume',()=>{pageSuspended=false;syncMotion();},{signal:events.signal});
+    // Input never fast-forwards assembly. Only the completed Hero has a wheel handoff.
+    if(!observer){const rect=hero.getBoundingClientRect();onScreen=rect.bottom>0&&rect.top<innerHeight;addEventListener('scroll',()=>{const rect=hero.getBoundingClientRect();onScreen=rect.bottom>0&&rect.top<innerHeight;syncMotion();},{passive:true,signal:events.signal});}
+    initialize().catch(error=>{stopHeroAnimation();root.dataset.worldState='fallback';console.error('POET hero animation:',error);});observer?.observe(hero);
+    return{
+      engine:'gsap',version:gsap.version,entries,phaseEvents,introFinished,finish,routeStops,destroy:stopHeroAnimation,
+      get masterTimeline(){return master;},get ambientTimelines(){return ambientTimelines;},get pathTimeline(){return pathLoop;},get state(){return root.dataset.worldState;},
+      get cueTimeline(){return cueTimeline;},
+      get activeTileOrder(){return activeTile?.order??null;},get tileGlowCount(){return glowTweens.size;},
+      replay(){debug?.cancelTest();stopHeroAnimation();root.classList.add('intro-pending');return window.POETWorld=createHeroController(true);},
+      seek(time){
+        if(!master||destroyed)return;
+        master.pause().totalTime(0,true);stopAmbientMotion();resolved=false;introNotified=false;
+        prepareHeroAnimation();master.invalidate().totalTime(time,false);
+        if(time>=INTRO)gsap.set(mark,{opacity:0});
+        if(resolved)ambientTimelines.forEach(t=>t.pause());
+      },
+    };
+  }
+  window.POETWorld=createHeroController();
+
+  // Explicit development mode only; normal localhost previews have no debug UI.
+  if(localPreview&&query.get('heroDebug')==='1'){
+    const replay=document.createElement('button');
+    replay.type='button';replay.className='hero-replay-debug';replay.textContent='Replay Hero';
+    replay.addEventListener('click',()=>{
+      window.scrollTo({top:0,left:0,behavior:'instant'});
+      debug?.enableMotionPreview();
+      window.POETWorld.replay();
+    });
+    document.body.append(replay);
+  }
+})();
