@@ -65,6 +65,18 @@ if('IntersectionObserver'in window&&(!reduced.matches||previewMotion)){
   reveals.forEach(el=>{el.classList.add('will-reveal');(el.closest('.archive-grid')?late:io).observe(el);});
   reduced.addEventListener('change',e=>{if(e.matches&&!previewMotion){document.documentElement.classList.remove('reveal-motion');reveals.forEach(el=>el.classList.add('is-revealed'));io.disconnect();late.disconnect();}});
 }
+// Mission cards: rise in once at 25% visibility; hover, focus or click opens a card and it stays open.
+const missionSection=document.querySelector('[data-mission]');
+if(missionSection){
+  const cards=[...missionSection.querySelectorAll('.mission-card')];
+  missionSection.classList.add('is-interactive');
+  cards.forEach(card=>['pointerenter','focus','click'].forEach(type=>card.addEventListener(type,()=>card.classList.add('is-open'))));
+  if(document.documentElement.classList.contains('reveal-motion')){
+    missionSection.classList.add('will-enter');
+    const io=new IntersectionObserver(([entry],observer)=>{if(entry.isIntersecting){missionSection.classList.add('is-in');observer.disconnect();}},{threshold:.25});
+    io.observe(missionSection);
+  }
+}
 const counters=document.querySelectorAll('[data-counter]');
 if('IntersectionObserver'in window){
   const io=new IntersectionObserver(entries=>entries.forEach(entry=>{

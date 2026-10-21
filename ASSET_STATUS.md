@@ -1,5 +1,17 @@
 # Asset status
 
+## Mission card photographs — About “Sứ mệnh của POET” (21 October 2026)
+
+The user supplied three POET activity photographs in chat for the three mission cards. They were visually checked and classified as authentic POET photographs (each carries the POET watermark). Sources are not stored in the repository; derivatives are proportional 1280/640px WebP (quality .82), recorded in `assets/editorial/manifest.json`.
+
+| Derivative prefix | Source (sha256) | Classification / use |
+| --- | --- | --- |
+| `mission-children` | 12.jpg, 2048×1365 (`a5c70b34812d4b58aee49e6687a52a65ed8b81b356427578d93b80e1a5175f5f`) | Children at a POET activity; mission 01 “Cho các em” |
+| `mission-volunteers` | 13.jpg, 6000×4000 (`632ebd31cf40a0afb1860b8ae2251ec288fcc8f6840f65384630d2492c30a42a`) | Volunteers’ hands exchanging handmade cards; mission 02 “Cho tình nguyện viên” |
+| `mission-community` | 14.jpg, 6000×4000 (`0efea8c9bdd28993aadfe1328f4c27c65cc36bd3774eca130e76dd2e426e70c6`) | POET members group photo in “(dân) YOUNG (chơi) JOY” shirts; mission 03 “Cho cộng đồng” |
+
+Location, date and season of these photographs were not supplied; captions do not assert them.
+
 ## Suaserif Bold — Hero-only exception (UI-001, 21 October 2026)
 
 The user approved Suaserif Bold for exactly two Hero uses: the Intro greeting lines (“Hành trình niềm vui bắt đầu”, “Đan tay cùng bước, có nhau là nhà”) and lettering on the playground board (“Have fun”, “Big Joy Little Joy”, “Young Joy Collection”, “POET Community”). All other site text remains Product Sans; the global typography system below is unchanged.

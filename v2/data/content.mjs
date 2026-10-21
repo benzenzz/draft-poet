@@ -74,6 +74,16 @@ export const projectStories = highlights.map(item=>({...item,season:'Mùa 5',sta
 export const impact = [ // Season 5 only, dossier p4; never cumulative totals.
   [42200000,'đồng gây quỹ'],[35,'thành viên'],[30,'người thụ hưởng'],[5,'nguồn lực đồng hành']
 ];
+// About “Sứ mệnh của POET”: card copy approved in the ABOUT-002 brief/prototype; photos user-supplied (ASSET_STATUS.md).
+export const mission = {
+  eyebrow:'Điều chúng mình theo đuổi',title:'Sứ mệnh của POET',
+  items:[
+    {number:'01',audience:'Cho các em',tone:'coral',title:'Học đủ đầy, cả vật chất lẫn tinh thần',points:['Sửa chữa, bổ sung cơ sở vật chất thiết yếu cho trường','Tặng dụng cụ học tập, xe đạp cho học sinh khó khăn','Hoạt động “học là chơi, chơi là học” để các em vui và hiểu mình hơn'],image:'mission-children',position:'50% 38%',alt:'Các em nhỏ cười, giơ tay hình chữ V trong một hoạt động của POET.'},
+    {number:'02',audience:'Cho tình nguyện viên',tone:'green',title:'Sân chơi để học hỏi và lớn lên',text:'Được định hướng rõ, giao việc đúng thế mạnh và đủ nguồn lực, để vừa làm tốt vừa học thêm qua mỗi chuyến đi.',image:'mission-volunteers',position:'50% 50%',alt:'Tay các tình nguyện viên POET cùng cầm những tấm thiệp giấy kraft vẽ tay trên bàn.'},
+    {number:'03',audience:'Cho cộng đồng',tone:'blue',title:'Lan toả giá trị tích cực',text:'Chỉn chu, công khai, minh bạch và kết nối mọi người cùng góp sức.',image:'mission-community',position:'50% 30%',alt:'Ảnh tập thể thành viên POET mặc áo “(dân) YOUNG (chơi) JOY”, cùng làm hình trái tim bằng tay.'}
+  ]
+};
+
 export const media = [ // Original titles/dates from the URLs explicitly supplied by Flow.
   {publication:'Tiền Phong',date:'2022-07-19',title:'Bạn trẻ gấp sao, hưởng ứng đêm nhạc ‘chữa lành’ gây quỹ thiện nguyện',description:'Bài viết về đêm nhạc “Vết Nứt” và hoạt động gấp sao gây quỹ của POET.',url:'https://tienphong.vn/ban-tre-gap-sao-huong-ung-dem-nhac-chua-lanh-gay-quy-thien-nguyen-post1454826.tpo'},
   {publication:'Tiền Phong',date:'2022-12-17',title:'Sáng tạo để lan tỏa nhiệt huyết tận hiến',description:'Câu chuyện về cách các bạn trẻ thiết kế những hoạt động cộng đồng, trong đó có POET.',url:'https://tienphong.vn/sang-tao-de-lan-toa-nhiet-huyet-tan-hien-post1494246.tpo'},

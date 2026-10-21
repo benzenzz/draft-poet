@@ -218,10 +218,6 @@ poet-nav.site-nav{display:block;position:sticky;top:0;z-index:50;height:80px;bac
 /* About. */
 .about-head>.image-frame{margin-top:68px}
 .about-head>.image-frame img{aspect-ratio:2.2;object-position:50% 52%;border-radius:40px 40px 100px 40px}
-.mission-list{border-top:1px solid var(--poet-border)}
-.mission-list article{display:grid;grid-template-columns:.2fr 1.05fr 1fr;gap:40px;border-bottom:1px solid var(--poet-border);padding:40px 0}
-.mission-list article>span{font-size:var(--font-size-body);color:var(--poet-green-dark)}
-.mission-list article>p{margin:0;color:var(--poet-muted);font-size:var(--font-size-body)}
 .impact-section{background:#e0ece2}
 .impact-grid{display:grid;grid-template-columns:1.7fr 1fr 1fr 1fr;gap:28px;margin:60px 0 0}
 .impact-grid>div{border-left:1px solid #aabdad;padding-left:25px;min-width:0}
@@ -714,6 +710,47 @@ html.reveal-motion .site-content .about-hero-copy h1{animation:about-title-in 80
 .about-intro-photo img{width:100%;height:100%;object-fit:cover;object-position:50% 35%;border-radius:var(--radius-card)}
 @media(max-width:900px){.about-introduction{grid-template-columns:1fr;gap:32px;padding-block:48px}.about-intro-copy{max-width:none}.about-intro-photo{min-height:0}.about-intro-photo img{height:auto;aspect-ratio:4/3}}
 @media(max-width:600px){.about-introduction{padding:40px 22px}.site-content .about-introduction h2{font-size:30px}.about-introduction p{font-size:16px}.about-introduction .about-intro-tagline{font-size:19px}}
+/* Sứ mệnh của POET: three bars; the photo cover shrinks to 46% on the right to reveal the copy. */
+.mission-section{--mission-ease:cubic-bezier(.65,0,.35,1);--mission-panel:color-mix(in srgb,var(--poet-cream) 90%,var(--poet-yellow))}
+.mission-stack{display:flex;flex-direction:column;gap:16px}
+.mission-card{--tone:var(--coral);position:relative;height:208px;border-radius:14px;overflow:hidden;background:var(--mission-panel);outline-offset:3px;cursor:pointer}
+.mission-card--green{--tone:var(--poet-green)}.mission-card--blue{--tone:var(--poet-blue)}
+.mission-card:focus-visible{outline:3px solid var(--poet-ink)}
+.mission-content{position:absolute;inset:0 auto 0 0;width:54%;padding:24px 28px;display:flex;flex-direction:column;justify-content:center;gap:8px}
+.mission-tag{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:var(--font-weight-bold);color:var(--poet-ink)}
+.mission-tag::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--tone)}
+.site-content .mission-content h3{margin:0;font-size:18px;line-height:1.3;letter-spacing:0;color:var(--poet-ink)}
+.mission-content :is(p,ul){margin:0;font-size:14.5px;line-height:1.55;color:var(--poet-muted)}
+.mission-content ul{padding-left:18px}.mission-content li+li{margin-top:2px}
+.mission-cover{position:absolute;top:0;right:0;bottom:0;width:46%;overflow:hidden;border-radius:14px;background:var(--tone)}
+.mission-cover img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+/* Brand tint plus a soft dark band behind the label keeps the white title readable on any photo. */
+.mission-cover::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgb(0 0 0 / 55%),rgb(0 0 0 / 30%) 45%,rgb(0 0 0 / 8%) 80%),color-mix(in srgb,var(--tone) 35%,transparent)}
+.mission-cover-label{position:absolute;z-index:1;left:24px;top:50%;display:flex;flex-direction:column;gap:4px;color:#fff;transform:translateY(-50%) scale(.72);transform-origin:left center}
+.mission-cover-label span{font-size:13px;font-weight:var(--font-weight-bold);opacity:.9}
+.mission-cover-label b{font-size:clamp(24px,3vw,34px);line-height:1.1;white-space:nowrap}
+/* Closed state only once site.js marks the stack interactive; without JS every card stays open and readable. */
+@media(min-width:761px){
+ .mission-section.is-interactive .mission-card:not(.is-open) .mission-cover{width:100%}
+ .mission-section.is-interactive .mission-card:not(.is-open) .mission-cover-label{left:32px;transform:translateY(-50%)}
+ .mission-section.is-interactive .mission-card:not(.is-open) .mission-content{opacity:0;transform:translateX(-16px)}
+}
+/* !important: local previews keep this motion even under the reduced-motion transition reset. */
+html.reveal-motion .mission-cover{transition:width 760ms var(--mission-ease)!important}
+html.reveal-motion .mission-cover-label{transition:transform 760ms var(--mission-ease),left 760ms var(--mission-ease)!important}
+html.reveal-motion .mission-content{transition:opacity 420ms ease 220ms,transform 520ms var(--mission-ease) 180ms!important}
+html.reveal-motion .mission-section.is-interactive .mission-card:not(.is-open) .mission-content{transition-delay:0ms!important}
+html.reveal-motion .mission-section.will-enter .mission-card{opacity:0;transform:translateY(48px);transition:opacity 700ms var(--mission-ease),transform 700ms var(--mission-ease)!important}
+html.reveal-motion .mission-section.will-enter .mission-card:nth-child(2){transition-delay:140ms!important}
+html.reveal-motion .mission-section.will-enter .mission-card:nth-child(3){transition-delay:280ms!important}
+html.reveal-motion .mission-section.will-enter.is-in .mission-card{opacity:1;transform:none}
+@media(max-width:760px){
+ .mission-card{height:auto;cursor:default;display:flex;flex-direction:column}
+ .mission-cover{order:-1}
+ .mission-cover{position:relative;width:100%;height:132px}
+ .mission-cover-label{left:20px;transform:translateY(-50%)}
+ .mission-content{position:relative;width:100%;padding:18px 20px 22px}
+}
 @media(max-width:359px){.site-nav .site-nav-inner>.btn .prototype-icon{display:inline-block}.site-brand-letters{font-size:30px}}
 
 /* One full-width gradient, clipped at the calculated percentage. Its color

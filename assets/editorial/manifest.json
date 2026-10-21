@@ -54,5 +54,47 @@
     "width": 1280,
     "height": 853,
     "bytes": 122716
+  },
+  {
+    "source": "User-supplied chat attachment 12.jpg (2048x1365, sha256 a5c70b34…5f5f)",
+    "file": "assets/editorial/mission-children-640.webp",
+    "width": 640,
+    "height": 427,
+    "bytes": 47414
+  },
+  {
+    "source": "User-supplied chat attachment 12.jpg (2048x1365, sha256 a5c70b34…5f5f)",
+    "file": "assets/editorial/mission-children-1280.webp",
+    "width": 1280,
+    "height": 853,
+    "bytes": 121688
+  },
+  {
+    "source": "User-supplied chat attachment 13.jpg (6000x4000, sha256 632ebd31…a42a)",
+    "file": "assets/editorial/mission-volunteers-640.webp",
+    "width": 640,
+    "height": 427,
+    "bytes": 37388
+  },
+  {
+    "source": "User-supplied chat attachment 13.jpg (6000x4000, sha256 632ebd31…a42a)",
+    "file": "assets/editorial/mission-volunteers-1280.webp",
+    "width": 1280,
+    "height": 853,
+    "bytes": 96242
+  },
+  {
+    "source": "User-supplied chat attachment 14.jpg (6000x4000, sha256 0efea8c9…0c6)",
+    "file": "assets/editorial/mission-community-640.webp",
+    "width": 640,
+    "height": 427,
+    "bytes": 62062
+  },
+  {
+    "source": "User-supplied chat attachment 14.jpg (6000x4000, sha256 0efea8c9…0c6)",
+    "file": "assets/editorial/mission-community-1280.webp",
+    "width": 1280,
+    "height": 853,
+    "bytes": 168612
   }
 ]
