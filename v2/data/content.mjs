@@ -58,11 +58,13 @@ export const activities = [
 // One project collection powers Home, the completed-project tab and detail routes.
 export const recruitment={open:false,seasonLabel:'Mùa tiếp theo',applicationUrl:null,deadline:null,videos:[]};
 export const departments=['Vận hành','Nhân sự','Truyền thông','Đối ngoại'];
+// Approved previews: POET WEBSITE_ĐẶC BIỆT ĐỌC KĨ.md, image 34.
+// The 42.2m fundraising total belongs to Mùa 5, not to the concert alone.
 export const highlights = [
-  {id:'vet-nut',title:'Đêm nhạc “Vết Nứt”',tag:'Âm nhạc gây quỹ',description:'Một đêm nhạc acoustic tại TP. Hồ Chí Minh, góp sức cải thiện điều kiện học tập tại Mỹ Thạnh Bắc, Long An.',metrics:['2022','Âm nhạc & cộng đồng'],source:'Tiền Phong, 19/07/2022',pending:'Bài viết chi tiết và ảnh chọn lọc đang chờ hoàn thiện.'},
-  {id:'go-ngai',title:'Chuyến đi Gò Ngãi',tag:'Dự án giáo dục · Mùa 5',description:'Hoạt động vui chơi chạy trạm về môi trường và trao tặng vật phẩm học tập tại Trường Tiểu học Mỹ Thạnh Bắc, Long An.',metrics:['42,2 triệu đồng','35 thành viên','30 người thụ hưởng'],source:'Hồ sơ POET, trang 4',pending:'Bài viết chi tiết và ảnh chọn lọc đang chờ hoàn thiện.'}
+  {id:'vet-nut',title:'Đêm nhạc acoustic gây quỹ “Vết Nứt”',tag:'Mùa 5 · TP. Hồ Chí Minh',description:'Với sự tham gia của 120 khán giả và 5 nhà tài trợ, chương trình đã lan tỏa thông điệp tích cực về sức khỏe tinh thần, tạo sân chơi cho các nghệ sĩ trẻ và góp quỹ cải thiện chất lượng học tập tại Trường Tiểu học Mỹ Thạnh Bắc (Đức Huệ, Long An).',metrics:['120 khán giả','5 nhà tài trợ'],source:'Nội dung hoạt động do POET cung cấp; Tiền Phong, 19/07/2022',pending:'Bài viết chi tiết và ảnh chọn lọc đang chờ hoàn thiện.'},
+  {id:'go-ngai',title:'Chương trình thiện nguyện tại Trường Tiểu học Mỹ Thạnh Bắc',tag:'Mùa 5 · Mỹ Thạnh Bắc, Long An',description:'POET trao tặng 30 suất đồ dùng học tập, 10 suất học bổng, 5 xe đạp, 3 quạt treo tường và 3 tủ nhôm đựng tài liệu cho 3 lớp học tại điểm trường. Các em còn cùng tham gia hoạt động vui chơi chạy trạm với chủ đề bảo vệ môi trường.',metrics:['30 suất đồ dùng học tập','10 suất học bổng','5 xe đạp'],source:'Nội dung hoạt động do POET cung cấp; Hồ sơ POET, trang 4',pending:'Bài viết chi tiết và ảnh chọn lọc đang chờ hoàn thiện.'}
 ];
-export const projectStories = highlights.map(item=>({...item,season:item.id==='vet-nut'?'Dấu ấn 2022':'Mùa 5',status:'completed',year:item.id==='vet-nut'?2022:null,
+export const projectStories = highlights.map(item=>({...item,season:'Mùa 5',status:'completed',year:item.id==='vet-nut'?2022:null,
   href:`du-an/${item.id}/`,cover:`story-${item.id}`,gallery:[`story-${item.id}`],
   photoCaption:item.id==='vet-nut'?'Các bạn tham gia đêm nhạc — ảnh từ album Vết Nứt của POET.':'Các thành viên tại chuyến đi — ảnh từ album Final Trip của POET.',
   paragraphs:[item.description],

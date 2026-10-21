@@ -642,7 +642,7 @@ poet-nav.site-nav{height:74px;background:#fbf9f3;border-color:#e7e3de}
 .campaign-band--prototype .fund-progress-track{height:14px;border-radius:10px;background:#e9e5e4}
 .campaign-band--prototype .fund-progress-fill{background:var(--campaign-pink)}
 .campaign-band--prototype .fund-scale{font-size:11px;line-height:1.4;margin-top:7px}
-.campaign-band--prototype .supporter-stats{grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:32px 0 0}
+.campaign-band--prototype .supporter-stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:32px 0 0}
 .campaign-band--prototype .supporter-stats>div{padding:12px;background:#ffffffbd;border-color:#e6dfdb;min-height:72px}
 .campaign-band--prototype .supporter-stats>div>span:first-child{display:flex;align-items:center;gap:4px;font-size:12px;line-height:1.5;margin-bottom:0}
 .campaign-band--prototype .supporter-stats .prototype-icon{width:14px;height:14px;flex-basis:14px;color:var(--campaign-coral-ink)}
