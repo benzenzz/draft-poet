@@ -144,3 +144,26 @@ export const individualWays = {
     {id:'collection', icon:'shopping-bag', tone:'blue',   status:'Sắp được bật mí', title:'Merch Young Joy Collection', text:'Bộ sưu tập merch của POET. Toàn bộ doanh thu góp vào quỹ chung.', cta:'Mua merch, góp vào quỹ'}
   ]
 };
+// Partner page, message wall (UI-009)
+export const messageWall = {
+  eyebrow: 'Những lời nhắn gửi',
+  title: 'Tường lời nhắn yêu thương',
+  sub: 'Nơi những câu chuyện được lan toả, niềm vui được sẻ chia.',
+  boardSign: 'POET Community',
+  writeCta: 'Viết lời nhắn', closeCta: 'Đóng khung viết',
+  formTitle: 'Viết lời nhắn lên giấy nhắn POET',
+  sendCta: 'Dán lên tường',
+  formNote: 'Lời nhắn sẽ được POET xem qua trước khi hiện trên tường. Vui lòng không ghi số điện thoại, địa chỉ cụ thể.',
+  searchPlaceholder: 'Tìm theo tên…',
+  sortNew: 'Mới nhất', sortAmount: 'Ủng hộ nhiều nhất',
+  empty: 'Chưa có lời nhắn công khai. Bạn có thể gửi lời nhắn cùng lượt ủng hộ của mình.',
+  noMatch: 'Chưa thấy lời nhắn nào khớp tên này.',
+  loadError: 'Chưa tải được tường lời nhắn. Bạn thử lại nhé.',
+  soonNote: 'Tính năng gửi lời nhắn tự do sắp mở. Bạn có thể gửi lời nhắn kèm lượt ủng hộ ở mục phía trên nhé.',
+  soonLink: 'Tới mục ủng hộ',
+  // Order matters: saved notes pick a paper and icon by hash index.
+  papers: [['yellow','Giấy vàng'],['mint','Giấy xanh bạc hà'],['peach','Giấy cam đào'],['blue','Giấy xanh dương'],['pink','Giấy hồng']],
+  glyphs: [['heart','Trái tim'],['star','Ngôi sao'],['flower','Bông hoa'],['sun','Mặt trời'],['leaf','Chiếc lá'],['book-open','Quyển sách']]
+};
+// Free-form wall notes have no backend yet (UI-009); false removes the composer from the page.
+export const WALL_COMPOSER_ENABLED = true;

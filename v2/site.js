@@ -170,12 +170,74 @@ document.addEventListener('click',async e=>{const b=e.target.closest('[data-copy
   const d=document.createElement('dialog');d.className='site-dialog copy-fallback';d.setAttribute('aria-label','Sao chép nội dung');d.innerHTML='<h2>Sao chép nội dung</h2><p>Chọn nội dung bên dưới và sao chép.</p><textarea readonly aria-label="Nội dung cần sao chép"></textarea><button type="button" class="btn">Đóng</button>';document.body.append(d);trapFocus(d);d.querySelector('textarea').value=b.dataset.copy;d.querySelector('button').onclick=()=>d.close();d.addEventListener('close',()=>{d.remove();b.focus();});d.showModal();d.querySelector('textarea').select();
 }});
 
-// Read-only real message data. Render untrusted donor text via textContent only.
+// Read-only real message data (UI-009 board). Render untrusted donor text via textContent only.
 const wall=document.querySelector('[data-message-wall]');
-if(wall){let all=[],visible=3,loaded=false;const more=document.querySelector('[data-wall-more]'),retry=document.querySelector('[data-wall-retry]');
-  const empty=text=>{wall.replaceChildren();const p=document.createElement('p');p.className='pending-box';p.textContent=text;wall.append(p);};
-  function render(){wall.replaceChildren();if(!all.length){empty('Chưa có lời nhắn công khai. Bạn có thể gửi lời nhắn cùng lượt ủng hộ của mình.');return;}all.slice(0,visible).forEach(d=>{const card=document.createElement('article');card.className='message-card';const p=document.createElement('p'),name=document.createElement('strong'),amount=document.createElement('small');p.textContent=d.message||'Một đóng góp gửi đến POET.';p.dir='auto';name.textContent=d.displayName&&d.displayName!=='Ẩn danh'?d.displayName:'Một nhà hảo tâm';name.dir='auto';amount.textContent=money(d.amount);card.append(p,name,amount);wall.append(card);});more.hidden=visible>=all.length;}
-  async function load(){retry.hidden=true;empty('Đang tải lời nhắn…');try{const response=await fetch(`${window.POETCheckout.API_BASE}/api/donations`,{signal:AbortSignal.timeout(10000)});if(!response.ok)throw new Error();const data=await response.json();all=(Array.isArray(data.donations)?data.donations:[]).filter(d=>Number.isFinite(Number(d.amount))&&Number(d.amount)>0);loaded=true;render();}catch{empty('Chưa tải được tường lời nhắn. Bạn thử lại nhé.');retry.hidden=false;}}
-  more.addEventListener('click',()=>{visible+=6;render();});retry.addEventListener('click',load);
+// TODO(UI-009-backend): send {name,place,message,paper,glyph} to a reviewed-note endpoint once one exists in worker/. Until then nothing leaves the browser.
+async function submitWallNote(payload){return {ok:false,reason:'composer-not-open',payload};}
+if(wall){
+  const board=wall.closest('[data-board]'),pagesNav=board.querySelector('[data-wall-pages]'),prev=board.querySelector('[data-wall-prev]'),next=board.querySelector('[data-wall-next]'),range=board.querySelector('[data-wall-range]'),retry=board.querySelector('[data-wall-retry]'),search=board.querySelector('[data-wall-search]'),sortButtons=[...board.querySelectorAll('[data-wall-sort]')],count=document.querySelector('[data-wall-count]');
+  const iconBase=wall.dataset.iconBase,papers=wall.dataset.papers.split(' '),glyphs=wall.dataset.glyphs.split(' ');
+  const phone=matchMedia('(max-width:640px)');
+  const cache={},fold=s=>s.normalize('NFD').replace(/\p{M}/gu,'').replace(/đ/gi,'d').toLowerCase();
+  let sort='new',query='',page=1,loaded=false,list=[];
+  const hash=s=>{let h=2166136261;for(const c of s)h=Math.imul(h^c.codePointAt(0),16777619);return h>>>0;};
+  const ago=iso=>{const t=Date.parse(iso);if(!Number.isFinite(t))return '';const h=(Date.now()-t)/36e5;if(h<1)return 'Vừa xong';if(h<24)return `${Math.floor(h)} giờ trước`;if(h<24*7)return `${Math.floor(h/24)} ngày trước`;if(h<24*35)return `${Math.floor(h/168)} tuần trước`;return new Date(t).toLocaleDateString('vi-VN',{day:'2-digit',month:'2-digit',year:'numeric'});};
+  const nameOf=d=>d.displayName&&d.displayName!=='Ẩn danh'?d.displayName:'Một nhà hảo tâm';
+  const el=(tag,cls,text)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(text!=null){e.textContent=text;e.dir='auto';}return e;};
+  // Shared with the composer preview: {name,place,message,paper,glyph,amount,paidAt}.
+  function noteCard(n){
+    const card=el('article','message-card');card.style.setProperty('--paper',`var(--paper-${n.paper})`);
+    const who=el('div','message-who'),glyph=el('span','message-glyph'),icon=el('span','prototype-icon'),names=el('div');
+    icon.style.setProperty('--icon',`url('${iconBase}${n.glyph}.svg')`);icon.setAttribute('aria-hidden','true');glyph.append(icon);
+    names.append(el('strong','',n.name));if(n.place)names.append(el('small','',n.place));who.append(glyph,names);
+    const foot=el('div','message-foot');foot.append(el('span','',n.when));if(n.amount)foot.append(el('span','message-amount','+'+money(n.amount)));
+    card.append(who,el('p','message-text',`“${n.message}”`),foot);return card;
+  }
+  const fromDonation=d=>{const h=hash(`${d.displayName||''}|${d.paidAt||''}`);return{name:nameOf(d),place:'',message:d.message||'Một đóng góp gửi đến POET.',paper:papers[h%papers.length],glyph:glyphs[Math.floor(h/papers.length)%glyphs.length],amount:Number(d.amount),when:ago(d.paidAt)};};
+  const state=text=>{wall.replaceChildren(el('p','wall-state',text));};
+  function pageList(total,cur){
+    if(phone.matches)return Array.from({length:Math.min(3,total)},(_,i)=>Math.max(1,Math.min(cur-1,total-2))+i); // narrow row: current page and its neighbours only
+    if(total<=7)return Array.from({length:total},(_,i)=>i+1);
+    const out=[1];if(cur-1>2)out.push('…');for(let i=Math.max(2,cur-1);i<=Math.min(total-1,cur+1);i++)out.push(i);if(cur+1<total-1)out.push('…');out.push(total);return out;
+  }
+  // Centre the outside arrows on the notes (desktop) or on the page-number row (phone).
+  function placeArrows(){const target=phone.matches?pagesNav:wall,b=board.getBoundingClientRect(),r=target.getBoundingClientRect();board.style.setProperty('--wall-nav-y',`${r.top-b.top+r.height/2}px`);}
+  function render(){
+    const per=phone.matches?3:6,q=fold(query.trim()),shown=q?list.filter(d=>fold(nameOf(d)).includes(q)):list,total=Math.max(1,Math.ceil(shown.length/per));
+    page=Math.min(page,total);
+    if(!list.length)state(wall.dataset.empty);else if(!shown.length)state(wall.dataset.noMatch);
+    else wall.replaceChildren(...shown.slice((page-1)*per,page*per).map(d=>noteCard(fromDonation(d))));
+    range.textContent=shown.length?`${(page-1)*per+1}–${Math.min(page*per,shown.length)} / ${shown.length} lời nhắn`:'';
+    pagesNav.replaceChildren(...(shown.length>per?pageList(total,page):[]).map(n=>{if(n==='…')return el('span','wall-gap','…');const b=el('button');b.type='button';b.textContent=n;b.setAttribute('aria-label',`Trang ${n}`);if(n===page)b.setAttribute('aria-current','page');b.addEventListener('click',()=>go(n));return b;}));
+    prev.hidden=next.hidden=shown.length<=per;prev.disabled=page<=1;next.disabled=page>=total;placeArrows();
+  }
+  function go(n){page=n;render();if(board.getBoundingClientRect().top<0)board.scrollIntoView({block:'start',behavior:reduced.matches?'auto':'smooth'});}
+  async function load(){
+    retry.hidden=true;
+    if(!cache[sort]){state('Đang tải lời nhắn…');try{const response=await fetch(`${window.POETCheckout.API_BASE}/api/donations?sort=${sort}`,{signal:AbortSignal.timeout(10000)});if(!response.ok)throw new Error();const data=await response.json();cache[sort]=(Array.isArray(data.donations)?data.donations:[]).filter(d=>Number.isFinite(Number(d.amount))&&Number(d.amount)>0);if(Number.isFinite(Number(data.totalCount))){count.textContent=`${new Intl.NumberFormat('vi-VN').format(Number(data.totalCount))} lời nhắn`;count.hidden=false;}}catch{state(wall.dataset.error);retry.hidden=false;return;}}
+    loaded=true;list=cache[sort];render();
+  }
+  prev.addEventListener('click',()=>go(page-1));next.addEventListener('click',()=>go(page+1));retry.addEventListener('click',load);
+  sortButtons.forEach(b=>b.addEventListener('click',()=>{if(b.dataset.wallSort===sort)return;sort=b.dataset.wallSort;page=1;sortButtons.forEach(x=>x.setAttribute('aria-pressed',x===b));load();}));
+  let typing;search.addEventListener('input',()=>{clearTimeout(typing);typing=setTimeout(()=>{query=search.value;page=1;if(loaded)render();},150);});
+  phone.addEventListener('change',()=>{page=1;if(loaded)render();});
+  if('ResizeObserver'in window)new ResizeObserver(placeArrows).observe(board);
   if('IntersectionObserver'in window){const io=new IntersectionObserver(entries=>{if(entries.some(e=>e.isIntersecting)&&!loaded){io.disconnect();load();}},{rootMargin:'200px'});io.observe(wall);}else load();
+
+  // Composer: client-side only until TODO(UI-009-backend) lands.
+  const toggle=document.querySelector('[data-wall-toggle]'),composer=document.querySelector('[data-wall-composer]');
+  if(toggle&&composer){
+    const form=composer.querySelector('[data-wall-form]'),label=toggle.querySelector('span:last-child'),openText=label.textContent,message=form.elements.message,countdown=form.querySelector('[data-wall-countdown]'),error=form.querySelector('[data-wall-error]'),status=form.querySelector('[data-wall-status]'),preview=form.querySelector('[data-wall-preview]'),soon=form.querySelector('[data-wall-soon]');
+    const pick={paper:papers[0],glyph:glyphs[0]};
+    const sync=()=>{form.querySelectorAll('[data-paper]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.paper===pick.paper));form.querySelectorAll('[data-glyph]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.glyph===pick.glyph));countdown.textContent=`${message.value.length}/280`;preview.replaceChildren(noteCard({name:form.elements.name.value.trim()||'Một nhà hảo tâm',place:form.elements.place.value.trim(),message:message.value.trim()||'Lời nhắn của bạn sẽ hiện ở đây.',paper:pick.paper,glyph:pick.glyph,when:'Vừa xong'}));};
+    const setOpen=open=>{composer.classList.toggle('is-open',open);composer.inert=!open;toggle.setAttribute('aria-expanded',open);label.textContent=open?toggle.dataset.closeLabel:openText;if(open)form.elements.name.focus({preventScroll:true});else if(composer.contains(document.activeElement))toggle.focus();};
+    toggle.addEventListener('click',()=>setOpen(toggle.getAttribute('aria-expanded')!=='true'));
+    form.addEventListener('click',e=>{const b=e.target.closest('[data-paper],[data-glyph]');if(!b)return;if(b.dataset.paper)pick.paper=b.dataset.paper;else pick.glyph=b.dataset.glyph;sync();});
+    form.addEventListener('input',()=>{if(message.value.trim()){error.textContent='';message.removeAttribute('aria-invalid');}sync();});
+    form.addEventListener('submit',async e=>{e.preventDefault();status.replaceChildren();
+      if(!message.value.trim()){error.textContent='Bạn viết vài dòng lời nhắn trước khi dán lên tường nhé.';message.setAttribute('aria-invalid','true');message.focus();return;}
+      const result=await submitWallNote({name:form.elements.name.value.trim(),place:form.elements.place.value.trim(),message:message.value.trim(),paper:pick.paper,glyph:pick.glyph});
+      if(!result.ok)status.append(soon.content.cloneNode(true));});
+    sync();
+  }
 }

@@ -132,6 +132,8 @@ Added six unmodified interface SVGs from the official pinned Lucide0.468.0 repos
 
 UI-008 added four more unmodified Lucide 0.468.0 SVGs from the same source and licence: `qr-code`, `ticket`, `shopping-bag`, `lock`, used as CSS masks on the Đồng hành > Cá nhân donation cards.
 
+UI-009 added ten more unmodified Lucide 0.468.0 SVGs from the same source and licence: `pencil`, `send`, `search`, `star`, `flower`, `sun`, `leaf`, `book-open`, `arrow-left`, `arrow-right`, used as CSS masks on the Đồng hành message wall.
+
 Visual reference: user-provided `Screenshot 2026-10-20 153818.png`; review copy and combined comparison are outside production assets in `../audit-work/layout-restoration/`. No screenshot is used as website content. See `docs/PROTOTYPE_LAYOUT_RESTORATION.md`.
 
 ## UI-002 header assets — 21 October 2026
