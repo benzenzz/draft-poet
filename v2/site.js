@@ -49,45 +49,15 @@ document.querySelectorAll('.story-card a[href^="#"]').forEach(a=>a.addEventListe
 import './activity-carousel.js?v=poet-v3-1';
 import './press-strip.js?v=poet-v3-1';
 
-// Native touch scrolling, real mouse drag and arrow-key alternatives.
-document.querySelectorAll('[data-carousel]').forEach(wrap=>{
-  const rail=wrap.querySelector('.rail');
-  let drag=null,ignoreClick=false;
-  // Count reachable scroll positions, not articles: several cards can be visible,
-  // and their start offsets can clamp to the same final position.
-  const tolerance=1;
-  let positions=[0];
-  function refresh(){
-    const max=Math.max(0,rail.scrollWidth-rail.clientWidth),edge=rail.getBoundingClientRect().left+rail.clientLeft;
-    positions=[];
-    for(const card of rail.children){
-      const left=Math.max(0,Math.min(max,card.getBoundingClientRect().left-edge+rail.scrollLeft));
-      if(!positions.length||left-positions.at(-1)>tolerance)positions.push(left);
-    }
-    if(!positions.length)positions=[0];
-    if(max-positions.at(-1)>tolerance)positions.push(max);
-    else if(positions.length>1)positions[positions.length-1]=max;
-  }
-  const move=dir=>{
-    const left=dir>0?positions.find(left=>left>rail.scrollLeft+tolerance):positions.findLast(left=>left<rail.scrollLeft-tolerance);
-    if(left!==undefined)rail.scrollTo({left,behavior:reduced.matches?'instant':'smooth'});
-  };
-  rail.addEventListener('keydown',e=>{if(e.target!==rail)return;if(['ArrowLeft','ArrowRight','Home','End'].includes(e.key)){e.preventDefault();if(e.key==='Home'||e.key==='End')rail.scrollTo({left:e.key==='Home'?positions[0]:positions.at(-1),behavior:'instant'});else move(e.key==='ArrowRight'?1:-1);}});
-  const resize=new ResizeObserver(refresh);resize.observe(rail);[...rail.children].forEach(card=>resize.observe(card));
-  rail.addEventListener('pointerdown',e=>{if(e.pointerType!=='mouse'||e.button!==0)return;drag={x:e.clientX,scroll:rail.scrollLeft,moved:false};ignoreClick=false;});
-  addEventListener('pointermove',e=>{if(!drag)return;const dx=e.clientX-drag.x;if(Math.abs(dx)>6){drag.moved=true;rail.classList.add('is-dragging');e.preventDefault();rail.scrollLeft=drag.scroll-dx;}});
-  addEventListener('pointerup',()=>{if(!drag)return;ignoreClick=drag.moved;drag=null;rail.classList.remove('is-dragging');});
-  rail.addEventListener('dragstart',e=>e.preventDefault());
-  rail.addEventListener('click',e=>{if(ignoreClick){e.preventDefault();e.stopPropagation();ignoreClick=false;}},true);
-  refresh();
-});
-
 // Reveal once, with readable fallback; no global animation loop.
 const reveals=document.querySelectorAll('[data-reveal]');
-if('IntersectionObserver'in window&&!reduced.matches){
+// Local previews play entrances even when the OS reports reduced motion, as world.js does; ?heroMotion=respect opts out.
+const previewMotion=['localhost','127.0.0.1','[::1]'].includes(location.hostname)&&new URLSearchParams(location.search).get('heroMotion')!=='respect';
+if('IntersectionObserver'in window&&(!reduced.matches||previewMotion)){
+  document.documentElement.classList.add('reveal-motion');
   const io=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('is-revealed');io.unobserve(entry.target);}}),{threshold:.08});
   reveals.forEach(el=>{el.classList.add('will-reveal');io.observe(el);});
-  reduced.addEventListener('change',e=>{if(e.matches){reveals.forEach(el=>el.classList.add('is-revealed'));io.disconnect();}});
+  reduced.addEventListener('change',e=>{if(e.matches&&!previewMotion){document.documentElement.classList.remove('reveal-motion');reveals.forEach(el=>el.classList.add('is-revealed'));io.disconnect();}});
 }
 const counters=document.querySelectorAll('[data-counter]');
 if('IntersectionObserver'in window){
