@@ -710,6 +710,35 @@ html.reveal-motion .site-content .about-hero-copy h1{animation:about-title-in 80
 .about-intro-photo img{width:100%;height:100%;object-fit:cover;object-position:50% 35%;border-radius:var(--radius-card)}
 @media(max-width:900px){.about-introduction{grid-template-columns:1fr;gap:32px;padding-block:48px}.about-intro-copy{max-width:none}.about-intro-photo{min-height:0}.about-intro-photo img{height:auto;aspect-ratio:4/3}}
 @media(max-width:600px){.about-introduction{padding:40px 22px}.site-content .about-introduction h2{font-size:30px}.about-introduction p{font-size:16px}.about-introduction .about-intro-tagline{font-size:19px}}
+/* Đồng hành hero: copy left, straight photo right, colour-coded tab bar below (this page only). */
+.partner-hero{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);column-gap:7%;row-gap:clamp(32px,4vw,56px);align-items:end;padding-top:clamp(28px,4vw,56px)}
+.site-content .partner-hero h1{margin:0;font-size:clamp(52px,6.6vw,96px);font-weight:var(--font-weight-bold);letter-spacing:-.045em;line-height:1.02;color:var(--poet-heading)}
+.partner-hero .partner-hero-lead{margin:clamp(22px,2.4vw,32px) 0 0;max-width:30em;font-size:clamp(17px,1.55vw,21px);line-height:1.6;color:var(--poet-muted)}
+.partner-hero .partner-hero-photo{margin:0}
+.partner-hero .partner-hero-photo img{display:block;width:100%;aspect-ratio:1.3;object-fit:cover;object-position:50% 45%;border-radius:32px 80px 32px 32px}
+.partner-hero .partner-hero-photo figcaption{margin:12px 0 0;font-size:13px;color:var(--poet-muted)}
+/* Selected tab colours: coral = warmth (matches Ủng hộ), yellow = optimism (Big Joy Little Joy), blue = trust (volunteers). */
+.site-tabs--partner{grid-column:1/-1;gap:8px;padding-bottom:12px;--tab-ink:var(--poet-heading)}
+.site-tabs--partner button{--c:#ef8a7d;--tile:#fde3de;--ic:#d9705f;display:inline-flex;align-items:center;gap:10px;min-height:52px;padding:6px 18px 6px 6px;border-radius:10px;font-size:16px;font-weight:400;color:var(--poet-muted);transition:background-color 220ms ease,color 220ms ease}
+.site-tabs--partner #tab-doanh-nghiep{--c:#f7bc3c;--tile:#fdf0cf;--ic:#c98a00}
+.site-tabs--partner #tab-tinh-nguyen-vien{--c:#6aa7bf;--tile:#dcedf3;--ic:#3f86a3}
+.site-tabs--partner .tab-icon{display:grid;place-items:center;width:40px;height:40px;flex:none;border-radius:10px;background:var(--tile);color:var(--ic);transition:background-color 220ms ease}
+.site-tabs--partner .tab-icon .prototype-icon{width:22px;height:22px;flex-basis:22px}
+.site-tabs--partner button:hover{color:var(--tab-ink)}
+.site-tabs--partner button[aria-selected=true]{background:var(--c);color:var(--tab-ink);font-weight:var(--font-weight-bold)}
+.site-tabs--partner button[aria-selected=true] .tab-icon{background:var(--poet-white)}
+.site-tabs--partner button:focus-visible{outline:3px solid var(--poet-ink);outline-offset:2px}
+@media(prefers-reduced-motion:reduce){.site-tabs--partner :is(button,.tab-icon){transition:none}}
+@media(max-width:900px){.partner-hero .partner-hero-photo img{aspect-ratio:1.1}}
+@media(max-width:640px){
+ .partner-hero{grid-template-columns:1fr}
+ .partner-hero .partner-hero-photo{order:-1}
+ .partner-hero .partner-hero-photo img{aspect-ratio:1.25;border-radius:24px 56px 24px 24px}
+ .site-content .partner-hero h1{font-size:46px}
+ .site-tabs--partner{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;overflow:visible}
+ .site-tabs--partner button{flex-direction:column;gap:6px;min-height:0;padding:8px 4px;font-size:13px;text-align:center;white-space:normal}
+ .site-tabs--partner .tab-icon{width:36px;height:36px}
+}
 /* POET qua những con số: second row of the intro grid (row-gap sets the copy-to-stats distance). */
 .about-introduction{row-gap:clamp(32px,4vw,48px)}
 /* Colour roles: warm brand-yellow field (optimism, joy); coral = reach/energy, green = community/growth, blue = trust/partners.
