@@ -1,8 +1,10 @@
 // The Home activity carousel has one playback timer and one transition owner.
 // All image/text effects share a native document.timeline start time.
 const reduced=matchMedia('(prefers-reduced-motion:reduce)');
-// An explicit local preview lets the reviewer see motion even with OS reduction.
-const fullPreview=['localhost','127.0.0.1','[::1]'].includes(location.hostname)&&new URLSearchParams(location.search).get('homeMotion')==='full';
+// Match the approved plain-local Hero preview; public pages still honor the OS.
+// Either explicit respect option lets reviewers test reduced-motion behavior.
+const query=new URLSearchParams(location.search);
+const fullPreview=['localhost','127.0.0.1','[::1]'].includes(location.hostname)&&query.get('homeMotion')!=='respect'&&query.get('heroMotion')!=='respect'&&query.get('heroDebug')!=='0';
 const reduceMotion=()=>reduced.matches&&!fullPreview;
 const HOLD_AFTER_TRANSITION=1500;
 const EASE={imageOut:'ease-in-out',imageIn:'ease-in-out',textOut:'ease',textIn:'ease'};

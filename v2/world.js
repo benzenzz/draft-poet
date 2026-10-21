@@ -54,6 +54,8 @@
     let resolveIntro;const introFinished=new Promise(resolve=>{resolveIntro=resolve;});
     let INTRO=.56;
     const TILE_STAGGER=.055,TILE_DURATION=.60;
+    const tileRun={};let suppressTileNotes=false;
+    const tileEvent=(name,detail={})=>hero.dispatchEvent(new CustomEvent('poet:tile-'+name,{detail:{run:tileRun,...detail}}));
     const phase=name=>{root.dataset.worldState=name;phaseEvents.push({name,time:master?.time()||0});if(name==='tiles')trace('TILE_ASSEMBLY_STARTED',{element:debug?.elementState(tiles[0])});if(name==='playground')trace('WORLD_POP_STARTED');};
 
     function notifyIntroComplete(){
@@ -66,6 +68,7 @@
       if(el?.dataset.origin)gsap.set(el,{svgOrigin:el.dataset.origin,smoothOrigin:false,force3D:false});
     }
     function prepareHeroAnimation(){
+      tileEvent('assembly-start');
       // Batch attribute writes; defer SVG bounding-box work to each staggered entrance.
       // Initializing every SVG transform here caused a long task under CPU throttling.
       for(const[el,values]of snapshots){
@@ -133,10 +136,10 @@
         const at=INTRO+i*TILE_STAGGER,fallDistance=420+(i%5)*46+(i%3)*13;
         let duringReported=false;
         master.fromTo(tile,{y:-fallDistance,opacity:1,scale:1,svgOrigin:tile.dataset.origin,smoothOrigin:false,force3D:false},
-          {y:0,duration:.36,ease:'power3.in',immediateRender:false,onUpdate:i===0?()=>{if(!duringReported&&master.time()>at+.15){duringReported=true;trace('TILE_TRANSFORM_DURING',{element:debug?.elementState(tile)});}}:undefined},at)
+          {y:0,duration:.36,ease:'power3.in',immediateRender:false,onComplete(){if(!suppressTileNotes&&!destroyed&&!reduceMotion()&&!document.hidden&&!pageSuspended&&onScreen&&master.isActive())tileEvent('land',{tile});},onUpdate:i===0?()=>{if(!duringReported&&master.time()>at+.15){duringReported=true;trace('TILE_TRANSFORM_DURING',{element:debug?.elementState(tile)});}}:undefined},at)
           .to(tile,{y:2,scaleY:.98,duration:.06,ease:'power1.out'},at+.36)
           .to(tile,{y:-1.6,scaleY:1.006,duration:.08,ease:'power2.out'},at+.42)
-          .to(tile,{y:0,scaleY:1,duration:.10,ease:'power2.inOut',onComplete:i===0?()=>trace('TILE_TRANSFORM_AFTER',{element:debug?.elementState(tile)}):undefined},at+.50);
+          .to(tile,{y:0,scaleY:1,duration:.10,ease:'power2.inOut',onComplete:i===0?()=>trace('TILE_TRANSFORM_AFTER',{element:debug?.elementState(tile)}):i===tiles.length-1?()=>tileEvent('assembled'):undefined},at+.50);
         record(tile,'tile',at,TILE_DURATION,{order:+tile.dataset.order,fallDistance,compression:.98});
       });
       const at=INTRO+.88;
@@ -359,6 +362,7 @@
     }
     function finish(){
       if(destroyed||resolved)return;
+      suppressTileNotes=true;
       if(master)master.totalProgress(1,false).pause();
       completeHero();
     }
@@ -370,6 +374,7 @@
     }
     function stopHeroAnimation(){
       if(destroyed)return;destroyed=true;
+      suppressTileNotes=true;tileEvent('assembly-cancel');
       handoff?.cancel();
       events.abort();observer?.disconnect();master?.kill();
       resetDestination();introScene?.setAttribute('aria-hidden','true');
@@ -491,6 +496,7 @@
     joinLink?.addEventListener('click',event=>{
       if(!resolved){event.preventDefault();return;}
       if(root.classList.contains('hero-only')){event.preventDefault();return;}
+      hero.dispatchEvent(new CustomEvent('poet:have-fun'));
       event.preventDefault();transitionToActivities({keyboard:event.detail===0});
     },{signal:events.signal});
     // Intercept only a downward wheel gesture while the completed Hero still

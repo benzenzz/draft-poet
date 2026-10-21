@@ -279,3 +279,18 @@ html[data-world-state="alive"][data-world-motion="paused"] .hero--world .join-jo
 .hero--world .booth-label{fill:var(--booth-ink);font:700 11.5px var(--font-board)}
 .hero--world :is(.stall-info,.stall-merch) .booth-label{font-size:18px}
 .hero--world .flower-hover{transform-box:view-box;pointer-events:none}
+
+/* Optional tile instrument: independent of scene geometry and Hero motion. */
+.hero--world .tile-key-hit{fill:transparent;pointer-events:all;stroke:none;vector-effect:non-scaling-stroke}
+.hero--world .tile:focus{outline:none}
+.hero--world .tile:focus-visible .tile-key-hit{stroke:var(--poet-ink,#243c33);stroke-width:3;stroke-linejoin:round}
+.hero--world .tile[data-piano-playing] .tile-key-hit{fill:#fff;fill-opacity:.24}
+.hero--world .tile-piano-controls{position:absolute;z-index:12;right:clamp(16px,3vw,40px);bottom:max(18px,env(safe-area-inset-bottom));max-width:260px;font-family:var(--font-family-primary)}
+.hero--world .tile-piano-toggle{display:inline-flex;align-items:center;justify-content:center;gap:0;width:44px;height:44px;min-width:44px;min-height:44px;padding:0;border:1px solid var(--poet-border,#dedad2);border-radius:12px;background:var(--paper,#fbf8f2);color:var(--poet-ink,#243c33);font:700 14px/1.4 var(--font-family-primary);cursor:pointer;touch-action:manipulation}
+.hero--world .tile-piano-toggle svg{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.hero--world .tile-piano-toggle:focus-visible{outline:3px solid var(--poet-ink,#243c33);outline-offset:3px}
+.hero--world .tile-piano-toggle[aria-pressed=false] .piano-speaker-on,
+.hero--world .tile-piano-toggle[aria-pressed=true] .piano-speaker-off{display:none}
+.hero--world .tile-piano-status{margin:8px 0 0;max-width:30ch;color:var(--poet-ink,#243c33);font-size:13px;line-height:1.5}
+.hero--world .tile-piano-status:empty{display:none}
+html[data-hero-transition] .hero--world .tile-piano-controls{visibility:hidden}

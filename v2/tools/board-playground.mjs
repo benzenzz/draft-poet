@@ -69,7 +69,7 @@ function tile(a,b,c,d,u,v,kind,corner=false){
   const fp=shape(rect(a+gap,b-gap,c+gap,d-gap)),inset=shape(rect(a+5,b-5,c+5,d-5)),z=9;
   // Arrow corners 8 and 24 continue along +u and -u respectively.
   const glow=`<g class="tile-activation" data-origin="${P(u,v,z+.3).map(n).join(' ')}" aria-hidden="true" pointer-events="none">${poly('tile-glow-halo',fp.map(p=>[...p,z+.3]))}${poly('tile-glow-edge',fp.map(p=>[...p,z+.3]))}${poly('tile-glow-wash',inset.map(p=>[...p,z+.3]))}</g>`;
-  const s=prism('path-tile',fp,z,8)+poly('tile-inset',inset.map(p=>[...p,z+.2]))+glow+icon(kind,u,v,z+.4,kind==='flower'?15:12,i===24?-1:1);
+  const s=prism('path-tile',fp,z,8)+poly('tile-inset',inset.map(p=>[...p,z+.2]))+glow+icon(kind,u,v,z+.4,kind==='flower'?15:12,i===24?-1:1)+poly('tile-key-hit',fp.map(p=>[...p,z]));
   route.push({u,v,z,order:i,footprint:{a,b,c,d}});
   objects.push({depth:-1000,s:group(`build-item tile t-${color}`,'tile-'+(i+1),[u,v,0],s,`data-build="tile" data-order="${i}" data-route-index="${(i-ROUTE_START+32)%32}" data-elevation="9" data-center="${u},${v}"`)});
 }
