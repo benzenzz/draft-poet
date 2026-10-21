@@ -1,5 +1,5 @@
 diff --git a/v2/site.css b/v2/site.css
-index 823a487..73367de 100644
+index 823a487..101e896 100644
 --- a/v2/site.css
 +++ b/v2/site.css
 @@ -122,15 +122,6 @@ poet-nav.site-nav{display:block;position:sticky;top:0;z-index:50;height:80px;bac
@@ -18,7 +18,7 @@ index 823a487..73367de 100644
  .credibility{padding-top:30px;padding-bottom:65px;display:flex;align-items:center;gap:32px;flex-wrap:wrap;border-top:1px solid var(--poet-border)}
  .credibility p{margin:0!important;font-size:var(--font-size-meta);color:var(--poet-muted)}
  .credibility>div{display:flex;gap:32px;font-size:21px}
-@@ -200,15 +191,24 @@ poet-nav.site-nav{display:block;position:sticky;top:0;z-index:50;height:80px;bac
+@@ -200,15 +191,26 @@ poet-nav.site-nav{display:block;position:sticky;top:0;z-index:50;height:80px;bac
  .story-detail summary{min-height:44px;padding:12px 0;cursor:pointer;color:var(--poet-muted)}
  .story-detail>div{padding-bottom:20px}
  .story-detail p{margin-top:12px}
@@ -32,7 +32,9 @@ index 823a487..73367de 100644
 -.media-card>p{font-size:15px;color:var(--poet-muted)}
 -.media-category{font-size:var(--font-size-caption);color:var(--poet-muted);margin-top:auto;padding-top:36px}
 +/* Góc nhìn truyền thông: three article cards after the approved reference; the title link covers the card. */
-+.press-section{padding-top:95px;background:var(--poet-cream);--press-title:#332b27;--press-body:#6f6862;--press-accent:#a04424;--press-border:#ebe4d8}
++/* Shared card text theme for Dấu ấn tự hào and Góc nhìn truyền thông. */
++.archive-section,.press-section{--press-title:#332b27;--press-body:#6f6862;--press-accent:#a04424;--press-border:#ebe4d8}
++.press-section{padding-top:95px;background:var(--poet-cream)}
 +.press-section .section-heading{margin-bottom:24px}
 +.press-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
 +.press-grid .media-card{position:relative;width:auto;min-width:0;display:flex;flex-direction:column;background:#fff;border:1px solid var(--press-border);border-radius:12px;padding:22px 22px 18px;transition:border-color 180ms ease,box-shadow 180ms ease}
@@ -52,7 +54,7 @@ index 823a487..73367de 100644
  .join-section{background:#f8efd8}
  .join-section .section-heading{margin-bottom:60px}
  .participation-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-@@ -381,7 +381,6 @@ poet-nav.site-nav{display:block;position:sticky;top:0;z-index:50;height:80px;bac
+@@ -381,7 +383,6 @@ poet-nav.site-nav{display:block;position:sticky;top:0;z-index:50;height:80px;bac
   .btn:hover{background:#184b37}.btn--outline:hover{background:#dbe8d8}
   .text-link:hover .link-arrow{transform:translate(2px,-2px)}
   .activity-dots button:hover>span{background:#ffffff90}.activity-playback:hover{background:#071a1280}
@@ -60,7 +62,7 @@ index 823a487..73367de 100644
   .action-card:hover{transform:translateY(-4px)}.action--green:hover{background:#dce8d6}.action--pink:hover{background:#f4d8d5}.action--yellow:hover{background:#f5dd9f}
   .site-dropdown-menu a:hover{background:#e8eedf}.rail-controls button:not(:disabled):hover{background:#e3e9dc}
  }
-@@ -437,7 +436,6 @@ poet-nav.site-nav{display:block;position:sticky;top:0;z-index:50;height:80px;bac
+@@ -437,7 +438,6 @@ poet-nav.site-nav{display:block;position:sticky;top:0;z-index:50;height:80px;bac
   .campaign-band{border-radius:28px 28px 0 0}.campaign-grid{grid-template-columns:1fr;gap:38px}.campaign-story h2{font-size:42px;max-width:320px}.campaign-story .lead{font-size:22px}.project-meta{font-size:var(--font-size-caption);gap:10px 22px}.campaign-story>.image-frame{margin-top:30px}.campaign-story>.image-frame img{border-radius:18px}
   .fundraising{position:static;padding:28px 25px}.fund-target{font-size:37px}.fundraising .eyebrow{margin-bottom:28px!important}.fund-live{flex-direction:row;align-items:center}.supporter-stats{grid-template-columns:1fr 1fr;gap:15px}.supporter-stats .status{font-size:var(--font-size-caption)}
   .archive-grid{grid-template-columns:1fr;gap:45px}.story-card:nth-child(2){margin-top:0}.story-cover,.cover-1{height:245px;margin-bottom:22px}.story-card>p:not(.eyebrow){font-size:15px}.inline-metrics{gap:10px 17px;font-size:var(--font-size-caption)}.story-card>.text-link{font-size:var(--font-size-meta)}
@@ -68,7 +70,7 @@ index 823a487..73367de 100644
   .join-section .section-heading{margin-bottom:35px}.participation-grid{grid-template-columns:1fr;gap:8px}.action-card{min-height:0;padding:25px 14px 24px;display:grid;grid-template-columns:1fr 40px;column-gap:15px;row-gap:0;border-radius:0}.action-number{grid-column:1;margin-bottom:15px}.action-card>.small-copy{grid-column:1}.action-card h3{grid-column:1;max-width:none;font-size:29px;margin-top:9px}.action-card p{grid-column:1;padding-right:0;font-size:15px;margin-top:15px}.action-arrow{grid-column:2;grid-row:2/5;align-self:center;padding:0;font-size:36px}
   .about-head>.image-frame{margin-top:38px}.about-head>.image-frame img{aspect-ratio:1.1;border-radius:25px 25px 55px 25px;object-position:50% 50%}
   .mission-list article{grid-template-columns:30px 1fr;gap:15px 12px;padding:29px 0}.mission-list article>p{grid-column:2;font-size:15px}.mission-list h3{font-size:25px}.mission-list article>span{font-size:13px}
-@@ -488,27 +486,36 @@ poet-nav.site-nav{display:block;position:sticky;top:0;z-index:50;height:80px;bac
+@@ -488,27 +488,39 @@ poet-nav.site-nav{display:block;position:sticky;top:0;z-index:50;height:80px;bac
  .supporter-stats strong{display:block;font-size:var(--font-size-meta);margin-top:6px}
  .fund-actions{display:flex;flex-wrap:wrap;gap:10px}
  .fund-actions .btn{flex:1 1 150px;justify-content:center;font-size:var(--font-size-meta);padding-inline:16px}
@@ -76,18 +78,22 @@ index 823a487..73367de 100644
 -.story-card{border:1px solid var(--poet-border);background:var(--poet-white);border-radius:12px;overflow:hidden}
 +/* Two cards across the content width; the image height follows the viewport so a whole card reads in one screen. */
 +.archive-grid{grid-template-columns:1fr 1fr;gap:24px;align-items:stretch}
-+.story-card{border:1px solid var(--poet-border);background:var(--poet-white);border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
++.story-card{border:1px solid var(--press-border);background:#fff;border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
  .story-card:nth-child(2){margin-top:0}
  .story-image-link{display:block}
 -.story-card .image-frame img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:0;display:block}
 -.story-copy{padding:24px}
+-.story-copy h3 a{color:inherit;text-decoration:none}
+-.story-copy .eyebrow{font-size:var(--font-size-caption);margin-bottom:12px!important}
 +.story-card .image-frame{height:100%;margin:0}
 +.story-card .image-frame img{width:100%;height:clamp(160px,28vh,300px);object-fit:cover;object-position:50% 40%;border-radius:0;display:block}
 +.story-copy{padding:24px;display:flex;flex-direction:column;flex:1}
 +@media(max-width:760px){.archive-grid{grid-template-columns:1fr}.story-card .image-frame img{height:auto;aspect-ratio:2/1}}
- .story-copy h3 a{color:inherit;text-decoration:none}
--.story-copy .eyebrow{font-size:var(--font-size-caption);margin-bottom:12px!important}
-+.story-copy .eyebrow{font-size:var(--font-size-caption);margin-bottom:10px!important}
++.story-copy h3 a{color:var(--press-title);text-decoration:none;transition:color 180ms ease}
++.story-copy h3 a:focus-visible{color:#399f78}
++.story-copy>p:not(.eyebrow),.story-card .inline-metrics{color:var(--press-body)}
++.story-copy .text-link{color:var(--press-title)}
++.story-copy .eyebrow{font-size:var(--font-size-caption);font-weight:var(--font-weight-bold);color:var(--press-accent);margin-bottom:10px!important}
 +.story-copy h3{margin:0;font-size:clamp(22px,1.8vw,25px)}
 +.story-copy>p{margin-top:12px}
  .story-copy p,.story-copy .text-link{font-size:15px}
@@ -121,6 +127,15 @@ index 823a487..73367de 100644
  .join-section{padding-block:0}
  .participation-panel{background:#211f1c;color:#fffaf2;border-radius:16px;padding:44px 36px}
  .participation-panel .section-heading{display:block;text-align:center;margin-bottom:32px}
+@@ -553,7 +565,7 @@ poet-nav.site-nav{display:block;position:sticky;top:0;z-index:50;height:80px;bac
+ .site-footer-top{padding-bottom:38px;gap:8%}
+ .site-footer .site-socials{display:flex;flex-wrap:wrap;gap:10px 24px;margin-top:22px}
+ .site-footer-bottom{border-color:#514d48}
+-@media(hover:hover) and (pointer:fine){.participation-panel .action-card:hover{background:#403d38;transform:translateY(-3px)}.activity-step:hover{background:#071a1280}.story-copy h3 a:hover{text-decoration:underline}}
++@media(hover:hover) and (pointer:fine){.participation-panel .action-card:hover{background:#403d38;transform:translateY(-3px)}.activity-step:hover{background:#071a1280}.story-copy h3 a:hover{color:#399f78}}
+ @media(max-width:900px){:root{--site-space:64px}.campaign-grid{gap:24px}.fundraising{padding:24px}.participation-panel{padding:32px 24px}.participation-grid{gap:12px}.participation-panel .action-card{padding:20px;min-height:310px}.journey-mascot{transition:transform 500ms var(--site-ease)}}
+ @media(max-width:600px){:root{--site-space:48px}.site-content h1{font-size:42px}.site-content h2{font-size:31px}.site-content h3{font-size:var(--font-size-title)}.site-content .activity-copy h3{font-size:38px}.activity-controls{gap:5px}.activity-dots{gap:0}.campaign-grid{grid-template-columns:1fr;gap:28px}.campaign-story h2{font-size:31px}.campaign-band{border-radius:12px 12px 0 0}.fundraising{padding:24px}.fund-target{font-size:34px}.archive-grid{grid-template-columns:1fr;gap:24px}.story-copy{padding:22px}.participation-panel{padding:28px 20px}.participation-panel .action-card{min-height:240px}.participation-grid{grid-template-columns:1fr;gap:14px}.action-cta{margin-top:24px}.join-section .section-heading{margin-bottom:24px}.journey{padding-top:70px}.journey-track{top:97px;bottom:64px}.journey-stop{padding-left:0}.journey-mascot{width:45px;height:55px}.sponsor-paths,.partner-form-fields{grid-template-columns:1fr}.sponsor-paths{gap:12px}.contact-email{font-size:23px}.partner-form .btn{font-size:var(--font-size-meta)}.department-overview{grid-template-columns:1fr}.project-article .lead{font-size:21px}.media-card{width:88%}.recruitment-note{margin-bottom:48px}.video-pending{margin-top:48px}.site-footer{border-radius:12px 12px 0 0}}
+ @media(prefers-reduced-motion:reduce){.journey-mascot{transition:none}.site-content .action-card{transition:none}}
 diff --git a/v2/site.js b/v2/site.js
 index da2c6a5..b6ad255 100644
 --- a/v2/site.js
