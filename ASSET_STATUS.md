@@ -126,3 +126,7 @@ Production changes are code-native SVG in `v2/tools/board-playground.mjs`: Commu
 - Header now uses the existing real `Product Sans Bold.otf` (700) registered by `assets/css/typography.css`; no synthetic Black face, font binary or font-loading change. Cookie Crumble asset remains preserved, no longer requested by the header.
 - Four platform vectors are normalized under `assets/icons/social/`: `facebook.svg`, `instagram.svg`, `threads.svg`, `tiktok.svg`. Source and license are recorded in that directory. These are UI assets, not factual/campaign sources.
 - Classroom footer photo: user identified `New materials/Ảnh lớp học.jpg` in the UI-004 clarification. Inspected as an unannotated classroom photograph (1888 × 1259, 211032 bytes); copied byte-identically to `assets/photos/classroom-footer.jpg`. Already compact JPEG, no raster editing or recompression. The classroom crop/roof silhouette and bottom fade are CSS only. No claim about school/location is inferred from this photo. Source is preserved.
+
+## UI-004 follow-up — footer photo retired (2026-10-21)
+
+The user replaced the classroom treatment with a plain rounded dark footer shape. The photo is no longer rendered or requested by the footer. Both the normalized asset and original source remain preserved; no asset was deleted. Participation uses the existing heart/building/users SVGs inside coral/yellow/green CSS tiles; no new artwork or icon package was added.
