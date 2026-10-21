@@ -192,7 +192,9 @@ poet-nav.site-nav{display:block;position:sticky;top:0;z-index:50;height:80px;bac
 .story-detail>div{padding-bottom:20px}
 .story-detail p{margin-top:12px}
 /* Góc nhìn truyền thông: three article cards after the approved reference; the title link covers the card. */
-.press-section{padding-top:95px;background:var(--poet-cream);--press-title:#332b27;--press-body:#6f6862;--press-accent:#a04424;--press-border:#ebe4d8}
+/* Shared card text theme for Dấu ấn tự hào and Góc nhìn truyền thông. */
+.archive-section,.press-section{--press-title:#332b27;--press-body:#6f6862;--press-accent:#a04424;--press-border:#ebe4d8}
+.press-section{padding-top:95px;background:var(--poet-cream)}
 .press-section .section-heading{margin-bottom:24px}
 .press-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
 .press-grid .media-card{position:relative;width:auto;min-width:0;display:flex;flex-direction:column;background:#fff;border:1px solid var(--press-border);border-radius:12px;padding:22px 22px 18px;transition:border-color 180ms ease,box-shadow 180ms ease}
@@ -488,15 +490,18 @@ poet-nav.site-nav{display:block;position:sticky;top:0;z-index:50;height:80px;bac
 .fund-actions .btn{flex:1 1 150px;justify-content:center;font-size:var(--font-size-meta);padding-inline:16px}
 /* Two cards across the content width; the image height follows the viewport so a whole card reads in one screen. */
 .archive-grid{grid-template-columns:1fr 1fr;gap:24px;align-items:stretch}
-.story-card{border:1px solid var(--poet-border);background:var(--poet-white);border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
+.story-card{border:1px solid var(--press-border);background:#fff;border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
 .story-card:nth-child(2){margin-top:0}
 .story-image-link{display:block}
 .story-card .image-frame{height:100%;margin:0}
 .story-card .image-frame img{width:100%;height:clamp(160px,28vh,300px);object-fit:cover;object-position:50% 40%;border-radius:0;display:block}
 .story-copy{padding:24px;display:flex;flex-direction:column;flex:1}
 @media(max-width:760px){.archive-grid{grid-template-columns:1fr}.story-card .image-frame img{height:auto;aspect-ratio:2/1}}
-.story-copy h3 a{color:inherit;text-decoration:none}
-.story-copy .eyebrow{font-size:var(--font-size-caption);margin-bottom:10px!important}
+.story-copy h3 a{color:var(--press-title);text-decoration:none;transition:color 180ms ease}
+.story-copy h3 a:focus-visible{color:#399f78}
+.story-copy>p:not(.eyebrow),.story-card .inline-metrics{color:var(--press-body)}
+.story-copy .text-link{color:var(--press-title)}
+.story-copy .eyebrow{font-size:var(--font-size-caption);font-weight:var(--font-weight-bold);color:var(--press-accent);margin-bottom:10px!important}
 .story-copy h3{margin:0;font-size:clamp(22px,1.8vw,25px)}
 .story-copy>p{margin-top:12px}
 .story-copy p,.story-copy .text-link{font-size:15px}
@@ -560,7 +565,7 @@ html.reveal-motion .archive-grid .story-card.will-reveal:focus-within{transition
 .site-footer-top{padding-bottom:38px;gap:8%}
 .site-footer .site-socials{display:flex;flex-wrap:wrap;gap:10px 24px;margin-top:22px}
 .site-footer-bottom{border-color:#514d48}
-@media(hover:hover) and (pointer:fine){.participation-panel .action-card:hover{background:#403d38;transform:translateY(-3px)}.activity-step:hover{background:#071a1280}.story-copy h3 a:hover{text-decoration:underline}}
+@media(hover:hover) and (pointer:fine){.participation-panel .action-card:hover{background:#403d38;transform:translateY(-3px)}.activity-step:hover{background:#071a1280}.story-copy h3 a:hover{color:#399f78}}
 @media(max-width:900px){:root{--site-space:64px}.campaign-grid{gap:24px}.fundraising{padding:24px}.participation-panel{padding:32px 24px}.participation-grid{gap:12px}.participation-panel .action-card{padding:20px;min-height:310px}.journey-mascot{transition:transform 500ms var(--site-ease)}}
 @media(max-width:600px){:root{--site-space:48px}.site-content h1{font-size:42px}.site-content h2{font-size:31px}.site-content h3{font-size:var(--font-size-title)}.site-content .activity-copy h3{font-size:38px}.activity-controls{gap:5px}.activity-dots{gap:0}.campaign-grid{grid-template-columns:1fr;gap:28px}.campaign-story h2{font-size:31px}.campaign-band{border-radius:12px 12px 0 0}.fundraising{padding:24px}.fund-target{font-size:34px}.archive-grid{grid-template-columns:1fr;gap:24px}.story-copy{padding:22px}.participation-panel{padding:28px 20px}.participation-panel .action-card{min-height:240px}.participation-grid{grid-template-columns:1fr;gap:14px}.action-cta{margin-top:24px}.join-section .section-heading{margin-bottom:24px}.journey{padding-top:70px}.journey-track{top:97px;bottom:64px}.journey-stop{padding-left:0}.journey-mascot{width:45px;height:55px}.sponsor-paths,.partner-form-fields{grid-template-columns:1fr}.sponsor-paths{gap:12px}.contact-email{font-size:23px}.partner-form .btn{font-size:var(--font-size-meta)}.department-overview{grid-template-columns:1fr}.project-article .lead{font-size:21px}.media-card{width:88%}.recruitment-note{margin-bottom:48px}.video-pending{margin-top:48px}.site-footer{border-radius:12px 12px 0 0}}
 @media(prefers-reduced-motion:reduce){.journey-mascot{transition:none}.site-content .action-card{transition:none}}
