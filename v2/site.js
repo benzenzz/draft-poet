@@ -1,5 +1,5 @@
 import '../ung-ho/checkout.js';
-import {initFundraisingProgress} from './fundraising-progress.mjs?v=header-about-funding-1';
+import {initFundraisingProgress} from './fundraising-progress.mjs?v=ui-002-1';
 initFundraisingProgress();
 const base=new URL('.',import.meta.url),root=document.documentElement;
 const reduced=matchMedia('(prefers-reduced-motion:reduce)');
@@ -46,7 +46,7 @@ function revealHash(scroll=false){
 revealHash(Boolean(location.hash));addEventListener('hashchange',()=>revealHash(true));
 document.querySelectorAll('.story-card a[href^="#"]').forEach(a=>a.addEventListener('click',()=>{const detail=byId(a.hash.slice(1));if(detail instanceof HTMLDetailsElement)detail.open=true;}));
 
-import './activity-carousel.js?v=poet-v3-1';
+import './activity-carousel.js?v=ui-002-1';
 import './press-strip.js?v=poet-v3-1';
 
 // Native touch scrolling, real mouse drag, buttons and arrow-key alternatives.

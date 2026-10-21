@@ -1,0 +1,459 @@
+{
+  "phase": "after",
+  "startedAt": "2026-10-21T08:04:38.872Z",
+  "checks": [
+    {
+      "name": "1440 no horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "1440 Cookie only wordmark",
+      "passed": true
+    },
+    {
+      "name": "1440 removed note/playback only",
+      "passed": true
+    },
+    {
+      "name": "1440 icon measured on visible pixels and menu remains Product Sans",
+      "passed": true
+    },
+    {
+      "name": "1440 About header font scoped",
+      "passed": true
+    },
+    {
+      "name": "1440 dropdown keyboard Enter opens",
+      "passed": true
+    },
+    {
+      "name": "1440 keyboard reaches unchanged first destination",
+      "passed": true
+    },
+    {
+      "name": "1440 Escape closes keyboard menu",
+      "passed": true
+    },
+    {
+      "name": "390 no horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "390 Cookie only wordmark",
+      "passed": true
+    },
+    {
+      "name": "390 removed note/playback only",
+      "passed": true
+    },
+    {
+      "name": "390 icon measured on visible pixels and menu remains Product Sans",
+      "passed": true
+    },
+    {
+      "name": "390 About header font scoped",
+      "passed": true
+    },
+    {
+      "name": "Mobile menu keyboard Enter opens",
+      "passed": true
+    },
+    {
+      "name": "390 dropdown keyboard Enter opens",
+      "passed": true
+    },
+    {
+      "name": "390 keyboard reaches unchanged first destination",
+      "passed": true
+    },
+    {
+      "name": "390 Escape closes keyboard menu",
+      "passed": true
+    },
+    {
+      "name": "768 no horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "768 Cookie only wordmark",
+      "passed": true
+    },
+    {
+      "name": "768 removed note/playback only",
+      "passed": true
+    },
+    {
+      "name": "768 icon measured on visible pixels and menu remains Product Sans",
+      "passed": true
+    },
+    {
+      "name": "320 no horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "320 Cookie only wordmark",
+      "passed": true
+    },
+    {
+      "name": "320 removed note/playback only",
+      "passed": true
+    },
+    {
+      "name": "320 icon measured on visible pixels and menu remains Product Sans",
+      "passed": true
+    }
+  ],
+  "screenshots": [
+    "after-1440-header-home.png",
+    "after-1440-activity.png",
+    "after-1440-fundraising.png",
+    "after-1440-header-about.png",
+    "after-390-header-home.png",
+    "after-390-activity.png",
+    "after-390-fundraising.png",
+    "after-390-header-about.png"
+  ],
+  "observations": [
+    {
+      "width": 1440,
+      "height": 900,
+      "overflow": false,
+      "header": {
+        "x": 0,
+        "y": 6,
+        "width": 1440,
+        "height": 74,
+        "top": 6,
+        "right": 1440,
+        "bottom": 80,
+        "left": 0
+      },
+      "brand": {
+        "x": 148.5625,
+        "y": 20.5,
+        "width": 85.53125,
+        "height": 44,
+        "top": 20.5,
+        "right": 234.09375,
+        "bottom": 64.5,
+        "left": 148.5625
+      },
+      "brandFont": "\"POET Cookie Crumble\", sans-serif",
+      "bodyFont": "\"Product Sans\", sans-serif",
+      "playback": false,
+      "photoNote": false
+    },
+    {
+      "headerMetrics": {
+        "width": 1440,
+        "ink": 31,
+        "visible": 36,
+        "ratio": 1.1612903225806452,
+        "menuFont": "\"Product Sans\", sans-serif",
+        "brandName": "POET, trang chủ",
+        "imageAlt": ""
+      }
+    },
+    {
+      "fundraising": {
+        "fundAnimate": "",
+        "fundraising": "",
+        "raised": "78450000",
+        "target": "121950000",
+        "provisional": "true",
+        "progressLabel": "Tiến độ Mùa 6",
+        "milestone": "green",
+        "fundAnimated": "true",
+        "fundMotion": "done"
+      },
+      "amount": "78.450.000",
+      "badge": "Đạt 64%",
+      "note": "Số liệu minh họa",
+      "stats": [
+        {
+          "text": "248 người248 người",
+          "rect": {
+            "x": 784,
+            "y": 594.609375,
+            "width": 226.5,
+            "height": 39,
+            "top": 594.609375,
+            "right": 1010.5,
+            "bottom": 633.609375,
+            "left": 784
+          }
+        },
+        {
+          "text": "14 đối tác14 đối tác",
+          "rect": {
+            "x": 1052.5,
+            "y": 594.609375,
+            "width": 226.5,
+            "height": 39,
+            "top": 594.609375,
+            "right": 1279,
+            "bottom": 633.609375,
+            "left": 1052.5
+          }
+        }
+      ],
+      "cta": "rgb(57, 159, 120)"
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "header": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 72,
+        "top": 0,
+        "right": 390,
+        "bottom": 72,
+        "left": 0
+      },
+      "brand": {
+        "x": 47.734375,
+        "y": 16.5,
+        "width": 74.28125,
+        "height": 38,
+        "top": 16.5,
+        "right": 122.015625,
+        "bottom": 54.5,
+        "left": 47.734375
+      },
+      "brandFont": "\"POET Cookie Crumble\", sans-serif",
+      "bodyFont": "\"Product Sans\", sans-serif",
+      "playback": false,
+      "photoNote": false
+    },
+    {
+      "headerMetrics": {
+        "width": 390,
+        "ink": 27,
+        "visible": 31,
+        "ratio": 1.1481481481481481,
+        "menuFont": "\"Product Sans\", sans-serif",
+        "brandName": "POET, trang chủ",
+        "imageAlt": ""
+      }
+    },
+    {
+      "fundraising": {
+        "fundAnimate": "",
+        "fundraising": "",
+        "raised": "78450000",
+        "target": "121950000",
+        "provisional": "true",
+        "progressLabel": "Tiến độ Mùa 6",
+        "milestone": "green",
+        "fundAnimated": "true",
+        "fundMotion": "done"
+      },
+      "amount": "78.450.000",
+      "badge": "Đạt 64%",
+      "note": "Số liệu minh họa",
+      "stats": [
+        {
+          "text": "248 người248 người",
+          "rect": {
+            "x": 58,
+            "y": 540.265625,
+            "width": 122.5,
+            "height": 33.796875,
+            "top": 540.265625,
+            "right": 180.5,
+            "bottom": 574.0625,
+            "left": 58
+          }
+        },
+        {
+          "text": "14 đối tác14 đối tác",
+          "rect": {
+            "x": 209.5,
+            "y": 540.265625,
+            "width": 122.5,
+            "height": 33.796875,
+            "top": 540.265625,
+            "right": 332,
+            "bottom": 574.0625,
+            "left": 209.5
+          }
+        }
+      ],
+      "cta": "rgb(57, 159, 120)"
+    },
+    {
+      "width": 768,
+      "height": 1024,
+      "overflow": false,
+      "header": {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 72,
+        "top": 0,
+        "right": 768,
+        "bottom": 72,
+        "left": 0
+      },
+      "brand": {
+        "x": 61.265625,
+        "y": 15.5,
+        "width": 78.015625,
+        "height": 40,
+        "top": 15.5,
+        "right": 139.28125,
+        "bottom": 55.5,
+        "left": 61.265625
+      },
+      "brandFont": "\"POET Cookie Crumble\", sans-serif",
+      "bodyFont": "\"Product Sans\", sans-serif",
+      "playback": false,
+      "photoNote": false
+    },
+    {
+      "headerMetrics": {
+        "width": 768,
+        "ink": 28,
+        "visible": 33,
+        "ratio": 1.1785714285714286,
+        "menuFont": "\"Product Sans\", sans-serif",
+        "brandName": "POET, trang chủ",
+        "imageAlt": ""
+      }
+    },
+    {
+      "fundraising": {
+        "fundAnimate": "",
+        "fundraising": "",
+        "raised": "78450000",
+        "target": "121950000",
+        "provisional": "true",
+        "progressLabel": "Tiến độ Mùa 6",
+        "milestone": "green",
+        "fundAnimated": "true",
+        "fundMotion": "done"
+      },
+      "amount": "78.450.000",
+      "badge": "Đạt 64%",
+      "note": "Số liệu minh họa",
+      "stats": [
+        {
+          "text": "248 người248 người",
+          "rect": {
+            "x": 70,
+            "y": 662.015625,
+            "width": 294,
+            "height": 39,
+            "top": 662.015625,
+            "right": 364,
+            "bottom": 701.015625,
+            "left": 70
+          }
+        },
+        {
+          "text": "14 đối tác14 đối tác",
+          "rect": {
+            "x": 404,
+            "y": 662.015625,
+            "width": 294,
+            "height": 39,
+            "top": 662.015625,
+            "right": 698,
+            "bottom": 701.015625,
+            "left": 404
+          }
+        }
+      ],
+      "cta": "rgb(57, 159, 120)"
+    },
+    {
+      "width": 320,
+      "height": 740,
+      "overflow": false,
+      "header": {
+        "x": 0,
+        "y": 0,
+        "width": 320,
+        "height": 72,
+        "top": 0,
+        "right": 320,
+        "bottom": 72,
+        "left": 0
+      },
+      "brand": {
+        "x": 38.4375,
+        "y": 18.5,
+        "width": 66.78125,
+        "height": 34,
+        "top": 18.5,
+        "right": 105.21875,
+        "bottom": 52.5,
+        "left": 38.4375
+      },
+      "brandFont": "\"POET Cookie Crumble\", sans-serif",
+      "bodyFont": "\"Product Sans\", sans-serif",
+      "playback": false,
+      "photoNote": false
+    },
+    {
+      "headerMetrics": {
+        "width": 320,
+        "ink": 24,
+        "visible": 28,
+        "ratio": 1.1666666666666667,
+        "menuFont": "\"Product Sans\", sans-serif",
+        "brandName": "POET, trang chủ",
+        "imageAlt": ""
+      }
+    },
+    {
+      "fundraising": {
+        "fundAnimate": "",
+        "fundraising": "",
+        "raised": "78450000",
+        "target": "121950000",
+        "provisional": "true",
+        "progressLabel": "Tiến độ Mùa 6",
+        "milestone": "green",
+        "fundAnimated": "true",
+        "fundMotion": "done"
+      },
+      "amount": "78.450.000",
+      "badge": "Đạt 64%",
+      "note": "Số liệu minh họa",
+      "stats": [
+        {
+          "text": "248 người248 người",
+          "rect": {
+            "x": 46,
+            "y": 497.609375,
+            "width": 101.5,
+            "height": 33.796875,
+            "top": 497.609375,
+            "right": 147.5,
+            "bottom": 531.40625,
+            "left": 46
+          }
+        },
+        {
+          "text": "14 đối tác14 đối tác",
+          "rect": {
+            "x": 172.5,
+            "y": 497.609375,
+            "width": 101.5,
+            "height": 33.796875,
+            "top": 497.609375,
+            "right": 274,
+            "bottom": 531.40625,
+            "left": 172.5
+          }
+        }
+      ],
+      "cta": "rgb(57, 159, 120)"
+    }
+  ],
+  "status": "passed"
+}

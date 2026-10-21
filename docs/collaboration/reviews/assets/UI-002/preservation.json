@@ -1,0 +1,96 @@
+{
+  "base": "11d29756086f591d868c986c1d1484f0f0a2ad84",
+  "checks": [
+    {
+      "name": "Correct Codex branch/base ancestry",
+      "passed": true
+    },
+    {
+      "name": "All 23 original untracked files byte-identical",
+      "passed": true
+    },
+    {
+      "name": "61 protected files unchanged; activity-carousel is explicit ticket exception",
+      "passed": true
+    },
+    {
+      "name": "Exact Intro/board/Hero subtree unchanged",
+      "passed": true
+    },
+    {
+      "name": "Financial calculation unchanged",
+      "passed": true
+    },
+    {
+      "name": "Original milestone mapping unchanged",
+      "passed": true
+    },
+    {
+      "name": "v2/data/content.mjs unchanged",
+      "passed": true
+    },
+    {
+      "name": "v2/data/site-data.js unchanged",
+      "passed": true
+    },
+    {
+      "name": "v2/press-strip.js unchanged",
+      "passed": true
+    },
+    {
+      "name": "v2/world.js unchanged",
+      "passed": true
+    },
+    {
+      "name": "v2/world.css unchanged",
+      "passed": true
+    },
+    {
+      "name": "assets/css/typography.css unchanged",
+      "passed": true
+    },
+    {
+      "name": "About/People untouched",
+      "passed": true
+    },
+    {
+      "name": "Archive geometry/markup untouched",
+      "passed": true
+    },
+    {
+      "name": "Project fundraising template untouched",
+      "passed": true
+    },
+    {
+      "name": "site.js changes only import cache revisions",
+      "passed": true
+    },
+    {
+      "name": "No unrelated tracked edits",
+      "passed": true
+    },
+    {
+      "name": "Git diff whitespace",
+      "passed": true
+    }
+  ],
+  "changed": [
+    "ASSET_STATUS.md",
+    "v2/activity-carousel.js",
+    "v2/chrome.js",
+    "v2/dong-hanh/index.html",
+    "v2/du-an/go-ngai/index.html",
+    "v2/du-an/index.html",
+    "v2/du-an/vet-nut/index.html",
+    "v2/fundraising-progress.mjs",
+    "v2/index.html",
+    "v2/site.css",
+    "v2/site.js",
+    "v2/team/index.html",
+    "v2/team/phan-ban/index.html",
+    "v2/tinh-nguyen-vien/index.html",
+    "v2/tools/build-site.mjs",
+    "v2/tools/site-templates.mjs"
+  ],
+  "status": "passed"
+}

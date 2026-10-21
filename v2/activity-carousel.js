@@ -2,8 +2,6 @@
 // All image/text effects share a native document.timeline start time.
 const reduced=matchMedia('(prefers-reduced-motion:reduce)');
 const small=matchMedia('(max-width:600px)');
-// Full local review is the default; public hosts retain system reduced motion.
-const fullPreview=['localhost','127.0.0.1','[::1]'].includes(location.hostname)&&new URLSearchParams(location.search).get('carouselMotion')!=='respect';
 const HOLD_AFTER_TRANSITION=1500;
 const EASE={imageOut:'ease-in-out',imageIn:'ease-in-out',textOut:'ease',textIn:'ease'};
 
@@ -14,7 +12,6 @@ export function initActivityCarousel(wrap){
   const slides=[...wrap.querySelectorAll('.activity-slide')];
   if(!viewport||!slides.length){wrap.querySelector('.activity-controls')?.setAttribute('hidden','');return;}
   const dots=[...wrap.querySelectorAll('[data-slide]')];
-  const playback=wrap.querySelector('.activity-playback');
   const images=slides.map(slide=>slide.querySelector('.activity-cover'));
   const copies=slides.map(slide=>slide.querySelector('.activity-copy'));
   // One persistent CTA sits outside both animated image and copy layers.
@@ -27,9 +24,9 @@ export function initActivityCarousel(wrap){
   detailLinks.forEach(link=>{link.inert=true;link.tabIndex=-1;link.setAttribute('aria-hidden','true');});
   const originals=new Map(slides.map(slide=>{const heading=slide.querySelector('h3');return[heading,heading.textContent];}));
   const ready=new Map();
-  let index=0,timer,visible=false,focused=false,paused=false,suspended=false,handoff=false;
+  let index=0,timer,visible=false,focused=false,hovered=false,suspended=false,handoff=false;
   let request=0,pending=null,transition=null,reflow=false,resizeFrame,touch=null,swiped=false;
-  const canPlay=()=>slides.length>1&&visible&&!document.hidden&&!focused&&!paused&&!suspended&&!touch&&!handoff;
+  const canPlay=()=>slides.length>1&&visible&&!document.hidden&&!focused&&!hovered&&!suspended&&!touch&&!handoff&&!reduced.matches;
   const stop=()=>{clearTimeout(timer);timer=undefined;};
 
   function positionDetailLink(){
@@ -48,8 +45,6 @@ export function initActivityCarousel(wrap){
   function schedule(){
     stop();
     viewport.setAttribute('aria-live',canPlay()?'off':'polite');
-    playback.classList.toggle('is-paused',paused);
-    playback.setAttribute('aria-label',paused?'Bật tự chuyển slide':'Tạm dừng tự chuyển slide');
     if(canPlay()&&pending===null&&transition===null)timer=setTimeout(()=>transitionToSlide((index+1)%slides.length,{automatic:true}),HOLD_AFTER_TRANSITION);
   }
 
@@ -118,7 +113,7 @@ export function initActivityCarousel(wrap){
       const animation=target.animate(frames,{delay,duration,easing,fill:'both'});
       animation.startTime=start;active.animations.push(animation);
     }
-    const gentle=reduced.matches&&!fullPreview;
+    const gentle=reduced.matches;
     // In the supplied recording the photograph dissolves first and settles
     // before the caption. Keep both photos in the same crop, without panning.
     animate(images[old],[{opacity:1},{opacity:0}],0,gentle?130:600,EASE.imageOut);
@@ -137,8 +132,6 @@ export function initActivityCarousel(wrap){
     schedule();
   }
 
-  function pause(){paused=true;invalidate();schedule();}
-  function play(){paused=false;focused=false;schedule();}
   slides.forEach((slide,i)=>{slide.inert=i!==0;slide.setAttribute('aria-hidden',String(i!==0));});
   wrap.classList.add('is-ready');wrap.querySelector('.activity-controls').hidden=slides.length<2;
   updateDetailLink();positionDetailLink();
@@ -147,15 +140,19 @@ export function initActivityCarousel(wrap){
   dots.forEach((dot,i)=>dot.addEventListener('click',()=>transitionToSlide(i)));
   wrap.querySelector('[data-activity-prev]')?.addEventListener('click',()=>transitionToSlide((index-1+slides.length)%slides.length));
   wrap.querySelector('[data-activity-next]')?.addEventListener('click',()=>transitionToSlide((index+1)%slides.length));
-  playback.addEventListener('click',()=>paused?play():pause());
   function syncFocus(){
-    focused=wrap.contains(document.activeElement)&&document.activeElement!==playback&&document.activeElement.matches(':focus-visible');
+    // Hero handoff focuses its reading heading after a pointer click. Keep that
+    // handoff playing; pause for interactive focus or a visible keyboard focus.
+    const active=document.activeElement;
+    focused=wrap.contains(active)&&active.matches('a,button,[role="button"],:focus-visible');
     if(focused)invalidate();schedule();
   }
   wrap.addEventListener('focusin',syncFocus);
   wrap.addEventListener('focusout',()=>queueMicrotask(syncFocus));
+  wrap.addEventListener('pointerenter',event=>{if(event.pointerType!=='mouse')return;hovered=true;invalidate();schedule();});
+  wrap.addEventListener('pointerleave',event=>{if(event.pointerType!=='mouse')return;hovered=false;schedule();});
   wrap.addEventListener('keydown',event=>{
-    if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key)||event.target===playback)return;
+    if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;
     event.preventDefault();
     const next=event.key==='Home'?0:event.key==='End'?slides.length-1:(index+(event.key==='ArrowRight'?1:-1)+slides.length)%slides.length;
     dots[next].focus({preventScroll:true});transitionToSlide(next);

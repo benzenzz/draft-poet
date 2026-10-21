@@ -1,4 +1,5 @@
 // Shared ES module for the static builder and browser. Amounts are the source of truth.
+import {createFundraisingReveal} from './fundraising-reveal.mjs';
 export const fundraisingMilestones = [
   {name:'coral',color:'#EF8A7D',tint:'#fff8f5',border:'#f0c4bd',ink:'#843c33'},
   {name:'yellow',color:'#FEE161',tint:'#fffdf2',border:'#eddfa0',ink:'#665112'},
@@ -19,6 +20,7 @@ export function fundraisingStyle(state) {
 }
 
 export function initFundraisingProgress(scope=document) {
+  const reveals=new WeakMap();
   const number=n=>new Intl.NumberFormat('vi-VN').format(n);
   const amount=(card,key)=>{
     const value=card.getAttribute(key);
@@ -41,17 +43,21 @@ export function initFundraisingProgress(scope=document) {
       bar.setAttribute('role','img');bar.setAttribute('aria-label','Tiến độ gây quỹ đang chờ số liệu xác nhận');
       ['aria-valuemin','aria-valuemax','aria-valuenow','aria-valuetext'].forEach(key=>bar.removeAttribute(key));
     }
-    if(badge)badge.textContent=state.known?`Đạt ${Math.round(state.progress)}%${card.dataset.provisional==='true'?'*':''}`:'Chờ cập nhật';
+    if(badge)badge.textContent=state.known?`Đạt ${Math.round(state.progress)}%`:'Chờ cập nhật';
     const total=card.querySelector('[data-fund-raised]'),goal=card.querySelector('[data-fund-target]'),remaining=card.querySelector('[data-fund-remaining]');
     if(total)total.textContent=state.known?number(raised):'—';
     if(goal)goal.textContent=Number.isFinite(target)&&target>0?number(target):'—';
     if(remaining)remaining.textContent=state.known?`${number(state.remaining)} VNĐ`:'chờ cập nhật';
+    reveals.get(card)?.update(state,raised);
   };
   const observers=[...scope.querySelectorAll('[data-fundraising]')].map(card=>{
+    const reveal=createFundraisingReveal(card);
+    if(reveal)reveals.set(card,reveal);
     render(card);
+    reveal?.observe();
     const observer=new MutationObserver(()=>render(card));
     observer.observe(card,{attributes:true,attributeFilter:['data-raised','data-target','data-provisional']});
-    return observer;
+    return {disconnect(){observer.disconnect();reveal?.disconnect();}};
   });
   return ()=>observers.forEach(observer=>observer.disconnect());
 }

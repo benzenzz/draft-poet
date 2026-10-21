@@ -110,6 +110,12 @@ Added six unmodified interface SVGs from the official pinned Lucide0.468.0 repos
 
 Visual reference: user-provided `Screenshot 2026-10-20 153818.png`; review copy and combined comparison are outside production assets in `../audit-work/layout-restoration/`. No screenshot is used as website content. See `docs/PROTOTYPE_LAYOUT_RESTORATION.md`.
 
+## UI-002 header assets — 21 October 2026
+
+- `assets/fonts/cookie-crumble-demo.otf`: byte-identical copy of supplied `v2/fonts/Cookie Crumble DEMO.otf`, SHA-256 `9fecdf3c1ff9e5ce8b4c63dcd6a1a71746dbcf60056b54d7af66ae862a2eabbe`, 36,176 bytes. Metadata: Cookie Crumble DEMO / Regular / OS/2 weight 400; PostScript name CookieCrumbleDEMO-Regular. Explicit ticket exception, scoped to header wordmark only; menu/content retain Product Sans. Original untracked font is preserved. Name ID 13 identifies a personal/non-commercial DEMO license; production/public embedding permission is unverified. This ticket is local review only, with no deployment.
+- Header lockup reuses the existing transparent `assets/brand/poet-logo.webp` primary-symbol derivative (98 × 128); no screenshot, duplicated wordmark or white canvas is added. The symbol is decorative inside the existing named Home link.
+- Partner dropdown reuses `assets/mascot/be-cuc/vui-tuoi.webp` (180 × 200), already normalized from the staged official `Cúc VuiTuoi.png` documented below. Asset name is the verified equivalent of the requested smiling Cúc. No staging directory or additional raster source is copied. All existing image files remain unchanged.
+
 ## Two stall structures and Bé Cúc hover — 20 October 2026
 
 User's attached frontal merchandise-booth image is a visual reference only. No watermark, reference bitmap or new raster material is copied into the website. No finished official merchandise design was found in the existing project/staged inventory; the new plain shirt, tote and folded-shirt stack are representative decorative SVG products, not official product claims.
