@@ -40,7 +40,7 @@ function homeFundraising(base) {
   const raised=value('raised'),state=fundraisingState(raised,s.targetAmount),percent=state.progress;
   // Progressive enhancement: establish the pending state synchronously before
   // numeric children are parsed. Without JS, the real final values remain visible.
-  const prime='<script>if(!matchMedia("(prefers-reduced-motion:reduce)").matches&&"IntersectionObserver"in window)document.currentScript.parentElement.dataset.fundMotion="pending";</script>';
+  const prime='<script>if((!matchMedia("(prefers-reduced-motion:reduce)").matches||(["localhost","127.0.0.1","[::1]"].includes(location.hostname)&&new URLSearchParams(location.search).get("homeMotion")==="full"))&&"IntersectionObserver"in window)document.currentScript.parentElement.dataset.fundMotion="pending";</script>';
   const numeric=(value,attribute)=>`<span class="fund-number" data-fund-final="${number(value)}" aria-hidden="true"><span ${attribute}>${number(value)}</span></span>`;
   return `<aside class="fundraising" id="gay-quy" data-fund-animate ${fundAttributes(raised,s.targetAmount,provisional)} aria-label="Tiến độ gây quỹ ${s.name}">${prime}
     <div class="fund-heading"><p class="eyebrow"><svg viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m2 14 5-5 4 3 7-8m-5 0h5v5"/></svg>Tiến độ gây quỹ</p><span class="fund-status"${provisional?' aria-describedby="home-fund-preview-note"':''}>Đạt ${Math.round(percent)}%</span></div>

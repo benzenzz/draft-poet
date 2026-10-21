@@ -724,7 +724,12 @@ poet-nav.site-nav{height:74px;background:#fbf9f3;border-color:#e7e3de}
 
 /* Home card only: fixed full-width gradient, reserved numeric widths, no live frames. */
 .campaign-band--prototype [data-fund-animate] .fund-status{background:var(--milestone-ink);color:#fff;opacity:1}
-.campaign-band--prototype [data-fund-animate] .fund-actions [data-donate]{background:var(--milestone-color);border-color:var(--milestone-color);color:var(--poet-action-ink)!important}
+.campaign-band--prototype [data-fund-animate]{--fund-cta-bg:#bf554a;--fund-cta-ink:#fff}
+.campaign-band--prototype [data-fund-animate][data-milestone=yellow]{--fund-cta-bg:#ebcc4f;--fund-cta-ink:#332b27}
+.campaign-band--prototype [data-fund-animate][data-milestone=green]{--fund-cta-bg:#27815f}
+.campaign-band--prototype [data-fund-animate][data-milestone=blue]{--fund-cta-bg:#317da8}
+.campaign-band--prototype [data-fund-animate] .fund-actions [data-donate]{background:var(--fund-cta-bg);border-color:var(--fund-cta-bg);color:var(--fund-cta-ink)!important}
+@media(hover:hover) and (pointer:fine){.campaign-band--prototype [data-fund-animate] .fund-actions [data-donate]:hover{background:color-mix(in srgb,var(--fund-cta-bg) 92%,#000);border-color:color-mix(in srgb,var(--fund-cta-bg) 92%,#000)}}
 .campaign-band--prototype [data-fund-animate] .fund-actions [data-donate] .prototype-icon{color:currentColor}
 .campaign-band--prototype [data-fund-animate] .fund-preview-note{font-size:11px;margin:8px 0 0;line-height:1.4;color:var(--milestone-ink)}
 .campaign-band--prototype [data-fund-animate] .fund-target>.fund-number{font:inherit;letter-spacing:inherit;color:inherit}
@@ -783,6 +788,7 @@ poet-nav.site-nav{height:74px;background:#fbf9f3;border-color:#e7e3de}
 @media(max-width:359px){.join-section--home .participation-panel{padding-inline:14px}.join-section--home .action-card{padding:18px}.join-section--home .action-card h3{font-size:22px}}
 
 /* HOME-005: existing Home hooks keep About typography and controls independent. */
+.activities-section .activity-text-line{display:block}
 .activities-section[data-caption-pending] .activity-slide.is-active .activity-copy>:not(.btn){visibility:hidden}
 .campaign-band--prototype .campaign-story{--campaign-secondary:#6f6862}
 .campaign-band--prototype .campaign-story>p:not(.eyebrow),
