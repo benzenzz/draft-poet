@@ -162,8 +162,8 @@
   },
   {
     "file": "commands-results.json",
-    "bytes": 7114,
-    "sha256": "98f4d62bfa01f9e259725185a0a08097b32020043e29b8552e1ac317d4ff9969"
+    "bytes": 7361,
+    "sha256": "a0a3f70441c649a24224f27617f7f2b5a63f0e48cc3030aeb34e8f05d326f98e"
   },
   {
     "file": "editorial-results.json",
@@ -194,5 +194,10 @@
     "file": "preview-proof.json",
     "bytes": 2410,
     "sha256": "6854ad801da14b146b39b182e2ed7cbfab71b4408c2e93857fbde32fdbce3b10"
+  },
+  {
+    "file": "served-after-commit.json",
+    "bytes": 1823,
+    "sha256": "8b6dbf16b01d66cfdbd997fa6f79807823169c078de7776ca4ef6b9aa5d03f12"
   }
 ]

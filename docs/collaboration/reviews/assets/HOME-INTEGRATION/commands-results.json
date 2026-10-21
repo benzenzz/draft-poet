@@ -170,5 +170,11 @@
       "command": "git diff 775fc596ec644c22927bb6029c0c6190a6cd0b63 --exit-code -- docs/collaboration/reviews/UI-003-claude/shared-files.patch",
       "exitCode": 0
     }
+  },
+  "afterCommit": {
+    "command": "node v2/tools/tests/home-integration-preview.mjs --identity-only",
+    "branch": "integration/home-review-20261021",
+    "head": "0c924cc866b6c9b1d820760518352da8b8876c6d",
+    "servedByteIdenticalFiles": 8
   }
 }
