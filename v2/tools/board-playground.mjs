@@ -215,10 +215,12 @@ function serviceStall(name,u,v,edge,label,variant){
     art+=face('booth-canopy-edge',-w/2-4,w/2+4,roofFront,75,78);
     for(const x of [-w/2+6,w/2-6])art+=rail('booth-roof-frame',[[x,-d/2+4,roofHeight(-d/2+4)],[x,0,94],[x,d/2-4,roofHeight(d/2-4)]],1.7);
   }
-  // A fascia fixed to the INNER eave, not a detached sign above the roof.
-  const signZ=merch?92:78,signY=roofFront+.4,aw=w-(merch?32:12);
-  let a=P(...at(-aw/2,signY,signZ-5)),b=P(...at(aw/2,signY,signZ-5));if(a[0]>b[0])[a,b]=[b,a];
-  art+=`<g class="booth-fascia" transform="matrix(${n((b[0]-a[0])/aw)} ${n((b[1]-a[1])/aw)} 0 1 ${n(a[0])} ${n(a[1])})"><rect class="booth-sign" x="0" y="-11" width="${aw}" height="20" rx="1.5"/><text class="booth-label" x="${aw/2}" y="3" text-anchor="middle">${label.replace(' · ',' ')}</text></g>`;
+  // Both local frames point inward along +y; mount the complete sign on -y,
+  // the outer eave, with short supports anchored to that same roof edge.
+  const signY=roofBack-.4,mountZ=roofHeight(roofBack),aw=w+8;
+  for(const x of [-w*.35,w*.35])art+=rail('booth-roof-frame',[[x,roofBack,mountZ],[x,signY,mountZ+7]],2);
+  let a=P(...at(-aw/2,signY,mountZ+19)),b=P(...at(aw/2,signY,mountZ+19));if(a[0]>b[0])[a,b]=[b,a];
+  art+=`<g class="booth-fascia" transform="matrix(${n((b[0]-a[0])/aw)} ${n((b[1]-a[1])/aw)} 0 1 ${n(a[0])} ${n(a[1])})"><rect class="booth-sign" x="0" y="-14" width="${aw}" height="28" rx="1.5"/><text class="booth-label" x="${aw/2}" y="5" text-anchor="middle">${label.replace(' · ',' ')}</text></g>`;
   const frontNormal=edge==='right'?'-1 0':'0 -1';
   item('building stall',name,u,v,`<title>${label}</title><g class="booth-layout" data-front-normal="${frontNormal}" data-two-cell-bounds="${GRID.cell} ${GRID.cell/2}">${art}</g>`,'stall-'+variant);
 }

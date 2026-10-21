@@ -277,4 +277,5 @@ html[data-world-state="alive"][data-world-motion="paused"] .hero--world .join-jo
 .hero--world .booth-sign{fill:var(--booth-cream);stroke:var(--booth-green);stroke-width:.7}
 .hero--world .stall-merch .booth-sign{stroke:var(--booth-coral)}
 .hero--world .booth-label{fill:var(--booth-ink);font:700 11.5px var(--font-board)}
+.hero--world :is(.stall-info,.stall-merch) .booth-label{font-size:18px}
 .hero--world .flower-hover{transform-box:view-box;pointer-events:none}

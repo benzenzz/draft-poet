@@ -782,6 +782,20 @@ poet-nav.site-nav{height:74px;background:#fbf9f3;border-color:#e7e3de}
 @media(max-width:600px){.join-section--home .participation-panel{padding:28px 18px}.join-section--home .action-card{padding:20px}.join-section--home .action-cta{align-self:stretch}.join-section--home .section-heading{margin-bottom:24px}}
 @media(max-width:359px){.join-section--home .participation-panel{padding-inline:14px}.join-section--home .action-card{padding:18px}.join-section--home .action-card h3{font-size:22px}}
 
+/* HOME-005: existing Home hooks keep About typography and controls independent. */
+.activities-section[data-caption-pending] .activity-slide.is-active .activity-copy>:not(.btn){visibility:hidden}
+.campaign-band--prototype .campaign-story{--campaign-secondary:#6f6862}
+.campaign-band--prototype .campaign-story>p:not(.eyebrow),
+.campaign-band--prototype .campaign-summary-list,
+.campaign-band--prototype .campaign-card-footer>span,
+.campaign-band--prototype .campaign-card-footer>span strong{color:var(--campaign-secondary)}
+.campaign-band--prototype .campaign-story :is(p,.campaign-summary-list) strong{color:var(--poet-heading)}
+.activities-section .activity-copy .btn,
+.campaign-band--prototype .fund-actions .btn,
+.activities-section .activity-static-cta,
+.join-section--home .action-cta,
+poet-nav.site-home-nav .site-nav-inner>.btn{border-radius:14px}
+
 /* Footer groups retain the original contact data and destinations. */
 .site-footer{background:#211f1c;border-radius:16px 16px 0 0}
 .site-footer .site-footer-inner{max-width:none;background:transparent;padding-top:32px}

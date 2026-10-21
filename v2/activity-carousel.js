@@ -26,6 +26,8 @@ export function initActivityCarousel(wrap){
   const ready=new Map();
   let index=0,timer,visible=false,focused=false,hovered=false,suspended=false,handoff=false;
   let request=0,pending=null,transition=null,reflow=false,resizeFrame,touch=null,swiped=false;
+  let firstCaption=!reduced.matches,headlinesReady=false;
+  if(firstCaption)wrap.dataset.captionPending='true';
   const canPlay=()=>slides.length>1&&visible&&!document.hidden&&!focused&&!hovered&&!suspended&&!touch&&!handoff&&!reduced.matches;
   const stop=()=>{clearTimeout(timer);timer=undefined;};
 
@@ -44,8 +46,9 @@ export function initActivityCarousel(wrap){
 
   function schedule(){
     stop();
+    revealFirstCaption();
     viewport.setAttribute('aria-live',canPlay()?'off':'polite');
-    if(canPlay()&&pending===null&&transition===null)timer=setTimeout(()=>transitionToSlide((index+1)%slides.length,{automatic:true}),HOLD_AFTER_TRANSITION);
+    if(canPlay()&&!firstCaption&&pending===null&&transition===null)timer=setTimeout(()=>transitionToSlide((index+1)%slides.length,{automatic:true}),HOLD_AFTER_TRANSITION);
   }
 
   function ensureImage(next){
@@ -93,8 +96,36 @@ export function initActivityCarousel(wrap){
   }
   function invalidate(){request++;pending=null;stop();settleTransition();}
 
+  // Share the approved caption sequence with the first visible slide. Its
+  // timer starts on arrival, after the Hero handoff, never while offscreen.
+  function animateCaption(active,start){
+    const gentle=reduced.matches,children=[...copies[index].children],headline=copies[index].querySelector('h3');
+    const enter=(target,delay,duration,scale)=>{
+      const frames=gentle?[{opacity:0},{opacity:1}]:[{opacity:0,transform:`scale(${scale})`},{opacity:1,transform:'scale(1)'}];
+      const animation=target.animate(frames,{delay,duration,easing:EASE.textIn,fill:'both'});
+      animation.startTime=start;active.animations.push(animation);
+    };
+    enter(children[0],gentle?85:550,gentle?80:650,small.matches?1.06:1.15);
+    enter(headline,gentle?95:800,gentle?80:800,small.matches?1.08:1.2);
+    children.slice(2).filter(child=>!child.matches('.btn')).forEach(child=>enter(child,gentle?105:950,gentle?80:550,small.matches?1.025:1.04));
+  }
+  function finishEffects(active){
+    Promise.all(active.animations.map(animation=>animation.finished)).then(()=>{if(transition===active){settleTransition();schedule();}}).catch(()=>{});
+  }
+  function revealFirstCaption(){
+    if(!firstCaption||!visible||handoff||suspended||document.hidden||!headlinesReady||transition||pending!==null)return;
+    firstCaption=false;
+    if(!reduced.matches){
+      const active={animations:[]};transition=active;
+      animateCaption(active,document.timeline.currentTime);
+      finishEffects(active);
+    }
+    delete wrap.dataset.captionPending;
+  }
+
   async function transitionToSlide(next,{automatic=false}={}){
     invalidate();
+    firstCaption=false;delete wrap.dataset.captionPending;
     if(next===index){schedule();return;}
     const token=request;pending=token;
     const loaded=await ensureImage(next);
@@ -119,15 +150,11 @@ export function initActivityCarousel(wrap){
     animate(images[old],[{opacity:1},{opacity:0}],0,gentle?130:600,EASE.imageOut);
     animate(images[index],[{opacity:0},{opacity:1}],0,gentle?160:600,EASE.imageIn);
     animate(copies[old],[{opacity:1},{opacity:0}],0,gentle?70:180,EASE.textOut);
-    const children=[...copies[index].children],headline=copies[index].querySelector('h3');
-    const enter=(target,delay,duration,scale)=>animate(target,gentle?[{opacity:0},{opacity:1}]:[{opacity:0,transform:`scale(${scale})`},{opacity:1,transform:'scale(1)'}],delay,duration,EASE.textIn);
     // Match the reference's label -> complete headline reveal. A multiline
     // headline scales as one readable phrase, with Vietnamese accents intact.
-    enter(children[0],gentle?85:550,gentle?80:650,small.matches?1.06:1.15);
-    enter(headline,gentle?95:800,gentle?80:800,small.matches?1.08:1.2);
-    children.slice(2).filter(child=>!child.matches('.btn')).forEach(child=>enter(child,gentle?105:950,gentle?80:550,small.matches?1.025:1.04));
+    animateCaption(active,start);
     // One owner settles all effects; cancellation never queues another change.
-    Promise.all(active.animations.map(animation=>animation.finished)).then(()=>{if(transition===active){settleTransition();schedule();}}).catch(()=>{});
+    finishEffects(active);
     ensureImage((index+1)%slides.length);
     schedule();
   }
@@ -136,7 +163,7 @@ export function initActivityCarousel(wrap){
   wrap.classList.add('is-ready');wrap.querySelector('.activity-controls').hidden=slides.length<2;
   updateDetailLink();positionDetailLink();
   ensureImage(0);ensureImage(1);
-  document.fonts.ready.then(prepareHeadlines);
+  document.fonts.ready.then(()=>{prepareHeadlines();headlinesReady=true;schedule();});
   dots.forEach((dot,i)=>dot.addEventListener('click',()=>transitionToSlide(i)));
   wrap.querySelector('[data-activity-prev]')?.addEventListener('click',()=>transitionToSlide((index-1+slides.length)%slides.length));
   wrap.querySelector('[data-activity-next]')?.addEventListener('click',()=>transitionToSlide((index+1)%slides.length));
@@ -145,11 +172,11 @@ export function initActivityCarousel(wrap){
     // handoff playing; pause for interactive focus or a visible keyboard focus.
     const active=document.activeElement;
     focused=wrap.contains(active)&&active.matches('a,button,[role="button"],:focus-visible');
-    if(focused)invalidate();schedule();
+    schedule();
   }
   wrap.addEventListener('focusin',syncFocus);
   wrap.addEventListener('focusout',()=>queueMicrotask(syncFocus));
-  wrap.addEventListener('pointerenter',event=>{if(event.pointerType!=='mouse')return;hovered=true;invalidate();schedule();});
+  wrap.addEventListener('pointerenter',event=>{if(event.pointerType!=='mouse')return;hovered=true;schedule();});
   wrap.addEventListener('pointerleave',event=>{if(event.pointerType!=='mouse')return;hovered=false;schedule();});
   wrap.addEventListener('keydown',event=>{
     if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;
@@ -169,7 +196,7 @@ export function initActivityCarousel(wrap){
   new ResizeObserver(()=>{cancelAnimationFrame(resizeFrame);resizeFrame=requestAnimationFrame(prepareHeadlines);}).observe(viewport);
   document.addEventListener('visibilitychange',()=>{if(document.hidden)invalidate();schedule();});
   document.addEventListener('poet:hero-handoff',event=>{handoff=event.detail.phase==='start';if(handoff)invalidate();schedule();});
-  reduced.addEventListener('change',()=>{invalidate();schedule();});
+  reduced.addEventListener('change',()=>{invalidate();if(reduced.matches){firstCaption=false;delete wrap.dataset.captionPending;}schedule();});
   addEventListener('pagehide',()=>{suspended=true;invalidate();});
   addEventListener('pageshow',()=>{suspended=false;schedule();});
   schedule();
