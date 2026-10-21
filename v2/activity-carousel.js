@@ -183,16 +183,24 @@ export function initActivityCarousel(wrap){
   wrap.querySelector('[data-activity-prev]')?.addEventListener('click',()=>transitionToSlide((index-1+slides.length)%slides.length));
   wrap.querySelector('[data-activity-next]')?.addEventListener('click',()=>transitionToSlide((index+1)%slides.length));
   function syncFocus(){
-    // Hero handoff focuses its reading heading after a pointer click. Keep that
-    // handoff playing; pause for interactive focus or a visible keyboard focus.
+    // Pointer navigation must resume autoplay; retain pause for keyboard users.
     const active=document.activeElement;
-    focused=wrap.contains(active)&&active.matches('a,button,[role="button"],:focus-visible');
+    focused=wrap.contains(active)&&active.matches('a,button,[role="button"]')&&active.matches(':focus-visible');
     schedule();
   }
   wrap.addEventListener('focusin',syncFocus);
   wrap.addEventListener('focusout',()=>queueMicrotask(syncFocus));
-  wrap.addEventListener('pointerenter',event=>{if(event.pointerType!=='mouse')return;hovered=true;schedule();});
-  wrap.addEventListener('pointerleave',event=>{if(event.pointerType!=='mouse')return;hovered=false;schedule();});
+  // Hovering the large thumbnail should not freeze the slideshow. Pause only
+  // over its persistent link so its destination remains stable while clicking.
+  function syncHover(event){
+    if(event.pointerType!=='mouse')return;
+    const target=event.type==='pointerout'?event.relatedTarget:event.target;
+    const over=target instanceof Element&&!!target.closest('.activity-static-cta');
+    if(hovered===over)return;
+    hovered=over;schedule();
+  }
+  wrap.addEventListener('pointerover',syncHover);
+  wrap.addEventListener('pointerout',syncHover);
   wrap.addEventListener('keydown',event=>{
     if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;
     event.preventDefault();
