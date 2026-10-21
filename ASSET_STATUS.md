@@ -1,5 +1,15 @@
 # Asset status
 
+## Suaserif Bold — Hero-only exception (UI-001, 21 October 2026)
+
+The user approved Suaserif Bold for exactly two Hero uses: the Intro greeting lines (“Hành trình niềm vui bắt đầu”, “Đan tay cùng bước, có nhau là nhà”) and lettering on the playground board (“Have fun”, “Big Joy Little Joy”, “Young Joy Collection”, “POET Community”). All other site text remains Product Sans; the global typography system below is unchanged.
+
+| Source | SHA-256 | Production copy | Metadata | Use |
+| --- | --- | --- | --- | --- |
+| User-installed `%LOCALAPPDATA%\Microsoft\Windows\Fonts\Suaserif-Bold.otf` (byte-identical to the previously unapproved untracked `v2/fonts/Suaserif-Bold.otf` in the Codex worktree, compared by hash only) | `36b054d61abc09b585bc3aedca307c9bb6456cec35ccdb22f1a729f1f9037bd4` | `assets/fonts/suaserif-bold.otf`, unmodified copy, 48,616 B | name ID 1 `Suaserif`, ID 2 `Bold`, ID 4 `Suaserif Bold`, ID 6 `Suaserif-Bold`; usWeightClass 700; fsType 0; full precomposed Vietnamese coverage for the tested alphabet | `v2/world.css` `@font-face` (weight 700) |
+
+**Licence unverified.** The font carries no copyright (ID 0) or licence (ID 13/14) records; `fsType=0` is not a licence grant. Public web embedding needs confirmation from the user/foundry. The other untracked `Cookie Crumble DEMO.otf` remains unapproved and unused.
+
 ## Unified Product Sans only — latest typography decision
 
 The user's long-term instruction supersedes all earlier handwritten/display/body font choices. Live website typography now uses only CSS family `Product Sans` with generic `sans-serif` resilience, across V2, legacy routes, donation/admin pages, SVG text and canvas card lettering. Logo/mascot/image artwork remains intact.

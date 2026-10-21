@@ -25,7 +25,7 @@
     // Local review defaults to full; ?heroMotion=respect and public pages honor the OS.
     const reduceMotion=()=>reduced.matches&&!(debug?.forceMotion||previewMotion);
     const select=s=>[...hero.querySelectorAll(s)],q=s=>hero.querySelector(s);
-    const toggle=q('.world-motion-toggle'),mascot=q('.main-mascot'),mascotBody=q('.main-mascot-body'),world=q('.world-drift'),slot=document.querySelector('.mascot-slot');
+    const mascot=q('.main-mascot'),mascotBody=q('.main-mascot-body'),world=q('.world-drift'),slot=document.querySelector('.mascot-slot');
     const floating=q('.world-float');
     const introScene=q('.poet-intro'),introCopy=q('.intro-copy'),curtain=q('.intro-curtain'),introLines=select('[data-intro-line]');
     introLines.forEach(line=>{
@@ -49,7 +49,7 @@
     const snapshots=new Map(owned.map(el=>[el,{style:el.getAttribute('style'),transform:el.getAttribute('transform'),svgOrigin:el.getAttribute('data-svg-origin')}]));
     const slotVisibility=slot?.style.visibility;
     const ambientTimelines=[],entries=[],phaseEvents=[];
-    let master=null,pathLoop=null,cueTimeline=null,hoverTween=null,pointerSettle=null,resolved=false,destroyed=false,userPaused=false,onScreen=false,pageSuspended=false,introNotified=false,playingReported=false,driftX=null,driftY=null;
+    let master=null,pathLoop=null,cueTimeline=null,hoverTween=null,pointerSettle=null,resolved=false,destroyed=false,onScreen=false,pageSuspended=false,introNotified=false,playingReported=false,driftX=null,driftY=null;
     let activeTile=null,joinHovered=false,joinFocused=false,handoff=null;
     let resolveIntro;const introFinished=new Promise(resolve=>{resolveIntro=resolve;});
     let INTRO=.56;
@@ -105,22 +105,24 @@
       gsap.set(introGlyphs,{y:18,rotation:-3,scale:.96,opacity:0,force3D:false});
       const centerShift=innerWidth/2-(bounds.left+bounds.width/2);
       gsap.set(introLogo,{x:centerShift});
-      intro.to(introGlyphs,{y:0,rotation:0,scale:1,opacity:1,duration:.6,stagger:.18,ease:'power3.out'},.18);
-      introGlyphs.forEach((letter,i)=>intro.call(()=>trace('INTRO_LOGO_LETTER_REVEAL',{letter:letter.dataset.letter}),null,.18+i*.18));
-      intro.to(introLogo,{x:0,scale:fitScale,duration:.65,ease:'power3.inOut'},1.45)
-        .call(()=>trace('INTRO_LOGO_MOVED_LEFT'),null,2.1);
-      const times=[2.2,2.78];
+      // Greeting (logo, poem, hold, fade) plays 1.5x faster; the curtain handoff keeps its own pace.
+      const g=t=>t/1.5,HANDOFF=g(4.75);
+      intro.to(introGlyphs,{y:0,rotation:0,scale:1,opacity:1,duration:g(.6),stagger:g(.18),ease:'power3.out'},g(.18));
+      introGlyphs.forEach((letter,i)=>intro.call(()=>trace('INTRO_LOGO_LETTER_REVEAL',{letter:letter.dataset.letter}),null,g(.18+i*.18)));
+      intro.to(introLogo,{x:0,scale:fitScale,duration:g(.65),ease:'power3.inOut'},g(1.45))
+        .call(()=>trace('INTRO_LOGO_MOVED_LEFT'),null,g(2.1));
+      const times=[g(2.2),g(2.78)];
       poemLines.forEach((line,i)=>{
-        intro.to(line.querySelectorAll('.intro-word > span'),{yPercent:0,rotation:0,opacity:1,duration:.6,stagger:.055,ease:'power3.out'},times[i]);
+        intro.to(line.querySelectorAll('.intro-word > span'),{yPercent:0,rotation:0,opacity:1,duration:g(.6),stagger:g(.055),ease:'power3.out'},times[i]);
         intro.call(()=>trace('INTRO_LINE_REVEAL',{line:i+1,text:line.getAttribute('aria-label')}),null,times[i]);
       });
-      intro.to(introCopy,{y:-12,opacity:0,duration:.65,ease:'sine.inOut'},4.7)
-        .call(()=>trace('INTRO_HANDOFF_STARTED'),null,4.75)
-        .to(curtain,{yPercent:-110,duration:1.6,ease:'sine.inOut'},4.75);
-      if(mark)intro.to(mark,{opacity:.85,scale:1,duration:.5,ease:'sine.inOut'},5.3).to(mark,{opacity:0,duration:.55,ease:'sine.inOut'},5.85);
+      intro.to(introCopy,{y:-12,opacity:0,duration:g(.65),ease:'sine.inOut'},g(4.7))
+        .call(()=>trace('INTRO_HANDOFF_STARTED'),null,HANDOFF)
+        .to(curtain,{yPercent:-110,duration:1.6,ease:'sine.inOut'},HANDOFF);
+      if(mark)intro.to(mark,{opacity:.85,scale:1,duration:.5,ease:'sine.inOut'},HANDOFF+.55).to(mark,{opacity:0,duration:.55,ease:'sine.inOut'},HANDOFF+1.1);
       // The landing zone is open while the curtain softly finishes its last .4s.
-      intro.addLabel('world-open',5.95).call(notifyIntroComplete,null,'world-open');
-      intro.set(introScene,{autoAlpha:0},6.35);
+      intro.addLabel('world-open',HANDOFF+1.2).call(notifyIntroComplete,null,'world-open');
+      intro.set(introScene,{autoAlpha:0},HANDOFF+1.6);
       return intro;
     }
     function record(el,kind,start,duration,extra={}){
@@ -265,7 +267,7 @@
       gsap.set(flowerHovers,{scale:1,y:0});
     }
     function reactFlower(node,enter){
-      if(enter&&(!resolved||destroyed||userPaused||!onScreen||document.hidden||pageSuspended||handoff||!finePointer.matches))return;
+      if(enter&&(!resolved||destroyed||!onScreen||document.hidden||pageSuspended||handoff||!finePointer.matches))return;
       if(enter&&hoveredFlowers.has(node))return;
       flowerTweens.get(node)?.kill();flowerTweens.delete(node);
       enter?hoveredFlowers.add(node):hoveredFlowers.delete(node);
@@ -330,21 +332,18 @@
     }
     function syncMotion(){
       if(destroyed)return;
-      const paused=userPaused||!onScreen||document.hidden||pageSuspended||reduceMotion()||Boolean(handoff);
+      const paused=!onScreen||document.hidden||pageSuspended||reduceMotion()||Boolean(handoff);
       if(paused)resetFlowerHovers();
       if(handoff?.timeline)(document.hidden||pageSuspended)?handoff.timeline.pause():handoff.timeline.resume();
       ambientTimelines.forEach(tl=>paused?tl.pause():tl.resume());
       glowTweens.forEach(tween=>paused?tween.pause():tween.resume());
       if(paused||!resolved||!finePointer.matches){if(driftX)stopDrift();}else startDrift();
-      const entrancePaused=userPaused||!onScreen||document.hidden||pageSuspended;
+      const entrancePaused=!onScreen||document.hidden||pageSuspended;
       if(master&&!resolved)entrancePaused?master.pause():master.resume();
       if(cueTimeline)paused?cueTimeline.pause():cueTimeline.resume();
       if(master&&!resolved&&!entrancePaused&&!playingReported){playingReported=true;trace('HERO_TIMELINE_PLAYING',{onScreen,pageSuspended});}
       if(entrancePaused)playingReported=false;
       root.dataset.worldMotion=paused?'paused':'playing';
-      toggle.hidden=reduceMotion()||!resolved;
-      toggle.setAttribute('aria-pressed',String(userPaused));
-      toggle.setAttribute('aria-label',userPaused?'Tiếp tục chuyển động':'Tạm dừng chuyển động');
     }
     function completeHero(){
       if(resolved||destroyed)return;resolved=true;notifyIntroComplete();
@@ -381,7 +380,7 @@
       }
       if(slot)slot.style.visibility=slotVisibility;
       world.insertBefore(mascot,mascotNext);delete mascot.dataset.currentTile;delete mascot.dataset.nextTile;
-      root.classList.remove('intro-pending');hero.classList.remove('world-building');toggle.hidden=true;phase('stopped');
+      root.classList.remove('intro-pending');hero.classList.remove('world-building');phase('stopped');
     }
     // Edge contact alone counts as isIntersecting at a deep-link scroll position.
     // Require visible area so the entrance cannot run just outside the viewport.
@@ -395,6 +394,8 @@
       const urls=[...new Set([...select('image').map(el=>el.getAttribute('href')),...select('img').map(el=>el.currentSrc||el.src)])];
       await Promise.allSettled(urls.map(src=>{const image=new Image();image.src=src;return image.decode();}));
       await document.fonts.load('24px "Product Sans"').catch(()=>{});
+      // The greeting is measured to fit the logo, so its display face must be ready first.
+      await document.fonts.load('700 24px "Suaserif"').catch(()=>{});
       await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
       if(destroyed||resolved)return;
       // A deep link/restored scroll may skip the greeting, never construction.
@@ -428,7 +429,6 @@
       trace('TILE_TRANSFORM_BEFORE',{element:debug?.elementState(tiles[0])});
       syncMotion();
     }
-    toggle.addEventListener('click',()=>{userPaused=!userPaused;syncMotion();},{signal:events.signal});
     select('.flower-character').forEach(character=>{
       const node=character.querySelector('.flower-hover');
       character.addEventListener('pointerenter',event=>{if(event.pointerType!=='touch')reactFlower(node,true);},{signal:events.signal});
