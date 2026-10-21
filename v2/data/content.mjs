@@ -127,3 +127,20 @@ export const tiers = [
   {amount:35,name:'AMPLIFY',phases:[[],[],['Tổng 2 vé tham gia chuyến đi, gồm ăn uống, di chuyển và ở.']]},
   {amount:40,name:'TRIUMPH',phases:[['Tổng 3 video TikTok POET; tổng 5 video KOC.','Tổng 5 video lồng ghép sản phẩm trên kênh Creator team POET.'],['Ưu tiên độc quyền ngành hàng.','Hỗ trợ quầy tiêu chuẩn với ngân sách dưới 1 triệu đồng; phần thiết kế riêng ngoài phạm vi hỗ trợ do thương hiệu chi trả.','Tổng 4 vé Pop Up; logo bằng kích thước logo POET.','Tổng 3 story riêng; thêm 3 video Pop Up trên kênh Creator team POET.'],['Tổng 3 vé chuyến đi, gồm ăn uống, di chuyển và ở.','Cơ hội người thụ hưởng trải nghiệm sản phẩm trong chương trình.','1 video recap riêng Little Joy.']]}
 ];
+// Partner page, individual tab (UI-008)
+export const individualWays = {
+  eyebrow: 'Hình thức quyên góp cá nhân',
+  title: 'Góp một phần,<br>theo cách của bạn.',
+  open: {
+    icon: 'qr-code',
+    title: 'Chuyển khoản trực tiếp qua VietQR',
+    text: 'Ủng hộ tự nguyện, tuỳ tâm vào số tài khoản thiện nguyện chính thức của CLB.',
+    checks: ['Mọi đóng góp đều có sao kê để đối chiếu', 'Quét mã bằng app ngân hàng, không cần tạo tài khoản'],
+    cta: 'Nhận mã QR chuyển khoản',
+    note: 'Từ 10.000 đ'
+  },
+  soon: [
+    {id:'pop-up',     icon:'ticket',       tone:'yellow', status:'Sắp mở bán vé',   title:'Vé tham dự Big Joy Pop Up',  text:'Hội chợ cộng đồng, nơi các thương hiệu đồng hành mang sản phẩm đến giao lưu. Tiền vé góp vào quỹ chương trình.', cta:'Mua vé Big Joy Pop Up'},
+    {id:'collection', icon:'shopping-bag', tone:'blue',   status:'Sắp được bật mí', title:'Merch Young Joy Collection', text:'Bộ sưu tập merch của POET. Toàn bộ doanh thu góp vào quỹ chung.', cta:'Mua merch, góp vào quỹ'}
+  ]
+};

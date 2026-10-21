@@ -130,6 +130,8 @@ Reused the existing official `assets/brand/poet-logo.webp` without modifying or 
 
 Added six unmodified interface SVGs from the official pinned Lucide0.468.0 repository: `heart`, `sparkles`, `chevron-down`, `circle-check`, `users`, `building-2`, under `assets/icons/lucide/`. Source: `https://github.com/lucide-icons/lucide/tree/0.468.0/icons`. Upstream `LICENSE` is included in the same directory. These are decorative local CSS masks for the restored nav and Home campaign preview; no package, CDN runtime or new brand illustration. Original SVG colors are controlled through CSS `currentColor`; source geometry is unchanged.
 
+UI-008 added four more unmodified Lucide 0.468.0 SVGs from the same source and licence: `qr-code`, `ticket`, `shopping-bag`, `lock`, used as CSS masks on the Đồng hành > Cá nhân donation cards.
+
 Visual reference: user-provided `Screenshot 2026-10-20 153818.png`; review copy and combined comparison are outside production assets in `../audit-work/layout-restoration/`. No screenshot is used as website content. See `docs/PROTOTYPE_LAYOUT_RESTORATION.md`.
 
 ## UI-002 header assets — 21 October 2026
