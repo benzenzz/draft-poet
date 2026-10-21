@@ -167,3 +167,11 @@ export const messageWall = {
 };
 // Free-form wall notes have no backend yet (UI-009); false removes the composer from the page.
 export const WALL_COMPOSER_ENABLED = true;
+// Partner page, business tab intro (UI-010)
+export const businessIntro = {
+  eyebrow: 'Doanh nghiệp cùng POET · Mùa 6',
+  title: 'Chiến dịch gây quỹ<br>Big Joy Little Joy',
+  text: 'Thương hiệu và doanh nghiệp có thể đồng hành cùng POET theo hai cách: trở thành <b>Thương hiệu đồng hành</b> (Little Joy) góp một phần doanh thu, hoặc <b>Nhà tài trợ</b> cho chương trình.',
+  quote: 'Vì POET tin rằng, những niềm vui nhỏ khi được trao đi cùng nhau, sẽ trở thành một niềm vui thật lớn.',
+  switchLabel: 'Chọn hình thức:'
+};

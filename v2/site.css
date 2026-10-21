@@ -264,9 +264,6 @@ poet-nav.site-nav{display:block;position:sticky;top:0;z-index:50;height:80px;bac
 /* Partner branches. */
 .partner-intro{padding-top:60px}
 .partner-intro h2{font-size:clamp(36px,4vw,58px)}
-.business-title{display:grid;grid-template-columns:1.3fr 1fr;align-items:center;gap:7%;margin-bottom:65px}
-.business-title .lead{font-size:22px}
-.business-title>img{width:100%;height:300px;object-fit:contain;padding:40px;background:#e5ebdd;border-radius:40px}
 .journey-section{background:#f5eddb}
 .journey{display:grid;grid-template-columns:repeat(4,1fr);position:relative;padding-top:95px;margin-top:15px;--journey-index:0}
 .journey-track{position:absolute;top:122px;left:12.5%;right:12.5%;height:2px;background:#c5cbb5}
@@ -386,7 +383,6 @@ poet-nav.site-nav{display:block;position:sticky;top:0;z-index:50;height:80px;bac
  .impact-grid{grid-template-columns:1.5fr 1fr;gap:35px}.impact-grid dd{font-size:40px}
  .people-grid{gap:30px}.people-feature>div{padding:25px}.people-notes .pending-box{padding:22px}.people-notes .pending-symbol{display:none}
  .budget-layout{grid-template-columns:1fr;gap:45px}.budget-layout>div:first-child{display:grid;grid-template-columns:1fr 1fr;column-gap:40px}.budget-layout .section-heading{grid-row:span 2}.budget-note{margin-top:25px!important}
- .business-title{gap:30px}.business-title>img{height:250px;padding:22px}.business-title .lead{font-size:19px}
  .journey-stop strong{font-size:var(--font-size-body)}.contact-grid{grid-template-columns:1fr;gap:50px}.contact-people{max-width:600px}
  .recruitment-note{padding:30px;gap:24px}
  .department-list>div{grid-template-columns:30px 1fr 1.2fr;gap:18px}
@@ -419,7 +415,6 @@ poet-nav.site-nav{display:block;position:sticky;top:0;z-index:50;height:80px;bac
  .budget-layout>div:first-child{display:block}.budget-layout .section-heading{margin-bottom:25px}.budget-layout>div>p{font-size:15px}.budget-note{font-size:13px!important}.budget-note strong{font-size:22px}
  .budget-table table,.budget-table tbody,.budget-table tfoot{display:block}.budget-table thead{display:none}.budget-table tr{display:grid;grid-template-columns:1fr auto;padding:18px 0;column-gap:12px;border-bottom:1px solid #c8d2c3}.budget-table th,.budget-table td{border:0;padding:0!important}.budget-table th:first-child{width:auto;grid-column:1;grid-row:1;font-size:15px}.budget-table td:nth-child(2){grid-column:1;grid-row:2;padding-top:6px!important;font-size:var(--font-size-caption)}.budget-table td:last-child{grid-column:2;grid-row:1/3;align-self:center;font-size:15px}.budget-table tfoot tr{border:0;padding-top:30px}.budget-table tfoot th,.budget-table tfoot td{font-size:18px!important}
  .partner-intro{padding-top:35px}.partner-intro h2{font-size:36px}
- .business-title{grid-template-columns:1fr;gap:30px;margin-bottom:35px}.business-title>img{height:210px;border-radius:25px;padding:30px}.business-title .lead{font-size:21px}.business-title .eyebrow{margin-bottom:18px!important}
  .journey{grid-template-columns:1fr;padding-top:0;padding-left:0;margin-top:35px;--journey-index:0}.journey-track{top:27px;bottom:64px;left:27px;right:auto;width:2px;height:auto}.journey-mascot{width:45px;height:55px;left:auto;right:0;top:calc(var(--journey-index)*100px);transition:top 650ms var(--site-ease)}
  .journey-stop{display:grid;grid-template-columns:55px 1fr;grid-template-rows:auto auto;gap:3px 20px;text-align:left;padding:0 50px 30px 0;height:100px;align-items:start;justify-items:start}.journey-dot{grid-row:span 2;grid-column:1}.journey-stop strong{font-size:17px;padding-top:5px}.journey-stop>span:last-child{font-size:var(--font-size-caption);grid-column:2}.journey-note{text-align:left;min-height:120px;margin-top:12px;font-size:15px;padding:21px}
  .tier-title{gap:20px}.tier-title h3{font-size:27px}.tier-title>strong{font-size:43px}.tier-detail{padding:28px 23px}.tier-title .eyebrow{font-size:11px}.tier-pick{margin-right:-22px;padding-right:22px}.tier-pick button{flex-basis:104px}.benefit-accordion summary{font-size:15px;min-height:58px}.benefit-accordion>div{font-size:var(--font-size-meta);padding-right:0}.benefits-download{align-items:flex-start;flex-direction:column;gap:15px;font-size:15px}
@@ -505,7 +500,6 @@ html.reveal-motion .archive-grid .story-card.will-reveal:focus-within{transition
 .action-card:nth-child(3) .action-cta{background:var(--poet-green-dark);color:#fff}
 .about-head>.image-frame img,.partner-intro>.image-frame img{border-radius:12px}
 .people-feature,.pending-box,.recruitment-note,.tier-detail{border-radius:12px}
-.business-title>img{border-radius:12px}
 .journey{padding-top:95px}
 .journey-mascot{left:0!important;right:auto!important;top:0!important;transition:transform 650ms var(--site-ease);will-change:transform}
 .journey-note{min-height:0;margin:12px auto 0;padding:16px 20px}
@@ -902,6 +896,46 @@ html.reveal-motion .site-content .about-hero-copy h1{animation:about-title-in 80
  .wall-nav{width:44px;height:44px}.wall-nav--prev{left:12px}.wall-nav--next{right:12px}
 }
 @media(prefers-reduced-motion:reduce){.message-card,.message-card:hover{transform:none}.message-card::before{transform:none}}
+/* Đồng hành, Doanh nghiệp tab intro (UI-010): campaign banner, centred quote, second-level switch. */
+/* The hero above ends with clamp(48px,6vw,84px) of padding; pull back to the clamp(40px,5vw,72px) gap from the tab bar. */
+.business-intro{margin-top:calc(clamp(40px,5vw,72px) - clamp(48px,6vw,84px));padding-top:0}
+.campaign-banner{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);align-items:center;gap:24px clamp(24px,4vw,56px);overflow:hidden;border-radius:32px 80px 32px 32px;padding:clamp(28px,4vw,56px);background:#fdf0cf}
+.campaign-banner .eyebrow{margin:0 0 16px!important;font-size:14px;font-weight:var(--font-weight-bold);color:#7a5200}
+.site-content .campaign-banner h2{margin:0;font-size:clamp(34px,4.4vw,60px);font-weight:var(--font-weight-bold);line-height:1.06;letter-spacing:-.045em;color:var(--poet-heading);text-wrap:balance}
+.site-content .campaign-banner h2+p{margin:20px 0 0;max-width:32em;font-size:17px;line-height:1.6;color:#5a4f3d}
+.campaign-banner b{font-weight:var(--font-weight-bold)}
+.campaign-art{position:relative;display:grid;place-items:center}
+.campaign-art::before{content:"";position:absolute;inset:6% 4%;border-radius:46% 54% 50% 50%/55% 45% 55% 45%;background:#ffffffb3}
+.campaign-art img{position:relative;width:100%;max-width:400px;height:auto;filter:drop-shadow(0 8px 14px #7a52001f)}
+.site-content .campaign-quote{position:relative;max-width:40em;margin:clamp(40px,5vw,64px) auto 0;padding-top:34px;text-align:center}
+.campaign-quote::before{content:"“";position:absolute;top:-18px;left:50%;transform:translateX(-50%);color:var(--poet-yellow);font-size:72px;font-weight:var(--font-weight-bold);line-height:1}
+/* Real Product Sans Italic (assets/css/typography.css); never a synthesised slant. */
+.campaign-quote blockquote{margin:0;font-size:clamp(20px,2.2vw,28px);font-style:italic;font-synthesis:none;line-height:1.45;letter-spacing:-.02em;color:var(--poet-heading);text-wrap:balance}
+.business-switch-row{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:12px 20px;margin-top:clamp(36px,4vw,52px)}
+.business-switch-row>span{font-size:14px;color:var(--poet-muted)}
+.site-tabs--switch{--switch-on:#fdf0cf;--switch-ring:var(--poet-yellow);--switch-icon:#c98a00;display:inline-flex;gap:4px;overflow:visible;border:1px solid var(--poet-border);border-radius:12px;padding:5px;background:var(--poet-white)}
+.site-tabs--switch button{display:inline-flex;align-items:center;gap:10px;min-height:46px;border-radius:8px;padding:8px 18px 8px 10px;color:var(--poet-muted);font-size:16px;font-weight:var(--font-weight-regular);transition:color 200ms,background-color 200ms,box-shadow 200ms}
+.site-tabs--switch .tab-icon{display:grid;place-items:center;color:var(--switch-icon)}
+.site-tabs--switch .tab-icon .prototype-icon{width:20px;height:20px;flex-basis:20px}
+.site-tabs--switch button:hover{color:var(--poet-heading)}
+.site-tabs--switch button[aria-selected=true]{background:var(--switch-on);box-shadow:inset 0 0 0 2px var(--switch-ring);color:var(--poet-heading);font-weight:var(--font-weight-bold)}
+.site-tabs--switch button:focus-visible{outline:3px solid var(--poet-ink);outline-offset:2px}
+@media(max-width:900px){
+ .campaign-art img{max-width:280px}
+ .campaign-quote blockquote{font-size:22px}
+}
+@media(max-width:640px){
+ .campaign-banner{grid-template-columns:1fr;border-radius:24px 56px 24px 24px;padding:26px 22px}
+ .campaign-art{order:-1}
+ .campaign-art img{max-width:240px}
+ .site-content .campaign-banner h2{font-size:32px}
+ .site-content .campaign-banner h2+p{font-size:16px}
+ .campaign-quote blockquote{font-size:20px}
+ .business-switch-row{flex-direction:column;align-items:stretch}
+ .business-switch-row>span{text-align:center}
+ .site-tabs--switch{display:grid;grid-template-columns:1fr 1fr}
+ .site-tabs--switch button{flex-direction:column;justify-content:center;gap:4px;padding:8px 6px;font-size:14px;text-align:center;white-space:normal}
+}
 /* POET qua những con số: second row of the intro grid (row-gap sets the copy-to-stats distance). */
 .about-introduction{row-gap:clamp(32px,4vw,48px)}
 /* Colour roles: warm brand-yellow field (optimism, joy); coral = reach/energy, green = community/growth, blue = trust/partners.

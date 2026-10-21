@@ -134,6 +134,8 @@ UI-008 added four more unmodified Lucide 0.468.0 SVGs from the same source and l
 
 UI-009 added ten more unmodified Lucide 0.468.0 SVGs from the same source and licence: `pencil`, `send`, `search`, `star`, `flower`, `sun`, `leaf`, `book-open`, `arrow-left`, `arrow-right`, used as CSS masks on the Đồng hành message wall.
 
+UI-010 added two more unmodified Lucide 0.468.0 SVGs from the same source and licence: `store`, `handshake`, used as CSS masks on the Đồng hành > Doanh nghiệp switch.
+
 Visual reference: user-provided `Screenshot 2026-10-20 153818.png`; review copy and combined comparison are outside production assets in `../audit-work/layout-restoration/`. No screenshot is used as website content. See `docs/PROTOTYPE_LAYOUT_RESTORATION.md`.
 
 ## UI-002 header assets — 21 October 2026
