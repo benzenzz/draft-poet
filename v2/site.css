@@ -712,11 +712,13 @@ html.reveal-motion .site-content .about-hero-copy h1{animation:about-title-in 80
 @media(max-width:600px){.about-introduction{padding:40px 22px}.site-content .about-introduction h2{font-size:30px}.about-introduction p{font-size:16px}.about-introduction .about-intro-tagline{font-size:19px}}
 /* POET qua những con số: second row of the intro grid (row-gap sets the copy-to-stats distance). */
 .about-introduction{row-gap:clamp(32px,4vw,48px)}
-.reach{--reach-coral-ink:#b4503f;--reach-green-ink:#2f7d5e;--reach-blue-ink:#3c7d97;--reach-coral-bar:#ef8a7d;grid-column:1/-1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));background:var(--poet-mint);border-radius:var(--radius-feature);padding-block:clamp(36px,4.5vw,56px);font-family:var(--poet-font)}
+/* Colour roles: warm brand-yellow field (optimism, joy); coral = reach/energy, green = community/growth, blue = trust/partners.
+   Numbers use deep tones of each brand colour for contrast; bars keep the bright brand colour. */
+.reach{--reach-coral-ink:#b4503f;--reach-green-ink:#2f7d5e;--reach-blue-ink:#3c7d97;--reach-coral-bar:#ef8a7d;--reach-field:color-mix(in srgb,#fee161 22%,#fbf9f3);--reach-rule:color-mix(in srgb,#fee161 55%,#c9a640);grid-column:1/-1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));background:var(--reach-field);border-radius:var(--radius-feature);padding-block:clamp(36px,4.5vw,56px);font-family:var(--poet-font)}
 .reach-cell{--reach-ink:var(--reach-coral-ink);--reach-bar:var(--reach-coral-bar);min-width:0;display:flex;flex-direction:column;padding-inline:clamp(20px,3.2vw,48px)}
-.reach-cell+.reach-cell{border-left:1px solid #aabdad}
-.reach-cell--green{--reach-ink:var(--reach-green-ink);--reach-bar:var(--poet-green)}.reach-cell--blue{--reach-ink:var(--reach-blue-ink);--reach-bar:var(--poet-blue)}
-.reach-number{display:flex;align-items:baseline;font-size:clamp(60px,8.4vw,120px);font-weight:var(--font-weight-bold);line-height:.9;letter-spacing:-.045em;font-variant-numeric:tabular-nums;color:var(--poet-green-dark);white-space:nowrap}
+.reach-cell+.reach-cell{border-left:1px solid var(--reach-rule)}
+.reach-cell--green{--reach-ink:var(--reach-green-ink);--reach-bar:#399f78}.reach-cell--blue{--reach-ink:var(--reach-blue-ink);--reach-bar:#5ca6d4}
+.reach-number{display:flex;align-items:baseline;font-size:clamp(60px,8.4vw,120px);font-weight:var(--font-weight-bold);line-height:.9;letter-spacing:-.045em;font-variant-numeric:tabular-nums;color:var(--reach-ink);white-space:nowrap}
 .reach-value{display:inline-block;text-align:right}
 .reach-suffix{display:inline-block;margin-left:.06em;font-size:.46em;letter-spacing:-.02em;color:var(--reach-ink)}
 .reach-bar{display:block;width:64px;height:4px;margin-top:20px;border-radius:2px;background:var(--reach-bar);transform-origin:left center}
@@ -731,7 +733,7 @@ html.reveal-motion .reach.is-drawing .reach-bar{transition:transform 1100ms cubi
 @media(max-width:640px){
  .reach{grid-template-columns:1fr;padding:8px 20px}
  .reach-cell{display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:18px;align-items:center;padding:22px 0}
- .reach-cell+.reach-cell{border-left:0;border-top:1px solid #aabdad}
+ .reach-cell+.reach-cell{border-left:0;border-top:1px solid var(--reach-rule)}
  .reach-number{font-size:56px}.reach-bar{display:none}.about-introduction .reach-label{margin:0}
 }
 /* Sứ mệnh của POET: three bars; the photo cover shrinks to 46% on the right to reveal the copy. */
