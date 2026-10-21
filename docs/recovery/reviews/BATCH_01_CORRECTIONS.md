@@ -5,7 +5,7 @@
 ## Exact revision identities
 
 - **Before:** `e0a993839c83ef5273c4b518b833d856263241a6` — original Batch 01 review checkpoint.
-- **After implementation:** `AFTER_IMPLEMENTATION_SHA` — `fix: resolve Batch 01 review findings`.
+- **After implementation:** `d69cc91f7116775b5f579fd5b72708a074ff40d0` — `fix: resolve Batch 01 review findings`.
 - The following documentation-only checkpoint records that implementation SHA in this report. Its application files are identical to the after-implementation commit. The final pushed package SHA is provided in the handoff and can be read from this report's GitHub commit history. A commit cannot embed its own SHA.
 
 The original baseline measurements remain unchanged. The build, five syntax checks, focused browser regression, protected-region checks and whitespace check were rerun before creating the implementation checkpoint. Numeric results in `after.json` and `preservation.json` identify that verification run; their recorded starting HEAD is the before checkpoint because the candidate was still uncommitted during verification.
@@ -127,3 +127,23 @@ docs/PHASE_0_AUDIT.md
 docs/V2_FINISH_AUDIT.md
 v2/CODEX_CONTEXT.md
 ```
+
+## Authorized checkpoint commands
+
+The complete staged list (37 files) and summary were shown before the implementation commit: 37 files, +3325/−21 including evidence; application-only 11 files, +47/−21. The subsequent checkpoint changes this report only to record the exact implementation SHA. Both checkpoints are on the existing recovery branch.
+
+```powershell
+git diff --cached --name-only
+git diff --cached --stat
+git diff --cached --check
+git commit -m "fix: resolve Batch 01 review findings"
+git add -- docs/recovery/reviews/BATCH_01_CORRECTIONS.md
+git diff --cached --name-only
+git diff --cached --stat
+git diff --cached --check
+git commit -m "docs: record corrected Batch 01 implementation SHA"
+git push -u origin codex/poet-requirements-polish
+git ls-remote --heads origin refs/heads/codex/poet-requirements-polish
+```
+
+Before push, origin was verified at the exact before SHA, so the update is a normal fast-forward. Final push/remote verification results are delivered with the exact final package SHA in the handoff. No force push, merge, deployment, PR or next-batch work is authorized by this record.
