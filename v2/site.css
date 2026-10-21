@@ -700,20 +700,19 @@ poet-nav.site-nav{height:74px;background:#fbf9f3;border-color:#e7e3de}
 .campaign-band [data-fundraising] .fund-actions [data-donate] .prototype-icon{color:#fff}
 @media(hover:hover) and (pointer:fine){.site-nav .site-nav-inner>.btn:hover{background:#e67c6f;border-color:#e67c6f}}
 
-/* UI-002: wordmark-only display face; menu and page typography remain Product Sans. */
-@font-face{font-family:'POET Cookie Crumble';src:url('../assets/fonts/cookie-crumble-demo.otf') format('opentype');font-weight:400;font-style:normal;font-display:swap}
+/* UI-004: use the supplied real Product Sans Bold for the header wordmark. */
 .site-nav .site-wordmark{gap:8px;flex-shrink:0}
-.site-nav .site-brand-letters{font-family:'POET Cookie Crumble',sans-serif;font-weight:400;font-synthesis:none;font-size:44px;line-height:1;gap:1px;letter-spacing:0}
-.site-nav .site-brand-letters>span{-webkit-text-stroke:0;text-shadow:none}
+.site-nav .site-brand-letters{font-family:var(--font-family-primary);font-weight:700;font-synthesis:none;font-size:38px;line-height:1;gap:1px;letter-spacing:0;filter:none}
+.site-nav .site-brand-letters>span{-webkit-text-stroke:0;text-shadow:none;filter:none}
 .site-nav .site-wordmark .site-brand-symbol{height:36px;width:auto;object-fit:contain;flex:none}
 .site-nav .site-partner-mascot{height:29px;width:26px;object-fit:contain;flex:none}
-@media(max-width:900px){.site-nav .site-brand-letters{font-size:40px}.site-nav .site-wordmark .site-brand-symbol{height:33px}.site-nav .site-partner-mascot{height:34px;width:31px}}
-@media(max-width:600px){.site-nav .site-brand-letters{font-size:38px}.site-nav .site-wordmark{gap:6px}.site-nav .site-wordmark .site-brand-symbol{height:31px}}
-@media(max-width:359px){.site-nav .site-brand-letters{font-size:34px}.site-nav .site-wordmark{gap:5px}.site-nav .site-wordmark .site-brand-symbol{height:28px}}
+@media(max-width:900px){.site-nav .site-brand-letters{font-size:35px}.site-nav .site-wordmark .site-brand-symbol{height:33px}.site-nav .site-partner-mascot{height:34px;width:31px}}
+@media(max-width:600px){.site-nav .site-brand-letters{font-size:33px}.site-nav .site-wordmark{gap:6px}.site-nav .site-wordmark .site-brand-symbol{height:31px}}
+@media(max-width:359px){.site-nav .site-brand-letters{font-size:30px}.site-nav .site-wordmark{gap:5px}.site-nav .site-wordmark .site-brand-symbol{height:28px}}
 
 /* Home card only: fixed full-width gradient, reserved numeric widths, no live frames. */
 .campaign-band--prototype [data-fund-animate] .fund-status{background:var(--milestone-ink);color:#fff;opacity:1}
-.campaign-band--prototype [data-fund-animate] .fund-actions [data-donate]{background:var(--milestone-color);border-color:var(--milestone-color);color:#10251d!important}
+.campaign-band--prototype [data-fund-animate] .fund-actions [data-donate]{background:var(--milestone-color);border-color:var(--milestone-color);color:var(--poet-action-ink)!important}
 .campaign-band--prototype [data-fund-animate] .fund-actions [data-donate] .prototype-icon{color:currentColor}
 .campaign-band--prototype [data-fund-animate] .fund-preview-note{font-size:11px;margin:8px 0 0;line-height:1.4;color:var(--milestone-ink)}
 .campaign-band--prototype [data-fund-animate] .fund-target>.fund-number{font:inherit;letter-spacing:inherit;color:inherit}
@@ -732,3 +731,58 @@ poet-nav.site-nav{height:74px;background:#fbf9f3;border-color:#e7e3de}
 @media(max-width:600px){.campaign-band--prototype [data-fund-animate] .supporter-stats>div{padding:14px 10px;min-height:92px}.campaign-band--prototype [data-fund-animate] .supporter-stats strong{font-size:26px}.campaign-band--prototype [data-fund-animate] .supporter-stats small{font-size:10px}}
 @media(max-width:359px){.campaign-band--prototype [data-fund-animate] .supporter-stats>div{padding-inline:8px}}
 @media(prefers-reduced-motion:reduce){.campaign-band--prototype [data-fund-animate] .fund-progress-fill{transition:none}}
+
+/* UI-004: editorial ink only. Brand, milestones and dark scene typography stay independent. */
+.site-content{--poet-heading:#332b27;--poet-action-ink:#251f1c}
+.site-content :is(h1,h2,h3){color:var(--poet-heading)}
+.site-content :is(.activity-copy,.about-hero-copy) :is(h1,h2,h3){color:#fff}
+.site-content .participation-panel :is(h1,h2,h3){color:#fffaf2}
+.site-content :is(.campaign-story,.story-copy) .text-link,
+.site-content .campaign-story>.eyebrow,
+.site-content .activity-copy .status,
+.site-content .campaign-band .fund-target{color:var(--poet-heading)}
+.site-content .activity-copy .btn,.site-content .activity-static-cta,
+.site-content .campaign-band .btn--outline{color:var(--poet-heading)!important}
+.site-content :is(.story-copy,.media-card) h3 a:focus-visible{color:var(--poet-green-dark)}
+@media(hover:hover) and (pointer:fine){.site-content :is(.story-copy,.media-card) h3 a:hover{color:var(--poet-green-dark)}}
+
+/* Home only: spacing is an implementation proposal, not a reference-image measurement. */
+.join-section--home .participation-panel{padding:40px 32px}
+.join-section--home .section-heading{max-width:850px;margin:0 auto 28px}
+.join-section--home .section-heading h2{font-size:clamp(29px,3.2vw,44px);line-height:1.2}
+.join-section--home .participation-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.join-section--home .action-card{gap:16px;min-height:0;padding:24px;transition:none}
+.join-section--home .action-card>.prototype-icon{width:28px;height:28px;flex:0 0 28px;color:#fffaf2}
+.join-section--home .action-card h3{font-size:23px;line-height:1.25;text-wrap:pretty;color:#fffaf2}
+.join-section--home .action-card :is(p,ul){margin:0 0 8px;padding:0;color:#e5dfd4;font-size:15px;line-height:1.65}
+.join-section--home .action-card ul{padding-left:19px}
+.join-section--home .action-card li+li{margin-top:8px}
+.join-section--home .action-cta{min-height:52px;gap:8px;line-height:1.45;text-decoration:none;color:#332b27;background:#fffefa;flex-shrink:0;margin-top:auto}
+.join-section--home .action-card:nth-child(2) .action-cta{background:#fee161}
+.join-section--home .action-card:nth-child(3) .action-cta{background:#225c46;color:#fff}
+.join-section--home .action-cta>span:last-child{flex:none}
+.join-section--home .action-card:hover{transform:none;background:#34322f}
+.join-section--home .action-cta:focus-visible{outline-color:#fee161}
+@media(hover:hover) and (pointer:fine){.join-section--home .action-cta:hover{text-decoration:underline}}
+@media(max-width:900px){.join-section--home .participation-panel{padding:32px 24px}.join-section--home .participation-grid{grid-template-columns:1fr;gap:16px}.join-section--home .action-card{padding:24px}.join-section--home .action-cta{align-self:flex-start}}
+@media(max-width:600px){.join-section--home .participation-panel{padding:28px 18px}.join-section--home .action-card{padding:20px}.join-section--home .action-cta{align-self:stretch}.join-section--home .section-heading{margin-bottom:24px}}
+@media(max-width:359px){.join-section--home .participation-panel{padding-inline:14px}.join-section--home .action-card{padding:18px}.join-section--home .action-card h3{font-size:22px}}
+
+/* Footer groups retain the original contact data and destinations. */
+.site-footer{background:transparent;border-radius:0}
+.site-footer-visual{height:clamp(300px,36vw,480px);position:relative;overflow:hidden;clip-path:polygon(0 24%,50% 0,100% 24%,100% 100%,0 100%);background:#211f1c}
+.site-footer-visual img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 60%}
+.site-footer-visual:after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,transparent 55%,#211f1c 100%);pointer-events:none}
+.site-footer .site-footer-inner{max-width:none;background:#211f1c;padding-top:32px}
+.site-footer :is(.site-footer-top,.site-footer-bottom){max-width:1280px;margin-inline:auto}
+.site-footer .site-footer-top{grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:30px 8%}
+.site-footer .site-footer-description{min-width:0}
+.site-footer .site-footer-contact{min-width:0;align-content:start}
+.site-footer .site-footer-contact>div{min-width:0}
+.site-footer .site-footer-email{overflow-wrap:anywhere}
+.site-footer .site-socials{grid-column:1/-1;margin-top:0;gap:12px}
+.site-footer .site-socials a{display:grid;place-items:center;width:48px;height:48px;border:1px solid #8f8880;border-radius:50%;color:#fffaf2;touch-action:manipulation}
+.site-footer .site-socials .prototype-icon{width:21px;height:21px}
+.site-footer a:focus-visible{outline-color:#fee161}
+@media(hover:hover) and (pointer:fine){.site-footer .site-socials a:hover{background:#403d38;border-color:#fffaf2}}
+@media(max-width:600px){.site-footer .site-footer-top{grid-template-columns:1fr;gap:28px}.site-footer .site-footer-contact{grid-template-columns:1fr;gap:20px}.site-footer .site-socials{grid-column:auto}.site-footer .site-footer-email{grid-column:auto;font-size:20px!important}}

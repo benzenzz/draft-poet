@@ -1,0 +1,97 @@
+{
+  "head": "b7a44ede1545e5ccb2f8080fad85ecc6e4ac4ec3",
+  "untracked": [
+    {
+      "file": ".taste-skill/direction.json",
+      "sha256": "8cefaa24e2a19d456d38afdab236af6ded83e8f3e48fef4f6d2e651dadcaab1d"
+    },
+    {
+      "file": "POET draft.txt",
+      "sha256": "e3f7924108945f89ded60d50b1d1d7cb1543d3aec21c98b719b8f5b2d38802c2"
+    },
+    {
+      "file": "assets/fonts/fc-dk-cool-crayon.otf",
+      "sha256": "94c43c0c28032ffda8486f5611e9f239b0d4ca4240ea7e57bbc94f90caf6c938"
+    },
+    {
+      "file": "assets/mascot/be-mam/hop.webp",
+      "sha256": "689e5d7d77e7cfdff2e3f05777594260a4148aaa3dc99065f10bec4d8779abaa"
+    },
+    {
+      "file": "assets/mascot/be-mam/jump.webp",
+      "sha256": "4de95d236e59f845961cf6eb34be11e43f4b969a7d93591512d9f043d99f133b"
+    },
+    {
+      "file": "assets/season-6/playground/sandal-left.webp",
+      "sha256": "a1d3c26769a7d9e278a697a6b12555c77e4ee6ea3a538173b5921dbcae5bb78b"
+    },
+    {
+      "file": "assets/season-6/playground/sandal-right.webp",
+      "sha256": "e19a89a059758cedb315f5cce1c157e15f5695acdf1fdaf3118edd6cbcd49108"
+    },
+    {
+      "file": "assets/season-6/playground/schoolbag.webp",
+      "sha256": "7bfba54886ff038756b9b299b388f7b27f4e358aba00342d5397384f966b9e52"
+    },
+    {
+      "file": "assets/season-6/playground/slide.webp",
+      "sha256": "5f0a1b0ae7f9bb049f45deadb61ae1ea69a2a2c68994ef5cf80d44a3b5aa19eb"
+    },
+    {
+      "file": "assets/season-6/playground/wheelbarrow.webp",
+      "sha256": "6fc94b11ba7c2b02be6e5ceb3aea02c4126192696eac37373118ffa49a650247"
+    },
+    {
+      "file": "docs/ART_DIRECTION_BON_NET.md",
+      "sha256": "30bee5efc5108e020231f691154abafd1e977f013ac76d029498caca318bde62"
+    },
+    {
+      "file": "docs/DESIGN_ENVIRONMENT_AUDIT.md",
+      "sha256": "e99c53a8d84211a736b1baaea546a67e2a68efc564589ea5adf293b20d4a4461"
+    },
+    {
+      "file": "docs/HERO_CORRECTION.md",
+      "sha256": "f213db79b3e2b4c6cc2f0be2cdf1cd50e04f3da2e5c2d82ce5982e95f3163cfe"
+    },
+    {
+      "file": "docs/HERO_ILLUSTRATED_REFINEMENT.md",
+      "sha256": "e89ac38e869c86ca362d566de98b817b32d3985dd90205949a27d46c109020ab"
+    },
+    {
+      "file": "docs/HERO_SPEC.md",
+      "sha256": "0b12972407c53909feb0372e4421d6474f4feedc8bd068bc0fbd76c137b3557f"
+    },
+    {
+      "file": "docs/LAUNCH_BLOCKERS.md",
+      "sha256": "ea2082136d053f2c49220e872aba70fd8db1752a1f2e753f9dcc2350db820f51"
+    },
+    {
+      "file": "docs/NEW_MATERIALS_INVENTORY.csv",
+      "sha256": "5588d8f1bfc02ce41075f08041db8a67c1b8867105c250eef8e01103c2ec6d94"
+    },
+    {
+      "file": "docs/NEW_MATERIALS_REVIEW.md",
+      "sha256": "5236d7411c1da6a2777e924f72a2f71d16db94fe19cffe5696903558d1589fd5"
+    },
+    {
+      "file": "docs/PHASE_0_AUDIT.md",
+      "sha256": "ffd2813561434d6c154e2528f4a9c5df3040253b10cbb9444be0abed85a963c7"
+    },
+    {
+      "file": "docs/V2_FINISH_AUDIT.md",
+      "sha256": "41094c5143c5d3bdd82e41e7cd523934145642954dc2df5bcfe516623998bf43"
+    },
+    {
+      "file": "v2/CODEX_CONTEXT.md",
+      "sha256": "4732db788c521887d116c1d788dc48f740049bd265b63a919c1297291f902fb2"
+    },
+    {
+      "file": "v2/fonts/Cookie Crumble DEMO.otf",
+      "sha256": "9fecdf3c1ff9e5ce8b4c63dcd6a1a71746dbcf60056b54d7af66ae862a2eabbe"
+    },
+    {
+      "file": "v2/fonts/Suaserif-Bold.otf",
+      "sha256": "36b054d61abc09b585bc3aedca307c9bb6456cec35ccdb22f1a729f1f9037bd4"
+    }
+  ]
+}
