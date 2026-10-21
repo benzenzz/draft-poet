@@ -1,5 +1,7 @@
 # POET — Batch 1 implementation review
 
+**External-review entry point:** [BATCH_01_REVIEW.md](BATCH_01_REVIEW.md), with repository-contained screenshots/results under [assets/batch-01/](assets/batch-01/). This original report is retained as the historical implementation record.
+
 21/10/2026 (UTC+7). **Implemented and locally verified; awaiting reviewer PASS/FAIL. Batch 2 has not started.**
 
 Authorization: user explicitly passed Phase 0, authorized Batch 1, chose exactly two Home fundraising statistics (Cá nhân and Doanh nghiệp), and requested a Git checkpoint. The original student-count record remains factual campaign data; its fundraising statistic cell is completely removed.

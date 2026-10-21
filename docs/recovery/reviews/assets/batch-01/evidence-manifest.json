@@ -1,0 +1,254 @@
+{
+  "implementationCommit": "d5c83955ade6fabe30ae0c1cbbfe20da5ba6e470",
+  "browser": "Installed Microsoft Edge, via project-local Playwright MCP",
+  "applicationFilesChangedForPackaging": false,
+  "totalScreenshotBytes": 8180265,
+  "screenshots": [
+    {
+      "file": "desktop-home-full.png",
+      "sha256": "b90186c80eafa6d04a39dd781e0239b04d3a61481ef97098a81710f5a4151900",
+      "bytes": 2299005,
+      "pngSize": {
+        "width": 1440,
+        "height": 5675
+      },
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "implementationCommit": "d5c83955ade6fabe30ae0c1cbbfe20da5ba6e470",
+      "capture": "Rendered full-page PNG",
+      "capturedDuring": "2026-10-21T03:33:14.879Z"
+    },
+    {
+      "file": "mobile-home-full.png",
+      "sha256": "feb92b34f8847a40d228923dcc423febb20b330f72c5ba9007232ffd398a39ef",
+      "bytes": 966891,
+      "pngSize": {
+        "width": 390,
+        "height": 7254
+      },
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "implementationCommit": "d5c83955ade6fabe30ae0c1cbbfe20da5ba6e470",
+      "capture": "Rendered full-page PNG",
+      "capturedDuring": "2026-10-21T03:33:14.879Z"
+    },
+    {
+      "file": "desktop-about-full.png",
+      "sha256": "5121bfdaac800fd366e6e1c84c35ca26a033f3c297d15b9f683c7e9538d65716",
+      "bytes": 2009163,
+      "pngSize": {
+        "width": 1440,
+        "height": 5225
+      },
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "implementationCommit": "d5c83955ade6fabe30ae0c1cbbfe20da5ba6e470",
+      "capture": "Rendered full-page PNG",
+      "capturedDuring": "2026-10-21T03:33:14.879Z"
+    },
+    {
+      "file": "mobile-about-full.png",
+      "sha256": "28ebdf7935fdf16f681ad938f14ca68403b9f323f14630515d05af5d7f025e3a",
+      "bytes": 798366,
+      "pngSize": {
+        "width": 390,
+        "height": 6134
+      },
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "implementationCommit": "d5c83955ade6fabe30ae0c1cbbfe20da5ba6e470",
+      "capture": "Rendered full-page PNG",
+      "capturedDuring": "2026-10-21T03:33:14.879Z"
+    },
+    {
+      "file": "desktop-fundraising.png",
+      "sha256": "a783ecc8cf30d3381d341b71d432617a67d09fafefa0758f0e55865124810aa5",
+      "bytes": 104370,
+      "pngSize": {
+        "width": 1440,
+        "height": 559
+      },
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "implementationCommit": "d5c83955ade6fabe30ae0c1cbbfe20da5ba6e470",
+      "capture": "Unscaled pixel crop from rendered full-page PNG",
+      "sourceImage": "desktop-home-full.png",
+      "pixelCrop": {
+        "x": 0,
+        "y": 1923,
+        "width": 1440,
+        "height": 559
+      },
+      "capturedDuring": "2026-10-21T03:33:14.879Z"
+    },
+    {
+      "file": "mobile-fundraising.png",
+      "sha256": "f5f3c38030bfed6835edd560c45e1c8e5de2f0953efd9c7cf6f1e29a887ee7b0",
+      "bytes": 96141,
+      "pngSize": {
+        "width": 390,
+        "height": 1172
+      },
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "implementationCommit": "d5c83955ade6fabe30ae0c1cbbfe20da5ba6e470",
+      "capture": "Unscaled pixel crop from rendered full-page PNG",
+      "sourceImage": "mobile-home-full.png",
+      "pixelCrop": {
+        "x": 0,
+        "y": 1870,
+        "width": 390,
+        "height": 1172
+      },
+      "capturedDuring": "2026-10-21T03:33:14.879Z"
+    },
+    {
+      "file": "desktop-achievements.png",
+      "sha256": "e767f463d60981eac498f2ce89d8f38f327e1836b0018ac6eba08eca419443ef",
+      "bytes": 881733,
+      "pngSize": {
+        "width": 1440,
+        "height": 1088
+      },
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "implementationCommit": "d5c83955ade6fabe30ae0c1cbbfe20da5ba6e470",
+      "capture": "Unscaled pixel crop from rendered full-page PNG",
+      "sourceImage": "desktop-home-full.png",
+      "pixelCrop": {
+        "x": 0,
+        "y": 2482,
+        "width": 1440,
+        "height": 1088
+      },
+      "capturedDuring": "2026-10-21T03:33:14.879Z"
+    },
+    {
+      "file": "mobile-achievements.png",
+      "sha256": "227579470aede95cd25898fcf305952dc8c5567784af5f96e497c0410639ae57",
+      "bytes": 368598,
+      "pngSize": {
+        "width": 390,
+        "height": 1620
+      },
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "implementationCommit": "d5c83955ade6fabe30ae0c1cbbfe20da5ba6e470",
+      "capture": "Unscaled pixel crop from rendered full-page PNG",
+      "sourceImage": "mobile-home-full.png",
+      "pixelCrop": {
+        "x": 0,
+        "y": 3042,
+        "width": 390,
+        "height": 1620
+      },
+      "capturedDuring": "2026-10-21T03:33:14.879Z"
+    },
+    {
+      "file": "desktop-about-press.png",
+      "sha256": "b7f12aa103121387515939d269de482ea56380c530b9f66163c4072a0df94798",
+      "bytes": 272385,
+      "pngSize": {
+        "width": 1440,
+        "height": 915
+      },
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "implementationCommit": "d5c83955ade6fabe30ae0c1cbbfe20da5ba6e470",
+      "capture": "Unscaled pixel crop from rendered full-page PNG",
+      "sourceImage": "desktop-about-full.png",
+      "pixelCrop": {
+        "x": 0,
+        "y": 3120,
+        "width": 1440,
+        "height": 915
+      },
+      "capturedDuring": "2026-10-21T03:33:14.879Z"
+    },
+    {
+      "file": "mobile-about-press.png",
+      "sha256": "1f844cca09c4092c11f8860cee5896e70baff072313908c89fb2298d662c5e4f",
+      "bytes": 140342,
+      "pngSize": {
+        "width": 390,
+        "height": 851
+      },
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "implementationCommit": "d5c83955ade6fabe30ae0c1cbbfe20da5ba6e470",
+      "capture": "Unscaled pixel crop from rendered full-page PNG",
+      "sourceImage": "mobile-about-full.png",
+      "pixelCrop": {
+        "x": 0,
+        "y": 3541,
+        "width": 390,
+        "height": 851
+      },
+      "capturedDuring": "2026-10-21T03:33:14.879Z"
+    },
+    {
+      "file": "desktop-donation-dialog.png",
+      "sha256": "1ef0d84d18daaa88db5f50e36f02fd99e8e62cce2b41b11650d9af08cde36887",
+      "bytes": 228293,
+      "pngSize": {
+        "width": 1440,
+        "height": 900
+      },
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "implementationCommit": "d5c83955ade6fabe30ae0c1cbbfe20da5ba6e470",
+      "capture": "Rendered viewport interaction state",
+      "capturedDuring": "2026-10-21T03:56:02.160Z"
+    },
+    {
+      "file": "mobile-menu-open.png",
+      "sha256": "39a109f0a0cc283f8dc6592cf31c8d51754ae3d003a9e9f26f150e77544db6f8",
+      "bytes": 14978,
+      "pngSize": {
+        "width": 390,
+        "height": 844
+      },
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "implementationCommit": "d5c83955ade6fabe30ae0c1cbbfe20da5ba6e470",
+      "capture": "Rendered viewport interaction state",
+      "capturedDuring": "2026-10-21T03:56:02.160Z"
+    }
+  ],
+  "artifacts": [
+    {
+      "file": "application.diff",
+      "bytes": 20296,
+      "sha256": "4620749ea7fcd0c6b7001d2f67321ffe92a7639358c8bf14a098ea3a580c2d70"
+    },
+    {
+      "file": "verification.json",
+      "bytes": 19903,
+      "sha256": "207bd469ac5dd994ef4cc5d75ca1a4b8a423238466dc0d528b9b35b280305d9f"
+    }
+  ]
+}

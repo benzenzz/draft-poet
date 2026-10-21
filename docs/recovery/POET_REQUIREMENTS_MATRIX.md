@@ -2,7 +2,7 @@
 
 Phase 0 · 21/10/2026 (UTC+7). Baseline: `4e65da4444a52ab085f04bc0d5f960c6b4a7e643`. This is a recovery plan, not evidence that any implementation batch has passed.
 
-**Execution update, 21/10/2026:** user explicitly passed Phase 0 and authorized Batch 1. U1 is resolved: Home fundraising must contain exactly two statistics, Cá nhân and Doanh nghiệp. Existing amount/count sources and provisional labeling stay unchanged. Batch 1 implementation is subject to its own PASS/FAIL review; no later batch is authorized. See [Batch 1 review](reviews/BATCH_1_REVIEW.md).
+**Execution update, 21/10/2026:** user explicitly passed Phase 0 and authorized Batch 1. U1 is resolved: Home fundraising must contain exactly two statistics, Cá nhân and Doanh nghiệp. Existing amount/count sources and provisional labeling stay unchanged. Batch 1 implementation is subject to its own PASS/FAIL review; no later batch is authorized. See [canonical Batch 01 review](reviews/BATCH_01_REVIEW.md) and [active implementation record](IMPLEMENTATION_STATUS.md).
 
 ## Sources and precedence
 

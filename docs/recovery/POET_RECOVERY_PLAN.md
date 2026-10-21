@@ -60,7 +60,7 @@ Requirements: H-01–H-11, A-01–A-05 and G/Q constraints. Preserve already com
 
 **Generated candidates:** `v2/index.html`, `v2/team/index.html`, shared-content/cache-affected route HTML, and `v2/data/site-data.js` only if relevant source changes generate a real delta. Because archive and shell are shared, inspect Projects/detail-page changes even though their redesign belongs to Batch 3.
 
-**Verification:** one static build; syntax checks on changed modules; content/order/CTA assertions using generated output; approved financial facts and provisional labels; affected-region desktop/mobile screenshots at 1440×900 and 390×844, plus 768×1024 and narrow 320px overflow checks if layout changes warrant them. Test focus/menu/Escape, images, reduced motion. Compare protected hashes and Intro/Hero subtree. Observe natural Intro/Hero→wave→carousel once if shared code/shell may affect them. Do not rerun unrelated audits. Record actual results, then checkpoint the verified explicit files, write `reviews/BATCH_1_REVIEW.md`, and stop.
+**Verification:** one static build; syntax checks on changed modules; content/order/CTA assertions using generated output; approved financial facts and provisional labels; affected-region desktop/mobile screenshots at 1440×900 and 390×844, plus 768×1024 and narrow 320px overflow checks if layout changes warrant them. Test focus/menu/Escape, images, reduced motion. Compare protected hashes and Intro/Hero subtree. Observe natural Intro/Hero→wave→carousel once if shared code/shell may affect them. Do not rerun unrelated audits. Record actual results, then checkpoint the verified explicit files, write `reviews/BATCH_01_REVIEW.md`, and stop.
 
 ## Batch 2 — Individual & Business
 
@@ -76,7 +76,7 @@ Reconcile ten existing tiers with the specified authoritative benefit source bef
 
 **Generated candidates:** `/v2/dong-hanh/`, `/v2/tinh-nguyen-vien/` (shared partner template), and other routes only when shared version/data references actually change. No `worker/`, `ung-ho/`, admin or deployment edits.
 
-**Verification:** meaningful state-machine/pagination tests; mocked delay/empty/error/retry/success, malformed response, anonymous/hidden text and safe text rendering; previous/next boundaries and page transitions; keyboard/ARIA; all ten tier selectors/disclosures; validation and draft-copy/mailto behavior without sending; all four board stops, hover/focus/tap/Escape, resize and reduced motion. Build once, relevant syntax, protected diff/hash checks and existing Worker suite once as integration guard. Capture desktop/mobile default + wall/error/page/tier/board states. Recheck only affected Batch 1 shared sections. Write/checkpoint `reviews/BATCH_2_REVIEW.md`, then stop.
+**Verification:** meaningful state-machine/pagination tests; mocked delay/empty/error/retry/success, malformed response, anonymous/hidden text and safe text rendering; previous/next boundaries and page transitions; keyboard/ARIA; all ten tier selectors/disclosures; validation and draft-copy/mailto behavior without sending; all four board stops, hover/focus/tap/Escape, resize and reduced motion. Build once, relevant syntax, protected diff/hash checks and existing Worker suite once as integration guard. Capture desktop/mobile default + wall/error/page/tier/board states. Recheck only affected Batch 1 shared sections. Write/checkpoint `reviews/BATCH_02_REVIEW.md`, then stop.
 
 ## Batch 3 — Projects & Volunteers
 
@@ -88,10 +88,22 @@ Recruitment is closed/pending in current data (`open:false`, no application URL/
 
 **Candidate source files:** `v2/tools/site-templates.mjs`, scoped `v2/site.css`, `v2/data/content.mjs` for approved media/config; `v2/site.js` only if approved interaction requires it; builder only for necessary cache revision. **Generated:** `/v2/du-an/`, `/v2/tinh-nguyen-vien/`, `/v2/dong-hanh/` and shared archive routes where output actually changes.
 
-**Verification:** build/syntax; project tab/hash/keyboard navigation; exact budget arithmetic and unchanged row values; semantic headers/units and readable columns at desktop/mobile/320px; all CTA destinations; closed/open-with-valid-link recruitment fixtures; approved-only video gating fixtures. Capture current/completed project, budget, volunteer pending/media states at fixed desktop/mobile sizes. Test menu/Escape/reduced motion and affected earlier shared components. Compare protected hashes/Intro-Hero subtree. Checkpoint/report `reviews/BATCH_3_REVIEW.md`, then stop.
+**Verification:** build/syntax; project tab/hash/keyboard navigation; exact budget arithmetic and unchanged row values; semantic headers/units and readable columns at desktop/mobile/320px; all CTA destinations; closed/open-with-valid-link recruitment fixtures; approved-only video gating fixtures. Capture current/completed project, budget, volunteer pending/media states at fixed desktop/mobile sizes. Test menu/Escape/reduced motion and affected earlier shared components. Compare protected hashes/Intro-Hero subtree. Checkpoint/report `reviews/BATCH_03_REVIEW.md`, then stop.
 
 ## Final QA and review policy
 
 After the three batches are independently approved, run an explicitly authorized focused final regression across eight routes, nav/footer, actual user paths, accessibility and protected groups. Reuse useful batch evidence; broaden testing only for outstanding risk. “79 tests / 45 protected checks” describes the lost cloud session, not this checkout. Existing handoff's 71-test history is also not a fresh result.
 
 Each report must list changed paths/reasons/requirement IDs; exact build/test commands/results; protected checks; screenshots/viewports/interaction states; remaining discrepancies/missing content/browser limits; branch/commit and remaining working-tree changes. A build pass is not a visual PASS. After FAIL, fix only reviewer findings; after PASS, preserve them and wait for explicit next-batch authorization.
+
+## GitHub sync and external Work handoff protocol
+
+The user's 21/10/2026 handoff protocol is now the publishing/review procedure. Preserve completed implementation; do not restart a batch to package it. Maintain [IMPLEMENTATION_STATUS.md](IMPLEMENTATION_STATUS.md) at meaningful milestones with requirements, modified files, pending tasks, known mismatches, tests and protected-region results.
+
+Canonical reports use zero-padded names: `reviews/BATCH_01_REVIEW.md`, then `BATCH_02_REVIEW.md`, `BATCH_03_REVIEW.md`. Preserve older reports as history. Store selected portable screenshots/results/patches under `reviews/assets/batch-01/` (then batch-02/batch-03). The [Batch 01 package](reviews/BATCH_01_REVIEW.md) supersedes local-only image links for external review. Include full-page and focused actual renders at 1440×900 and 390×844, plus useful interaction states. Reuse valid evidence for unchanged application code; record its exact implementation SHA and execution provenance. Do not claim a build/test was rerun just to package evidence.
+
+Before each checkpoint, verify actual branch/HEAD and inspect explicit changed paths. Exclude secrets, dependencies, caches and irrelevant local files. Commit verified implementation/review artifacts only on `codex/poet-requirements-polish`; report the exact checkpoint SHA. **Then stop: push requires explicit user permission.** No automatic push, merge or deploy.
+
+After push is explicitly authorized, verify `origin` is `https://github.com/benzenzz/draft-poet.git`, verify local branch and exact HEAD, and push only that recovery branch. Confirm remote ref `refs/heads/codex/poet-requirements-polish` resolves to the intended SHA before reporting success. Provide repository, branch, SHA, canonical report/evidence paths, test results and unresolved issues. A local commit alone is not a GitHub sync.
+
+ChatGPT Work acts as Design Lead/QA Reviewer and must not concurrently edit the same application files. Wait for external PASS/FAIL and the user's explicit continuation authorization before implementing Batch 02. A FAIL authorizes only the reported corrections within the current batch, followed by relevant checks/evidence and a new checkpoint.
