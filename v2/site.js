@@ -53,18 +53,44 @@ import './press-strip.js?v=poet-v3-1';
 document.querySelectorAll('[data-carousel]').forEach(wrap=>{
   const rail=wrap.querySelector('.rail'),prev=wrap.querySelector('[data-prev]'),next=wrap.querySelector('[data-next]'),count=wrap.querySelector('.rail-count');
   let drag=null,ignoreClick=false;
-  const step=()=>rail.firstElementChild.getBoundingClientRect().width+parseFloat(getComputedStyle(rail).gap);
-  function update(){const max=rail.scrollWidth-rail.clientWidth;prev.disabled=rail.scrollLeft<4;next.disabled=rail.scrollLeft>=max-4;count.textContent=`${Math.min(rail.children.length,Math.round(rail.scrollLeft/step())+1)} / ${rail.children.length}`;}
-  const move=dir=>rail.scrollBy({left:dir*step(),behavior:reduced.matches?'instant':'smooth'});
+  // Count reachable scroll positions, not articles: several cards can be visible,
+  // and their start offsets can clamp to the same final position.
+  const tolerance=1;
+  let positions=[0],announceTimer;
+  function announce(){
+    const current=positions.reduce((best,left,i)=>Math.abs(left-rail.scrollLeft)<Math.abs(positions[best]-rail.scrollLeft)?i:best,0);
+    const text=`Vị trí ${current+1} / ${positions.length}`;
+    if(count.textContent!==text)count.textContent=text;
+  }
+  function update(){prev.disabled=rail.scrollLeft<=positions[0]+tolerance;next.disabled=rail.scrollLeft>=positions.at(-1)-tolerance;}
+  function refresh(){
+    const max=Math.max(0,rail.scrollWidth-rail.clientWidth),edge=rail.getBoundingClientRect().left+rail.clientLeft;
+    positions=[];
+    for(const card of rail.children){
+      const left=Math.max(0,Math.min(max,card.getBoundingClientRect().left-edge+rail.scrollLeft));
+      if(!positions.length||left-positions.at(-1)>tolerance)positions.push(left);
+    }
+    if(!positions.length)positions=[0];
+    if(max-positions.at(-1)>tolerance)positions.push(max);
+    else if(positions.length>1)positions[positions.length-1]=max;
+    clearTimeout(announceTimer);update();announce();
+  }
+  const move=dir=>{
+    const left=dir>0?positions.find(left=>left>rail.scrollLeft+tolerance):positions.findLast(left=>left<rail.scrollLeft-tolerance);
+    if(left!==undefined)rail.scrollTo({left,behavior:reduced.matches?'instant':'smooth'});
+  };
   prev.addEventListener('click',()=>move(-1));next.addEventListener('click',()=>move(1));
-  rail.addEventListener('keydown',e=>{if(e.target!==rail)return;if(['ArrowLeft','ArrowRight','Home','End'].includes(e.key)){e.preventDefault();if(e.key==='Home'||e.key==='End')rail.scrollTo({left:e.key==='Home'?0:rail.scrollWidth,behavior:'instant'});else move(e.key==='ArrowRight'?1:-1);}});
-  rail.addEventListener('scroll',update,{passive:true});new ResizeObserver(update).observe(rail);
+  rail.addEventListener('keydown',e=>{if(e.target!==rail)return;if(['ArrowLeft','ArrowRight','Home','End'].includes(e.key)){e.preventDefault();if(e.key==='Home'||e.key==='End')rail.scrollTo({left:e.key==='Home'?positions[0]:positions.at(-1),behavior:'instant'});else move(e.key==='ArrowRight'?1:-1);}});
+  // Announce the settled position once, rather than each frame of a drag/smooth scroll.
+  rail.addEventListener('scroll',()=>{update();clearTimeout(announceTimer);announceTimer=setTimeout(announce,150);},{passive:true});
+  rail.addEventListener('scrollend',()=>{clearTimeout(announceTimer);update();announce();});
+  const resize=new ResizeObserver(refresh);resize.observe(rail);[...rail.children].forEach(card=>resize.observe(card));
   rail.addEventListener('pointerdown',e=>{if(e.pointerType!=='mouse'||e.button!==0)return;drag={x:e.clientX,scroll:rail.scrollLeft,moved:false};ignoreClick=false;});
   addEventListener('pointermove',e=>{if(!drag)return;const dx=e.clientX-drag.x;if(Math.abs(dx)>6){drag.moved=true;rail.classList.add('is-dragging');e.preventDefault();rail.scrollLeft=drag.scroll-dx;}});
   addEventListener('pointerup',()=>{if(!drag)return;ignoreClick=drag.moved;drag=null;rail.classList.remove('is-dragging');});
   rail.addEventListener('dragstart',e=>e.preventDefault());
   rail.addEventListener('click',e=>{if(ignoreClick){e.preventDefault();e.stopPropagation();ignoreClick=false;}},true);
-  update();
+  refresh();
 });
 
 // Reveal once, with readable fallback; no global animation loop.

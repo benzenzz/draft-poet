@@ -1,0 +1,1751 @@
+{
+  "phase": "after",
+  "startedAt": "2026-10-21T05:11:45.186Z",
+  "checks": [
+    {
+      "name": "1440 Home reachable-position label",
+      "passed": true
+    },
+    {
+      "name": "1440 Home boundary controls",
+      "passed": true
+    },
+    {
+      "name": "1440 Home polite atomic live region",
+      "passed": true
+    },
+    {
+      "name": "1440 Next 0 reachable-position label",
+      "passed": true
+    },
+    {
+      "name": "1440 Next 0 boundary controls",
+      "passed": true
+    },
+    {
+      "name": "1440 Next 0 polite atomic live region",
+      "passed": true
+    },
+    {
+      "name": "1440 Next advances",
+      "passed": true
+    },
+    {
+      "name": "1440 lands on reachable point",
+      "passed": true
+    },
+    {
+      "name": "1440 End reachable-position label",
+      "passed": true
+    },
+    {
+      "name": "1440 End boundary controls",
+      "passed": true
+    },
+    {
+      "name": "1440 End polite atomic live region",
+      "passed": true
+    },
+    {
+      "name": "1440 End at max",
+      "passed": true
+    },
+    {
+      "name": "1440 ArrowLeft reachable-position label",
+      "passed": true
+    },
+    {
+      "name": "1440 ArrowLeft boundary controls",
+      "passed": true
+    },
+    {
+      "name": "1440 ArrowLeft polite atomic live region",
+      "passed": true
+    },
+    {
+      "name": "1440 ArrowLeft retreats",
+      "passed": true
+    },
+    {
+      "name": "1440 Home again reachable-position label",
+      "passed": true
+    },
+    {
+      "name": "1440 Home again boundary controls",
+      "passed": true
+    },
+    {
+      "name": "1440 Home again polite atomic live region",
+      "passed": true
+    },
+    {
+      "name": "1440 Home at first snap",
+      "passed": true
+    },
+    {
+      "name": "1440 ArrowRight reachable-position label",
+      "passed": true
+    },
+    {
+      "name": "1440 ArrowRight boundary controls",
+      "passed": true
+    },
+    {
+      "name": "1440 ArrowRight polite atomic live region",
+      "passed": true
+    },
+    {
+      "name": "1440 approved business heading",
+      "passed": true
+    },
+    {
+      "name": "1440 CTA/destination retained",
+      "passed": true
+    },
+    {
+      "name": "1440 heading wraps without clipping or overflow",
+      "passed": true
+    },
+    {
+      "name": "1440 Product Sans retained",
+      "passed": true
+    },
+    {
+      "name": "768 Home reachable-position label",
+      "passed": true
+    },
+    {
+      "name": "768 Home boundary controls",
+      "passed": true
+    },
+    {
+      "name": "768 Home polite atomic live region",
+      "passed": true
+    },
+    {
+      "name": "768 Next 0 reachable-position label",
+      "passed": true
+    },
+    {
+      "name": "768 Next 0 boundary controls",
+      "passed": true
+    },
+    {
+      "name": "768 Next 0 polite atomic live region",
+      "passed": true
+    },
+    {
+      "name": "768 Next advances",
+      "passed": true
+    },
+    {
+      "name": "768 lands on reachable point",
+      "passed": true
+    },
+    {
+      "name": "768 End reachable-position label",
+      "passed": true
+    },
+    {
+      "name": "768 End boundary controls",
+      "passed": true
+    },
+    {
+      "name": "768 End polite atomic live region",
+      "passed": true
+    },
+    {
+      "name": "768 End at max",
+      "passed": true
+    },
+    {
+      "name": "768 ArrowLeft reachable-position label",
+      "passed": true
+    },
+    {
+      "name": "768 ArrowLeft boundary controls",
+      "passed": true
+    },
+    {
+      "name": "768 ArrowLeft polite atomic live region",
+      "passed": true
+    },
+    {
+      "name": "768 ArrowLeft retreats",
+      "passed": true
+    },
+    {
+      "name": "768 Home again reachable-position label",
+      "passed": true
+    },
+    {
+      "name": "768 Home again boundary controls",
+      "passed": true
+    },
+    {
+      "name": "768 Home again polite atomic live region",
+      "passed": true
+    },
+    {
+      "name": "768 Home at first snap",
+      "passed": true
+    },
+    {
+      "name": "768 ArrowRight reachable-position label",
+      "passed": true
+    },
+    {
+      "name": "768 ArrowRight boundary controls",
+      "passed": true
+    },
+    {
+      "name": "768 ArrowRight polite atomic live region",
+      "passed": true
+    },
+    {
+      "name": "768 approved business heading",
+      "passed": true
+    },
+    {
+      "name": "768 CTA/destination retained",
+      "passed": true
+    },
+    {
+      "name": "768 heading wraps without clipping or overflow",
+      "passed": true
+    },
+    {
+      "name": "768 Product Sans retained",
+      "passed": true
+    },
+    {
+      "name": "390 Home reachable-position label",
+      "passed": true
+    },
+    {
+      "name": "390 Home boundary controls",
+      "passed": true
+    },
+    {
+      "name": "390 Home polite atomic live region",
+      "passed": true
+    },
+    {
+      "name": "390 Next 0 reachable-position label",
+      "passed": true
+    },
+    {
+      "name": "390 Next 0 boundary controls",
+      "passed": true
+    },
+    {
+      "name": "390 Next 0 polite atomic live region",
+      "passed": true
+    },
+    {
+      "name": "390 Next advances",
+      "passed": true
+    },
+    {
+      "name": "390 lands on reachable point",
+      "passed": true
+    },
+    {
+      "name": "390 Next 1 reachable-position label",
+      "passed": true
+    },
+    {
+      "name": "390 Next 1 boundary controls",
+      "passed": true
+    },
+    {
+      "name": "390 Next 1 polite atomic live region",
+      "passed": true
+    },
+    {
+      "name": "390 Next advances",
+      "passed": true
+    },
+    {
+      "name": "390 lands on reachable point",
+      "passed": true
+    },
+    {
+      "name": "390 End reachable-position label",
+      "passed": true
+    },
+    {
+      "name": "390 End boundary controls",
+      "passed": true
+    },
+    {
+      "name": "390 End polite atomic live region",
+      "passed": true
+    },
+    {
+      "name": "390 End at max",
+      "passed": true
+    },
+    {
+      "name": "390 ArrowLeft reachable-position label",
+      "passed": true
+    },
+    {
+      "name": "390 ArrowLeft boundary controls",
+      "passed": true
+    },
+    {
+      "name": "390 ArrowLeft polite atomic live region",
+      "passed": true
+    },
+    {
+      "name": "390 ArrowLeft retreats",
+      "passed": true
+    },
+    {
+      "name": "390 Home again reachable-position label",
+      "passed": true
+    },
+    {
+      "name": "390 Home again boundary controls",
+      "passed": true
+    },
+    {
+      "name": "390 Home again polite atomic live region",
+      "passed": true
+    },
+    {
+      "name": "390 Home at first snap",
+      "passed": true
+    },
+    {
+      "name": "390 ArrowRight reachable-position label",
+      "passed": true
+    },
+    {
+      "name": "390 ArrowRight boundary controls",
+      "passed": true
+    },
+    {
+      "name": "390 ArrowRight polite atomic live region",
+      "passed": true
+    },
+    {
+      "name": "390 approved business heading",
+      "passed": true
+    },
+    {
+      "name": "390 CTA/destination retained",
+      "passed": true
+    },
+    {
+      "name": "390 heading wraps without clipping or overflow",
+      "passed": true
+    },
+    {
+      "name": "390 Product Sans retained",
+      "passed": true
+    },
+    {
+      "name": "320 Home reachable-position label",
+      "passed": true
+    },
+    {
+      "name": "320 Home boundary controls",
+      "passed": true
+    },
+    {
+      "name": "320 Home polite atomic live region",
+      "passed": true
+    },
+    {
+      "name": "320 Next 0 reachable-position label",
+      "passed": true
+    },
+    {
+      "name": "320 Next 0 boundary controls",
+      "passed": true
+    },
+    {
+      "name": "320 Next 0 polite atomic live region",
+      "passed": true
+    },
+    {
+      "name": "320 Next advances",
+      "passed": true
+    },
+    {
+      "name": "320 lands on reachable point",
+      "passed": true
+    },
+    {
+      "name": "320 Next 1 reachable-position label",
+      "passed": true
+    },
+    {
+      "name": "320 Next 1 boundary controls",
+      "passed": true
+    },
+    {
+      "name": "320 Next 1 polite atomic live region",
+      "passed": true
+    },
+    {
+      "name": "320 Next advances",
+      "passed": true
+    },
+    {
+      "name": "320 lands on reachable point",
+      "passed": true
+    },
+    {
+      "name": "320 End reachable-position label",
+      "passed": true
+    },
+    {
+      "name": "320 End boundary controls",
+      "passed": true
+    },
+    {
+      "name": "320 End polite atomic live region",
+      "passed": true
+    },
+    {
+      "name": "320 End at max",
+      "passed": true
+    },
+    {
+      "name": "320 ArrowLeft reachable-position label",
+      "passed": true
+    },
+    {
+      "name": "320 ArrowLeft boundary controls",
+      "passed": true
+    },
+    {
+      "name": "320 ArrowLeft polite atomic live region",
+      "passed": true
+    },
+    {
+      "name": "320 ArrowLeft retreats",
+      "passed": true
+    },
+    {
+      "name": "320 Home again reachable-position label",
+      "passed": true
+    },
+    {
+      "name": "320 Home again boundary controls",
+      "passed": true
+    },
+    {
+      "name": "320 Home again polite atomic live region",
+      "passed": true
+    },
+    {
+      "name": "320 Home at first snap",
+      "passed": true
+    },
+    {
+      "name": "320 ArrowRight reachable-position label",
+      "passed": true
+    },
+    {
+      "name": "320 ArrowRight boundary controls",
+      "passed": true
+    },
+    {
+      "name": "320 ArrowRight polite atomic live region",
+      "passed": true
+    },
+    {
+      "name": "320 approved business heading",
+      "passed": true
+    },
+    {
+      "name": "320 CTA/destination retained",
+      "passed": true
+    },
+    {
+      "name": "320 heading wraps without clipping or overflow",
+      "passed": true
+    },
+    {
+      "name": "320 Product Sans retained",
+      "passed": true
+    },
+    {
+      "name": "Reported 1198/1413 geometry reachable-position label",
+      "passed": true
+    },
+    {
+      "name": "Reported 1198/1413 geometry boundary controls",
+      "passed": true
+    },
+    {
+      "name": "Reported 1198/1413 geometry polite atomic live region",
+      "passed": true
+    },
+    {
+      "name": "Reported geometry reproduced",
+      "passed": true
+    },
+    {
+      "name": "Live resize 1440 reachable-position label",
+      "passed": true
+    },
+    {
+      "name": "Live resize 1440 boundary controls",
+      "passed": true
+    },
+    {
+      "name": "Live resize 1440 polite atomic live region",
+      "passed": true
+    },
+    {
+      "name": "Resize End 1440 reachable-position label",
+      "passed": true
+    },
+    {
+      "name": "Resize End 1440 boundary controls",
+      "passed": true
+    },
+    {
+      "name": "Resize End 1440 polite atomic live region",
+      "passed": true
+    },
+    {
+      "name": "Resize End reaches new max 1440",
+      "passed": true
+    },
+    {
+      "name": "Live resize 768 reachable-position label",
+      "passed": true
+    },
+    {
+      "name": "Live resize 768 boundary controls",
+      "passed": true
+    },
+    {
+      "name": "Live resize 768 polite atomic live region",
+      "passed": true
+    },
+    {
+      "name": "Resize End 768 reachable-position label",
+      "passed": true
+    },
+    {
+      "name": "Resize End 768 boundary controls",
+      "passed": true
+    },
+    {
+      "name": "Resize End 768 polite atomic live region",
+      "passed": true
+    },
+    {
+      "name": "Resize End reaches new max 768",
+      "passed": true
+    },
+    {
+      "name": "Live resize 390 reachable-position label",
+      "passed": true
+    },
+    {
+      "name": "Live resize 390 boundary controls",
+      "passed": true
+    },
+    {
+      "name": "Live resize 390 polite atomic live region",
+      "passed": true
+    },
+    {
+      "name": "Resize End 390 reachable-position label",
+      "passed": true
+    },
+    {
+      "name": "Resize End 390 boundary controls",
+      "passed": true
+    },
+    {
+      "name": "Resize End 390 polite atomic live region",
+      "passed": true
+    },
+    {
+      "name": "Resize End reaches new max 390",
+      "passed": true
+    },
+    {
+      "name": "Live resize 320 reachable-position label",
+      "passed": true
+    },
+    {
+      "name": "Live resize 320 boundary controls",
+      "passed": true
+    },
+    {
+      "name": "Live resize 320 polite atomic live region",
+      "passed": true
+    },
+    {
+      "name": "Resize End 320 reachable-position label",
+      "passed": true
+    },
+    {
+      "name": "Resize End 320 boundary controls",
+      "passed": true
+    },
+    {
+      "name": "Resize End 320 polite atomic live region",
+      "passed": true
+    },
+    {
+      "name": "Resize End reaches new max 320",
+      "passed": true
+    },
+    {
+      "name": "Shared Home End reachable-position label",
+      "passed": true
+    },
+    {
+      "name": "Shared Home End boundary controls",
+      "passed": true
+    },
+    {
+      "name": "Shared Home End polite atomic live region",
+      "passed": true
+    },
+    {
+      "name": "Single card fixture reachable-position label",
+      "passed": true
+    },
+    {
+      "name": "Single card fixture boundary controls",
+      "passed": true
+    },
+    {
+      "name": "Single card fixture polite atomic live region",
+      "passed": true
+    },
+    {
+      "name": "No overflow has one position",
+      "passed": true
+    },
+    {
+      "name": "Smooth navigation reachable-position label",
+      "passed": true
+    },
+    {
+      "name": "Smooth navigation boundary controls",
+      "passed": true
+    },
+    {
+      "name": "Smooth navigation polite atomic live region",
+      "passed": true
+    },
+    {
+      "name": "Smooth next advances",
+      "passed": true
+    },
+    {
+      "name": "No browser console errors",
+      "passed": true
+    }
+  ],
+  "viewports": [
+    {
+      "width": 1440,
+      "height": 900,
+      "states": [
+        {
+          "action": "Home",
+          "clientWidth": 1282,
+          "scrollWidth": 1508,
+          "scrollLeft": 4,
+          "max": 226,
+          "cards": [
+            {
+              "width": 483.96875,
+              "start": 4
+            },
+            {
+              "width": 483.96875,
+              "start": 511.96875
+            },
+            {
+              "width": 483.96875,
+              "start": 1019.9375
+            }
+          ],
+          "indicator": "Vị trí 1 / 2",
+          "live": "polite",
+          "atomic": "true",
+          "prevDisabled": true,
+          "nextDisabled": false
+        },
+        {
+          "action": "Next",
+          "clientWidth": 1282,
+          "scrollWidth": 1508,
+          "scrollLeft": 226,
+          "max": 226,
+          "cards": [
+            {
+              "width": 483.96875,
+              "start": 4
+            },
+            {
+              "width": 483.96875,
+              "start": 511.96875
+            },
+            {
+              "width": 483.96875,
+              "start": 1019.9375
+            }
+          ],
+          "indicator": "Vị trí 2 / 2",
+          "live": "polite",
+          "atomic": "true",
+          "prevDisabled": false,
+          "nextDisabled": true
+        },
+        {
+          "action": "End",
+          "clientWidth": 1282,
+          "scrollWidth": 1508,
+          "scrollLeft": 226,
+          "max": 226,
+          "cards": [
+            {
+              "width": 483.96875,
+              "start": 4
+            },
+            {
+              "width": 483.96875,
+              "start": 511.96875
+            },
+            {
+              "width": 483.96875,
+              "start": 1019.9375
+            }
+          ],
+          "indicator": "Vị trí 2 / 2",
+          "live": "polite",
+          "atomic": "true",
+          "prevDisabled": false,
+          "nextDisabled": true
+        },
+        {
+          "action": "ArrowLeft",
+          "clientWidth": 1282,
+          "scrollWidth": 1508,
+          "scrollLeft": 4,
+          "max": 226,
+          "cards": [
+            {
+              "width": 483.96875,
+              "start": 4
+            },
+            {
+              "width": 483.96875,
+              "start": 511.96875
+            },
+            {
+              "width": 483.96875,
+              "start": 1019.9375
+            }
+          ],
+          "indicator": "Vị trí 1 / 2",
+          "live": "polite",
+          "atomic": "true",
+          "prevDisabled": true,
+          "nextDisabled": false
+        },
+        {
+          "action": "Home again",
+          "clientWidth": 1282,
+          "scrollWidth": 1508,
+          "scrollLeft": 4,
+          "max": 226,
+          "cards": [
+            {
+              "width": 483.96875,
+              "start": 4
+            },
+            {
+              "width": 483.96875,
+              "start": 511.96875
+            },
+            {
+              "width": 483.96875,
+              "start": 1019.9375
+            }
+          ],
+          "indicator": "Vị trí 1 / 2",
+          "live": "polite",
+          "atomic": "true",
+          "prevDisabled": true,
+          "nextDisabled": false
+        },
+        {
+          "action": "ArrowRight",
+          "clientWidth": 1282,
+          "scrollWidth": 1508,
+          "scrollLeft": 226,
+          "max": 226,
+          "cards": [
+            {
+              "width": 483.96875,
+              "start": 4
+            },
+            {
+              "width": 483.96875,
+              "start": 511.96875
+            },
+            {
+              "width": 483.96875,
+              "start": 1019.9375
+            }
+          ],
+          "indicator": "Vị trí 2 / 2",
+          "live": "polite",
+          "atomic": "true",
+          "prevDisabled": false,
+          "nextDisabled": true
+        }
+      ],
+      "heading": {
+        "text": "Doanh nghiệp đồng hành và tài trợ",
+        "cta": "Đồng hành & tài trợ ↗",
+        "href": "../dong-hanh/#doanh-nghiep",
+        "headingBox": {
+          "x": 550.0625,
+          "y": 445.234375,
+          "width": 339.875,
+          "height": 56.09375,
+          "top": 445.234375,
+          "right": 889.9375,
+          "bottom": 501.328125,
+          "left": 550.0625
+        },
+        "cardBox": {
+          "x": 525.0625,
+          "y": 420.234375,
+          "width": 389.875,
+          "height": 270,
+          "top": 420.234375,
+          "right": 914.9375,
+          "bottom": 690.234375,
+          "left": 525.0625
+        },
+        "lines": [
+          {
+            "x": 550.0625,
+            "y": 443.234375,
+            "width": 194.5,
+            "height": 31
+          },
+          {
+            "x": 550.0625,
+            "y": 471.28125,
+            "width": 141.640625,
+            "height": 31
+          }
+        ],
+        "clipped": false,
+        "overflow": false,
+        "font": "\"Product Sans\", sans-serif"
+      }
+    },
+    {
+      "width": 768,
+      "height": 1024,
+      "states": [
+        {
+          "action": "Home",
+          "clientWidth": 696,
+          "scrollWidth": 985,
+          "scrollLeft": 4,
+          "max": 289,
+          "cards": [
+            {
+              "width": 309.59375,
+              "start": 4
+            },
+            {
+              "width": 309.59375,
+              "start": 337.59375
+            },
+            {
+              "width": 309.59375,
+              "start": 671.1875
+            }
+          ],
+          "indicator": "Vị trí 1 / 2",
+          "live": "polite",
+          "atomic": "true",
+          "prevDisabled": true,
+          "nextDisabled": false
+        },
+        {
+          "action": "Next",
+          "clientWidth": 696,
+          "scrollWidth": 985,
+          "scrollLeft": 289,
+          "max": 289,
+          "cards": [
+            {
+              "width": 309.59375,
+              "start": 4
+            },
+            {
+              "width": 309.59375,
+              "start": 337.59375
+            },
+            {
+              "width": 309.59375,
+              "start": 671.1875
+            }
+          ],
+          "indicator": "Vị trí 2 / 2",
+          "live": "polite",
+          "atomic": "true",
+          "prevDisabled": false,
+          "nextDisabled": true
+        },
+        {
+          "action": "End",
+          "clientWidth": 696,
+          "scrollWidth": 985,
+          "scrollLeft": 289,
+          "max": 289,
+          "cards": [
+            {
+              "width": 309.59375,
+              "start": 4
+            },
+            {
+              "width": 309.59375,
+              "start": 337.59375
+            },
+            {
+              "width": 309.59375,
+              "start": 671.1875
+            }
+          ],
+          "indicator": "Vị trí 2 / 2",
+          "live": "polite",
+          "atomic": "true",
+          "prevDisabled": false,
+          "nextDisabled": true
+        },
+        {
+          "action": "ArrowLeft",
+          "clientWidth": 696,
+          "scrollWidth": 985,
+          "scrollLeft": 4,
+          "max": 289,
+          "cards": [
+            {
+              "width": 309.59375,
+              "start": 4
+            },
+            {
+              "width": 309.59375,
+              "start": 337.59375
+            },
+            {
+              "width": 309.59375,
+              "start": 671.1875
+            }
+          ],
+          "indicator": "Vị trí 1 / 2",
+          "live": "polite",
+          "atomic": "true",
+          "prevDisabled": true,
+          "nextDisabled": false
+        },
+        {
+          "action": "Home again",
+          "clientWidth": 696,
+          "scrollWidth": 985,
+          "scrollLeft": 4,
+          "max": 289,
+          "cards": [
+            {
+              "width": 309.59375,
+              "start": 4
+            },
+            {
+              "width": 309.59375,
+              "start": 337.59375
+            },
+            {
+              "width": 309.59375,
+              "start": 671.1875
+            }
+          ],
+          "indicator": "Vị trí 1 / 2",
+          "live": "polite",
+          "atomic": "true",
+          "prevDisabled": true,
+          "nextDisabled": false
+        },
+        {
+          "action": "ArrowRight",
+          "clientWidth": 696,
+          "scrollWidth": 985,
+          "scrollLeft": 289,
+          "max": 289,
+          "cards": [
+            {
+              "width": 309.59375,
+              "start": 4
+            },
+            {
+              "width": 309.59375,
+              "start": 337.59375
+            },
+            {
+              "width": 309.59375,
+              "start": 671.1875
+            }
+          ],
+          "indicator": "Vị trí 2 / 2",
+          "live": "polite",
+          "atomic": "true",
+          "prevDisabled": false,
+          "nextDisabled": true
+        }
+      ],
+      "heading": {
+        "text": "Doanh nghiệp đồng hành và tài trợ",
+        "cta": "Đồng hành & tài trợ ↗",
+        "href": "../dong-hanh/#doanh-nghiep",
+        "headingBox": {
+          "x": 301,
+          "y": 391.5,
+          "width": 166,
+          "height": 84.140625,
+          "top": 391.5,
+          "right": 467,
+          "bottom": 475.640625,
+          "left": 301
+        },
+        "cardBox": {
+          "x": 280,
+          "y": 370.5,
+          "width": 208,
+          "height": 310,
+          "top": 370.5,
+          "right": 488,
+          "bottom": 680.5,
+          "left": 280
+        },
+        "lines": [
+          {
+            "x": 301,
+            "y": 389.5,
+            "width": 138.671875,
+            "height": 31
+          },
+          {
+            "x": 301,
+            "y": 417.546875,
+            "width": 105.328125,
+            "height": 31
+          },
+          {
+            "x": 301,
+            "y": 445.59375,
+            "width": 87.65625,
+            "height": 31
+          }
+        ],
+        "clipped": false,
+        "overflow": false,
+        "font": "\"Product Sans\", sans-serif"
+      }
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "states": [
+        {
+          "action": "Home",
+          "clientWidth": 346,
+          "scrollWidth": 940,
+          "scrollLeft": 4,
+          "max": 594,
+          "cards": [
+            {
+              "width": 297.4375,
+              "start": 4
+            },
+            {
+              "width": 297.4375,
+              "start": 321.4375
+            },
+            {
+              "width": 297.4375,
+              "start": 638.875
+            }
+          ],
+          "indicator": "Vị trí 1 / 3",
+          "live": "polite",
+          "atomic": "true",
+          "prevDisabled": true,
+          "nextDisabled": false
+        },
+        {
+          "action": "Next",
+          "clientWidth": 346,
+          "scrollWidth": 940,
+          "scrollLeft": 321,
+          "max": 594,
+          "cards": [
+            {
+              "width": 297.4375,
+              "start": 4
+            },
+            {
+              "width": 297.4375,
+              "start": 321.4375
+            },
+            {
+              "width": 297.4375,
+              "start": 638.875
+            }
+          ],
+          "indicator": "Vị trí 2 / 3",
+          "live": "polite",
+          "atomic": "true",
+          "prevDisabled": false,
+          "nextDisabled": false
+        },
+        {
+          "action": "Next",
+          "clientWidth": 346,
+          "scrollWidth": 940,
+          "scrollLeft": 594,
+          "max": 594,
+          "cards": [
+            {
+              "width": 297.4375,
+              "start": 4
+            },
+            {
+              "width": 297.4375,
+              "start": 321.4375
+            },
+            {
+              "width": 297.4375,
+              "start": 638.875
+            }
+          ],
+          "indicator": "Vị trí 3 / 3",
+          "live": "polite",
+          "atomic": "true",
+          "prevDisabled": false,
+          "nextDisabled": true
+        },
+        {
+          "action": "End",
+          "clientWidth": 346,
+          "scrollWidth": 940,
+          "scrollLeft": 594,
+          "max": 594,
+          "cards": [
+            {
+              "width": 297.4375,
+              "start": 4
+            },
+            {
+              "width": 297.4375,
+              "start": 321.4375
+            },
+            {
+              "width": 297.4375,
+              "start": 638.875
+            }
+          ],
+          "indicator": "Vị trí 3 / 3",
+          "live": "polite",
+          "atomic": "true",
+          "prevDisabled": false,
+          "nextDisabled": true
+        },
+        {
+          "action": "ArrowLeft",
+          "clientWidth": 346,
+          "scrollWidth": 940,
+          "scrollLeft": 321,
+          "max": 594,
+          "cards": [
+            {
+              "width": 297.4375,
+              "start": 4
+            },
+            {
+              "width": 297.4375,
+              "start": 321.4375
+            },
+            {
+              "width": 297.4375,
+              "start": 638.875
+            }
+          ],
+          "indicator": "Vị trí 2 / 3",
+          "live": "polite",
+          "atomic": "true",
+          "prevDisabled": false,
+          "nextDisabled": false
+        },
+        {
+          "action": "Home again",
+          "clientWidth": 346,
+          "scrollWidth": 940,
+          "scrollLeft": 4,
+          "max": 594,
+          "cards": [
+            {
+              "width": 297.4375,
+              "start": 4
+            },
+            {
+              "width": 297.4375,
+              "start": 321.4375
+            },
+            {
+              "width": 297.4375,
+              "start": 638.875
+            }
+          ],
+          "indicator": "Vị trí 1 / 3",
+          "live": "polite",
+          "atomic": "true",
+          "prevDisabled": true,
+          "nextDisabled": false
+        },
+        {
+          "action": "ArrowRight",
+          "clientWidth": 346,
+          "scrollWidth": 940,
+          "scrollLeft": 321,
+          "max": 594,
+          "cards": [
+            {
+              "width": 297.4375,
+              "start": 4
+            },
+            {
+              "width": 297.4375,
+              "start": 321.4375
+            },
+            {
+              "width": 297.4375,
+              "start": 638.875
+            }
+          ],
+          "indicator": "Vị trí 2 / 3",
+          "live": "polite",
+          "atomic": "true",
+          "prevDisabled": false,
+          "nextDisabled": false
+        }
+      ],
+      "heading": {
+        "text": "Doanh nghiệp đồng hành và tài trợ",
+        "cta": "Đồng hành & tài trợ ↗",
+        "href": "../dong-hanh/#doanh-nghiep",
+        "headingBox": {
+          "x": 63,
+          "y": 672.1875,
+          "width": 264,
+          "height": 56.09375,
+          "top": 672.1875,
+          "right": 327,
+          "bottom": 728.28125,
+          "left": 63
+        },
+        "cardBox": {
+          "x": 42,
+          "y": 651.1875,
+          "width": 306,
+          "height": 240,
+          "top": 651.1875,
+          "right": 348,
+          "bottom": 891.1875,
+          "left": 42
+        },
+        "lines": [
+          {
+            "x": 63,
+            "y": 670.1875,
+            "width": 194.5,
+            "height": 31
+          },
+          {
+            "x": 63,
+            "y": 698.234375,
+            "width": 141.640625,
+            "height": 31
+          }
+        ],
+        "clipped": false,
+        "overflow": false,
+        "font": "\"Product Sans\", sans-serif"
+      }
+    },
+    {
+      "width": 320,
+      "height": 740,
+      "states": [
+        {
+          "action": "Home",
+          "clientWidth": 276,
+          "scrollWidth": 755,
+          "scrollLeft": 4,
+          "max": 479,
+          "cards": [
+            {
+              "width": 235.828125,
+              "start": 4
+            },
+            {
+              "width": 235.828125,
+              "start": 259.828125
+            },
+            {
+              "width": 235.828125,
+              "start": 515.65625
+            }
+          ],
+          "indicator": "Vị trí 1 / 3",
+          "live": "polite",
+          "atomic": "true",
+          "prevDisabled": true,
+          "nextDisabled": false
+        },
+        {
+          "action": "Next",
+          "clientWidth": 276,
+          "scrollWidth": 755,
+          "scrollLeft": 260,
+          "max": 479,
+          "cards": [
+            {
+              "width": 235.828125,
+              "start": 4
+            },
+            {
+              "width": 235.828125,
+              "start": 259.828125
+            },
+            {
+              "width": 235.828125,
+              "start": 515.65625
+            }
+          ],
+          "indicator": "Vị trí 2 / 3",
+          "live": "polite",
+          "atomic": "true",
+          "prevDisabled": false,
+          "nextDisabled": false
+        },
+        {
+          "action": "Next",
+          "clientWidth": 276,
+          "scrollWidth": 755,
+          "scrollLeft": 479,
+          "max": 479,
+          "cards": [
+            {
+              "width": 235.828125,
+              "start": 4
+            },
+            {
+              "width": 235.828125,
+              "start": 259.828125
+            },
+            {
+              "width": 235.828125,
+              "start": 515.65625
+            }
+          ],
+          "indicator": "Vị trí 3 / 3",
+          "live": "polite",
+          "atomic": "true",
+          "prevDisabled": false,
+          "nextDisabled": true
+        },
+        {
+          "action": "End",
+          "clientWidth": 276,
+          "scrollWidth": 755,
+          "scrollLeft": 479,
+          "max": 479,
+          "cards": [
+            {
+              "width": 235.828125,
+              "start": 4
+            },
+            {
+              "width": 235.828125,
+              "start": 259.828125
+            },
+            {
+              "width": 235.828125,
+              "start": 515.65625
+            }
+          ],
+          "indicator": "Vị trí 3 / 3",
+          "live": "polite",
+          "atomic": "true",
+          "prevDisabled": false,
+          "nextDisabled": true
+        },
+        {
+          "action": "ArrowLeft",
+          "clientWidth": 276,
+          "scrollWidth": 755,
+          "scrollLeft": 260,
+          "max": 479,
+          "cards": [
+            {
+              "width": 235.828125,
+              "start": 4
+            },
+            {
+              "width": 235.828125,
+              "start": 259.828125
+            },
+            {
+              "width": 235.828125,
+              "start": 515.65625
+            }
+          ],
+          "indicator": "Vị trí 2 / 3",
+          "live": "polite",
+          "atomic": "true",
+          "prevDisabled": false,
+          "nextDisabled": false
+        },
+        {
+          "action": "Home again",
+          "clientWidth": 276,
+          "scrollWidth": 755,
+          "scrollLeft": 4,
+          "max": 479,
+          "cards": [
+            {
+              "width": 235.828125,
+              "start": 4
+            },
+            {
+              "width": 235.828125,
+              "start": 259.828125
+            },
+            {
+              "width": 235.828125,
+              "start": 515.65625
+            }
+          ],
+          "indicator": "Vị trí 1 / 3",
+          "live": "polite",
+          "atomic": "true",
+          "prevDisabled": true,
+          "nextDisabled": false
+        },
+        {
+          "action": "ArrowRight",
+          "clientWidth": 276,
+          "scrollWidth": 755,
+          "scrollLeft": 260,
+          "max": 479,
+          "cards": [
+            {
+              "width": 235.828125,
+              "start": 4
+            },
+            {
+              "width": 235.828125,
+              "start": 259.828125
+            },
+            {
+              "width": 235.828125,
+              "start": 515.65625
+            }
+          ],
+          "indicator": "Vị trí 2 / 3",
+          "live": "polite",
+          "atomic": "true",
+          "prevDisabled": false,
+          "nextDisabled": false
+        }
+      ],
+      "heading": {
+        "text": "Doanh nghiệp đồng hành và tài trợ",
+        "cta": "Đồng hành & tài trợ ↗",
+        "href": "../dong-hanh/#doanh-nghiep",
+        "headingBox": {
+          "x": 63,
+          "y": 732.0625,
+          "width": 194,
+          "height": 84.140625,
+          "top": 732.0625,
+          "right": 257,
+          "bottom": 816.203125,
+          "left": 63
+        },
+        "cardBox": {
+          "x": 42,
+          "y": 711.0625,
+          "width": 236,
+          "height": 277.515625,
+          "top": 711.0625,
+          "right": 278,
+          "bottom": 988.578125,
+          "left": 42
+        },
+        "lines": [
+          {
+            "x": 63,
+            "y": 730.0625,
+            "width": 138.671875,
+            "height": 31
+          },
+          {
+            "x": 63,
+            "y": 758.109375,
+            "width": 105.328125,
+            "height": 31
+          },
+          {
+            "x": 63,
+            "y": 786.15625,
+            "width": 87.65625,
+            "height": 31
+          }
+        ],
+        "clipped": false,
+        "overflow": false,
+        "font": "\"Product Sans\", sans-serif"
+      }
+    }
+  ],
+  "screenshots": [
+    "after-1440-press-start.png",
+    "after-1440-press-end.png",
+    "after-1440-participation.png",
+    "after-768-press-start.png",
+    "after-768-participation.png",
+    "after-390-press-start.png",
+    "after-390-participation.png",
+    "after-320-press-start.png",
+    "after-320-participation.png"
+  ],
+  "server": {
+    "name": "Playwright",
+    "version": "1.64.0-alpha-1790635538000"
+  },
+  "exactReproduction": {
+    "clientWidth": 1198,
+    "scrollWidth": 1413,
+    "scrollLeft": 215,
+    "max": 215,
+    "cards": [
+      {
+        "width": 452.1875,
+        "start": 4
+      },
+      {
+        "width": 452.1875,
+        "start": 480.1875
+      },
+      {
+        "width": 452.1875,
+        "start": 956.375
+      }
+    ],
+    "indicator": "Vị trí 2 / 2",
+    "live": "polite",
+    "atomic": "true",
+    "prevDisabled": false,
+    "nextDisabled": true
+  },
+  "resize": [
+    {
+      "width": 1440,
+      "clientWidth": 1282,
+      "scrollWidth": 1508,
+      "scrollLeft": 226,
+      "max": 226,
+      "cards": [
+        {
+          "width": 483.96875,
+          "start": 4
+        },
+        {
+          "width": 483.96875,
+          "start": 511.96875
+        },
+        {
+          "width": 483.96875,
+          "start": 1019.9375
+        }
+      ],
+      "indicator": "Vị trí 2 / 2",
+      "live": "polite",
+      "atomic": "true",
+      "prevDisabled": false,
+      "nextDisabled": true
+    },
+    {
+      "width": 768,
+      "clientWidth": 696,
+      "scrollWidth": 985,
+      "scrollLeft": 289,
+      "max": 289,
+      "cards": [
+        {
+          "width": 309.59375,
+          "start": 4
+        },
+        {
+          "width": 309.59375,
+          "start": 337.59375
+        },
+        {
+          "width": 309.59375,
+          "start": 671.1875
+        }
+      ],
+      "indicator": "Vị trí 2 / 2",
+      "live": "polite",
+      "atomic": "true",
+      "prevDisabled": false,
+      "nextDisabled": true
+    },
+    {
+      "width": 390,
+      "clientWidth": 346,
+      "scrollWidth": 940,
+      "scrollLeft": 321,
+      "max": 594,
+      "cards": [
+        {
+          "width": 297.4375,
+          "start": 4
+        },
+        {
+          "width": 297.4375,
+          "start": 321.4375
+        },
+        {
+          "width": 297.4375,
+          "start": 638.875
+        }
+      ],
+      "indicator": "Vị trí 2 / 3",
+      "live": "polite",
+      "atomic": "true",
+      "prevDisabled": false,
+      "nextDisabled": false
+    },
+    {
+      "width": 320,
+      "clientWidth": 276,
+      "scrollWidth": 755,
+      "scrollLeft": 479,
+      "max": 479,
+      "cards": [
+        {
+          "width": 235.828125,
+          "start": 4
+        },
+        {
+          "width": 235.828125,
+          "start": 259.828125
+        },
+        {
+          "width": 235.828125,
+          "start": 515.65625
+        }
+      ],
+      "indicator": "Vị trí 3 / 3",
+      "live": "polite",
+      "atomic": "true",
+      "prevDisabled": false,
+      "nextDisabled": true
+    }
+  ],
+  "homeEnd": {
+    "clientWidth": 276,
+    "scrollWidth": 755,
+    "scrollLeft": 479,
+    "max": 479,
+    "cards": [
+      {
+        "width": 235.828125,
+        "start": 4
+      },
+      {
+        "width": 235.828125,
+        "start": 259.828125
+      },
+      {
+        "width": 235.828125,
+        "start": 515.65625
+      }
+    ],
+    "indicator": "Vị trí 3 / 3",
+    "live": "polite",
+    "atomic": "true",
+    "prevDisabled": false,
+    "nextDisabled": true
+  },
+  "singleCardFixture": {
+    "clientWidth": 1282,
+    "scrollWidth": 1282,
+    "scrollLeft": 0,
+    "max": 0,
+    "cards": [
+      {
+        "width": 483.96875,
+        "start": 4
+      }
+    ],
+    "indicator": "Vị trí 1 / 1",
+    "live": "polite",
+    "atomic": "true",
+    "prevDisabled": true,
+    "nextDisabled": true
+  },
+  "smooth": {
+    "clientWidth": 346,
+    "scrollWidth": 940,
+    "scrollLeft": 321,
+    "max": 594,
+    "cards": [
+      {
+        "width": 297.4375,
+        "start": 4
+      },
+      {
+        "width": 297.4375,
+        "start": 321.4375
+      },
+      {
+        "width": 297.4375,
+        "start": 638.875
+      }
+    ],
+    "indicator": "Vị trí 2 / 3",
+    "live": "polite",
+    "atomic": "true",
+    "prevDisabled": false,
+    "nextDisabled": false
+  },
+  "console": "### Result\nTotal messages: 1 (Errors: 0, Warnings: 0)\nReturning 0 messages for level \"error\"\n",
+  "status": "passed"
+}
