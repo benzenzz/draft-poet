@@ -703,7 +703,11 @@ html.reveal-motion .about-hero-copy .eyebrow{animation:about-label-in 650ms ease
 html.reveal-motion .site-content .about-hero-copy h1{animation:about-title-in 800ms ease 800ms both!important}
 /* POET là ai?: heading, accent rule and copy as one group beside a member photo. */
 .about-introduction{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:48px;align-items:center;padding-block:72px}
-.about-intro-copy{max-width:640px}
+.about-intro-copy{max-width:640px;justify-self:end}
+/* Reference grouping: heading, accent and tagline align toward the photo; long body stays left-aligned. */
+.about-introduction :is(h2,.about-intro-tagline){text-align:right}
+.about-intro-rule{margin-left:auto!important}
+@media(max-width:900px){.about-introduction :is(h2,.about-intro-tagline){text-align:left}.about-intro-rule{margin-left:0!important}}
 .site-content .about-introduction h2{font-size:clamp(32px,2.8vw,40px);color:#332b27}
 .about-intro-rule{display:block;width:56px;height:3px;border-radius:2px;background:#fee161;margin:16px 0 20px}
 .about-introduction p{margin:16px 0 0;font-size:17px;line-height:1.6;color:#6f6862}
