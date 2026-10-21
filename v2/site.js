@@ -55,9 +55,13 @@ const reveals=document.querySelectorAll('[data-reveal]');
 const previewMotion=['localhost','127.0.0.1','[::1]'].includes(location.hostname)&&new URLSearchParams(location.search).get('heroMotion')!=='respect';
 if('IntersectionObserver'in window&&(!reduced.matches||previewMotion)){
   document.documentElement.classList.add('reveal-motion');
-  const io=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('is-revealed');io.unobserve(entry.target);}}),{threshold:.08});
-  reveals.forEach(el=>{el.classList.add('will-reveal');io.observe(el);});
-  reduced.addEventListener('change',e=>{if(e.matches&&!previewMotion){document.documentElement.classList.remove('reveal-motion');reveals.forEach(el=>el.classList.add('is-revealed'));io.disconnect();}});
+  // Wide screens show both archive cards together (CSS staggers the second); narrow screens reveal each card as it arrives.
+  const wide=matchMedia('(min-width:761px)');
+  const show=(entries,observer)=>entries.forEach(entry=>{if(!entry.isIntersecting)return;const group=wide.matches&&entry.target.closest('.archive-grid');for(const el of group?group.querySelectorAll('[data-reveal]'):[entry.target]){el.classList.add('is-revealed');observer.unobserve(el);}});
+  // Archive cards wait until clearly on screen so their entrance is actually seen.
+  const io=new IntersectionObserver(show,{threshold:.08}),late=new IntersectionObserver(show,{threshold:.3});
+  reveals.forEach(el=>{el.classList.add('will-reveal');(el.closest('.archive-grid')?late:io).observe(el);});
+  reduced.addEventListener('change',e=>{if(e.matches&&!previewMotion){document.documentElement.classList.remove('reveal-motion');reveals.forEach(el=>el.classList.add('is-revealed'));io.disconnect();late.disconnect();}});
 }
 const counters=document.querySelectorAll('[data-counter]');
 if('IntersectionObserver'in window){
