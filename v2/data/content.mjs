@@ -74,6 +74,13 @@ export const projectStories = highlights.map(item=>({...item,season:'Mùa 5',sta
 export const impact = [ // Season 5 only, dossier p4; never cumulative totals.
   [42200000,'đồng gây quỹ'],[35,'thành viên'],[30,'người thụ hưởng'],[5,'nguồn lực đồng hành']
 ];
+// About intro stats (UI-006): cumulative across seasons. kol stays null until POET confirms the number.
+export const reach = [
+  {value:300, suffix:'K+', title:'Lượt tiếp cận',     text:'trên mạng xã hội',   tone:'coral'},
+  {value:60,  suffix:'K+', title:'Lượt tương tác',    text:'từ cộng đồng',       tone:'green'},
+  {value:null,suffix:'+',  title:'KOL/KOC đồng hành', text:'cùng lan toả dự án', tone:'blue'} // TODO: số thật từ POET
+];
+
 // About “Sứ mệnh của POET”: card copy approved in the ABOUT-002 brief/prototype; photos user-supplied (ASSET_STATUS.md).
 export const mission = {
   eyebrow:'Điều chúng mình theo đuổi',title:'Sứ mệnh của POET',

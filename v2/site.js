@@ -77,7 +77,9 @@ if(missionSection){
     io.observe(missionSection);
   }
 }
-const counters=document.querySelectorAll('[data-counter]');
+// Counters inside [data-counter-group] start together (staggered) when the group is visible; others count alone.
+const counters=[...document.querySelectorAll('[data-counter]')].filter(el=>!el.closest('[data-counter-group]'));
+const formatCount=n=>n<1000?String(n):new Intl.NumberFormat('vi-VN').format(n);
 if('IntersectionObserver'in window){
   const io=new IntersectionObserver(entries=>entries.forEach(entry=>{
     if(!entry.isIntersecting)return;io.unobserve(entry.target);const el=entry.target,n=Number(el.dataset.counter);
@@ -85,6 +87,22 @@ if('IntersectionObserver'in window){
     const tick=time=>{const t=Math.min(1,(time-start)/1350),value=Math.round(n*(1-(1-t)**3));el.textContent=new Intl.NumberFormat('vi-VN').format(value);if(t<1&&!reduced.matches)frame=requestAnimationFrame(tick);else el.textContent=new Intl.NumberFormat('vi-VN').format(n);};
     frame=requestAnimationFrame(tick);addEventListener('pagehide',()=>cancelAnimationFrame(frame),{once:true});
   }),{threshold:.5});counters.forEach(el=>io.observe(el));
+  const easeOutExpo=t=>t===1?1:1-2**(-10*t);
+  const groups=new IntersectionObserver(entries=>entries.forEach(entry=>{
+    if(!entry.isIntersecting)return;groups.unobserve(entry.target);
+    if(reduced.matches&&!previewMotion)return;
+    const group=entry.target,values=[...group.querySelectorAll('[data-counter]')];if(!values.length)return;
+    // Zero only now, so the page, no-JS and thumbnails always show final values.
+    values.forEach(el=>{el.textContent='0';});group.classList.add('is-counting');void group.offsetWidth;
+    const frames=new Set();const start=performance.now();
+    requestAnimationFrame(()=>group.classList.add('is-drawing'));
+    values.forEach((el,i)=>{const n=Number(el.dataset.counter);
+      const tick=time=>{const t=Math.min(1,Math.max(0,(time-start-i*150)/1800));el.textContent=formatCount(Math.round(n*easeOutExpo(t)));
+        if(t<1){frames.add(requestAnimationFrame(tick));}else if(i===values.length-1)group.classList.remove('is-counting');};
+      frames.add(requestAnimationFrame(tick));});
+    addEventListener('pagehide',()=>{frames.forEach(cancelAnimationFrame);values.forEach(el=>{el.textContent=formatCount(Number(el.dataset.counter));});group.classList.remove('is-counting');},{once:true});
+  }),{threshold:.4});
+  document.querySelectorAll('[data-counter-group]').forEach(el=>groups.observe(el));
 }
 
 document.querySelectorAll('[data-journey]').forEach(journey=>{
