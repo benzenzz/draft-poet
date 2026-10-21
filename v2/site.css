@@ -702,21 +702,18 @@ poet-nav.site-nav{height:74px;background:#fbf9f3;border-color:#e7e3de}
 html.reveal-motion .about-hero-copy .eyebrow{animation:about-label-in 650ms ease 550ms both!important}
 html.reveal-motion .site-content .about-hero-copy h1{animation:about-title-in 800ms ease 800ms both!important}
 /* POET là ai?: heading, accent rule and copy as one group beside a member photo. */
-.about-introduction{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:48px;align-items:center;padding-block:72px}
-.about-intro-copy{max-width:640px;justify-self:end}
-/* Reference grouping: heading, accent and tagline align toward the photo; long body stays left-aligned. */
-.about-introduction :is(h2,.about-intro-tagline){text-align:right}
-.about-intro-rule{margin-left:auto!important}
-@media(max-width:900px){.about-introduction :is(h2,.about-intro-tagline){text-align:left}.about-intro-rule{margin-left:0!important}}
-.site-content .about-introduction h2{font-size:clamp(32px,2.8vw,40px);color:#332b27}
-.about-intro-rule{display:block;width:56px;height:3px;border-radius:2px;background:#fee161;margin:16px 0 20px}
-.about-introduction p{margin:16px 0 0;font-size:17px;line-height:1.6;color:#6f6862}
-.about-introduction .about-intro-tagline{margin:0;font-size:clamp(19px,1.6vw,22px);line-height:1.45;font-weight:var(--font-weight-bold);color:#332b27}
-.about-intro-tagline+p{margin-top:20px}
-.about-intro-photo{margin:0}
-.about-intro-photo img{width:100%;aspect-ratio:4/3;object-fit:cover;object-position:50% 40%;border-radius:var(--radius-card)}
-@media(max-width:900px){.about-introduction{grid-template-columns:1fr;gap:28px;padding-block:48px}.about-intro-copy{max-width:none}}
-@media(max-width:600px){.about-introduction{padding:40px 22px}.site-content .about-introduction h2{font-size:30px}.about-introduction p{font-size:16px}}
+.about-introduction{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:clamp(40px,5vw,72px);align-items:stretch;padding-block:clamp(56px,6vw,80px)}
+.about-intro-copy{align-self:center;max-width:600px}
+.site-content .about-introduction h2{font-size:clamp(32px,2.8vw,40px);line-height:1.15;color:#332b27}
+.about-intro-rule{display:block;width:48px;height:3px;border-radius:2px;background:#fee161;margin:18px 0 22px}
+.about-introduction p{margin:14px 0 0;max-width:58ch;font-size:17px;line-height:1.65;color:#6f6862}
+/* Lead line: one step above body, never competing with the heading. */
+.about-introduction .about-intro-tagline{margin:0 0 22px;font-size:clamp(19px,1.5vw,21px);line-height:1.45;font-weight:var(--font-weight-bold);color:#332b27;text-wrap:balance}
+/* The photo spans the text block height, so both columns share top and bottom edges. */
+.about-intro-photo{margin:0;min-height:360px}
+.about-intro-photo img{width:100%;height:100%;object-fit:cover;object-position:50% 35%;border-radius:var(--radius-card)}
+@media(max-width:900px){.about-introduction{grid-template-columns:1fr;gap:32px;padding-block:48px}.about-intro-copy{max-width:none}.about-intro-photo{min-height:0}.about-intro-photo img{height:auto;aspect-ratio:4/3}}
+@media(max-width:600px){.about-introduction{padding:40px 22px}.site-content .about-introduction h2{font-size:30px}.about-introduction p{font-size:16px}.about-introduction .about-intro-tagline{font-size:19px}}
 @media(max-width:359px){.site-nav .site-nav-inner>.btn .prototype-icon{display:inline-block}.site-brand-letters{font-size:30px}}
 
 /* One full-width gradient, clipped at the calculated percentage. Its color
