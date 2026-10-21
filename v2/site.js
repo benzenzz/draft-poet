@@ -49,20 +49,14 @@ document.querySelectorAll('.story-card a[href^="#"]').forEach(a=>a.addEventListe
 import './activity-carousel.js?v=poet-v3-1';
 import './press-strip.js?v=poet-v3-1';
 
-// Native touch scrolling, real mouse drag, buttons and arrow-key alternatives.
+// Native touch scrolling, real mouse drag and arrow-key alternatives.
 document.querySelectorAll('[data-carousel]').forEach(wrap=>{
-  const rail=wrap.querySelector('.rail'),prev=wrap.querySelector('[data-prev]'),next=wrap.querySelector('[data-next]'),count=wrap.querySelector('.rail-count');
+  const rail=wrap.querySelector('.rail');
   let drag=null,ignoreClick=false;
   // Count reachable scroll positions, not articles: several cards can be visible,
   // and their start offsets can clamp to the same final position.
   const tolerance=1;
-  let positions=[0],announceTimer;
-  function announce(){
-    const current=positions.reduce((best,left,i)=>Math.abs(left-rail.scrollLeft)<Math.abs(positions[best]-rail.scrollLeft)?i:best,0);
-    const text=`Vị trí ${current+1} / ${positions.length}`;
-    if(count.textContent!==text)count.textContent=text;
-  }
-  function update(){prev.disabled=rail.scrollLeft<=positions[0]+tolerance;next.disabled=rail.scrollLeft>=positions.at(-1)-tolerance;}
+  let positions=[0];
   function refresh(){
     const max=Math.max(0,rail.scrollWidth-rail.clientWidth),edge=rail.getBoundingClientRect().left+rail.clientLeft;
     positions=[];
@@ -73,17 +67,12 @@ document.querySelectorAll('[data-carousel]').forEach(wrap=>{
     if(!positions.length)positions=[0];
     if(max-positions.at(-1)>tolerance)positions.push(max);
     else if(positions.length>1)positions[positions.length-1]=max;
-    clearTimeout(announceTimer);update();announce();
   }
   const move=dir=>{
     const left=dir>0?positions.find(left=>left>rail.scrollLeft+tolerance):positions.findLast(left=>left<rail.scrollLeft-tolerance);
     if(left!==undefined)rail.scrollTo({left,behavior:reduced.matches?'instant':'smooth'});
   };
-  prev.addEventListener('click',()=>move(-1));next.addEventListener('click',()=>move(1));
   rail.addEventListener('keydown',e=>{if(e.target!==rail)return;if(['ArrowLeft','ArrowRight','Home','End'].includes(e.key)){e.preventDefault();if(e.key==='Home'||e.key==='End')rail.scrollTo({left:e.key==='Home'?positions[0]:positions.at(-1),behavior:'instant'});else move(e.key==='ArrowRight'?1:-1);}});
-  // Announce the settled position once, rather than each frame of a drag/smooth scroll.
-  rail.addEventListener('scroll',()=>{update();clearTimeout(announceTimer);announceTimer=setTimeout(announce,150);},{passive:true});
-  rail.addEventListener('scrollend',()=>{clearTimeout(announceTimer);update();announce();});
   const resize=new ResizeObserver(refresh);resize.observe(rail);[...rail.children].forEach(card=>resize.observe(card));
   rail.addEventListener('pointerdown',e=>{if(e.pointerType!=='mouse'||e.button!==0)return;drag={x:e.clientX,scroll:rail.scrollLeft,moved:false};ignoreClick=false;});
   addEventListener('pointermove',e=>{if(!drag)return;const dx=e.clientX-drag.x;if(Math.abs(dx)>6){drag.moved=true;rail.classList.add('is-dragging');e.preventDefault();rail.scrollLeft=drag.scroll-dx;}});
