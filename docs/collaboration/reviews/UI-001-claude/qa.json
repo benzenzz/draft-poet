@@ -1,0 +1,175 @@
+{
+  "hover": [
+    {
+      "tile": "tile-5",
+      "hitAtCenter": "tile-5",
+      "before": {
+        "inset": "color(srgb 0.998039 0.770588 0.741176)",
+        "top": "color(srgb 0.998627 0.839412 0.818824)"
+      },
+      "midTransition": "oklab(0.755345 0.104249 0.0557609)",
+      "on": {
+        "inset": "rgb(239, 138, 125)",
+        "top": "color(srgb 0.952941 0.655882 0.617647)"
+      },
+      "hovered": [
+        "tile-5"
+      ],
+      "afterLeave": {
+        "inset": "color(srgb 0.998039 0.770588 0.741176)",
+        "top": "color(srgb 0.998627 0.839412 0.818824)"
+      },
+      "restored": true
+    },
+    {
+      "tile": "tile-12",
+      "hitAtCenter": "tile-12",
+      "before": {
+        "inset": "color(srgb 0.998039 0.770588 0.741176)",
+        "top": "color(srgb 0.998627 0.839412 0.818824)"
+      },
+      "midTransition": "oklab(0.777621 0.0958364 0.0509617)",
+      "on": {
+        "inset": "rgb(239, 138, 125)",
+        "top": "color(srgb 0.952941 0.655882 0.617647)"
+      },
+      "hovered": [
+        "tile-12"
+      ],
+      "afterLeave": {
+        "inset": "color(srgb 0.998039 0.770588 0.741176)",
+        "top": "color(srgb 0.998627 0.839412 0.818824)"
+      },
+      "restored": true
+    },
+    {
+      "tile": "tile-20",
+      "hitAtCenter": "tile-20",
+      "before": {
+        "inset": "color(srgb 0.707843 0.827451 0.87451)",
+        "top": "color(srgb 0.79549 0.879216 0.912157)"
+      },
+      "midTransition": "oklab(0.814648 -0.0323904 -0.0383403)",
+      "on": {
+        "inset": "color(srgb 0.707843 0.827451 0.87451)",
+        "top": "color(srgb 0.79549 0.879216 0.912157)"
+      },
+      "hovered": [],
+      "afterLeave": {
+        "inset": "color(srgb 0.707843 0.827451 0.87451)",
+        "top": "color(srgb 0.79549 0.879216 0.912157)"
+      },
+      "restored": true
+    },
+    {
+      "tile": "tile-27",
+      "hitAtCenter": "tile-27",
+      "before": {
+        "inset": "color(srgb 0.707843 0.827451 0.87451)",
+        "top": "color(srgb 0.79549 0.879216 0.912157)"
+      },
+      "midTransition": "oklab(0.725798 -0.0480502 -0.0731053)",
+      "on": {
+        "inset": "rgb(92, 166, 212)",
+        "top": "color(srgb 0.520588 0.738235 0.873529)"
+      },
+      "hovered": [
+        "tile-27"
+      ],
+      "afterLeave": {
+        "inset": "color(srgb 0.707843 0.827451 0.87451)",
+        "top": "color(srgb 0.79549 0.879216 0.912157)"
+      },
+      "restored": true
+    }
+  ],
+  "signHits": {
+    "faceCenter": "have-fun-link",
+    "belowFaceBetweenPosts": "tile-3",
+    "point": {
+      "x": 232.05390548706055,
+      "y": 372.3238220214844
+    }
+  },
+  "cornerHits": {
+    "tile-1": {
+      "centerHit": "tile-1",
+      "curveEdgeInsideHit": "tile-1",
+      "pointCount": 14
+    },
+    "tile-9": {
+      "centerHit": "object-hit",
+      "curveEdgeInsideHit": "object-hit",
+      "pointCount": 14
+    },
+    "tile-17": {
+      "centerHit": "tile-17",
+      "curveEdgeInsideHit": "tile-17",
+      "pointCount": 14
+    },
+    "tile-25": {
+      "centerHit": "tile-25",
+      "curveEdgeInsideHit": "tile-25",
+      "pointCount": 14
+    }
+  },
+  "click": {
+    "hitAtFace": "have-fun-link",
+    "transitionMid": "launch",
+    "after": {
+      "hash": "#hoat-dong",
+      "target": 80,
+      "wave": false,
+      "focused": "activities-heading"
+    }
+  },
+  "keyboard": {
+    "focusVisibleStroke": "2.5px",
+    "after": {
+      "hash": "#hoat-dong",
+      "target": 80,
+      "active": "activities-heading"
+    }
+  },
+  "focusables": [
+    "join-joy-link"
+  ],
+  "toggleExists": false,
+  "offscreen": {
+    "motion": "paused",
+    "ambientPaused": true
+  },
+  "onscreen": {
+    "motion": "playing",
+    "ambientPaused": false
+  },
+  "tabHidden": {
+    "hidden": true,
+    "motion": "paused"
+  },
+  "tabVisibleAgain": {
+    "hidden": false,
+    "motion": "playing"
+  },
+  "touchTile": {
+    "before": "color(srgb 0.998039 0.770588 0.741176)",
+    "afterTap": "color(srgb 0.998039 0.770588 0.741176)",
+    "hoverMediaMatches": false
+  },
+  "touchSign": {
+    "hit": "have-fun-link",
+    "after": {
+      "hash": "#hoat-dong",
+      "target": 72
+    }
+  },
+  "reduced": {
+    "state": "reduced",
+    "ambient": 0,
+    "transition": "0s",
+    "before": "color(srgb 0.707843 0.827451 0.87451)",
+    "hoverAfter30ms": "rgb(92, 166, 212)",
+    "afterLeave": "color(srgb 0.707843 0.827451 0.87451)"
+  },
+  "errors": []
+}

@@ -53,22 +53,33 @@ const GRID=Object.freeze({cells:9,cell:88,offset:14});
 const route=[],ROUTE_START=24;
 const lo=GRID.offset,hi=lo+GRID.cells*GRID.cell,innerLo=lo+GRID.cell,innerHi=hi-GRID.cell,step=GRID.cell;
 const near=lo+GRID.cell/2,far=hi-GRID.cell/2;
-function tile(a,b,c,d,u,v,kind){
-  const i=route.length,color=paint[(i+Math.floor(i/8))%4],gap=1.4;
-  const fp=rect(a+gap,b-gap,c+gap,d-gap),z=9;
+// Board-corner pieces round only their outermost vertex, concentric with the board's
+// 48-unit corner and drawn with the same quadratic as roundedOutline(). Shared edges stay straight.
+const BOARD=820,BOARD_RADIUS=48;
+function roundOuter(fp){
+  const i=fp.reduce((best,p,j)=>Math.hypot(p[0]-410,p[1]-410)>Math.hypot(fp[best][0]-410,fp[best][1]-410)?j:best,0);
+  const p=fp[i],q=fp[(i+fp.length-1)%fp.length],s=fp[(i+1)%fp.length],r=BOARD_RADIUS-Math.min(p[0],BOARD-p[0]);
+  const unit=t=>{const l=Math.hypot(t[0]-p[0],t[1]-p[1]);return[(t[0]-p[0])/l,(t[1]-p[1])/l];},a=unit(q),b=unit(s);
+  const start=[p[0]+a[0]*r,p[1]+a[1]*r],end=[p[0]+b[0]*r,p[1]+b[1]*r];
+  const curve=Array.from({length:11},(_,j)=>{const t=j/10,k=(1-t)**2,m=2*t*(1-t),w=t*t;return[k*start[0]+m*p[0]+w*end[0],k*start[1]+m*p[1]+w*end[1]];});
+  return[...fp.slice(0,i),...curve,...fp.slice(i+1)];
+}
+function tile(a,b,c,d,u,v,kind,corner=false){
+  const i=route.length,color=paint[(i+Math.floor(i/8))%4],gap=1.4,shape=corner?roundOuter:fp=>fp;
+  const fp=shape(rect(a+gap,b-gap,c+gap,d-gap)),inset=shape(rect(a+5,b-5,c+5,d-5)),z=9;
   // Arrow corners 8 and 24 continue along +u and -u respectively.
-  const glow=`<g class="tile-activation" data-origin="${P(u,v,z+.3).map(n).join(' ')}" aria-hidden="true" pointer-events="none">${poly('tile-glow-halo',fp.map(p=>[...p,z+.3]))}${poly('tile-glow-edge',fp.map(p=>[...p,z+.3]))}${poly('tile-glow-wash',rect(a+5,b-5,c+5,d-5).map(p=>[...p,z+.3]))}</g>`;
-  const s=prism('path-tile',fp,z,8)+poly('tile-inset',rect(a+5,b-5,c+5,d-5).map(p=>[...p,z+.2]))+glow+icon(kind,u,v,z+.4,kind==='flower'?15:12,i===24?-1:1);
+  const glow=`<g class="tile-activation" data-origin="${P(u,v,z+.3).map(n).join(' ')}" aria-hidden="true" pointer-events="none">${poly('tile-glow-halo',fp.map(p=>[...p,z+.3]))}${poly('tile-glow-edge',fp.map(p=>[...p,z+.3]))}${poly('tile-glow-wash',inset.map(p=>[...p,z+.3]))}</g>`;
+  const s=prism('path-tile',fp,z,8)+poly('tile-inset',inset.map(p=>[...p,z+.2]))+glow+icon(kind,u,v,z+.4,kind==='flower'?15:12,i===24?-1:1);
   route.push({u,v,z,order:i,footprint:{a,b,c,d}});
   objects.push({depth:-1000,s:group(`build-item tile t-${color}`,'tile-'+(i+1),[u,v,0],s,`data-build="tile" data-order="${i}" data-route-index="${(i-ROUTE_START+32)%32}" data-elevation="9" data-center="${u},${v}"`)});
 }
-tile(lo,innerLo,innerHi,hi,near,far,'flower');
+tile(lo,innerLo,innerHi,hi,near,far,'flower',true);
 for(let i=6;i>=0;i--)tile(lo,innerLo,innerLo+i*step,innerLo+(i+1)*step,near,innerLo+(i+.5)*step,i%3?'dots':'leaf');
-tile(lo,innerLo,lo,innerLo,near,near,'arrow');
+tile(lo,innerLo,lo,innerLo,near,near,'arrow',true);
 for(let i=0;i<7;i++)tile(innerLo+i*step,innerLo+(i+1)*step,lo,innerLo,innerLo+(i+.5)*step,near,i%3?'dots':'flower');
-tile(innerHi,hi,lo,innerLo,far,near,'flower');
+tile(innerHi,hi,lo,innerLo,far,near,'flower',true);
 for(let i=0;i<7;i++)tile(innerHi,hi,innerLo+i*step,innerLo+(i+1)*step,far,innerLo+(i+.5)*step,i%3?'dots':'leaf');
-tile(innerHi,hi,innerHi,hi,far,far,'arrow');
+tile(innerHi,hi,innerHi,hi,far,far,'arrow',true);
 for(let i=6;i>=0;i--)tile(innerLo+i*step,innerLo+(i+1)*step,innerHi,hi,innerLo+(i+.5)*step,far,i%3?'dots':'flower');
 
 // Buildings have small footprints, shallow plinths and doors/windows on both visible faces.
@@ -133,7 +144,7 @@ function stall(name,u,v,edge,color,label,variant){
   // Readable signage follows the projected facade; never mirror lettering.
   let a=P(...at(-w/2+6,d/2+8,h-12)),b=P(...at(w/2-6,d/2+8,h-12));if(a[0]>b[0])[a,b]=[b,a];
   const aw=w-12;
-  art+=`<g transform="matrix(${n((b[0]-a[0])/aw)} ${n((b[1]-a[1])/aw)} 0 1 ${n(a[0])} ${n(a[1])})"><rect class="stall-sign" x="-2" y="-12" width="${aw+4}" height="19" rx="2"/><text class="stall-label" x="${aw/2}" y="1" text-anchor="middle" textLength="${aw-7}" lengthAdjust="spacingAndGlyphs">${label}</text></g>`;
+  art+=`<g transform="matrix(${n((b[0]-a[0])/aw)} ${n((b[1]-a[1])/aw)} 0 1 ${n(a[0])} ${n(a[1])})"><rect class="stall-sign" x="-2" y="-12" width="${aw+4}" height="19" rx="2"/><text class="stall-label" x="${aw/2}" y="1" text-anchor="middle">${label}</text></g>`;
   item('building stall',name,u,v,`<title>${label}</title>${art}`,'stall-'+variant);
 }
 function serviceStall(name,u,v,edge,label,variant){
@@ -300,21 +311,29 @@ function sign(u,v,type='arrow'){
 }
 function flag(u,v,color){item('prop','flag-'+u,u,v,post('paint-blue',u,v,0,61,2)+poly('paint-'+color+'-top',[[u,v,62],[u+28,v,57],[u+23,v,40],[u,v,44]]));}
 function haveFunSign(u,v){
-  // Small park wayfinder in the open left perimeter strip, pointing toward the foreground.
+  // Large park billboard on two posts (after the former parkSign), standing on the left tile strip.
+  // Its face lies in the constant-u plane so the lettering reads along the board edge.
   const point=(offset,z,back=0)=>[u+back,v-offset,z];
-  const face=(cls,back)=>poly(cls,[point(-50,45,back),point(57,45,back),point(57,85,back),point(-50,85,back),point(-65,65,back)]);
-  let s=`<g class="join-joy-aura" aria-hidden="true" pointer-events="none">${face('join-joy-halo',0)}${face('join-joy-rim',0)}</g>`+face('join-joy-edge',3)+face('join-joy-face',0);
-  const[x,y]=P(u,v+32,61);
-  s+=`<g transform="matrix(${C} -.44 0 1 ${n(x)} ${n(y)})"><text class="join-joy-lettering" x="0" y="0"><tspan>Have</tspan> <tspan dx="1">fun</tspan></text><path class="join-joy-arrow" d="M-8-4h-13m5-5-5 5 5 5"/></g>`;
+  const W=64,TOP=118,BOTTOM=62,POST=46,BASE=9;
+  const board=(cls,back=0,pad=0)=>{
+    const[x,y]=P(...point(-W-pad,TOP+pad,back));
+    return `<rect class="${cls}" x="0" y="0" width="${2*(W+pad)}" height="${TOP-BOTTOM+2*pad}" rx="${10+pad}" ry="${10+pad}" transform="matrix(${n(C)} -.44 0 1 ${n(x)} ${n(y)})"/>`;
+  };
+  let s='';
+  for(const o of [-POST,POST])s+=post('paint-green',u+4,v-o,BASE,TOP-BASE-6,3.2)+box('paint-yellow',u-.5,u+8.5,v-o-4.5,v-o+4.5,BASE+5,BASE+14);
+  s+=`<g class="join-joy-aura" aria-hidden="true" pointer-events="none">${board('join-joy-halo')}${board('join-joy-rim')}</g>`+board('join-joy-edge',3)+board('join-joy-face');
+  const[x,y]=P(...point(0,(TOP+BOTTOM)/2-10));
+  s+=`<g transform="matrix(${n(C)} -.44 0 1 ${n(x)} ${n(y)})"><text class="join-joy-lettering" x="9" y="0" text-anchor="middle"><tspan>Have</tspan> <tspan dx="1">fun</tspan></text><path class="join-joy-arrow" d="M-45-10h-9m4-4-4 4 4 4"/></g>`;
   s+=`<title>Have fun — khám phá hoạt động POET</title>`;
   const[ox,oy]=P(u,v,0).map(n);
-  const attachment=P(u,v,60).map(n).join(' ');
-  const corners=[point(-50,45),point(57,45),point(57,85),point(-50,85),point(-65,65)].map(p=>P(...p)),xs=corners.map(p=>p[0]),ys=corners.map(p=>p[1]);
-  const hit=`<rect class="join-joy-hit" x="${n(Math.min(...xs)-14)}" y="${n(Math.min(...ys)-14)}" width="${n(Math.max(...xs)-Math.min(...xs)+28)}" height="${n(Math.max(...ys)-Math.min(...ys)+28)}" fill="transparent"/>`;
+  const attachment=P(u,v,BASE).map(n).join(' ');
+  // Input follows the painted face and posts only; no bounding rectangle over the tiles behind.
+  const outline=pts=>'M'+pts.map(p=>P(...p).map(n).join(' ')).join('L')+'Z';
+  const hit=`<path class="join-joy-hit" d="${outline([point(-W-6,TOP+6),point(W+6,TOP+6),point(W+6,BOTTOM-6),point(-W-6,BOTTOM-6)])}${[-POST,POST].map(o=>outline([point(o-6,BOTTOM,4),point(o+6,BOTTOM,4),point(o+6,BASE,4),point(o-6,BASE,4)])).join('')}" fill="transparent"/>`;
   item('prop','have-fun-sign',u,v,`<g class="join-joy-size" transform="translate(${ox} ${oy}) scale(1.35) translate(${-ox} ${-oy})"><a class="join-joy-link" href="#hoat-dong" aria-label="Have fun — khám phá hoạt động POET" tabindex="0">${hit}<g class="join-joy-invite"><g class="join-joy-hover" data-origin="${attachment}">${s}</g></g></a></g>`);
   // Aim at the actual middle of the upper face edge, including the sign's 1.35 scale.
   // The former freehand endpoint stopped above its far corner and looked detached.
-  const a=P(...point(-50,85)).map(n),b=P(...point(57,85)).map(n);
+  const a=P(...point(-W,TOP)).map(n),b=P(...point(W,TOP)).map(n);
   const tx=n(ox+((a[0]+b[0])/2-ox)*1.35),ty=n(oy+((a[1]+b[1])/2-oy)*1.35);
   const xTip=tx,yTip=n(ty-8),pt=(dx,dy)=>`${n(xTip+dx)} ${n(yTip+dy)}`;
   // Exterior root-SVG coordinates; share the sign's float/drift parents.

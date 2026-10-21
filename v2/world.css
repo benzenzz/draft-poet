@@ -1,7 +1,9 @@
 /* Hero-only geometry and illustration. Palette comes from POET.pdf / existing v2 tokens.
    Typography, site navigation, and every content section retain their existing styles. */
+/* Hero-only display face: the Intro greeting and lettering on the board. Site text stays Product Sans. */
+@font-face { font-family: 'Suaserif'; src: url('../assets/fonts/suaserif-bold.otf') format('opentype'); font-weight: 700; font-style: normal; font-display: swap; }
 .world-wrap { height: 160svh; overflow-x: clip; background: var(--paper); }
-.hero--world { height: 100svh; min-height: 520px; isolation: isolate; background: var(--paper); --pastel-pink: #f3a9c4; }
+.hero--world { height: 100svh; min-height: 520px; isolation: isolate; background: var(--paper); --pastel-pink: #f3a9c4; --font-board: 'Suaserif', var(--font-family-primary); }
 .hero--world > poet-nav[hidden] { display: none; }
 /* Join Joy: one liquid curtain covers the section handoff, then exits upward. */
 .hero-join-wave { position:fixed;inset:0 0 auto;height:160vh;height:160svh;z-index:90;pointer-events:auto;touch-action:none;will-change:transform; }
@@ -37,10 +39,19 @@ html.hero-only .hero--world { position: relative; height: 100%; min-height: 400p
   --tile-wall: var(--tile);
   --tile-wall-dark: var(--edge);
 }
-.hero--world .t-coral { --tile: var(--coral); --edge: var(--coral-edge); }
-.hero--world .t-blue { --tile: var(--blue); --edge: var(--blue-edge); }
-.hero--world .t-yellow { --tile: var(--yellow); --edge: var(--yellow-edge); }
-.hero--world .t-green { --tile: var(--green); --edge: var(--green-edge); }
+.hero--world .t-coral { --tile: var(--coral); --edge: var(--coral-edge); --tile-brand: #ef8a7d; }
+.hero--world .t-blue { --tile: var(--blue); --edge: var(--blue-edge); --tile-brand: #5ca6d4; }
+.hero--world .t-yellow { --tile: var(--yellow); --edge: var(--yellow-edge); --tile-brand: #fee161; }
+.hero--world .t-green { --tile: var(--green); --edge: var(--green-edge); --tile-brand: #399f78; }
+/* Pointer hover deepens only the hovered tile, in its own approved brand color. */
+@media (hover: hover) and (pointer: fine) {
+  html:is([data-world-state="alive"],[data-world-state="reduced"]) .hero--world .tile:hover {
+    --tile-cap: color-mix(in srgb, var(--tile-brand) 75%, white);
+    --tile-face: var(--tile-brand);
+    --tile-wall: var(--tile-brand);
+    --tile-wall-dark: var(--edge);
+  }
+}
 .hero--world .board-top { fill: color-mix(in srgb, var(--pastel-pink) 25%, white); }
 .hero--world .board-rim { fill: color-mix(in srgb, var(--pastel-pink) 18%, white); }
 .hero--world .board-side { fill: color-mix(in srgb, var(--pastel-pink) 60%, white); }
@@ -49,7 +60,7 @@ html.hero-only .hero--world { position: relative; height: 100%; min-height: 400p
 .hero--world .play-area { fill: color-mix(in srgb, var(--yellow) 27%, white); }
 .hero--world .play-border { stroke: white; opacity: .8; }
 .hero--world .hopscotch { fill: none; stroke: white; stroke-width: 2.5; }
-.hero--world :is(.path-tile-top,.path-tile-side,.tile-inset) { transition: fill 240ms ease; }
+.hero--world :is(.path-tile-top,.path-tile-side,.tile-inset) { transition: fill 200ms ease; }
 .hero--world .tile[data-mascot-active] :is(.path-tile-top,.path-tile-side,.tile-inset) { transition-duration: 100ms; }
 html[data-world-state="reduced"] .hero--world .tile :is(.path-tile-top,.path-tile-side,.tile-inset) { transition: none; }
 .hero--world .path-tile-top { fill: var(--tile-cap); }
@@ -82,7 +93,7 @@ html[data-world-state="reduced"] .hero--world .tile :is(.path-tile-top,.path-til
 .hero--world .park-sign-pin { fill: var(--blue); }
 .hero--world .join-joy-edge { fill: var(--green-edge); }
 .hero--world .join-joy-face { fill: var(--paper); stroke: var(--green); stroke-width: 2.5; stroke-linejoin: round; transition: fill 220ms ease; }
-.hero--world .join-joy-lettering { font-family:var(--font-family-primary); font-size: 20px; fill: var(--green-edge); }
+.hero--world .join-joy-lettering { font-family: var(--font-board); font-weight: 700; font-size: 30px; fill: var(--green-edge); }
 .hero--world .join-joy-lettering tspan + tspan { fill: var(--coral-edge); }
 .hero--world .join-joy-arrow { fill: none; stroke: var(--green); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
 .hero--world .join-joy-link { cursor: pointer; outline: none; }
@@ -135,7 +146,7 @@ html[data-world-state="alive"][data-world-motion="paused"] .hero--world .join-jo
 .intro-logo { display: block; width: 100%; height: auto; overflow: visible; }
 .intro-logo-letter { transform-box: view-box; }
 .intro-poems { text-align: left; }
-.intro-poem { font-size: clamp(14px, 2.5vw, 36px); line-height: 1.8; white-space: nowrap; }
+.intro-poem { font-family: var(--font-board); font-weight: 700; font-size: clamp(14px, 2.5vw, 36px); line-height: 1.8; white-space: nowrap; }
 .intro-word { display: inline-block; overflow: clip; vertical-align: bottom; padding: .18em .025em; margin: -.18em -.025em; }
 .intro-word > span { display: inline-block; }
 @media (max-width: 480px) {
@@ -199,17 +210,6 @@ html[data-world-state="alive"][data-world-motion="paused"] .hero--world .join-jo
 .hero--world.world-building .board-shadow,
 .hero--world.world-building .mascot { opacity: 0; }
 .intro-pending .hero--world .intro-mark { opacity: 1; }
-.world-motion-toggle {
-  position: absolute; right: var(--margin); bottom: 22px; z-index: 4;
-  display: grid; place-items: center; width: 44px; height: 44px; padding: 0;
-  border: 1px solid color-mix(in srgb, var(--ink) 18%, transparent);
-  border-radius: 50%; background: var(--paper); color: var(--ink); cursor: pointer;
-}
-.world-motion-toggle[hidden] { display: none; }
-.world-motion-toggle svg { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-.world-motion-toggle .motion-play { display: none; }
-.world-motion-toggle[aria-pressed="true"] .motion-pause { display: none; }
-.world-motion-toggle[aria-pressed="true"] .motion-play { display: block; }
 .hero-replay-debug {
   position: fixed; right: 18px; bottom: 78px; z-index: 100;
   padding: 9px 13px; border: 1px solid var(--ink); border-radius: 6px;
@@ -238,7 +238,7 @@ html[data-world-state="alive"][data-world-motion="paused"] .hero--world .join-jo
   html[data-world-state="reduced"] .hero--world .object-hover { transition: none; }
 }
 /* V3 stall artwork uses the same isometric world and hover/entrance wrappers. */
-.stall-back{fill:#fff5df}.stall-cream,.stall-counter{fill:#fff9e9}.stall-sign{fill:#fffaf0;stroke:#3c9e77;stroke-width:.7}.stall-label{fill:#225c46;font:var(--font-weight-bold) 10px var(--font-family-primary)}.stall-heart{fill:#ff8a76}.stall-handle{stroke:#225c46}
+.stall-back{fill:#fff5df}.stall-cream,.stall-counter{fill:#fff9e9}.stall-sign{fill:#fffaf0;stroke:#3c9e77;stroke-width:.7}.stall-label{fill:#225c46;font:700 15px var(--font-board)}.stall-heart{fill:#ff8a76}.stall-handle{stroke:#225c46}
 
 /* Targeted two-stall architecture; the rest of the world keeps its materials. */
 .hero--world :is(.stall-info,.stall-merch){--booth-cream:#fbf9f3;--booth-yellow:#fee161;--booth-coral:#ef8a7d;--booth-blue:#5ca6d4;--booth-green:#399f78;--booth-ink:#225c46;--booth-color:var(--booth-yellow)}
@@ -276,5 +276,5 @@ html[data-world-state="alive"][data-world-motion="paused"] .hero--world .join-jo
 .hero--world .booth-canopy-edge{fill:color-mix(in srgb,var(--booth-yellow) 85%,var(--booth-ink))}
 .hero--world .booth-sign{fill:var(--booth-cream);stroke:var(--booth-green);stroke-width:.7}
 .hero--world .stall-merch .booth-sign{stroke:var(--booth-coral)}
-.hero--world .booth-label{fill:var(--booth-ink);font:var(--font-weight-bold) 11.5px var(--font-family-primary)}
+.hero--world .booth-label{fill:var(--booth-ink);font:700 11.5px var(--font-board)}
 .hero--world .flower-hover{transform-box:view-box;pointer-events:none}

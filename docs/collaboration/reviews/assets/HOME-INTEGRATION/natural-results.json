@@ -1,0 +1,3234 @@
+{
+  "startedAt": "2026-10-21T09:53:34.202Z",
+  "checks": [
+    {
+      "name": "1440 natural Intro appears with loaded Suaserif in greeting scope",
+      "passed": true
+    },
+    {
+      "name": "1440 natural Intro → board assembly → alive completes",
+      "passed": true
+    },
+    {
+      "name": "1440 scoped board font and Product Sans header coexist",
+      "passed": true
+    },
+    {
+      "name": "1440 Hero does not cause horizontal page overflow",
+      "passed": true
+    },
+    {
+      "name": "A visible board tile has a real pointer hit target",
+      "passed": true
+    },
+    {
+      "name": "Board hover changes only the hovered tile to a brand color",
+      "passed": true
+    },
+    {
+      "name": "Board tile restores after pointer leaves",
+      "passed": true
+    },
+    {
+      "name": "1440 Have fun face has correct board click target",
+      "passed": true
+    },
+    {
+      "name": "1440 board click/tap completes wave handoff into Codex carousel",
+      "passed": true
+    },
+    {
+      "name": "1440 carousel autoplay survives Hero handoff",
+      "passed": true
+    },
+    {
+      "name": "1440 carousel dots work and persistent CTA matches active slide",
+      "passed": true
+    },
+    {
+      "name": "1440 carousel previous works after manual selection",
+      "passed": true
+    },
+    {
+      "name": "1440 existing press strip still responds to vertical scroll",
+      "passed": true
+    },
+    {
+      "name": "1440 Claude archive cards remain present/revealed",
+      "passed": true
+    },
+    {
+      "name": "1440 archive CTA content is not clipped",
+      "passed": true
+    },
+    {
+      "name": "1440 Claude media grid replaces obsolete rail with three linked text cards",
+      "passed": true
+    },
+    {
+      "name": "1440 media grid is responsive",
+      "passed": true
+    },
+    {
+      "name": "Claude stretched media card hover remains approved green",
+      "passed": true
+    },
+    {
+      "name": "1440 Donate opens existing local dialog without submitting",
+      "passed": true
+    },
+    {
+      "name": "1440 Escape closes donation dialog",
+      "passed": true
+    },
+    {
+      "name": "1440 archive reveal reaches readable final state",
+      "passed": true
+    },
+    {
+      "name": "Desktop archive retains the second-card stagger",
+      "passed": true
+    },
+    {
+      "name": "1440 no horizontal overflow after full interaction flow",
+      "passed": true
+    },
+    {
+      "name": "390 natural Intro appears with loaded Suaserif in greeting scope",
+      "passed": true
+    },
+    {
+      "name": "390 natural Intro → board assembly → alive completes",
+      "passed": true
+    },
+    {
+      "name": "390 scoped board font and Product Sans header coexist",
+      "passed": true
+    },
+    {
+      "name": "390 Hero does not cause horizontal page overflow",
+      "passed": true
+    },
+    {
+      "name": "390 Have fun face has correct board click target",
+      "passed": true
+    },
+    {
+      "name": "390 board click/tap completes wave handoff into Codex carousel",
+      "passed": true
+    },
+    {
+      "name": "390 carousel autoplay survives Hero handoff",
+      "passed": true
+    },
+    {
+      "name": "390 carousel dots work and persistent CTA matches active slide",
+      "passed": true
+    },
+    {
+      "name": "390 carousel previous works after manual selection",
+      "passed": true
+    },
+    {
+      "name": "390 existing press strip still responds to vertical scroll",
+      "passed": true
+    },
+    {
+      "name": "390 Claude archive cards remain present/revealed",
+      "passed": true
+    },
+    {
+      "name": "390 archive CTA content is not clipped",
+      "passed": true
+    },
+    {
+      "name": "390 Claude media grid replaces obsolete rail with three linked text cards",
+      "passed": true
+    },
+    {
+      "name": "390 media grid is responsive",
+      "passed": true
+    },
+    {
+      "name": "390 Donate opens existing local dialog without submitting",
+      "passed": true
+    },
+    {
+      "name": "390 Escape closes donation dialog",
+      "passed": true
+    },
+    {
+      "name": "390 archive reveal reaches readable final state",
+      "passed": true
+    },
+    {
+      "name": "390 no horizontal overflow after full interaction flow",
+      "passed": true
+    },
+    {
+      "name": "Explicit respect mode honors reduced motion without board assembly",
+      "passed": true
+    },
+    {
+      "name": "Reduced-motion archive is readable immediately",
+      "passed": true
+    },
+    {
+      "name": "Reduced-motion carousel remains stable",
+      "passed": true
+    },
+    {
+      "name": "Reduced-motion carousel manual navigation works",
+      "passed": true
+    },
+    {
+      "name": "No new JavaScript/console errors / missing local assets / real submissions",
+      "passed": true
+    }
+  ],
+  "flows": [
+    {
+      "width": 1440,
+      "events": [],
+      "intro": {
+        "state": "intro",
+        "font": "Suaserif, \"Product Sans\", sans-serif",
+        "loaded": true,
+        "poems": [
+          {
+            "text": "Hành trình niềm vui bắt đầu",
+            "font": "700 36px / 64.8px Suaserif, \"Product Sans\", sans-serif",
+            "opacity": "1"
+          },
+          {
+            "text": "Đan tay cùng bước, có nhau là nhà",
+            "font": "700 36px / 64.8px Suaserif, \"Product Sans\", sans-serif",
+            "opacity": "1"
+          }
+        ],
+        "phaseEvents": [
+          {
+            "name": "loading",
+            "time": 0
+          },
+          {
+            "name": "ready",
+            "time": 0
+          },
+          {
+            "name": "intro",
+            "time": 0.057
+          }
+        ]
+      },
+      "hero": {
+        "state": "alive",
+        "phases": [
+          {
+            "name": "loading",
+            "time": 0
+          },
+          {
+            "name": "ready",
+            "time": 0
+          },
+          {
+            "name": "intro",
+            "time": 0.057
+          },
+          {
+            "name": "tiles",
+            "time": 4.367
+          },
+          {
+            "name": "board",
+            "time": 5.251
+          },
+          {
+            "name": "playground",
+            "time": 6.684
+          },
+          {
+            "name": "buildings",
+            "time": 6.867
+          },
+          {
+            "name": "environment",
+            "time": 7.034
+          },
+          {
+            "name": "details",
+            "time": 7.284
+          },
+          {
+            "name": "sign",
+            "time": 7.984
+          },
+          {
+            "name": "mascots",
+            "time": 8.584
+          },
+          {
+            "name": "alive",
+            "time": 9.3118667
+          }
+        ],
+        "tiles": 32,
+        "font": "Suaserif, \"Product Sans\", sans-serif",
+        "headerFont": "\"Product Sans\", sans-serif",
+        "pauseButtons": 0,
+        "scrollWidth": 1440,
+        "viewport": 1440,
+        "masterDuration": 9.3118667
+      },
+      "hover": {
+        "x": 1254.752079289129,
+        "y": 501.3544263269678,
+        "id": "tile-18",
+        "before": "color(srgb 0.617647 0.809804 0.733333)",
+        "on": "rgb(57, 159, 120)",
+        "after": "color(srgb 0.617647 0.809804 0.733333)"
+      },
+      "handoff": {
+        "events": [
+          {
+            "at": 11119.39999999851,
+            "phase": "start",
+            "source": "click"
+          },
+          {
+            "at": 12654.699999999255,
+            "phase": "complete",
+            "source": "click"
+          }
+        ],
+        "hash": "#hoat-dong",
+        "transition": null,
+        "waves": 0,
+        "carouselReady": "true"
+      },
+      "autoplay": [
+        "0",
+        "1"
+      ],
+      "strip": {
+        "before": "matrix(1, 0, 0, 1, -378.715, 0)",
+        "after": "matrix(1, 0, 0, 1, -322.287, 0)"
+      },
+      "archive": [
+        {
+          "width": 628.8125,
+          "height": 578.6875,
+          "imageHeight": 252,
+          "opacity": "1",
+          "transform": "none",
+          "title": "rgb(51, 43, 39)",
+          "ctaInside": true
+        },
+        {
+          "width": 628.8125,
+          "height": 578.6875,
+          "imageHeight": 252,
+          "opacity": "1",
+          "transform": "none",
+          "title": "rgb(51, 43, 39)",
+          "ctaInside": true
+        }
+      ],
+      "media": [
+        {
+          "width": 413.875,
+          "height": 261.359375,
+          "x": 79.1875,
+          "y": 554.359375,
+          "href": "https://tienphong.vn/ban-tre-gap-sao-huong-ung-dem-nhac-chua-lanh-gay-quy-thien-nguyen-post1454826.tpo",
+          "anchors": 1,
+          "covers": 0
+        },
+        {
+          "width": 413.875,
+          "height": 261.359375,
+          "x": 513.0625,
+          "y": 554.359375,
+          "href": "https://tienphong.vn/sang-tao-de-lan-toa-nhiet-huyet-tan-hien-post1494246.tpo",
+          "anchors": 1,
+          "covers": 0
+        },
+        {
+          "width": 413.875,
+          "height": 261.359375,
+          "x": 946.9375,
+          "y": 554.359375,
+          "href": "https://hoahoctro.tienphong.vn/nhung-thu-linh-gen-z-nang-no-sang-tao-hoat-dong-doan-lan-toa-nhiet-huyet-tan-hien-post1494482.tpo",
+          "anchors": 1,
+          "covers": 0
+        }
+      ],
+      "mediaHover": "rgb(57, 159, 120)",
+      "reveal": [
+        {
+          "time": 10.100000002980323,
+          "cards": [
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 48, 0)",
+              "revealed": false
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 48, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 26.700000002980232,
+          "cards": [
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 48, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 48, 0)",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 43.30000000298014,
+          "cards": [
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 48, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 48, 0)",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 60.000000002980414,
+          "cards": [
+            {
+              "opacity": 0.113627,
+              "transform": "matrix(1, 0, 0, 1, 42.5459, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 48, 0)",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 76.60000000298032,
+          "cards": [
+            {
+              "opacity": 0.219906,
+              "transform": "matrix(1, 0, 0, 1, 37.4445, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 48, 0)",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 93.30000000298014,
+          "cards": [
+            {
+              "opacity": 0.319109,
+              "transform": "matrix(1, 0, 0, 1, 32.6828, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 48, 0)",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 110.00000000298041,
+          "cards": [
+            {
+              "opacity": 0.409867,
+              "transform": "matrix(1, 0, 0, 1, 28.3264, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 48, 0)",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 126.80000000298014,
+          "cards": [
+            {
+              "opacity": 0.492234,
+              "transform": "matrix(1, 0, 0, 1, 24.3728, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 48, 0)",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 143.60000000298032,
+          "cards": [
+            {
+              "opacity": 0.565555,
+              "transform": "matrix(1, 0, 0, 1, 20.8533, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 48, 0)",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 160.0000000029804,
+          "cards": [
+            {
+              "opacity": 0.628633,
+              "transform": "matrix(1, 0, 0, 1, 17.8256, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 48, 0)",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 176.70000000298023,
+          "cards": [
+            {
+              "opacity": 0.684719,
+              "transform": "matrix(1, 0, 0, 1, 15.1335, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 48, 0)",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 193.40000000298005,
+          "cards": [
+            {
+              "opacity": 0.733245,
+              "transform": "matrix(1, 0, 0, 1, 12.8042, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 48, 0)",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 210.20000000298023,
+          "cards": [
+            {
+              "opacity": 0.775202,
+              "transform": "matrix(1, 0, 0, 1, 10.7903, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 48, 0)",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 226.80000000298014,
+          "cards": [
+            {
+              "opacity": 0.810679,
+              "transform": "matrix(1, 0, 0, 1, 9.08739, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 48, 0)",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 243.30000000298014,
+          "cards": [
+            {
+              "opacity": 0.840795,
+              "transform": "matrix(1, 0, 0, 1, 7.64183, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 48, 0)",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 259.90000000298005,
+          "cards": [
+            {
+              "opacity": 0.866605,
+              "transform": "matrix(1, 0, 0, 1, 6.40297, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 48, 0)",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 276.70000000298023,
+          "cards": [
+            {
+              "opacity": 0.888779,
+              "transform": "matrix(1, 0, 0, 1, 5.33861, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 48, 0)",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 293.40000000298005,
+          "cards": [
+            {
+              "opacity": 0.90745,
+              "transform": "matrix(1, 0, 0, 1, 4.44239, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 48, 0)",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 310.0000000029804,
+          "cards": [
+            {
+              "opacity": 0.923163,
+              "transform": "matrix(1, 0, 0, 1, 3.68816, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 48, 0)",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 326.90000000298005,
+          "cards": [
+            {
+              "opacity": 0.936674,
+              "transform": "matrix(1, 0, 0, 1, 3.03967, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 48, 0)",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 343.70000000298023,
+          "cards": [
+            {
+              "opacity": 0.947985,
+              "transform": "matrix(1, 0, 0, 1, 2.49674, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 48, 0)",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 360.40000000298005,
+          "cards": [
+            {
+              "opacity": 0.957444,
+              "transform": "matrix(1, 0, 0, 1, 2.04268, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 48, 0)",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 377.0000000029804,
+          "cards": [
+            {
+              "opacity": 0.965344,
+              "transform": "matrix(1, 0, 0, 1, 1.66348, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 48, 0)",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 393.5000000029804,
+          "cards": [
+            {
+              "opacity": 0.971929,
+              "transform": "matrix(1, 0, 0, 1, 1.34739, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 48, 0)",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 410.0000000029804,
+          "cards": [
+            {
+              "opacity": 0.977435,
+              "transform": "matrix(1, 0, 0, 1, 1.08311, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 48, 0)",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 426.90000000298005,
+          "cards": [
+            {
+              "opacity": 0.98212,
+              "transform": "matrix(1, 0, 0, 1, 0.85824, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 48, 0)",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 443.5000000029804,
+          "cards": [
+            {
+              "opacity": 0.98592,
+              "transform": "matrix(1, 0, 0, 1, 0.675825, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 48, 0)",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 460.30000000298014,
+          "cards": [
+            {
+              "opacity": 0.989079,
+              "transform": "matrix(1, 0, 0, 1, 0.524227, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 48, 0)",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 476.90000000298005,
+          "cards": [
+            {
+              "opacity": 0.991622,
+              "transform": "matrix(1, 0, 0, 1, 0.402161, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 48, 0)",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 493.40000000298005,
+          "cards": [
+            {
+              "opacity": 0.993667,
+              "transform": "matrix(1, 0, 0, 1, 0.304, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 48, 0)",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 510.20000000298023,
+          "cards": [
+            {
+              "opacity": 0.995331,
+              "transform": "matrix(1, 0, 0, 1, 0.224118, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 48, 0)",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 526.6000000029803,
+          "cards": [
+            {
+              "opacity": 0.996613,
+              "transform": "matrix(1, 0, 0, 1, 0.162589, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 48, 0)",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 543.3000000029801,
+          "cards": [
+            {
+              "opacity": 0.997627,
+              "transform": "matrix(1, 0, 0, 1, 0.113912, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 48, 0)",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 559.90000000298,
+          "cards": [
+            {
+              "opacity": 0.998393,
+              "transform": "matrix(1, 0, 0, 1, 0.0771443, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0.112965,
+              "transform": "matrix(1, 0, 0, 1, 42.5777, 0)",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 576.6000000029803,
+          "cards": [
+            {
+              "opacity": 0.998963,
+              "transform": "matrix(1, 0, 0, 1, 0.0497628, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0.219906,
+              "transform": "matrix(1, 0, 0, 1, 37.4445, 0)",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 593.3000000029801,
+          "cards": [
+            {
+              "opacity": 0.999371,
+              "transform": "matrix(1, 0, 0, 1, 0.0301958, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0.319109,
+              "transform": "matrix(1, 0, 0, 1, 32.6828, 0)",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 610.0000000029804,
+          "cards": [
+            {
+              "opacity": 0.999649,
+              "transform": "matrix(1, 0, 0, 1, 0.0168468, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0.409867,
+              "transform": "matrix(1, 0, 0, 1, 28.3264, 0)",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 626.6000000029803,
+          "cards": [
+            {
+              "opacity": 0.999826,
+              "transform": "matrix(1, 0, 0, 1, 0.0083572, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0.491307,
+              "transform": "matrix(1, 0, 0, 1, 24.4173, 0)",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 643.3000000029801,
+          "cards": [
+            {
+              "opacity": 0.999929,
+              "transform": "matrix(1, 0, 0, 1, 0.0034039, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0.564324,
+              "transform": "matrix(1, 0, 0, 1, 20.9124, 0)",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 660.1000000029803,
+          "cards": [
+            {
+              "opacity": 0.99998,
+              "transform": "matrix(1, 0, 0, 1, 0.000964257, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0.628993,
+              "transform": "matrix(1, 0, 0, 1, 17.8084, 0)",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 676.8000000029801,
+          "cards": [
+            {
+              "opacity": 0.999998,
+              "transform": "matrix(1, 0, 0, 1, 0.000114732, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0.685031,
+              "transform": "matrix(1, 0, 0, 1, 15.1185, 0)",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 693.40000000298,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 0.733245,
+              "transform": "matrix(1, 0, 0, 1, 12.8042, 0)",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 710.1000000029803,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 0.774971,
+              "transform": "matrix(1, 0, 0, 1, 10.8014, 0)",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 726.7000000029802,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 0.810482,
+              "transform": "matrix(1, 0, 0, 1, 9.09687, 0)",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 743.6000000029803,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 0.8413,
+              "transform": "matrix(1, 0, 0, 1, 7.61762, 0)",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 760.1000000029803,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 0.866891,
+              "transform": "matrix(1, 0, 0, 1, 6.38924, 0)",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 776.8000000029801,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 0.8889,
+              "transform": "matrix(1, 0, 0, 1, 5.33279, 0)",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 793.7000000029802,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 0.907758,
+              "transform": "matrix(1, 0, 0, 1, 4.42762, 0)",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 810.2000000029802,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 0.923337,
+              "transform": "matrix(1, 0, 0, 1, 3.67982, 0)",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 827.0000000029804,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 0.936747,
+              "transform": "matrix(1, 0, 0, 1, 3.03615, 0)",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 843.8000000029801,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 0.948046,
+              "transform": "matrix(1, 0, 0, 1, 2.49378, 0)",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 860.5000000029804,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 0.957496,
+              "transform": "matrix(1, 0, 0, 1, 2.04019, 0)",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 877.1000000029803,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 0.965388,
+              "transform": "matrix(1, 0, 0, 1, 1.66139, 0)",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 893.8000000029801,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 0.972039,
+              "transform": "matrix(1, 0, 0, 1, 1.34215, 0)",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 910.40000000298,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 0.977557,
+              "transform": "matrix(1, 0, 0, 1, 1.07729, 0)",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 927.2000000029802,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 0.982195,
+              "transform": "matrix(1, 0, 0, 1, 0.854623, 0)",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 943.40000000298,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 0.9859,
+              "transform": "matrix(1, 0, 0, 1, 0.676821, 0)",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 960.1000000029803,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 0.989045,
+              "transform": "matrix(1, 0, 0, 1, 0.525856, 0)",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 977.0000000029804,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 0.991635,
+              "transform": "matrix(1, 0, 0, 1, 0.401501, 0)",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 993.6000000029803,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 0.993689,
+              "transform": "matrix(1, 0, 0, 1, 0.302936, 0)",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 1010.40000000298,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 0.995348,
+              "transform": "matrix(1, 0, 0, 1, 0.223276, 0)",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 1027.0000000029804,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 0.99664,
+              "transform": "matrix(1, 0, 0, 1, 0.161268, 0)",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 1043.5000000029804,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 0.997637,
+              "transform": "matrix(1, 0, 0, 1, 0.113404, 0)",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 1060.5000000029804,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 0.998417,
+              "transform": "matrix(1, 0, 0, 1, 0.0760052, 0)",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 1077.2000000029802,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 0.998981,
+              "transform": "matrix(1, 0, 0, 1, 0.0489346, 0)",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 1093.8000000029801,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 0.999381,
+              "transform": "matrix(1, 0, 0, 1, 0.0297132, 0)",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 1110.40000000298,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 0.999654,
+              "transform": "matrix(1, 0, 0, 1, 0.0165914, 0)",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 1127.0000000029804,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 0.999829,
+              "transform": "matrix(1, 0, 0, 1, 0.00820105, 0)",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 1143.5000000029804,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 0.99993,
+              "transform": "matrix(1, 0, 0, 1, 0.00336188, 0)",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 1160.2000000029802,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 0.99998,
+              "transform": "matrix(1, 0, 0, 1, 0.000955387, 0)",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 1177.0000000029804,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 0.999998,
+              "transform": "matrix(1, 0, 0, 1, 0.000110571, 0)",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 1193.8000000029801,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 1210.1000000029803,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 1227.1000000029803,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 1243.6000000029803,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 1260.1000000029803,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 1277.3000000029801,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 1293.5000000029804,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 1310.2000000029802,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 1326.8000000029801,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 1343.90000000298,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 1360.2000000029802,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 1377.1000000029803,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 1393.5000000029804,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            }
+          ]
+        },
+        {
+          "time": 1410.6000000029803,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            }
+          ]
+        }
+      ],
+      "stagger": {
+        "first": 60.000000002980414,
+        "second": 559.90000000298
+      }
+    },
+    {
+      "width": 390,
+      "events": [],
+      "intro": {
+        "state": "intro",
+        "font": "Suaserif, \"Product Sans\", sans-serif",
+        "loaded": true,
+        "poems": [
+          {
+            "text": "Hành trình niềm vui bắt đầu",
+            "font": "700 14.04px / 25.272px Suaserif, \"Product Sans\", sans-serif",
+            "opacity": "1"
+          },
+          {
+            "text": "Đan tay cùng bước, có nhau là nhà",
+            "font": "700 14.04px / 25.272px Suaserif, \"Product Sans\", sans-serif",
+            "opacity": "1"
+          }
+        ],
+        "phaseEvents": [
+          {
+            "name": "loading",
+            "time": 0
+          },
+          {
+            "name": "ready",
+            "time": 0
+          },
+          {
+            "name": "intro",
+            "time": 0.021
+          }
+        ]
+      },
+      "hero": {
+        "state": "alive",
+        "phases": [
+          {
+            "name": "loading",
+            "time": 0
+          },
+          {
+            "name": "ready",
+            "time": 0
+          },
+          {
+            "name": "intro",
+            "time": 0.021
+          },
+          {
+            "name": "tiles",
+            "time": 4.377
+          },
+          {
+            "name": "board",
+            "time": 5.261
+          },
+          {
+            "name": "playground",
+            "time": 6.678
+          },
+          {
+            "name": "buildings",
+            "time": 6.861
+          },
+          {
+            "name": "environment",
+            "time": 7.028
+          },
+          {
+            "name": "details",
+            "time": 7.278
+          },
+          {
+            "name": "sign",
+            "time": 7.978
+          },
+          {
+            "name": "mascots",
+            "time": 8.595
+          },
+          {
+            "name": "alive",
+            "time": 9.3118667
+          }
+        ],
+        "tiles": 32,
+        "font": "Suaserif, \"Product Sans\", sans-serif",
+        "headerFont": "\"Product Sans\", sans-serif",
+        "pauseButtons": 0,
+        "scrollWidth": 390,
+        "viewport": 390,
+        "masterDuration": 9.3118667
+      },
+      "handoff": {
+        "events": [
+          {
+            "at": 9975,
+            "phase": "start",
+            "source": "click"
+          },
+          {
+            "at": 11517.10000000149,
+            "phase": "complete",
+            "source": "click"
+          }
+        ],
+        "hash": "#hoat-dong",
+        "transition": null,
+        "waves": 0,
+        "carouselReady": "true"
+      },
+      "autoplay": [
+        "0",
+        "1"
+      ],
+      "strip": {
+        "before": "matrix(1, 0, 0, 1, -452.829, 0)",
+        "after": "matrix(1, 0, 0, 1, -408.131, 0)"
+      },
+      "archive": [
+        {
+          "width": 346,
+          "height": 564.828125,
+          "imageHeight": 172,
+          "opacity": "1",
+          "transform": "none",
+          "title": "rgb(51, 43, 39)",
+          "ctaInside": true
+        },
+        {
+          "width": 346,
+          "height": 623.890625,
+          "imageHeight": 172,
+          "opacity": "1",
+          "transform": "none",
+          "title": "rgb(51, 43, 39)",
+          "ctaInside": true
+        }
+      ],
+      "media": [
+        {
+          "width": 346,
+          "height": 261.359375,
+          "x": 22,
+          "y": 325.125,
+          "href": "https://tienphong.vn/ban-tre-gap-sao-huong-ung-dem-nhac-chua-lanh-gay-quy-thien-nguyen-post1454826.tpo",
+          "anchors": 1,
+          "covers": 0
+        },
+        {
+          "width": 346,
+          "height": 234.765625,
+          "x": 22,
+          "y": 600.484375,
+          "href": "https://tienphong.vn/sang-tao-de-lan-toa-nhiet-huyet-tan-hien-post1494246.tpo",
+          "anchors": 1,
+          "covers": 0
+        },
+        {
+          "width": 346,
+          "height": 261.359375,
+          "x": 22,
+          "y": 849.25,
+          "href": "https://hoahoctro.tienphong.vn/nhung-thu-linh-gen-z-nang-no-sang-tao-hoat-dong-doan-lan-toa-nhiet-huyet-tan-hien-post1494482.tpo",
+          "anchors": 1,
+          "covers": 0
+        }
+      ],
+      "reveal": [
+        {
+          "time": 10.899999998509884,
+          "cards": [
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 27.399999998509884,
+          "cards": [
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 43.99999999850979,
+          "cards": [
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 60.899999998509884,
+          "cards": [
+            {
+              "opacity": 0.114665,
+              "transform": "matrix(1, 0, 0, 1, 21.248, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 77.29999999850997,
+          "cards": [
+            {
+              "opacity": 0.21964,
+              "transform": "matrix(1, 0, 0, 1, 18.7286, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 93.9999999985098,
+          "cards": [
+            {
+              "opacity": 0.318864,
+              "transform": "matrix(1, 0, 0, 1, 16.3473, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 110.79999999850997,
+          "cards": [
+            {
+              "opacity": 0.410162,
+              "transform": "matrix(1, 0, 0, 1, 14.1561, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 127.5999999985097,
+          "cards": [
+            {
+              "opacity": 0.492498,
+              "transform": "matrix(1, 0, 0, 1, 12.1801, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 144.19999999851007,
+          "cards": [
+            {
+              "opacity": 0.564969,
+              "transform": "matrix(1, 0, 0, 1, 10.4407, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 161.0999999985097,
+          "cards": [
+            {
+              "opacity": 0.629916,
+              "transform": "matrix(1, 0, 0, 1, 8.88202, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 178.9999999985098,
+          "cards": [
+            {
+              "opacity": 0.689551,
+              "transform": "matrix(1, 0, 0, 1, 7.45077, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 194.39999999850988,
+          "cards": [
+            {
+              "opacity": 0.733937,
+              "transform": "matrix(1, 0, 0, 1, 6.38552, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 211.0999999985097,
+          "cards": [
+            {
+              "opacity": 0.775564,
+              "transform": "matrix(1, 0, 0, 1, 5.38647, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 227.89999999850988,
+          "cards": [
+            {
+              "opacity": 0.811383,
+              "transform": "matrix(1, 0, 0, 1, 4.52682, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 243.9999999985098,
+          "cards": [
+            {
+              "opacity": 0.840723,
+              "transform": "matrix(1, 0, 0, 1, 3.82265, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 260.8999999985099,
+          "cards": [
+            {
+              "opacity": 0.866972,
+              "transform": "matrix(1, 0, 0, 1, 3.19267, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 277.5999999985097,
+          "cards": [
+            {
+              "opacity": 0.888969,
+              "transform": "matrix(1, 0, 0, 1, 2.66474, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 294.19999999851007,
+          "cards": [
+            {
+              "opacity": 0.907509,
+              "transform": "matrix(1, 0, 0, 1, 2.21979, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 310.79999999851,
+          "cards": [
+            {
+              "opacity": 0.923213,
+              "transform": "matrix(1, 0, 0, 1, 1.84289, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 327.69999999851007,
+          "cards": [
+            {
+              "opacity": 0.936715,
+              "transform": "matrix(1, 0, 0, 1, 1.51883, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 344.29999999851,
+          "cards": [
+            {
+              "opacity": 0.947896,
+              "transform": "matrix(1, 0, 0, 1, 1.25049, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 360.9999999985098,
+          "cards": [
+            {
+              "opacity": 0.95737,
+              "transform": "matrix(1, 0, 0, 1, 1.02312, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 377.4999999985098,
+          "cards": [
+            {
+              "opacity": 0.965238,
+              "transform": "matrix(1, 0, 0, 1, 0.834282, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 394.0999999985097,
+          "cards": [
+            {
+              "opacity": 0.971877,
+              "transform": "matrix(1, 0, 0, 1, 0.67495, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 410.79999999851,
+          "cards": [
+            {
+              "opacity": 0.977452,
+              "transform": "matrix(1, 0, 0, 1, 0.541141, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 427.4999999985098,
+          "cards": [
+            {
+              "opacity": 0.982084,
+              "transform": "matrix(1, 0, 0, 1, 0.429984, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 444.19999999851007,
+          "cards": [
+            {
+              "opacity": 0.985911,
+              "transform": "matrix(1, 0, 0, 1, 0.338127, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 460.79999999851,
+          "cards": [
+            {
+              "opacity": 0.989037,
+              "transform": "matrix(1, 0, 0, 1, 0.263104, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 477.3999999985099,
+          "cards": [
+            {
+              "opacity": 0.991588,
+              "transform": "matrix(1, 0, 0, 1, 0.201885, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 494.0999999985097,
+          "cards": [
+            {
+              "opacity": 0.993662,
+              "transform": "matrix(1, 0, 0, 1, 0.152114, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 510.79999999851,
+          "cards": [
+            {
+              "opacity": 0.995318,
+              "transform": "matrix(1, 0, 0, 1, 0.112361, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 527.3999999985099,
+          "cards": [
+            {
+              "opacity": 0.996617,
+              "transform": "matrix(1, 0, 0, 1, 0.0812002, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 543.9999999985098,
+          "cards": [
+            {
+              "opacity": 0.997625,
+              "transform": "matrix(1, 0, 0, 1, 0.0570105, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 560.6999999985101,
+          "cards": [
+            {
+              "opacity": 0.998395,
+              "transform": "matrix(1, 0, 0, 1, 0.0385178, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 577.5999999985097,
+          "cards": [
+            {
+              "opacity": 0.998971,
+              "transform": "matrix(1, 0, 0, 1, 0.0247034, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 594.0999999985097,
+          "cards": [
+            {
+              "opacity": 0.999372,
+              "transform": "matrix(1, 0, 0, 1, 0.0150702, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 610.8999999985099,
+          "cards": [
+            {
+              "opacity": 0.999651,
+              "transform": "matrix(1, 0, 0, 1, 0.00837313, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 627.6999999985101,
+          "cards": [
+            {
+              "opacity": 0.999829,
+              "transform": "matrix(1, 0, 0, 1, 0.00410887, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 644.29999999851,
+          "cards": [
+            {
+              "opacity": 0.99993,
+              "transform": "matrix(1, 0, 0, 1, 0.00167499, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 661.0999999985097,
+          "cards": [
+            {
+              "opacity": 0.99998,
+              "transform": "matrix(1, 0, 0, 1, 0.000470786, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 677.6999999985101,
+          "cards": [
+            {
+              "opacity": 0.999998,
+              "transform": "matrix(1, 0, 0, 1, 5.57286e-05, 0)",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 694.4999999985098,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 710.6999999985101,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 727.3999999985099,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 744.3999999985099,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 761.0999999985097,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 777.6999999985101,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 794.4999999985098,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 811.0999999985097,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 827.4999999985098,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 844.3999999985099,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 861.0999999985097,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 877.79999999851,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 894.3999999985099,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 911.1999999985101,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 927.6999999985101,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 944.3999999985099,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 960.6999999985101,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 977.4999999985098,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 994.0999999985097,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 1011.0999999985097,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 1027.79999999851,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 1044.3999999985099,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 1061.0999999985097,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 1077.79999999851,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 1094.4999999985098,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 1111.0999999985097,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 1127.4999999985098,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 1144.3999999985099,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 1161.0999999985097,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 1177.4999999985098,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 1194.29999999851,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 1210.79999999851,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 1227.29999999851,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 1244.0999999985097,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 1260.79999999851,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 1277.3999999985099,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 1293.9999999985098,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 1310.5999999985097,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 1327.3999999985099,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 1344.19999999851,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 1360.79999999851,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 1377.3999999985099,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 1394.0999999985097,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        },
+        {
+          "time": 1411.0999999985097,
+          "cards": [
+            {
+              "opacity": 1,
+              "transform": "none",
+              "revealed": true
+            },
+            {
+              "opacity": 0,
+              "transform": "matrix(1, 0, 0, 1, 24, 0)",
+              "revealed": false
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "screenshots": [
+    {
+      "file": "1440-intro.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "naturalFrame": true
+    },
+    {
+      "file": "1440-hero.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "naturalFrame": true
+    },
+    {
+      "file": "1440-board-hover.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "naturalFrame": true
+    },
+    {
+      "file": "1440-activity.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "naturalFrame": true
+    },
+    {
+      "file": "1440-archive.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "naturalFrame": true
+    },
+    {
+      "file": "1440-media.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "naturalFrame": true
+    },
+    {
+      "file": "1440-media-hover.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "naturalFrame": true
+    },
+    {
+      "file": "390-intro.png",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "naturalFrame": true
+    },
+    {
+      "file": "390-hero.png",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "naturalFrame": true
+    },
+    {
+      "file": "390-activity.png",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "naturalFrame": true
+    },
+    {
+      "file": "390-archive-card-1.png",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "naturalFrame": true
+    },
+    {
+      "file": "390-archive-card-2.png",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "naturalFrame": true
+    },
+    {
+      "file": "390-media.png",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "naturalFrame": true
+    }
+  ],
+  "errors": [],
+  "consoleErrors": [],
+  "localHTTPFailures": [],
+  "settingsFixtures": 2,
+  "writeAttempts": 0,
+  "reduced": {
+    "state": "reduced",
+    "phases": [
+      {
+        "name": "loading",
+        "time": 0
+      },
+      {
+        "name": "ready",
+        "time": 0
+      },
+      {
+        "name": "intro",
+        "time": 0.018
+      },
+      {
+        "name": "reduced",
+        "time": 3.4
+      }
+    ],
+    "worldMotion": "paused",
+    "archiveRevealClass": false,
+    "hoverAnim": 0
+  },
+  "status": "passed"
+}

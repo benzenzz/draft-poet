@@ -1,0 +1,447 @@
+{
+  "desktop-1440": {
+    "overflowX": 0,
+    "archive": {
+      "eyebrowToHeading": 10,
+      "headingToGrid": 28,
+      "cards": [
+        {
+          "top": 2677.16,
+          "bottom": 3366.17,
+          "height": 689.02,
+          "left": 79.19,
+          "width": 628.81,
+          "image": {
+            "top": 2678.16,
+            "bottom": 3030.73,
+            "height": 352.58,
+            "left": 80.19,
+            "width": 626.81
+          },
+          "cta": {
+            "top": 3297.17,
+            "bottom": 3341.17,
+            "height": 44,
+            "left": 104.19,
+            "width": 578.81
+          },
+          "copyPadding": "24px"
+        },
+        {
+          "top": 2677.16,
+          "bottom": 3366.17,
+          "height": 689.02,
+          "left": 732,
+          "width": 628.81,
+          "image": {
+            "top": 2678.16,
+            "bottom": 3030.73,
+            "height": 352.58,
+            "left": 733,
+            "width": 626.81
+          },
+          "cta": {
+            "top": 3297.17,
+            "bottom": 3341.17,
+            "height": 44,
+            "left": 757,
+            "width": 578.81
+          },
+          "copyPadding": "24px"
+        }
+      ],
+      "gap": 24
+    },
+    "media": {
+      "cards": [
+        {
+          "bg": "rgb(255, 255, 255)",
+          "border": "rgb(232, 225, 214)",
+          "title": "rgb(51, 43, 39)",
+          "body": "rgb(111, 104, 98)",
+          "time": "rgb(111, 104, 98)",
+          "text": "Bạn trẻ gấp sao, hưởng ứng đêm nhạc ‘chữa lành’ gây quỹ thiện nguyện (mở trong tab mới)",
+          "href": "https://tienphong.vn/ban-tre-gap-sao-huong-ung-dem-nhac-chua-lanh-gay-quy-thien-nguyen-post1454826.tpo",
+          "date": "2022-07-19",
+          "pub": "Tiền Phong↗",
+          "top": 3712.06,
+          "bottom": 4253.52,
+          "height": 541.45,
+          "left": 79.19,
+          "width": 483.97
+        },
+        {
+          "bg": "rgb(255, 255, 255)",
+          "border": "rgb(232, 225, 214)",
+          "title": "rgb(51, 43, 39)",
+          "body": "rgb(111, 104, 98)",
+          "time": "rgb(111, 104, 98)",
+          "text": "Sáng tạo để lan tỏa nhiệt huyết tận hiến (mở trong tab mới)",
+          "href": "https://tienphong.vn/sang-tao-de-lan-toa-nhiet-huyet-tan-hien-post1494246.tpo",
+          "date": "2022-12-17",
+          "pub": "Tiền Phong↗",
+          "top": 3712.06,
+          "bottom": 4253.52,
+          "height": 541.45,
+          "left": 587.16,
+          "width": 483.97
+        },
+        {
+          "bg": "rgb(255, 255, 255)",
+          "border": "rgb(232, 225, 214)",
+          "title": "rgb(51, 43, 39)",
+          "body": "rgb(111, 104, 98)",
+          "time": "rgb(111, 104, 98)",
+          "text": "Những “thủ lĩnh” Gen Z năng nổ sáng tạo hoạt động Đoàn, lan tỏa nhiệt huyết tận hiến (mở trong tab mới)",
+          "href": "https://hoahoctro.tienphong.vn/nhung-thu-linh-gen-z-nang-no-sang-tao-hoat-dong-doan-lan-toa-nhiet-huyet-tan-hien-post1494482.tpo",
+          "date": "2022-12-13",
+          "pub": "Hoa Học Trò↗",
+          "top": 3712.06,
+          "bottom": 4253.52,
+          "height": 541.45,
+          "left": 1095.13,
+          "width": 483.97
+        }
+      ],
+      "controls": false,
+      "rail": {
+        "scrollWidth": 1508,
+        "clientWidth": 1282
+      }
+    }
+  },
+  "tablet-768": {
+    "overflowX": 0,
+    "archive": {
+      "eyebrowToHeading": 10,
+      "headingToGrid": 28,
+      "cards": [
+        {
+          "top": 3242.83,
+          "bottom": 3886.22,
+          "height": 643.39,
+          "left": 36,
+          "width": 336,
+          "image": {
+            "top": 3243.83,
+            "bottom": 3431.7,
+            "height": 187.88,
+            "left": 37,
+            "width": 334
+          },
+          "cta": {
+            "top": 3817.22,
+            "bottom": 3861.22,
+            "height": 44,
+            "left": 61,
+            "width": 286
+          },
+          "copyPadding": "24px"
+        },
+        {
+          "top": 3242.83,
+          "bottom": 3886.22,
+          "height": 643.39,
+          "left": 396,
+          "width": 336,
+          "image": {
+            "top": 3243.83,
+            "bottom": 3431.7,
+            "height": 187.88,
+            "left": 397,
+            "width": 334
+          },
+          "cta": {
+            "top": 3817.22,
+            "bottom": 3861.22,
+            "height": 44,
+            "left": 421,
+            "width": 286
+          },
+          "copyPadding": "24px"
+        }
+      ],
+      "gap": 24
+    },
+    "media": {
+      "cards": [
+        {
+          "bg": "rgb(255, 255, 255)",
+          "border": "rgb(232, 225, 214)",
+          "title": "rgb(51, 43, 39)",
+          "body": "rgb(111, 104, 98)",
+          "time": "rgb(111, 104, 98)",
+          "text": "Bạn trẻ gấp sao, hưởng ứng đêm nhạc ‘chữa lành’ gây quỹ thiện nguyện (mở trong tab mới)",
+          "href": "https://tienphong.vn/ban-tre-gap-sao-huong-ung-dem-nhac-chua-lanh-gay-quy-thien-nguyen-post1454826.tpo",
+          "date": "2022-07-19",
+          "pub": "Tiền Phong↗",
+          "top": 4194.19,
+          "bottom": 4765.53,
+          "height": 571.34,
+          "left": 36,
+          "width": 309.59
+        },
+        {
+          "bg": "rgb(255, 255, 255)",
+          "border": "rgb(232, 225, 214)",
+          "title": "rgb(51, 43, 39)",
+          "body": "rgb(111, 104, 98)",
+          "time": "rgb(111, 104, 98)",
+          "text": "Sáng tạo để lan tỏa nhiệt huyết tận hiến (mở trong tab mới)",
+          "href": "https://tienphong.vn/sang-tao-de-lan-toa-nhiet-huyet-tan-hien-post1494246.tpo",
+          "date": "2022-12-17",
+          "pub": "Tiền Phong↗",
+          "top": 4194.19,
+          "bottom": 4765.53,
+          "height": 571.34,
+          "left": 369.59,
+          "width": 309.59
+        },
+        {
+          "bg": "rgb(255, 255, 255)",
+          "border": "rgb(232, 225, 214)",
+          "title": "rgb(51, 43, 39)",
+          "body": "rgb(111, 104, 98)",
+          "time": "rgb(111, 104, 98)",
+          "text": "Những “thủ lĩnh” Gen Z năng nổ sáng tạo hoạt động Đoàn, lan tỏa nhiệt huyết tận hiến (mở trong tab mới)",
+          "href": "https://hoahoctro.tienphong.vn/nhung-thu-linh-gen-z-nang-no-sang-tao-hoat-dong-doan-lan-toa-nhiet-huyet-tan-hien-post1494482.tpo",
+          "date": "2022-12-13",
+          "pub": "Hoa Học Trò↗",
+          "top": 4194.19,
+          "bottom": 4765.53,
+          "height": 571.34,
+          "left": 703.19,
+          "width": 309.59
+        }
+      ],
+      "controls": false,
+      "rail": {
+        "scrollWidth": 985,
+        "clientWidth": 696
+      }
+    }
+  },
+  "mobile-390": {
+    "overflowX": 0,
+    "archive": {
+      "eyebrowToHeading": 10,
+      "headingToGrid": 22,
+      "cards": [
+        {
+          "top": 3210.77,
+          "bottom": 3797.09,
+          "height": 586.33,
+          "left": 22,
+          "width": 346,
+          "image": {
+            "top": 3211.77,
+            "bottom": 3405.27,
+            "height": 193.5,
+            "left": 23,
+            "width": 344
+          },
+          "cta": {
+            "top": 3730.09,
+            "bottom": 3774.09,
+            "height": 44,
+            "left": 45,
+            "width": 300
+          },
+          "copyPadding": "22px"
+        },
+        {
+          "top": 3821.09,
+          "bottom": 4466.48,
+          "height": 645.39,
+          "left": 22,
+          "width": 346,
+          "image": {
+            "top": 3822.09,
+            "bottom": 4015.59,
+            "height": 193.5,
+            "left": 23,
+            "width": 344
+          },
+          "cta": {
+            "top": 4399.48,
+            "bottom": 4443.48,
+            "height": 44,
+            "left": 45,
+            "width": 300
+          },
+          "copyPadding": "22px"
+        }
+      ],
+      "gap": -346
+    },
+    "media": {
+      "cards": [
+        {
+          "bg": "rgb(255, 255, 255)",
+          "border": "rgb(232, 225, 214)",
+          "title": "rgb(51, 43, 39)",
+          "body": "rgb(111, 104, 98)",
+          "time": "rgb(111, 104, 98)",
+          "text": "Bạn trẻ gấp sao, hưởng ứng đêm nhạc ‘chữa lành’ gây quỹ thiện nguyện (mở trong tab mới)",
+          "href": "https://tienphong.vn/ban-tre-gap-sao-huong-ung-dem-nhac-chua-lanh-gay-quy-thien-nguyen-post1454826.tpo",
+          "date": "2022-07-19",
+          "pub": "Tiền Phong↗",
+          "top": 4740.38,
+          "bottom": 5316.91,
+          "height": 576.53,
+          "left": 22,
+          "width": 297.44
+        },
+        {
+          "bg": "rgb(255, 255, 255)",
+          "border": "rgb(232, 225, 214)",
+          "title": "rgb(51, 43, 39)",
+          "body": "rgb(111, 104, 98)",
+          "time": "rgb(111, 104, 98)",
+          "text": "Sáng tạo để lan tỏa nhiệt huyết tận hiến (mở trong tab mới)",
+          "href": "https://tienphong.vn/sang-tao-de-lan-toa-nhiet-huyet-tan-hien-post1494246.tpo",
+          "date": "2022-12-17",
+          "pub": "Tiền Phong↗",
+          "top": 4740.38,
+          "bottom": 5316.91,
+          "height": 576.53,
+          "left": 339.44,
+          "width": 297.44
+        },
+        {
+          "bg": "rgb(255, 255, 255)",
+          "border": "rgb(232, 225, 214)",
+          "title": "rgb(51, 43, 39)",
+          "body": "rgb(111, 104, 98)",
+          "time": "rgb(111, 104, 98)",
+          "text": "Những “thủ lĩnh” Gen Z năng nổ sáng tạo hoạt động Đoàn, lan tỏa nhiệt huyết tận hiến (mở trong tab mới)",
+          "href": "https://hoahoctro.tienphong.vn/nhung-thu-linh-gen-z-nang-no-sang-tao-hoat-dong-doan-lan-toa-nhiet-huyet-tan-hien-post1494482.tpo",
+          "date": "2022-12-13",
+          "pub": "Hoa Học Trò↗",
+          "top": 4740.38,
+          "bottom": 5316.91,
+          "height": 576.53,
+          "left": 656.88,
+          "width": 297.44
+        }
+      ],
+      "controls": false,
+      "rail": {
+        "scrollWidth": 940,
+        "clientWidth": 346
+      }
+    }
+  },
+  "mobile-320": {
+    "overflowX": 0,
+    "archive": {
+      "eyebrowToHeading": 10,
+      "headingToGrid": 22,
+      "cards": [
+        {
+          "top": 2876.69,
+          "bottom": 3473.14,
+          "height": 596.45,
+          "left": 22,
+          "width": 276,
+          "image": {
+            "top": 2877.69,
+            "bottom": 3031.81,
+            "height": 154.13,
+            "left": 23,
+            "width": 274
+          },
+          "cta": {
+            "top": 3406.14,
+            "bottom": 3450.14,
+            "height": 44,
+            "left": 45,
+            "width": 230
+          },
+          "copyPadding": "22px"
+        },
+        {
+          "top": 3497.14,
+          "bottom": 4157.17,
+          "height": 660.03,
+          "left": 22,
+          "width": 276,
+          "image": {
+            "top": 3498.14,
+            "bottom": 3652.27,
+            "height": 154.13,
+            "left": 23,
+            "width": 274
+          },
+          "cta": {
+            "top": 4090.17,
+            "bottom": 4134.17,
+            "height": 44,
+            "left": 45,
+            "width": 230
+          },
+          "copyPadding": "22px"
+        }
+      ],
+      "gap": -276
+    },
+    "media": {
+      "cards": [
+        {
+          "bg": "rgb(255, 255, 255)",
+          "border": "rgb(232, 225, 214)",
+          "title": "rgb(51, 43, 39)",
+          "body": "rgb(111, 104, 98)",
+          "time": "rgb(111, 104, 98)",
+          "text": "Bạn trẻ gấp sao, hưởng ứng đêm nhạc ‘chữa lành’ gây quỹ thiện nguyện (mở trong tab mới)",
+          "href": "https://tienphong.vn/ban-tre-gap-sao-huong-ung-dem-nhac-chua-lanh-gay-quy-thien-nguyen-post1454826.tpo",
+          "date": "2022-07-19",
+          "pub": "Tiền Phong↗",
+          "top": 4466.39,
+          "bottom": 5128.39,
+          "height": 662,
+          "left": 22,
+          "width": 235.83
+        },
+        {
+          "bg": "rgb(255, 255, 255)",
+          "border": "rgb(232, 225, 214)",
+          "title": "rgb(51, 43, 39)",
+          "body": "rgb(111, 104, 98)",
+          "time": "rgb(111, 104, 98)",
+          "text": "Sáng tạo để lan tỏa nhiệt huyết tận hiến (mở trong tab mới)",
+          "href": "https://tienphong.vn/sang-tao-de-lan-toa-nhiet-huyet-tan-hien-post1494246.tpo",
+          "date": "2022-12-17",
+          "pub": "Tiền Phong↗",
+          "top": 4466.39,
+          "bottom": 5128.39,
+          "height": 662,
+          "left": 277.83,
+          "width": 235.83
+        },
+        {
+          "bg": "rgb(255, 255, 255)",
+          "border": "rgb(232, 225, 214)",
+          "title": "rgb(51, 43, 39)",
+          "body": "rgb(111, 104, 98)",
+          "time": "rgb(111, 104, 98)",
+          "text": "Những “thủ lĩnh” Gen Z năng nổ sáng tạo hoạt động Đoàn, lan tỏa nhiệt huyết tận hiến (mở trong tab mới)",
+          "href": "https://hoahoctro.tienphong.vn/nhung-thu-linh-gen-z-nang-no-sang-tao-hoat-dong-doan-lan-toa-nhiet-huyet-tan-hien-post1494482.tpo",
+          "date": "2022-12-13",
+          "pub": "Hoa Học Trò↗",
+          "top": 4466.39,
+          "bottom": 5128.39,
+          "height": 662,
+          "left": 533.66,
+          "width": 235.83
+        }
+      ],
+      "controls": false,
+      "rail": {
+        "scrollWidth": 755,
+        "clientWidth": 276
+      }
+    }
+  },
+  "errors": []
+}

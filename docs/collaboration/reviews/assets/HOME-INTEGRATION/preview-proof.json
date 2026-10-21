@@ -1,0 +1,85 @@
+{
+  "checkedAt": "2026-10-21T11:31:05.996Z",
+  "root": "C:\\Users\\trang\\Desktop\\DRAFT\\poet",
+  "branch": "integration/home-review-20261021",
+  "head": "974d33140bc6375742405bfc190dda662ee15112",
+  "files": [
+    {
+      "file": "v2/index.html",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "sha256": "3ed1b3ee2bbd12fdc1a06f4379d7e8510914ee513d284b4c9e38c007d49cc132"
+    },
+    {
+      "file": "v2/site.css",
+      "status": 200,
+      "contentType": "text/css; charset=utf-8",
+      "sha256": "1a4a8ac3051f48e01177e6d4fd235cc54ee30973d86c879eb46fb3b28f0bd547"
+    },
+    {
+      "file": "v2/site.js",
+      "status": 200,
+      "contentType": "text/javascript; charset=utf-8",
+      "sha256": "fa1ff9b031689de719c7717a4f63cb56376e442d41be6b70303ed1192d794633"
+    },
+    {
+      "file": "v2/chrome.js",
+      "status": 200,
+      "contentType": "text/javascript; charset=utf-8",
+      "sha256": "9b9a56f83f4839b120af6165bbc4c1fe5583986671fdf3cc91c917691fe6d8c6"
+    },
+    {
+      "file": "v2/world.js",
+      "status": 200,
+      "contentType": "text/javascript; charset=utf-8",
+      "sha256": "36f18905445fb3a6ad4f01fcb62e7515625bfa955997ad1fb743adfb82a4c9b7"
+    },
+    {
+      "file": "v2/world.css",
+      "status": 200,
+      "contentType": "text/css; charset=utf-8",
+      "sha256": "f09b53637b5a4620e4808998b8e984c97c6c16d01c6bc2450940ee4cbd9dc963"
+    },
+    {
+      "file": "assets/fonts/suaserif-bold.otf",
+      "status": 200,
+      "contentType": "font/otf",
+      "sha256": "36b054d61abc09b585bc3aedca307c9bb6456cec35ccdb22f1a729f1f9037bd4"
+    },
+    {
+      "file": "v2/fonts/Product Sans Bold.otf",
+      "status": 200,
+      "contentType": "font/otf",
+      "sha256": "537bc891e9e4f889314cd26ba2ab0754fd6e240406aeae5f5fb18db19219f6c1"
+    }
+  ],
+  "screenshots": [
+    {
+      "file": "1440-archive.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "selector": "#dau-an",
+      "stickyHeaderHidden": true
+    },
+    {
+      "file": "390-archive-card-1.png",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "selector": ".story-card >> nth=0",
+      "stickyHeaderHidden": true
+    },
+    {
+      "file": "390-archive-card-2.png",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "selector": ".story-card >> nth=1",
+      "stickyHeaderHidden": true
+    }
+  ]
+}
