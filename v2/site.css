@@ -1457,3 +1457,35 @@ html.reveal-motion .mission-section.will-enter.is-in .mission-card{opacity:1;tra
 .partner-foot .btn--blue-line .prototype-icon{width:18px;height:18px;flex-basis:18px;color:currentColor}
 .partner-foot .btn--blue-line:focus-visible{outline:3px solid var(--poet-ink);outline-offset:2px}
 @media(max-width:760px){.partner-foot .site-tabs--partner{flex-basis:100%;justify-content:flex-start}}
+
+/* UI-017 (projects): hero with title left and photo right, then a full-width status tab rail. */
+.project-hero{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);column-gap:7%;row-gap:clamp(32px,4vw,56px);align-items:end;padding-top:clamp(28px,4vw,56px)}
+.project-hero-copy{align-self:end}
+.project-hero-copy h1{margin:0;font-size:clamp(52px,6.6vw,96px);font-weight:700;letter-spacing:-.045em;line-height:1.14;color:var(--poet-heading)}
+.project-hero-lead{margin:clamp(22px,2.4vw,32px) 0 0;max-width:30em;font-size:clamp(17px,1.55vw,21px);line-height:1.6;color:var(--poet-muted)}
+.project-hero-photo{margin:0}
+.project-hero-photo img{display:block;width:100%;aspect-ratio:1.3;height:auto;object-fit:cover;object-position:0% 40%;border-radius:32px 80px 32px 32px}
+.site-tabs--status{grid-column:1/-1;gap:8px;padding:0 0 12px;border-bottom:1px solid var(--poet-border)}
+.site-tabs--status button{display:inline-flex;align-items:center;gap:10px;min-height:52px;padding:6px 20px 6px 6px;border:0;border-radius:10px;background:transparent;font:400 16px/1.3 var(--poet-font);color:var(--poet-muted);white-space:nowrap;cursor:pointer;transition:background-color 220ms ease,color 220ms ease}
+.site-tabs--status button:hover{color:var(--poet-heading)}
+.site-tabs--status button:focus-visible{outline:3px solid var(--poet-ink);outline-offset:2px}
+.site-tabs--status .tab-icon{position:relative;display:grid;place-items:center;width:40px;height:40px;flex:none;border-radius:10px;background:var(--tile);color:var(--ic);transition:background-color 220ms ease}
+.site-tabs--status .tab-icon .prototype-icon{width:22px;height:22px;flex-basis:22px}
+#tab-dang-thuc-hien{--c:#f7bc3c;--tile:#fdf0cf;--ic:#c98a00}
+#tab-da-hoan-thanh{--c:#5fb08a;--tile:#e0ece2;--ic:#2f7d5e}
+.site-tabs--status button[aria-selected=true]{background:var(--c);color:var(--poet-heading);font-weight:700}
+.site-tabs--status button[aria-selected=true] .tab-icon{background:var(--poet-white)}
+.status-dot{position:absolute;top:6px;right:6px;width:8px;height:8px;border-radius:50%;background:#e0a21a}
+.status-dot::after{content:"";position:absolute;inset:0;border-radius:50%;background:#e0a21a;animation:status-pulse 2s cubic-bezier(.22,1,.36,1) infinite}
+@keyframes status-pulse{0%{transform:scale(1);opacity:.6}100%{transform:scale(2.6);opacity:0}}
+@media(max-width:900px){.project-hero{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.project-hero-photo img{aspect-ratio:1.1}}
+@media(max-width:640px){
+ .project-hero{grid-template-columns:minmax(0,1fr);row-gap:28px}
+ .project-hero-photo{order:-1}
+ .project-hero-photo img{aspect-ratio:1.25;border-radius:24px 56px 24px 24px}
+ .project-hero-copy h1{font-size:44px}
+ .site-tabs--status{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;margin-right:0}
+ .site-tabs--status button{gap:8px;font-size:15px;padding:6px 12px 6px 6px;white-space:normal}
+ .site-tabs--status .tab-icon{width:36px;height:36px}
+}
+@media(prefers-reduced-motion:reduce){.status-dot::after{animation:none}.site-tabs--status button,.site-tabs--status .tab-icon{transition:none}}
