@@ -63,7 +63,28 @@ export const activities = [
   {title:'Big Joy Pop-up',tag:'Sắp được bật mí',description:'Không gian trải nghiệm và hội chợ cộng đồng kết nối các Little Joy, dự kiến vào cuối tháng 12.',art:'popup',photo:'poet-volunteers',focus:'50% 45%',href:'dong-hanh/#pop-up',meta:'Chưa mở bán vé'}
 ];
 // One project collection powers Home, the completed-project tab and detail routes.
-export const recruitment={open:false,seasonLabel:'Mùa tiếp theo',applicationUrl:null,deadline:null,videos:[]};
+// Volunteer tab notice (UI-014). open=false: Mùa 6 đã đóng đơn, mời theo dõi Facebook.
+export const recruitment = {
+  open: false,
+  seasonLabel: 'Mùa 7',
+  closedLabel: 'Mùa 6 · đã đóng đơn',
+  applicationUrl: null,
+  deadline: null,
+  videos: [],
+  notice: {
+    kicker: 'Thông báo tuyển quân',
+    closed: {
+      title: 'Hẹn bạn<br><span>ở mùa sau nhé!</span>',
+      text: 'Đơn tuyển tình nguyện viên Mùa 6 đã đóng mất rồi. POET vẫn luôn chờ những đồng đội mới cho hành trình Mùa 7. Theo dõi Facebook POET để nhận thông tin tuyển quân sớm nhất nha!',
+      cta: 'Theo dõi Facebook POET'
+    },
+    open: {
+      title: 'Đăng ký làm<br><span>tình nguyện viên POET</span>',
+      text: 'Đơn tuyển tình nguyện viên đang mở. Đọc kỹ thông tin và gửi đơn trước hạn nhé!',
+      cta: 'Đăng ký ngay'
+    }
+  }
+};
 export const departments=['Vận hành','Nhân sự','Truyền thông','Đối ngoại'];
 // Approved previews: POET WEBSITE_ĐẶC BIỆT ĐỌC KĨ.md, image 34.
 // The 42.2m fundraising total belongs to Mùa 5, not to the concert alone.
