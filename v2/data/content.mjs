@@ -16,6 +16,39 @@ export const season = {
   park: 'Công viên Niềm vui', spirit: 'Niềm vui đơn thuần', spiritLine: 'chơi vui, chơi khoẻ ngay trong sân trường.',
   campaignSummary: 'Bên cạnh việc học, sức khoẻ tinh thần của các em nhỏ vùng khó khăn cũng cần được nuôi dưỡng đúng cách. Mùa này, POET mang một “công viên” nhỏ đến điểm trường để các em được chơi thật vui và thật khoẻ.',
   scale: {value: '300 học sinh cấp 1', detail: 'Đa số là con em đồng bào H’Mông'},
+  // UI-020 (projects): plan block. Stations and the two-day schedule shown on the projects page.
+  plan: {
+    title: 'Kế hoạch xây dựng<br>Công viên Niềm vui',
+    lead: 'Thay vì chỉ trao quà, POET dựng một ngày hội chạy trạm ngay tại sân trường. Các em được khám phá, vui chơi an toàn và mở rộng thế giới quan.',
+    stations: [
+      {tone: 'coral', icon: 'briefcase', name: 'Trạm hướng nghiệp & thực tế',
+       text: 'Giới thiệu và hướng dẫn các em tìm hiểu về các nhóm ngành nghề trong xã hội qua bài giảng sinh động kết hợp thực hành trực tiếp.'},
+      {tone: 'yellow', icon: 'smile', name: 'Trạm trò chơi gắn kết',
+       text: 'Không gian vui nhộn với những trò chơi dân gian và hiện đại, giúp các em làm quen bạn mới, thoả sức cười đùa và lưu giữ kỷ niệm tuổi thơ.'},
+      {tone: 'blue', icon: 'flag', name: 'Trạm vận động & thể lực',
+       text: 'Nơi các em chạy nhảy, rèn luyện thể lực vừa sức và cổ vũ đồng đội trong không khí hào hứng, năng động.'},
+      {tone: 'green', icon: 'gift', name: 'Trạm đổi quà yêu thương',
+       text: 'Hoàn thành thử thách ở các trạm, mỗi em nhận phiếu để đổi những món quà nhỏ xinh bất ngờ mà mình yêu thích.'},
+      {tone: 'coral', icon: 'clapperboard', name: 'Trạm chiếu phim thiếu nhi',
+       text: 'Rạp chiếu phim mini giữa núi rừng Tây Nguyên, để các em vừa thư giãn vừa thưởng thức những câu chuyện nhân văn giàu cảm xúc.'},
+      {tone: 'yellow', icon: 'book-open', name: 'Thư viện ước mơ',
+       text: 'Góc đọc sách yên bình với hàng trăm đầu truyện tranh, sách khoa học thường thức được POET chọn riêng cho lứa tuổi cấp 1.'}
+    ],
+    schedule: [
+      {day: 'Ngày 1', title: 'Hoạt động chính & lửa trại', items: [
+        {time: '04:00 – 07:00', text: 'Đến điểm trường, vận chuyển đồ đạc và tập kết quà'},
+        {time: '08:00 – 11:00', text: 'Lắp đặt 17 quạt lớp học, trang trí sân khấu và dựng trạm'},
+        {time: '14:30 – 15:30', text: 'Lễ trao quà: 300 phần học phẩm, đồng phục và văn nghệ thiếu nhi', kind: 'key'},
+        {time: '15:30 – 17:00', text: 'Mở 6 – 8 trạm vui chơi ngoài trời, chiếu phim và thư viện', kind: 'key'},
+        {time: '21:00 – 22:30', text: 'Đốt lửa trại và diễn kịch truyền cảm hứng cùng các em', kind: 'night'}
+      ]},
+      {day: 'Ngày 2', title: 'Tổng kết & bàn giao', items: [
+        {time: '07:30 – 10:00', text: 'Hoàn thiện góc trò chơi sân trường và bàn giao lớp học mới'},
+        {time: '10:00 – 11:00', text: 'Lễ ký kết bàn giao cho Ban Giám hiệu nhà trường', kind: 'key'},
+        {time: '12:00', text: 'Đoàn tình nguyện viên lên đường trở về TP. Hồ Chí Minh'}
+      ]}
+    ]
+  },
   prepStart: '2026-08-21', tripStart: '2027-01-22', tripEnd: '2027-01-24',
   headline: 'Trao nụ cười, dựng sân chơi',
   fundraisingIntro: 'Nhận thấy không gian để các em vui chơi, vận động, khám phá và học hỏi vẫn còn khá hạn chế, POET chính thức bắt đầu hoạt động gây quỹ đầu tiên mang tên Big Joy Little Joy. Hành trình gây quỹ của POET được xây dựng qua chuỗi hoạt động xuyên suốt (Tháng 10/2026 – Tháng 01/2027) bao gồm:',
