@@ -105,21 +105,62 @@ if('IntersectionObserver'in window){
   document.querySelectorAll('[data-counter-group]').forEach(el=>groups.observe(el));
 }
 
-document.querySelectorAll('[data-journey]').forEach(journey=>{
-  const buttons=[...journey.querySelectorAll('[data-stage]')],notes=JSON.parse(journey.parentElement.querySelector('[data-journey-notes]').textContent),output=byId('journey-note');
-  let active=buttons[0],latched=false;
-  const position=()=>{
-    const figure=journey.querySelector('.journey-mascot'),dot=active.querySelector('.journey-dot');
-    const r=journey.getBoundingClientRect(),d=dot.getBoundingClientRect();
-    figure.style.transform=`translate3d(${d.left-r.left+d.width/2-figure.offsetWidth/2}px,${d.top-r.top-figure.offsetHeight-8}px,0)`;
+// UI-011: pins drop 01→04 while bé Hoa walks to today's stage and the road tiles light behind her. Runs once, only while the tab is visible.
+document.querySelectorAll('[data-journey]').forEach(root=>{
+  const stages=JSON.parse(root.querySelector('[data-journey-data]').textContent),NS='http://www.w3.org/2000/svg',AT=[.09,.42,.745,.995],TILE=36;
+  const svg=root.querySelector('.journey-board svg'),road=svg.querySelector('.road'),L=road.getTotalLength(),hoa=svg.querySelector('[data-journey-hoa]'),ov=root.querySelector('.journey-overlay');
+  const today=Date.now(),cur=stages.reduce((c,s,i)=>today>=Date.parse(s.start+'T00:00:00+07:00')?i:c,0);
+  const P=(x,y)=>({x:(x-y)*.866,y:(x+y)*.5}),on=len=>{const q=road.getPointAtLength(Math.max(0,Math.min(L,len)));return P(q.x,q.y);};
+  const pct=(x,y)=>({left:(x+560)/1120*100+'%',top:(y-20)/640*100+'%'}),tag=i=>`Chặng 0${i+1} · ${stages[i].date}`;
+  const tiles=[];
+  for(let k=0;k*TILE<L;k++){const t=document.createElementNS(NS,'path');t.setAttribute('class','journey-tile');t.setAttribute('d',road.getAttribute('d'));t.setAttribute('stroke',['var(--board-coral)','var(--poet-blue)','var(--poet-yellow)','var(--poet-green)'][k%4]);t.setAttribute('stroke-dasharray',`34 ${Math.ceil(L)+200}`);t.setAttribute('stroke-dashoffset',-k*TILE);tiles.push(t);}
+  svg.querySelector('[data-journey-tiles]').append(...tiles);
+  const e=P(520,70),st=P(70,530);
+  svg.querySelector('.journey-flag').innerHTML=`<line x1="${e.x+34}" y1="${e.y-6}" x2="${e.x+34}" y2="${e.y-86}" stroke="#7a6a52" stroke-width="4" stroke-linecap="round"/><path d="M${e.x+36} ${e.y-86} l44 12 l-44 14 z" fill="var(--poet-yellow)" stroke="#c98a00" stroke-width="2"/><ellipse cx="${st.x}" cy="${st.y+2}" rx="30" ry="14" fill="none" stroke="#9d9586" stroke-width="2" stroke-dasharray="4 5"/>`;
+  const tip=document.createElement('div');tip.className='journey-tip';tip.setAttribute('aria-hidden','true');ov.append(tip);
+  const pts=AT.map(a=>on(L*a)),pins=[],leads=[],labels=[];
+  const show=i=>{pins.forEach((g,j)=>g.classList.toggle('open',j===i));tip.innerHTML=`<small>${tag(i)}</small>${stages[i].note}`;Object.assign(tip.style,pct(pts[i].x,pts[i].y-(i===cur?118:80)));tip.classList.add('show');labels.forEach((l,j)=>{l.style.visibility=j===i?'hidden':'';});};
+  const hide=()=>{pins.forEach(g=>g.classList.remove('open'));tip.classList.remove('show');labels.forEach(l=>{l.style.visibility='';});};
+  const isOpen=i=>tip.classList.contains('show')&&pins[i].classList.contains('open');
+  // Mouse opens on hover, keyboard on focus-visible or Enter, touch on tap; a second tap/Enter closes.
+  const bind=(el,i)=>{
+    el.setAttribute('tabindex','0');el.setAttribute('role','button');
+    el.addEventListener('pointerenter',ev=>{if(ev.pointerType==='mouse')show(i);});
+    el.addEventListener('pointerleave',ev=>{if(ev.pointerType==='mouse')hide();});
+    el.addEventListener('focus',()=>{if(el.matches(':focus-visible'))show(i);});
+    el.addEventListener('blur',hide);
+    el.addEventListener('click',ev=>{if(ev.pointerType!=='mouse')isOpen(i)?hide():show(i);});
+    el.addEventListener('keydown',ev=>{if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();isOpen(i)?hide():show(i);}else if(ev.key==='Escape')hide();});
   };
-  const hide=()=>{output.hidden=true;buttons.forEach(t=>t.setAttribute('aria-expanded','false'));};
-  const select=b=>{active=b;buttons.forEach(t=>{t.setAttribute('aria-pressed',String(t===b));t.setAttribute('aria-expanded',String(t===b));});output.textContent=notes[Number(b.dataset.stage)];output.hidden=false;position();};
-  buttons.forEach(b=>{b.addEventListener('click',()=>{if(active===b&&latched){latched=false;hide();}else{latched=true;select(b);}});b.addEventListener('focus',()=>select(b));b.addEventListener('pointerenter',e=>{if(e.pointerType==='mouse'){latched=false;select(b);}});});
-  journey.addEventListener('pointerleave',()=>{if(!latched&&!journey.contains(document.activeElement))hide();});
-  journey.addEventListener('focusout',()=>queueMicrotask(()=>{if(!journey.contains(document.activeElement)){latched=false;hide();}}));
-  journey.addEventListener('keydown',e=>{if(e.key==='Escape'){latched=false;hide();}});
-  new ResizeObserver(position).observe(journey);position();
+  stages.forEach((s,i)=>{
+    const p=pts[i],state=i<cur?'done':i===cur?'cur':'next';
+    const ln=document.createElementNS(NS,'line');ln.setAttribute('class','journey-lead');ln.setAttribute('x1',p.x);ln.setAttribute('y1',p.y-58);ln.setAttribute('x2',p.x);ln.setAttribute('y2',p.y-140);leads.push(ln);
+    const g=document.createElementNS(NS,'g');g.setAttribute('class','journey-pin');g.setAttribute('aria-label',`Chặng 0${i+1}: ${s.name}, ${s.date}. ${s.note}`);
+    g.innerHTML=`<ellipse cx="${p.x}" cy="${p.y}" rx="22" ry="10" fill="rgba(51,43,39,.14)"/>${state==='cur'?`<circle class="pulse" cx="${p.x}" cy="${p.y}" r="20" fill="none" stroke="var(--board-coral)" stroke-width="4"/>`:''}<g class="head"><path class="ring" d="M${p.x} ${p.y-4} C ${p.x-6} ${p.y-16} ${p.x-26} ${p.y-30} ${p.x-26} ${p.y-50} A 26 26 0 1 1 ${p.x+26} ${p.y-50} C ${p.x+26} ${p.y-30} ${p.x+6} ${p.y-16} ${p.x} ${p.y-4} Z" stroke-width="3" fill="${{done:'var(--poet-green)',cur:'var(--board-coral)',next:'#fff'}[state]}" stroke="${{done:'#2f8463',cur:'#d9705f',next:'#b9a57c'}[state]}"/><circle class="dot" cx="${p.x}" cy="${p.y-50}" r="10" fill="${state==='next'?'#e9d8b6':'#fff'}"/></g>`;
+    bind(g,i);pins.push(g);
+    const lb=document.createElement('div');lb.className=`journey-label ${state}`;Object.assign(lb.style,pct(p.x,p.y-146));lb.innerHTML=`<small>${tag(i)}</small><b>${s.name}</b>`;labels.push(lb);
+  });
+  svg.querySelector('[data-journey-leads]').append(...leads);svg.querySelector('[data-journey-pins]').append(...pins);ov.append(...labels);
+  // Bé Hoa covers the current pin, so she opens that stage's note too.
+  bind(hoa,cur);hoa.setAttribute('aria-label',`Bé Hoa đang ở chặng 0${cur+1}: ${stages[cur].name}. ${stages[cur].note}`);
+  root.querySelector('[data-journey-now]').textContent=`Chặng 0${cur+1} · ${stages[cur].name}`;
+  root.querySelector('[data-journey-stops]').innerHTML=stages.map((s,i)=>`<li class="${i<cur?'done':i===cur?'cur':''}"><span class="n">${i<cur?'✓':'0'+(i+1)}</span><b>${s.name}</b><small>${s.date}</small>${i===cur?`<p>${s.note}</p>`:''}</li>`).join('');
+  root.classList.add('is-ready');
+  const place=(len,t)=>{const p=on(len),ahead=on(len+4),bob=t?Math.abs(Math.sin(t/110))*-9:0,lit=Math.floor(Math.max(0,len)/TILE)+1;
+    hoa.setAttribute('transform',`translate(${p.x} ${p.y-26+bob}) scale(${ahead.x<p.x-.01?-1:1} 1)`);tiles.forEach((t,k)=>t.classList.toggle('on',k<lit));};
+  const target=L*AT[cur],drop=els=>els.forEach(el=>el.classList.add('in'));
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches){drop([...pins,...leads,...labels]);place(target);return;}
+  place(0);
+  let raf=0,timers=[],seen=false;
+  const intro=()=>{timers.forEach(clearTimeout);cancelAnimationFrame(raf);
+    timers=stages.flatMap((s,i)=>[setTimeout(()=>drop([pins[i],leads[i]]),300+i*700),setTimeout(()=>drop([labels[i]]),480+i*700)]);
+    timers.push(setTimeout(()=>{const dur=cur*700+1400,t0=performance.now();
+      // rAF time can precede t0; clamp k or the easing throws bé Hoa past the finish.
+      const step=now=>{const k=Math.max(0,Math.min(1,(now-t0)/dur)),q=k<.5?2*k*k:1-(-2*k+2)**2/2;place(target*q,k<1?now:0);if(k<1)raf=requestAnimationFrame(step);};
+      raf=requestAnimationFrame(step);},300));};
+  const tryIntro=()=>{if(seen&&document.visibilityState==='visible'){io.disconnect();document.removeEventListener('visibilitychange',tryIntro);intro();}};
+  const io=new IntersectionObserver(es=>{seen=es.some(en=>en.isIntersecting);tryIntro();},{threshold:.35});
+  io.observe(svg);document.addEventListener('visibilitychange',tryIntro);
 });
 
 // Client-side correspondence only. A reviewed mailto draft never submits data.

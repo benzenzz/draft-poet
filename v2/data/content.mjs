@@ -43,11 +43,18 @@ export const season = {
     ['Hoạt động tại trường', '1 gói', 5000000]
   ]
 };
-export const journey = [ // Dossier p10. Planned dates, not a ticket announcement.
-  ['Onboard', '09/2026', 'Little Joy tham gia cùng POET và thống nhất cách đồng hành.'],
-  ['Collect The Little Joys', '10–12/2026', 'Thương hiệu góp một phần doanh thu và cùng POET chia sẻ câu chuyện gây quỹ.'],
-  ['Big Joy Pop Up', '20–22/12/2026', 'Dự kiến hội chợ giao lưu và bán hàng gây quỹ. Thông tin mở bán chưa công bố.'],
-  ['Joy, Delivered', season.trip, 'Dự kiến chuyến đi trao những đóng góp thành điều kiện học tập và vui chơi tốt hơn.']
+// Dossier p10. Planned dates. start = ngày bắt đầu chặng, dùng để tính bé Hoa đang ở đâu (UI-011)
+export const journeyIntro = {
+  eyebrow: 'Lộ trình Big Joy Little Joy',
+  title: 'Bốn chặng,<br>cùng một điểm đến.',
+  text: 'Kế hoạch 4 giai đoạn từ 09/2026 đến 01/2027, đi cùng các Little Joy từ ngày đầu tới chuyến trao quà.',
+  nowLabel: 'Bé Hoa đang ở'
+};
+export const journey = [
+  { name: 'Onboard', date: '09/2026', start: '2026-09-01', note: 'Little Joy tham gia cùng POET và thống nhất cách đồng hành.' },
+  { name: 'Collect The Little Joys', date: '10–12/2026', start: '2026-10-01', note: 'Thương hiệu góp một phần doanh thu và cùng POET chia sẻ câu chuyện gây quỹ.' },
+  { name: 'Big Joy Pop Up', date: '20–22/12/2026', start: '2026-12-20', note: 'Hội chợ giao lưu và bán hàng gây quỹ. Thông tin mở bán sắp được bật mí.' },
+  { name: 'Joy, Delivered', date: season.trip, start: '2027-01-22', note: 'Chuyến đi trao những đóng góp thành điều kiện học tập và vui chơi tốt hơn cho các em.' }
 ];
 export const activities = [
   {title:`POET ${season.year}`,tag:season.name,description:`Cùng xây ${season.title} cho ${season.beneficiaries} em học sinh tại Ea Kiết.`,art:'season',photo:'playground-joy',focus:'50% 42%',href:'du-an/#dang-thuc-hien',meta:season.timeframe},
