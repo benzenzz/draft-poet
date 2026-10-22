@@ -194,6 +194,12 @@ document.querySelectorAll('.tier-section').forEach(section=>{
   }));
 });
 
+// UI-016: department panel fades up when it is chosen. Tab switching itself is the shared tablist code above.
+document.querySelectorAll('.dept-panel').forEach(panel=>new MutationObserver(()=>{
+  if(panel.hidden||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  panel.classList.remove('is-entering');void panel.offsetWidth;panel.classList.add('is-entering');
+}).observe(panel,{attributes:true,attributeFilter:['hidden']}));
+
 // UI-015: video rail on mobile steps one card at a time. Buttons refresh when the tab shows, since hidden panels measure as zero.
 document.querySelectorAll('.volunteer-videos').forEach(wrap=>{
   const rail=wrap.querySelector('[data-v-rail]'),prev=wrap.querySelector('[data-v-prev]'),next=wrap.querySelector('[data-v-next]');
