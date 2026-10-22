@@ -194,6 +194,20 @@ document.querySelectorAll('.tier-section').forEach(section=>{
   }));
 });
 
+// UI-015: video rail on mobile steps one card at a time. Buttons refresh when the tab shows, since hidden panels measure as zero.
+document.querySelectorAll('.volunteer-videos').forEach(wrap=>{
+  const rail=wrap.querySelector('[data-v-rail]'),prev=wrap.querySelector('[data-v-prev]'),next=wrap.querySelector('[data-v-next]');
+  if(!rail||!prev||!next)return;
+  const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const step=()=>rail.querySelector('li').offsetWidth+12;
+  const move=d=>rail.scrollBy({left:d*step(),behavior:reduced?'auto':'smooth'});
+  const update=()=>{prev.disabled=rail.scrollLeft<4;next.disabled=rail.scrollLeft+rail.clientWidth>=rail.scrollWidth-4;};
+  prev.addEventListener('click',()=>move(-1));
+  next.addEventListener('click',()=>move(1));
+  rail.addEventListener('scroll',update,{passive:true});
+  new IntersectionObserver(es=>{if(es.some(e=>e.isIntersecting))update();}).observe(rail);
+});
+
 // Client-side correspondence only. A reviewed mailto draft never submits data.
 // Shared copy feedback: buttons with .copy-idle/.copy-done swap to "Đã sao chép" for 1.6s.
 function flashCopied(b){const idle=b.querySelector('.copy-idle'),done=b.querySelector('.copy-done');if(!idle||!done)return;idle.hidden=true;done.hidden=false;clearTimeout(b.copyTimer);b.copyTimer=setTimeout(()=>{idle.hidden=false;done.hidden=true;},1600);}
