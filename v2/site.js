@@ -195,16 +195,18 @@ document.querySelectorAll('.tier-section').forEach(section=>{
 });
 
 // Client-side correspondence only. A reviewed mailto draft never submits data.
+// Shared copy feedback: buttons with .copy-idle/.copy-done swap to "Đã sao chép" for 1.6s.
+function flashCopied(b){const idle=b.querySelector('.copy-idle'),done=b.querySelector('.copy-done');if(!idle||!done)return;idle.hidden=true;done.hidden=false;clearTimeout(b.copyTimer);b.copyTimer=setTimeout(()=>{idle.hidden=false;done.hidden=true;},1600);}
 document.querySelectorAll('[data-partner-form]').forEach(partnerForm=>{
-  const draft=partnerForm.querySelector('.partner-draft'),text=partnerForm.elements.draft,mail=partnerForm.querySelector('[data-partner-mail]');
-  const sync=()=>{mail.href=`mailto:poet.npo@gmail.com?subject=${encodeURIComponent('Đồng hành POET Mùa 6 — '+partnerForm.elements.company.value.trim())}&body=${encodeURIComponent(text.value)}`;};
+  const draft=partnerForm.querySelector('.partner-draft'),text=partnerForm.elements.draft,mail=partnerForm.querySelector('[data-partner-mail]'),copyDraft=draft.querySelector('[data-copy]'),email=mail.getAttribute('href').replace('mailto:','');
+  const sync=()=>{mail.href=`mailto:${email}?subject=${encodeURIComponent('Đồng hành POET Mùa 6 — '+partnerForm.elements.company.value.trim())}&body=${encodeURIComponent(text.value)}`;copyDraft.dataset.copy=text.value;};
   partnerForm.addEventListener('submit',e=>{
     e.preventDefault();if(!partnerForm.reportValidity())return;
-    const f=partnerForm.elements;text.value=`Chào POET,\n\nMình là ${f.contact.value.trim()}, đại diện ${f.company.value.trim()}.\nEmail liên hệ: ${f.email.value.trim()}\nHình thức quan tâm: ${f.package.value}\n\n${f.message.value.trim()||'Nhờ POET tư vấn hình thức đồng hành phù hợp với đơn vị.'}\n\nCảm ơn POET!`;
+    const f=partnerForm.elements,v=n=>f[n].value.trim(),phone=v('phone');
+    text.value=`Chào POET,\n\nMình là ${v('contact')}, đại diện ${v('company')}.\nEmail liên hệ: ${v('email')}${phone?`\nSĐT/Zalo: ${phone}`:''}\nHình thức quan tâm: ${f.package.value}\n\n${v('message')||'Nhờ POET tư vấn hình thức đồng hành phù hợp với đơn vị.'}\n\nCảm ơn POET!`;
     draft.hidden=false;sync();text.focus();
   });
   text.addEventListener('input',sync);
-  partnerForm.querySelector('[data-copy-draft]').addEventListener('click',e=>{e.currentTarget.dataset.copy=text.value;});
   document.querySelectorAll('[data-partner-package]').forEach(a=>a.addEventListener('click',()=>{partnerForm.elements.package.value=a.dataset.partnerPackage;draft.hidden=true;partnerForm.elements.company.focus({preventScroll:true});}));
 });
 
@@ -238,7 +240,7 @@ form.addEventListener('submit',async e=>{
 });
 
 // Copy controls include a selectable fallback when clipboard permission is unavailable.
-document.addEventListener('click',async e=>{const b=e.target.closest('[data-copy]');if(!b)return;try{await navigator.clipboard.writeText(b.dataset.copy);notify('Đã sao chép');}catch{
+document.addEventListener('click',async e=>{const b=e.target.closest('[data-copy]');if(!b)return;try{await navigator.clipboard.writeText(b.dataset.copy);notify('Đã sao chép');flashCopied(b);}catch{
   const d=document.createElement('dialog');d.className='site-dialog copy-fallback';d.setAttribute('aria-label','Sao chép nội dung');d.innerHTML='<h2>Sao chép nội dung</h2><p>Chọn nội dung bên dưới và sao chép.</p><textarea readonly aria-label="Nội dung cần sao chép"></textarea><button type="button" class="btn">Đóng</button>';document.body.append(d);trapFocus(d);d.querySelector('textarea').value=b.dataset.copy;d.querySelector('button').onclick=()=>d.close();d.addEventListener('close',()=>{d.remove();b.focus();});d.showModal();d.querySelector('textarea').select();
 }});
 

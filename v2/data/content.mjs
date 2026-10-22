@@ -108,8 +108,8 @@ export const pressLogos = [
   {name:'Báo Tiền Phong',image:'press/tien-phong.png',width:390,height:83,displayWidth:108,href:media[0].url}
 ];
 export const contacts = {email:'poet.npo@gmail.com',people:[
-  {name:'Hoài Phương',role:'Trưởng Ban Điều Hành',phone:'0903872278'},
-  {name:'Phương Minh',role:'Trưởng Ban Đối Ngoại',phone:'0815852427'}
+  {name:'Hoài Phương',role:'Trưởng Ban Điều hành',phone:'0903872278'},
+  {name:'Phương Minh',role:'Trưởng Ban Đối ngoại',phone:'0815852427'}
 ]};
 export const socials = [
   ['Facebook','https://www.facebook.com/poetorganization'],['Instagram','https://www.instagram.com/poet.npo/'],
@@ -150,6 +150,30 @@ export const tierIntro = {
 export const tierReplaced = {
   '1.1.0':3, '2.1.0':6, '2.1.1':4, '3.1.0':6, '3.0.1':6, '3.2.0':5, '5.0.0':7, '5.1.0':7,
   '6.0.0':9, '7.0.0':9, '5.0.1':9, '6.1.0':9, '6.1.1':9, '7.2.0':8, '8.2.0':9
+};
+// Partner page, sponsor panel + contact (UI-013)
+export const sponsorIntro = {
+  eyebrow: 'Nhà tài trợ',
+  title: 'Cùng tạo điều kiện<br><span>cho những giờ ra chơi.</span>',
+  text: 'Hỗ trợ hiện kim hoặc nguồn lực thiết thực cho Công viên niềm vui. POET trao đổi từng đề xuất theo nhu cầu điểm trường và khả năng của đơn vị.',
+  cash: { title: 'Tài trợ hiện kim', text: 'Góp sức cho dự toán Mùa 6: vật phẩm học tập, đồng phục, góc trò chơi và hoạt động tại trường.', figureLabel: 'Dự toán Mùa 6' },
+  kind: { title: 'Tài trợ hiện vật', text: 'Những nhu cầu đang có trong kế hoạch của điểm trường:', items: ['Quạt treo tường', 'Xe đạp', 'Dụng cụ học tập', 'Vở', 'Áo đồng phục', 'Góc trò chơi'] },
+  cta: 'Trao đổi cơ hội tài trợ',
+  stepsTitle: 'Bắt đầu như thế nào?',
+  steps: [
+    ['Chia sẻ đề xuất', 'Nguồn lực, ngân sách hoặc ý tưởng của đơn vị.'],
+    ['Cùng đối chiếu', 'POET đối chiếu nhu cầu điểm trường, thống nhất phạm vi và cách tiếp nhận.'],
+    ['Ghi nhận & tổng kết', 'Thống nhất cách cập nhật, ghi nhận và tổng kết phù hợp.']
+  ],
+  note: 'Hình thức ghi nhận, quyền lợi và quy trình cụ thể được hai bên xác nhận trước khi thực hiện.'
+};
+export const contactIntro = {
+  eyebrow: 'Liên hệ trực tiếp',
+  title: 'POET <span>nghe bạn.</span>',
+  text: 'Chia sẻ ý tưởng, sản phẩm hoặc cách bạn muốn đồng hành. Ban Đối ngoại sẽ phản hồi và cùng bạn chọn phương án phù hợp.',
+  formTitle: 'Gửi lời nhắn kết nối',
+  formText: 'Xem lại bản nháp trước khi gửi. POET chỉ nhận khi bạn chủ động gửi email.',
+  privacy: 'Thông tin chỉ dùng để soạn email trên máy bạn, không được lưu lại.'
 };
 // Partner page, individual tab (UI-008)
 export const individualWays = {

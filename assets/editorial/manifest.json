@@ -96,5 +96,19 @@
     "width": 1280,
     "height": 853,
     "bytes": 168612
+  },
+  {
+    "source": "assets/photos/classroom-footer.jpg",
+    "file": "assets/editorial/lop-hoc-diem-truong-1280.webp",
+    "width": 1280,
+    "height": 854,
+    "bytes": 70776
+  },
+  {
+    "source": "assets/photos/classroom-footer.jpg",
+    "file": "assets/editorial/lop-hoc-diem-truong-800.webp",
+    "width": 800,
+    "height": 533,
+    "bytes": 34964
   }
 ]
