@@ -31,7 +31,7 @@ document.querySelectorAll('[role=tablist]').forEach(list=>{
     if(next!==undefined){e.preventDefault();select(tabs[next],{focus:true,update:true});}
   });
   tabControllers.push({tabs,select});
-  const preferred=document.querySelector('[data-default-tab]')?.dataset.defaultTab;
+  const preferred=list.dataset.defaultTab||document.querySelector('[data-default-tab]')?.dataset.defaultTab;
   select(tabs.find(t=>t.getAttribute('aria-controls')===preferred)||tabs[0]);
 });
 function revealHash(scroll=false){
@@ -161,6 +161,37 @@ document.querySelectorAll('[data-journey]').forEach(root=>{
   const tryIntro=()=>{if(seen&&document.visibilityState==='visible'){io.disconnect();document.removeEventListener('visibilitychange',tryIntro);intro();}};
   const io=new IntersectionObserver(es=>{seen=es.some(en=>en.isIntersecting);tryIntro();},{threshold:.35});
   io.observe(svg);document.addEventListener('visibilitychange',tryIntro);
+});
+
+// UI-012: tier ladder. Lower tiers get the check mark, "Xem thêm" opens a column, and the compose draft stays in the browser (nothing is sent).
+document.querySelectorAll('.tier-section').forEach(section=>{
+  const list=section.querySelector('[role=tablist]'),cards=[...list.querySelectorAll('[role=tab]')],box=section.querySelector('[data-tier-compose-box]');
+  const msg=box.querySelector('textarea'),mail=box.querySelector('[data-tier-mail]'),copy=box.querySelector('[data-copy]'),email=mail.getAttribute('href').replace('mailto:','');
+  const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let picked=null;
+  const letter=(amount,name)=>`Chào POET,\n\nMình là [Tên] từ [Tên thương hiệu]. Thương hiệu mình quan tâm gói ${name} (${(amount*1e6).toLocaleString('vi-VN')} VNĐ) trong chiến dịch Big Joy Little Joy. POET gửi giúp mình thông tin chi tiết và lịch trao đổi nhé.\n\nCảm ơn POET!`;
+  const fill=()=>{mail.href=`mailto:${email}?subject=${encodeURIComponent('Đồng hành Big Joy Little Joy · gói '+picked.name)}&body=${encodeURIComponent(msg.value)}`;copy.dataset.copy=msg.value;};
+  msg.addEventListener('input',fill);
+  // Follows aria-selected, so tab clicks, arrow keys and deep links all update the ladder the same way.
+  const sync=()=>{
+    const i=cards.findIndex(c=>c.getAttribute('aria-selected')==='true');
+    cards.forEach((c,k)=>c.classList.toggle('is-included',k<i));
+    picked={amount:cards[i].getAttribute('aria-controls').replace('tier-',''),name:cards[i].querySelector('.tier-card__name').textContent};
+    if(!box.hidden){msg.value=letter(picked.amount,picked.name);fill();}
+  };
+  new MutationObserver(sync).observe(list,{subtree:true,attributes:true,attributeFilter:['aria-selected']});
+  sync();
+  section.querySelectorAll('[data-tier-compose]').forEach(btn=>btn.addEventListener('click',()=>{
+    picked={amount:btn.dataset.tierCompose,name:btn.dataset.tierName};
+    msg.value=letter(picked.amount,picked.name);fill();box.hidden=false;
+    msg.focus({preventScroll:true});
+    box.scrollIntoView({block:'nearest',behavior:reduced?'auto':'smooth'});
+  }));
+  section.querySelectorAll('.tier-toggle').forEach(btn=>btn.addEventListener('click',()=>{
+    const phase=btn.closest('.tier-phase'),open=phase.classList.toggle('open');
+    btn.setAttribute('aria-expanded',String(open));
+    btn.querySelector('span').textContent=open?'Thu gọn':`Xem thêm ${phase.querySelectorAll('li.is-more').length} quyền lợi`;
+  }));
 });
 
 // Client-side correspondence only. A reviewed mailto draft never submits data.
