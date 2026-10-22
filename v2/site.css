@@ -1447,3 +1447,12 @@ html.reveal-motion .mission-section.will-enter.is-in .mission-card{opacity:1;tra
  .dept-lead-card blockquote{font-size:18px}
 }
 @media(prefers-reduced-motion:reduce){.dept-panel.is-entering .dept-photo,.dept-panel.is-entering .dept-body{animation:none}.dept-tab{transition:none}}
+
+/* UI-017: partner tab switch sits at the foot of the page; the volunteer team link matches the notice CTA. */
+.partner-switch{padding-block:clamp(40px,4vw,64px);border-top:1px solid var(--poet-border)}
+.partner-switch .site-tabs--partner{padding-bottom:0;border-bottom:0}
+.volunteer-team-cta{margin-top:clamp(40px,4vw,56px)}
+.volunteer-content .btn--blue{display:inline-flex;align-items:center;gap:8px;min-height:50px;padding:0 20px;border-radius:999px;background:#245d74;border:1px solid #245d74;color:#fff!important;font-size:15px;font-weight:700;text-decoration:none}
+.volunteer-content .btn--blue:hover{background:#1c4a5c;border-color:#1c4a5c}
+.volunteer-content .btn--blue .prototype-icon{width:18px;height:18px;flex-basis:18px;color:currentColor}
+.volunteer-content .btn--blue:focus-visible{outline:3px solid var(--poet-ink);outline-offset:2px}
