@@ -1308,12 +1308,12 @@ html.reveal-motion .mission-section.will-enter.is-in .mission-card{opacity:1;tra
 .notice-status span.is-open i{background:#3f86a3;box-shadow:0 0 0 3px rgba(106,167,191,.3)}
 .notice-cta{margin-top:24px}
 .volunteer-notice .notice-cta .btn{min-height:50px;padding:0 20px;border-radius:999px;font-size:15px;gap:8px}
-.volunteer-notice .btn--coral{background:#b4503f;border-color:#b4503f;color:#fff!important}
-.volunteer-notice .btn--coral:hover{background:#9c4330;border-color:#9c4330}
-.volunteer-notice .btn--coral .prototype-icon{width:18px;height:18px;flex-basis:18px;color:currentColor}
+.volunteer-notice .btn--blue{background:#245d74;border-color:#245d74;color:#fff!important}
+.volunteer-notice .btn--blue:hover{background:#1c4a5c;border-color:#1c4a5c}
+.volunteer-notice .btn--blue .prototype-icon{width:18px;height:18px;flex-basis:18px;color:currentColor}
 .volunteer-notice .btn:focus-visible{outline:3px solid var(--poet-ink);outline-offset:2px}
 .notice-photo{margin:0}
-.notice-photo img{display:block;width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;object-position:50% 40%;border-radius:24px}
+.notice-photo img{display:block;width:100%;height:auto;aspect-ratio:5/4;object-fit:cover;object-position:50% 40%;border-radius:24px}
 @media(max-width:900px){.notice-banner h2{font-size:40px}.notice-photo img{aspect-ratio:3/4}}
 @media(max-width:640px){
  .notice-banner{grid-template-columns:1fr;border-radius:24px 56px 24px 24px;padding:26px 22px}
