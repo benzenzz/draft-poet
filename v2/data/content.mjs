@@ -12,6 +12,11 @@ export const season = {
   art: 'season-6/lettering/cong-vien-niem-vui.webp',
   location: 'Ea Kiết, Đắk Lắk', beneficiaries: 300, targetAmount: 121950000,
   timeframe: '09/2026 – 01/2027', trip: '22–24/01/2027',
+  // UI-018 (projects): campaign block. Dates drive the countdown; numbers come from the home fundraising source.
+  park: 'Công viên Niềm vui', spirit: 'Niềm vui đơn thuần', spiritLine: 'chơi vui, chơi khoẻ ngay trong sân trường.',
+  campaignSummary: 'Bên cạnh việc học, sức khoẻ tinh thần của các em nhỏ vùng khó khăn cũng cần được nuôi dưỡng đúng cách. Mùa này, POET mang một “công viên” nhỏ đến điểm trường để các em được chơi thật vui và thật khoẻ.',
+  scale: {value: '300 học sinh cấp 1', detail: 'Đa số là con em đồng bào H’Mông'},
+  prepStart: '2026-08-21', tripStart: '2027-01-22', tripEnd: '2027-01-24',
   headline: 'Trao nụ cười, dựng sân chơi',
   fundraisingIntro: 'Nhận thấy không gian để các em vui chơi, vận động, khám phá và học hỏi vẫn còn khá hạn chế, POET chính thức bắt đầu hoạt động gây quỹ đầu tiên mang tên Big Joy Little Joy. Hành trình gây quỹ của POET được xây dựng qua chuỗi hoạt động xuyên suốt (Tháng 10/2026 – Tháng 01/2027) bao gồm:',
   fundraisingActivities: [

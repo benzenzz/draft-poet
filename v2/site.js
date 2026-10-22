@@ -200,6 +200,18 @@ document.querySelectorAll('.dept-panel').forEach(panel=>new MutationObserver(()=
   panel.classList.remove('is-entering');void panel.offsetWidth;panel.classList.add('is-entering');
 }).observe(panel,{attributes:true,attributeFilter:['hidden']}));
 
+// UI-018: countdown on the campaign card. The build renders the same state; this recalculates it in Vietnam time on load.
+document.querySelectorAll('[data-campaign-timeline]').forEach(el=>{
+  const start=Date.parse(el.dataset.prep+'T00:00:00+07:00'),trip=Date.parse(el.dataset.trip+'T00:00:00+07:00'),end=Date.parse(el.dataset.end+'T23:59:59+07:00');
+  const now=Date.now();let pct=100,msg='Chuyến đi đã hoàn thành';
+  if(now<start){pct=0;msg='Sắp bắt đầu chuẩn bị';}
+  else if(now<trip){pct=(now-start)/(trip-start)*100;msg=`Còn <b>${Math.ceil((trip-now)/864e5)} ngày</b> đến chuyến đi`;}
+  else if(now<=end){msg='Đoàn đang ở điểm trường';}
+  el.querySelector('.fund-timeline-text').innerHTML=msg;
+  el.querySelector('.fund-timeline-track i').style.width=pct+'%';
+  el.querySelector('.fund-timeline-track b').style.left=pct+'%';
+});
+
 // UI-015: video rail on mobile steps one card at a time. Buttons refresh when the tab shows, since hidden panels measure as zero.
 document.querySelectorAll('.volunteer-videos').forEach(wrap=>{
   const rail=wrap.querySelector('[data-v-rail]'),prev=wrap.querySelector('[data-v-prev]'),next=wrap.querySelector('[data-v-next]');
