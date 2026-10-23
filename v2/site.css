@@ -717,7 +717,7 @@ html.reveal-motion .site-content .about-hero-copy h1{animation:about-title-in 80
 }
 /* Đồng hành, Cá nhân tab (UI-008): the open way (VietQR) beside two ways that are not open yet. */
 /* The hero above already ends with clamp(48px,6vw,84px) of padding, which is the gap the tab bar needs. */
-.individual-ways{padding-top:0;padding-bottom:clamp(56px,6vw,84px)}
+.individual-ways{margin-top:calc(clamp(40px,5vw,72px) - clamp(48px,6vw,84px));padding-top:0;padding-bottom:clamp(56px,6vw,84px)}
 .individual-ways .ways-head{margin-bottom:clamp(32px,3.6vw,48px)}
 .individual-ways .ways-head .eyebrow{font-size:14px;color:var(--poet-muted);margin:0 0 14px!important}
 .site-content .individual-ways .ways-head h2{margin:0;font-size:var(--type-h2);font-weight:var(--font-weight-bold);line-height:1.12;letter-spacing:-.045em;color:var(--poet-heading)}
@@ -906,7 +906,7 @@ html.reveal-motion .site-content .about-hero-copy h1{animation:about-title-in 80
 .campaign-banner b{font-weight:var(--font-weight-bold)}
 .campaign-art{position:relative;display:grid;place-items:center}
 .campaign-art::before{content:"";position:absolute;inset:6% 4%;border-radius:46% 54% 50% 50%/55% 45% 55% 45%;background:#ffffffb3}
-.campaign-art img{position:relative;width:100%;max-width:400px;height:auto;filter:drop-shadow(0 8px 14px #7a52001f)}
+.campaign-art img{position:relative;width:100%;max-width:340px;height:auto;border-radius:32px 80px 32px 32px;filter:drop-shadow(0 8px 14px #7a52001f)}
 .site-content .campaign-quote{position:relative;max-width:40em;margin:clamp(40px,5vw,64px) auto 0;padding-top:34px;text-align:center}
 .campaign-quote::before{content:"“";position:absolute;top:-18px;left:50%;transform:translateX(-50%);color:var(--poet-yellow);font-size:72px;font-weight:var(--font-weight-bold);line-height:1}
 /* Real Product Sans Italic (assets/css/typography.css); never a synthesised slant. */
@@ -926,7 +926,7 @@ html.reveal-motion .site-content .about-hero-copy h1{animation:about-title-in 80
 }
 @media(max-width:640px){
  .campaign-banner{grid-template-columns:1fr;border-radius:24px 56px 24px 24px;padding:26px 22px}
- .campaign-art{order:-1}
+
  .campaign-art img{max-width:240px}
  .site-content .campaign-banner h2{font-size:var(--type-h2)}
  .site-content .campaign-banner h2+p{font-size:16px}
@@ -2024,3 +2024,19 @@ poet-nav.site-home-nav .site-nav-inner>.btn{border-radius:14px}
 .tier-section .btn--coral{background:var(--coral);border-color:var(--coral)}
 .tier-section .btn--coral:hover{background:var(--coral-hover);border-color:var(--coral-hover)}
 .contact-section .btn--coral,.contact-section .btn--line{font-weight:var(--font-weight-bold)}
+
+/* UI: project ways volunteer tab shows one centred card with no frame. */
+.pw-solo{display:grid;justify-items:center;margin-top:clamp(28px,3vw,40px);text-align:center}
+.pw-card.pw-card--bare{align-items:center;max-width:560px;background:none;border:0;border-radius:0;padding:0}
+.pw-card.pw-card--bare .pw-top{justify-content:center}
+.pw-card.pw-card--bare p{max-width:560px;margin-inline:auto}
+.pw-card.pw-card--bare .pw-cta{display:flex;justify-content:center}
+.pw-card.pw-card--bare .pw-btn{width:auto;min-width:260px;padding-inline:24px}
+
+/* Mùa 6 story card: tighter type so it stays no taller than the fundraising card beside it on laptops. */
+@media(min-width:1101px){
+  .campaign-band--prototype .campaign-story{padding:24px 32px}
+  .campaign-band--prototype .campaign-story h2{font-size:28px}
+  .campaign-band--prototype .campaign-story>p:not(.eyebrow){font-size:13px;line-height:1.55;margin:12px 0 0}
+  .campaign-band--prototype .campaign-summary-list{margin:12px 0 10px;gap:4px;font-size:13px;line-height:1.45}
+}

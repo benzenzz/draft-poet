@@ -51,14 +51,6 @@ export const season = {
   },
   prepStart: '2026-08-21', tripStart: '2027-01-22', tripEnd: '2027-01-24',
   headline: 'Trao nụ cười, dựng sân\u00a0chơi',
-  fundraisingIntro: 'Nhận thấy không gian để các em vui chơi, vận động, khám phá và học hỏi vẫn còn khá hạn chế, POET chính thức bắt đầu hoạt động gây quỹ đầu tiên mang tên Big Joy Little Joy. Hành trình gây quỹ của POET được xây dựng qua chuỗi hoạt động xuyên suốt (Tháng 10/2026 – Tháng 01/2027) bao gồm:',
-  fundraisingActivities: [
-    'Quỹ Big Joy Little Joy',
-    'Kêu gọi tài trợ và kêu gọi quyên góp từ cộng đồng',
-    'Bộ sưu tập Young Joy Collection (Đang trong quá trình thực hiện)',
-    'Không gian trải nghiệm Big Joy Pop-up (Dự kiến: Cuối tháng 12/2026)',
-    'Chuyến đi cuối cùng đến điểm trường (Dự kiến: Tháng 01/2027)'
-  ],
   summary: 'Cùng tạo thêm không gian vui chơi, vận động và học hỏi cho 300 em học sinh tại điểm trường thuộc Trường Tiểu học & Trung học cơ sở Hoàng Văn Thụ, xã Ea Kiết, tỉnh Đắk Lắk.',
   narrative: [
     'Sau một thời gian chuẩn bị cho mùa hoạt động mới, POET chính thức lựa chọn Điểm trường thuộc Trường Tiểu học & Trung học cơ sở Hoàng Văn Thụ, xã Ea Kiết, tỉnh Đắk Lắk làm điểm đến cho mùa POET 2026–2027.',
@@ -89,6 +81,22 @@ export const season = {
     {name:'Tổ chức hoạt động tại trường: trạm trò chơi, văn nghệ, chiếu phim', note:'Vật phẩm trò chơi, quà thưởng, rạp phim mini và lửa trại', qty:1, unit:'gói', price:5000000, color:'#fad57f'}
   ]
 };
+// Thẻ "Hành trình Mùa 6" dùng chung cho trang chủ và trang Dự án. **đậm** được render thành <strong>.
+export const campaignStory = {
+  eyebrow: 'Điểm trường Ea Kiết · Đắk Lắk',
+  intro: [
+    `Bước vào mùa hoạt động mới, **POET 2026 - 2027** chính thức chọn dừng chân tại **Điểm trường thuộc ${season.school}, xã Ea Kiết, tỉnh Đắk Lắk**.`,
+    'Nhận thấy rằng không gian để các em vui chơi, vận động, khám phá và học hỏi vẫn còn khá hạn chế, POET khởi động hoạt động gây quỹ đầu tiên mang tên **Big Joy Little Joy**. Hành trình gây quỹ của POET được xây dựng qua chuỗi hoạt động xuyên suốt (Tháng 10/2026 - Tháng 01/2027) bao gồm:'
+  ],
+  activities: [
+    'Quỹ **Big Joy Little Joy**',
+    'Kêu gọi tài trợ và kêu gọi quyên góp từ cộng đồng',
+    'Bộ sưu tập **Young Joy Collection** (Đang trong quá trình thực hiện)',
+    'Không gian trải nghiệm **Big Joy Pop-up** (Dự kiến: Cuối tháng 12/2026)',
+    'Chuyến đi cuối cùng đến điểm trường (Dự kiến: Tháng 01/2027)'
+  ]
+};
+
 // Dossier p10. Planned dates. start = ngày bắt đầu chặng, dùng để tính bé Hoa đang ở đâu (UI-011)
 export const journeyIntro = {
   eyebrow: 'Lộ trình Big Joy Little Joy',
@@ -97,10 +105,10 @@ export const journeyIntro = {
   nowLabel: 'Bé Hoa đang ở'
 };
 export const journey = [
-  { name: 'Onboard', date: '09/2026', start: '2026-09-01', note: 'Little Joy tham gia cùng POET và thống nhất cách đồng hành.' },
-  { name: 'Collect The Little Joys', date: '10–12/2026', start: '2026-10-01', note: 'Thương hiệu góp một phần doanh thu và cùng POET chia sẻ câu chuyện gây quỹ.' },
-  { name: 'Big Joy Pop Up', date: '20–22/12/2026', start: '2026-12-20', note: 'Hội chợ giao lưu và bán hàng gây quỹ. Thông tin mở bán sắp được bật mí.' },
-  { name: 'Joy, Delivered', date: season.trip, start: '2027-01-22', note: 'Chuyến đi trao những đóng góp thành điều kiện học tập và vui chơi tốt hơn cho các em.' }
+  { name: 'Onboard', date: '09/2026', start: '2026-09-01', note: 'Little Joy tham gia cùng POET, trở thành một phần của hành trình tạo nên Big Joy.' },
+  { name: 'Collect The Little Joys', date: '10–12/2026', start: '2026-10-01', note: 'Little Joy đóng góp một phần doanh thu và cùng POET lan tỏa Little Joy đến cộng đồng.' },
+  { name: 'Big Joy Pop Up', date: '20–22/12/2026', start: '2026-12-20', note: 'Little Joy mang sản phẩm đến Pop-up bán hàng, giao lưu & kết nối cùng cộng đồng.' },
+  { name: 'Joy, Delivered', date: season.trip, start: '2027-01-22', note: 'Những đóng góp nhỏ cùng nhau tạo thành Big Joy: Công viên Niềm Vui dành cho cộng đồng.' }
 ];
 export const activities = [
   {title:`POET ${season.year}`,tag:season.name,description:`Cùng xây ${season.title} cho ${season.beneficiaries} em học sinh tại Ea Kiết.`,art:'season',photo:'playground-joy',focus:'50% 42%',href:'du-an/#dang-thuc-hien',meta:season.timeframe},
@@ -338,10 +346,7 @@ export const projectWays = {
   volunteer: [
     {icon: 'megaphone', status: 'Hẹn bạn mùa sau', title: 'Tuyển quân Mùa 7',
      text: 'Đơn tuyển tình nguyện viên Mùa 6 đã đóng. Theo dõi Facebook POET để nhận thông tin tuyển quân Mùa 7 sớm nhất nha!',
-     cta: 'Theo dõi Facebook POET', href: 'social:facebook'},
-    {icon: 'users', title: 'Khám phá các phân ban',
-     text: 'Đối ngoại, Vận hành, Nhân sự, Truyền thông: mỗi ban một việc, cùng chung một tinh thần.',
-     cta: 'Xem các phân ban', href: 'dong-hanh/#tinh-nguyen-vien'}
+     cta: 'Theo dõi Facebook POET', href: 'social:facebook'}
   ]
 };
 // UI-023 (projects): "Một khoảng sân" story. Text is Demi's copy; [brackets] mark the highlighted phrase (rendered as <mark>).
@@ -419,7 +424,6 @@ export const projectDetails = {
 };
 // Partner page, individual tab (UI-008)
 export const individualWays = {
-  eyebrow: 'Hình thức quyên góp cá nhân',
   title: 'Góp một phần,<br>theo cách của bạn.',
   open: {
     icon: 'qr-code',
