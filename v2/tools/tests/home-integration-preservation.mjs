@@ -15,7 +15,7 @@ try{
  check('Activity template is Codex version without obsolete playback control',template.split('\n').find(l=>l.startsWith('function activityCarousel('))===ct.split('\n').find(l=>l.startsWith('function activityCarousel(')));
  for(const name of ['press','archive'])check(name+' template exactly matches Claude',template.split('\n').find(l=>l.startsWith('export function '+name+'('))===lt.split('\n').find(l=>l.startsWith('export function '+name+'(')));
  check('Home fundraising markup/data and initialization preserved',slice(template,'function homeFundraising(','\nfunction homeCampaign(')===slice(ct,'function homeFundraising(','\nfunction homeCampaign('));
- check('Home lowercase participation / colored icons / CTA copy preserved',slice(template,'function homeParticipation(','\nexport function home(')===slice(ct,'function homeParticipation(','\nexport function home('));
+ check('Home reuses the shared project-ways block instead of a copied participation section',template.includes('${projectWaysSection(base)}')&&!template.includes('function homeParticipation('));
  check('People / About source not separately redesigned',slice(template,'export function about(','\nfunction tabs(')===slice(ct,'export function about(','\nfunction tabs('));
  const js=read('v2/site.js'),codexJs=old(codex,'v2/site.js'),claudeJs=old(claude,'v2/site.js');
  const mergedJs=codexJs.replace(/\/\/ Native touch scrolling[\s\S]*?(?=\/\/ Reveal once)/,'').replace(slice(codexJs,'// Reveal once','const counters='),slice(claudeJs,'// Reveal once','const counters='));

@@ -1082,32 +1082,6 @@ html.reveal-motion .mission-section.will-enter.is-in .mission-card{opacity:1;tra
 .site-content .activity-copy .btn,.site-content .activity-static-cta,
 .site-content .campaign-band .btn--outline{color:var(--poet-heading)!important}
 
-/* Home only: spacing is an implementation proposal, not a reference-image measurement. */
-.join-section--home .participation-panel{padding:40px 32px}
-.join-section--home .section-heading{max-width:850px;margin:0 auto 28px}
-.join-section--home .section-heading .eyebrow{max-width:none;text-align:center;text-transform:none}
-.join-section--home .section-heading h2{font-size:clamp(29px,3.2vw,44px);line-height:1.2}
-.join-section--home .participation-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
-.join-section--home .action-card{gap:16px;min-height:0;padding:24px;transition:none}
-.join-section--home .action-icon{display:grid;place-items:center;width:44px;height:44px;flex:none;border-radius:10px;background:#513536;color:var(--coral)}
-.join-section--home .action-icon .prototype-icon{width:24px;height:24px;flex-basis:24px}
-.join-section--home .action-card:nth-child(2) .action-icon{background:#51461f;color:var(--yellow-bright)}
-.join-section--home .action-card:nth-child(3) .action-icon{background:#213b30;color:var(--poet-green)}
-.join-section--home .action-card h3{font-size:23px;line-height:1.25;text-wrap:pretty;color:#fffaf2}
-.join-section--home .action-card :is(p,ul){margin:0 0 8px;padding:0;color:#e5dfd4;font-size:15px;line-height:1.65}
-.join-section--home .action-card ul{padding-left:19px}
-.join-section--home .action-card li+li{margin-top:8px}
-.join-section--home .action-cta{min-height:52px;gap:8px;line-height:1.45;text-decoration:none;color:var(--poet-heading);background:var(--poet-white);flex-shrink:0;margin-top:auto}
-.join-section--home .action-card:nth-child(2) .action-cta{background:var(--yellow-bright)}
-.join-section--home .action-card:nth-child(3) .action-cta{background:var(--poet-green-dark);color:#fff}
-.join-section--home .action-cta>span:last-child{flex:none}
-.join-section--home .action-card:hover{transform:none;background:#34322f}
-.join-section--home .action-cta:focus-visible{outline-color:var(--yellow-bright)}
-@media(hover:hover) and (pointer:fine){.join-section--home .action-cta:hover{text-decoration:underline}}
-@media(max-width:900px){.join-section--home .participation-panel{padding:32px 24px}.join-section--home .participation-grid{grid-template-columns:1fr;gap:16px}.join-section--home .action-card{padding:24px}.join-section--home .action-cta{align-self:flex-start}}
-@media(max-width:600px){.join-section--home .participation-panel{padding:28px 18px}.join-section--home .action-card{padding:20px}.join-section--home .action-cta{align-self:stretch}.join-section--home .section-heading{margin-bottom:24px}}
-@media(max-width:359px){.join-section--home .participation-panel{padding-inline:14px}.join-section--home .action-card{padding:18px}.join-section--home .action-card h3{font-size:22px}}
-
 /* HOME-005: existing Home hooks keep About typography and controls independent. */
 .activities-section .activity-text-line{display:block}
 .activities-section[data-caption-pending] .activity-slide.is-active .activity-copy>:not(.btn){visibility:hidden}
@@ -1120,7 +1094,6 @@ html.reveal-motion .mission-section.will-enter.is-in .mission-card{opacity:1;tra
 .activities-section .activity-copy .btn,
 .campaign-band--prototype .fund-actions .btn,
 .activities-section .activity-static-cta,
-.join-section--home .action-cta,
 poet-nav.site-home-nav .site-nav-inner>.btn{border-radius:14px}
 
 /* Footer groups retain the original contact data and destinations. */
