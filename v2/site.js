@@ -354,8 +354,8 @@ if(wall){
   // Shared with the composer preview: {name,place,message,paper,glyph,amount,paidAt}.
   function noteCard(n){
     const card=el('article','message-card');card.style.setProperty('--paper',`var(--paper-${n.paper})`);
-    const who=el('div','message-who'),glyph=el('span','message-glyph'),icon=el('span','prototype-icon'),names=el('div');
-    icon.style.setProperty('--icon',`url('${iconBase}${n.glyph}.svg')`);icon.setAttribute('aria-hidden','true');glyph.append(icon);
+    const who=el('div','message-who'),glyph=el('span','message-glyph'),icon=el('img'),names=el('div');
+    icon.src=`${iconBase}${glyphs.includes(n.glyph)?n.glyph:glyphs[0]}.webp`;icon.alt='';icon.width=icon.height=30;glyph.append(icon);
     names.append(el('strong','',n.name));if(n.place)names.append(el('small','',n.place));who.append(glyph,names);
     const foot=el('div','message-foot');foot.append(el('span','',n.when));if(n.amount)foot.append(el('span','message-amount','+'+money(n.amount)));
     card.append(who,el('p','message-text',`“${n.message}”`),foot);return card;

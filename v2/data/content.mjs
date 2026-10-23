@@ -452,7 +452,8 @@ export const messageWall = {
   soonLink: 'Tới mục ủng hộ',
   // Order matters: saved notes pick a paper and icon by hash index.
   papers: [['yellow','Giấy vàng'],['mint','Giấy xanh bạc hà'],['peach','Giấy cam đào'],['blue','Giấy xanh dương'],['pink','Giấy hồng']],
-  glyphs: [['heart','Trái tim'],['star','Ngôi sao'],['flower','Bông hoa'],['sun','Mặt trời'],['leaf','Chiếc lá'],['book-open','Quyển sách']]
+  // Hand-drawn Công viên Niềm vui icons, assets/icons/hand-drawn/<id>.webp
+  glyphs: [['xe-rua','Xe rùa'],['cap-sach','Cặp sách'],['cau-tuot','Cầu tuột'],['dep-lao','Dép lào']]
 };
 // Free-form wall notes have no backend yet (UI-009); false removes the composer from the page.
 export const WALL_COMPOSER_ENABLED = true;
