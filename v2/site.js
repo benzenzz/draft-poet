@@ -239,7 +239,7 @@ document.querySelectorAll('.project-story').forEach(sec=>{
     const mid=innerHeight/2;let best=0,bestD=Infinity;
     lines.forEach((l,i)=>{
       const r=l.getBoundingClientRect(),d=Math.abs(r.top+r.height/2-mid);
-      const op=reduced?(d<innerHeight*.3?1:.15):Math.min(1,Math.max(.15,1.15-d/(innerHeight*.42)));
+      const t=Math.min(1,Math.max(0,(d/innerHeight-.06)/.44)),op=reduced?(d<innerHeight*.3?1:.15):1-.85*t*t*(3-2*t);
       l.style.opacity=op.toFixed(3);
       if(d<bestD){bestD=d;best=i;}
     });
