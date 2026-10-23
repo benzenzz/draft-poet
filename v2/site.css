@@ -1790,7 +1790,7 @@ html.reveal-motion .mission-section.will-enter.is-in .mission-card{opacity:1;tra
 .pd-stat.is-green b{color:#2f7d5e}
 .pd-stat.is-blue b{color:#3c7d97}
 .pd-quote{position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);margin:clamp(56px,7vw,104px) var(--site-gutter) 0;background:#fdf0cf;border-radius:32px 80px 32px 32px;overflow:clip}
-.pd-quote-photo{min-height:340px}
+.pd-quote-photo{position:relative;min-height:340px}
 .pd-quote-fig{position:absolute;inset:0;margin:0}
 .pd-quote-fig img{width:100%;height:100%;object-fit:cover;object-position:50% 30%}
 .pd-quote blockquote{margin:0;padding:clamp(28px,4vw,56px)}
