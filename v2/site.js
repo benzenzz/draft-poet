@@ -257,10 +257,18 @@ document.querySelectorAll('.project-story').forEach(sec=>{
 });
 
 // UI-024: the page hero photo follows the chosen status tab (one photo for now; each tab carries data-hero-<panel id>).
-document.querySelectorAll('.hero-tabs [role=tab]').forEach(tab=>tab.addEventListener('click',()=>{
-  const img=tab.closest('.story-open').querySelector('img'),src=img.getAttribute('data-hero-'+tab.getAttribute('aria-controls'));
-  if(src&&img.getAttribute("src")!==src)img.src=src;
-}));
+// The hero copy follows it too: each .story-open-text carries data-hero-for=<panel id>.
+document.querySelectorAll('.hero-tabs').forEach(list=>{
+  const hero=list.closest('.story-open'),img=hero.querySelector('img');
+  const sync=()=>{
+    const tab=list.querySelector('[role=tab][aria-selected=true]');if(!tab)return;
+    const id=tab.getAttribute('aria-controls'),src=img.getAttribute('data-hero-'+id);
+    if(src&&img.getAttribute('src')!==src)img.src=src;
+    hero.querySelectorAll('[data-hero-for]').forEach(t=>{t.hidden=t.dataset.heroFor!==id;});
+  };
+  new MutationObserver(sync).observe(list,{subtree:true,attributes:true,attributeFilter:['aria-selected']});
+  sync();
+});
 // UI-015: video rail on mobile steps one card at a time. Buttons refresh when the tab shows, since hidden panels measure as zero.
 document.querySelectorAll('.volunteer-videos').forEach(wrap=>{
   const rail=wrap.querySelector('[data-v-rail]'),prev=wrap.querySelector('[data-v-prev]'),next=wrap.querySelector('[data-v-next]');
