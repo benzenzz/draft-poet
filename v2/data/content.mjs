@@ -50,7 +50,7 @@ export const season = {
     ]
   },
   prepStart: '2026-08-21', tripStart: '2027-01-22', tripEnd: '2027-01-24',
-  headline: 'Trao nụ cười, dựng sân chơi',
+  headline: 'Trao nụ cười, dựng sân\u00a0chơi',
   fundraisingIntro: 'Nhận thấy không gian để các em vui chơi, vận động, khám phá và học hỏi vẫn còn khá hạn chế, POET chính thức bắt đầu hoạt động gây quỹ đầu tiên mang tên Big Joy Little Joy. Hành trình gây quỹ của POET được xây dựng qua chuỗi hoạt động xuyên suốt (Tháng 10/2026 – Tháng 01/2027) bao gồm:',
   fundraisingActivities: [
     'Quỹ Big Joy Little Joy',

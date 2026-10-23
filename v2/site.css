@@ -1968,3 +1968,13 @@ poet-nav.site-home-nav .site-nav-inner>.btn{border-radius:14px}
 .site-nav .site-dropdown>button:hover{background:#fff5d1}
 .site-dropdown>button:focus-visible{outline:3px solid var(--poet-ink);outline-offset:3px}
 @media(max-width:900px){.site-nav .site-dropdown>button{justify-content:flex-start;gap:10px;font-size:18px}.site-nav .site-partner-mascot{width:31px;height:34px}}
+
+/* Feedback 8: every schedule milestone uses the plain style; no single-word last lines; heading-left/brief-right heads align the brief to the right. */
+.plan-timeline li.is-key::before,.plan-timeline li.is-night::before{background:var(--poet-white);border-color:var(--yellow-ink)}
+.plan-timeline li.is-key>span:not(.plan-night){display:inline;background:none;border-radius:0;padding:0;font-weight:400;color:var(--poet-ink)}
+.plan-timeline li>.plan-night{display:inline;margin:0;padding:0;border-radius:0;background:none;color:var(--poet-ink);font-size:15px;line-height:1.55;font-weight:400}
+.plan-timeline li>.plan-night .prototype-icon{display:none}
+.site-content{text-wrap:pretty}
+@media(min-width:901px){
+ .plan-head>p,.tier-head .lead{justify-self:end;text-align:right}
+}
