@@ -222,6 +222,40 @@ document.querySelectorAll('.budget-sec').forEach(sec=>{
   });
 });
 
+// UI-023: "Một khoảng sân" story. Without this script every line and photo is visible; this only adds the reveal, the distance fade and the photo crossfade.
+document.querySelectorAll('.project-story').forEach(sec=>{
+  sec.classList.add('is-enhanced');
+  const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const once=(el,cls,threshold)=>{const io=new IntersectionObserver(es=>{if(es.some(e=>e.isIntersecting)){el.classList.add(cls);io.disconnect();}},{threshold});io.observe(el);};
+  once(sec.querySelector('.story-open'),'is-in',.3);
+  sec.querySelectorAll('.story-step').forEach(st=>once(st,'is-shown',.2));
+
+  const desk=matchMedia('(min-width:901px)');
+  const lines=[...sec.querySelectorAll('.story-line')],frames=[...sec.querySelectorAll('.story-frame')];
+  let cur=0,raf=0;
+  const update=()=>{
+    raf=0;
+    if(!desk.matches){lines.forEach(l=>{l.style.opacity='';});return;}
+    const mid=innerHeight/2;let best=0,bestD=Infinity;
+    lines.forEach((l,i)=>{
+      const r=l.getBoundingClientRect(),d=Math.abs(r.top+r.height/2-mid);
+      const op=reduced?(d<innerHeight*.3?1:.15):Math.min(1,Math.max(.15,1.15-d/(innerHeight*.42)));
+      l.style.opacity=op.toFixed(3);
+      if(d<bestD){bestD=d;best=i;}
+    });
+    if(best!==cur){
+      const prev=cur;cur=best;
+      frames.forEach(f=>f.classList.remove('is-on','is-prev'));
+      frames[prev].classList.add('is-prev');
+      frames[cur].classList.add('is-on');
+    }
+  };
+  const schedule=()=>{if(!raf)raf=requestAnimationFrame(update);};
+  addEventListener('scroll',schedule,{passive:true});
+  addEventListener('resize',schedule);
+  update();
+});
+
 // UI-015: video rail on mobile steps one card at a time. Buttons refresh when the tab shows, since hidden panels measure as zero.
 document.querySelectorAll('.volunteer-videos').forEach(wrap=>{
   const rail=wrap.querySelector('[data-v-rail]'),prev=wrap.querySelector('[data-v-prev]'),next=wrap.querySelector('[data-v-next]');

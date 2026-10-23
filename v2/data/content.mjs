@@ -344,6 +344,22 @@ export const projectWays = {
      cta: 'Xem các phân ban', href: 'dong-hanh/#tinh-nguyen-vien'}
   ]
 };
+// UI-023 (projects): "Một khoảng sân" story. Text is Demi's copy; [brackets] mark the highlighted phrase (rendered as <mark>).
+export const projectStory = {
+  title: ['Một khoảng sân.', 'Để niềm vui có chỗ lớn lên.'],
+  place: `${season.school} · ${season.location}`,
+  hero: {id: 'tro-choi-san-truong', alt: 'Các em học sinh chơi cùng nhau trên sân trường.'},
+  steps: [
+    {photo: 'lop-hoc', alt: 'Một phòng học của điểm trường.', crop: 'c1',
+     text: 'Ở điểm trường Ea Kiết, ngoài cửa lớp…'},
+    {photo: 'tro-choi-san-truong', alt: 'Các em chơi trên khoảng sân rải đá.', crop: 'c2', hl: 'coral',
+     text: '…khoảng sân vẫn [lầy trơn mỗi mùa mưa], những thiết bị vui chơi đã hư hỏng.'},
+    {photo: 'cau-truot-mua-6', alt: 'Các em nhỏ cười trong ống chui của cầu trượt.', crop: 'c3', hl: 'yellow', long: true,
+     text: 'POET muốn góp tiếp một phần nhỏ vào câu chuyện ấy: [một khoảng sân an toàn hơn], để sau tiếng trống tan tiết, các em được chạy nhảy, được chơi cùng bạn.'},
+    {photo: 'tro-choi-san-truong', alt: 'Một em nhỏ cười e thẹn giữa giờ chơi cùng bạn.', crop: 'c4', hl: 'mint', long: true,
+     text: 'Bởi có những điều lớn lên trong giờ học và cũng có những điều [lớn lên khi một đứa trẻ được vui chơi].'}
+  ]
+};
 // Partner page, individual tab (UI-008)
 export const individualWays = {
   eyebrow: 'Hình thức quyên góp cá nhân',
