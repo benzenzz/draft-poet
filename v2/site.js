@@ -343,6 +343,10 @@ if(wall){
   const phone=matchMedia('(max-width:640px)');
   const cache={},fold=s=>s.normalize('NFD').replace(/\p{M}/gu,'').replace(/đ/gi,'d').toLowerCase();
   let sort='new',query='',page=1,loaded=false,list=[];
+  // Test mode until TODO(UI-009-backend): notes written in the composer stay in this browser only.
+  const LOCAL_KEY='poet-wall-test-notes';
+  const readLocal=()=>{try{const v=JSON.parse(localStorage.getItem(LOCAL_KEY)||'[]');return Array.isArray(v)?v.map(n=>({...n,local:true})):[];}catch{return [];}};
+  const writeLocal=notes=>{try{localStorage.setItem(LOCAL_KEY,JSON.stringify(notes.slice(0,50)));}catch{}};
   const hash=s=>{let h=2166136261;for(const c of s)h=Math.imul(h^c.codePointAt(0),16777619);return h>>>0;};
   const ago=iso=>{const t=Date.parse(iso);if(!Number.isFinite(t))return '';const h=(Date.now()-t)/36e5;if(h<1)return 'Vừa xong';if(h<24)return `${Math.floor(h)} giờ trước`;if(h<24*7)return `${Math.floor(h/24)} ngày trước`;if(h<24*35)return `${Math.floor(h/168)} tuần trước`;return new Date(t).toLocaleDateString('vi-VN',{day:'2-digit',month:'2-digit',year:'numeric'});};
   const nameOf=d=>d.displayName&&d.displayName!=='Ẩn danh'?d.displayName:'Một nhà hảo tâm';
@@ -366,10 +370,10 @@ if(wall){
   // Centre the outside arrows on the notes (desktop) or on the page-number row (phone).
   function placeArrows(){const target=phone.matches?pagesNav:wall,b=board.getBoundingClientRect(),r=target.getBoundingClientRect();board.style.setProperty('--wall-nav-y',`${r.top-b.top+r.height/2}px`);}
   function render(){
-    const per=phone.matches?3:6,q=fold(query.trim()),shown=q?list.filter(d=>fold(nameOf(d)).includes(q)):list,total=Math.max(1,Math.ceil(shown.length/per));
+    const per=phone.matches?3:6,q=fold(query.trim()),shown=q?list.filter(d=>fold(d.local?d.name:nameOf(d)).includes(q)):list,total=Math.max(1,Math.ceil(shown.length/per));
     page=Math.min(page,total);
     if(!list.length)state(wall.dataset.empty);else if(!shown.length)state(wall.dataset.noMatch);
-    else wall.replaceChildren(...shown.slice((page-1)*per,page*per).map(d=>noteCard(fromDonation(d))));
+    else wall.replaceChildren(...shown.slice((page-1)*per,page*per).map(d=>noteCard(d.local?{...d,when:ago(d.paidAt)}:fromDonation(d))));
     range.textContent=shown.length?`${(page-1)*per+1}–${Math.min(page*per,shown.length)} / ${shown.length} lời nhắn`:'';
     pagesNav.replaceChildren(...(shown.length>per?pageList(total,page):[]).map(n=>{if(n==='…')return el('span','wall-gap','…');const b=el('button');b.type='button';b.textContent=n;b.setAttribute('aria-label',`Trang ${n}`);if(n===page)b.setAttribute('aria-current','page');b.addEventListener('click',()=>go(n));return b;}));
     prev.hidden=next.hidden=shown.length<=per;prev.disabled=page<=1;next.disabled=page>=total;placeArrows();
@@ -377,8 +381,8 @@ if(wall){
   function go(n){page=n;render();if(board.getBoundingClientRect().top<0)board.scrollIntoView({block:'start',behavior:reduced.matches?'auto':'smooth'});}
   async function load(){
     retry.hidden=true;
-    if(!cache[sort]){state('Đang tải lời nhắn…');try{const response=await fetch(`${window.POETCheckout.API_BASE}/api/donations?sort=${sort}`,{signal:AbortSignal.timeout(10000)});if(!response.ok)throw new Error();const data=await response.json();cache[sort]=(Array.isArray(data.donations)?data.donations:[]).filter(d=>Number.isFinite(Number(d.amount))&&Number(d.amount)>0);if(Number.isFinite(Number(data.totalCount))){count.textContent=`${new Intl.NumberFormat('vi-VN').format(Number(data.totalCount))} lời nhắn`;count.hidden=false;}}catch{state(wall.dataset.error);retry.hidden=false;return;}}
-    loaded=true;list=cache[sort];render();
+    if(!cache[sort]){state('Đang tải lời nhắn…');try{const response=await fetch(`${window.POETCheckout.API_BASE}/api/donations?sort=${sort}`,{signal:AbortSignal.timeout(10000)});if(!response.ok)throw new Error();const data=await response.json();cache[sort]=(Array.isArray(data.donations)?data.donations:[]).filter(d=>Number.isFinite(Number(d.amount))&&Number(d.amount)>0);if(Number.isFinite(Number(data.totalCount))){count.textContent=`${new Intl.NumberFormat('vi-VN').format(Number(data.totalCount))} lời nhắn`;count.hidden=false;}}catch{const mine=readLocal();if(mine.length){loaded=true;list=mine;render();retry.hidden=false;return;}state(wall.dataset.error);retry.hidden=false;return;}}
+    loaded=true;list=[...readLocal(),...cache[sort]];render();
   }
   prev.addEventListener('click',()=>go(page-1));next.addEventListener('click',()=>go(page+1));retry.addEventListener('click',load);
   sortButtons.forEach(b=>b.addEventListener('click',()=>{if(b.dataset.wallSort===sort)return;sort=b.dataset.wallSort;page=1;sortButtons.forEach(x=>x.setAttribute('aria-pressed',x===b));load();}));
@@ -400,7 +404,14 @@ if(wall){
     form.addEventListener('submit',async e=>{e.preventDefault();status.replaceChildren();
       if(!message.value.trim()){error.textContent='Bạn viết vài dòng lời nhắn trước khi dán lên tường nhé.';message.setAttribute('aria-invalid','true');message.focus();return;}
       const result=await submitWallNote({name:form.elements.name.value.trim(),place:form.elements.place.value.trim(),message:message.value.trim(),paper:pick.paper,glyph:pick.glyph});
-      if(!result.ok)status.append(soon.content.cloneNode(true));});
+      if(result.ok)return;
+      // No backend yet: pin the note on this browser's wall so the flow can be tried end to end.
+      const note={name:form.elements.name.value.trim()||'Một nhà hảo tâm',place:form.elements.place.value.trim(),message:message.value.trim(),paper:pick.paper,glyph:pick.glyph,paidAt:new Date().toISOString()};
+      writeLocal([note,...readLocal()]);
+      list=[...readLocal(),...(cache[sort]||[])];loaded=true;query='';search.value='';page=1;render();
+      form.elements.name.value='';form.elements.place.value='';message.value='';sync();
+      status.append(el('p','wall-sent','Đã dán lên tường! Bản thử: lời nhắn chỉ hiện trên trình duyệt này, chưa gửi tới POET.'));
+      board.scrollIntoView({block:'start',behavior:reduced.matches?'auto':'smooth'});});
     sync();
   }
 }

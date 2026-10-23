@@ -2033,3 +2033,4 @@ poet-nav.site-home-nav .site-nav-inner>.btn{border-radius:14px}
  .partner-hero .site-tabs--partner{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin-top:0;padding-top:24px}
  .partner-hero .site-tabs--partner button{flex-direction:column;justify-content:center;gap:6px;min-height:84px;padding:10px 4px;font-size:13px;line-height:1.25;text-align:center;white-space:normal}
 }
+.site-content .wall-status .wall-sent{margin:0}
