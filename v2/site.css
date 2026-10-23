@@ -1673,3 +1673,10 @@ html.reveal-motion .mission-section.will-enter.is-in .mission-card{opacity:1;tra
  .pw-card.is-feature{border-radius:24px 56px 24px 24px;padding:26px 22px}
 }
 @media(prefers-reduced-motion:reduce){.pw-status i,.pw-btn,.pw-donate{animation:none;transition:none}}
+/* plan schedule: yellow instead of green for badges, rail, dots and times; key items sit on a yellow tint */
+.plan-day h4 b{background:#f7bc3c;color:var(--poet-heading)}
+.plan-timeline::before{background:#f7bc3c}
+.plan-timeline li::before{background:#fffefa;border-color:#c98a00}
+.plan-timeline li.is-key::before{background:#f7bc3c;border-color:#c98a00}
+.plan-timeline time{color:#8a5a00}
+.plan-timeline li.is-key>span:not(.plan-night){display:inline-block;background:#fdf0cf;border-radius:8px;padding:4px 10px}
