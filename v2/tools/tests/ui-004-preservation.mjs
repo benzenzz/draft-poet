@@ -27,7 +27,7 @@ try{
  }
  const css=read('v2/site.css'),oldCss=old('v2/site.css');
  const geometry=oldCss.split('\n').filter(line=>/^\.(archive-grid|story-card|story-copy|media-card|media-rail)/.test(line));check('Existing archive/media CSS declarations untouched',geometry.every(line=>css.includes(line)));
- const routes=['v2/team/index.html','v2/du-an/index.html','v2/dong-hanh/index.html','v2/tinh-nguyen-vien/index.html','v2/du-an/vet-nut/index.html','v2/du-an/go-ngai/index.html','v2/team/phan-ban/index.html'];
+ const routes=['v2/team/index.html','v2/du-an/index.html','v2/dong-hanh/index.html','v2/tinh-nguyen-vien/index.html','v2/du-an/vet-nut/index.html','v2/du-an/go-ngai/index.html','v2/blog/bo-may-poet/index.html','v2/blog/poet-vnv/index.html'];
  check('Seven other generated routes only refresh editorial cache revisions',routes.every(f=>read(f).replace(/ui-004-\d+/g,'ui-002-1')===old(f)));
  const financeFiles=git('ls-tree','-r','--name-only',base,'--','worker','ung-ho','admin','.github','wrangler.toml','netlify.toml','vercel.json').split('\n').filter(Boolean);check('All '+financeFiles.length+' payment / Worker / admin / deployment files unchanged',financeFiles.every(f=>read(f)===old(f)));
  const site=read('v2/site.js').replace("import {initLocalFundraisingPreview} from './fundraising-preview.mjs';\n",'').replace('initLocalFundraisingPreview();\n','');check('site.js only adds isolated local fixture initialization',site===old('v2/site.js'));

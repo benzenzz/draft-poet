@@ -189,38 +189,6 @@ export const recruitment = {
     }
   }
 };
-// Câu nói, nickname, keywords lấy nguyên văn từ poster giới thiệu trưởng ban Mùa 6.
-// Họ tên đầy đủ + chức danh theo prototype. Thứ tự hiển thị: ban điều hành trước, rồi bốn ban.
-export const executives = [
-  {id:'hoai-phuong', name:'Đỗ Hoài Phương', role:'Chủ nhiệm', photo:'team/hoai-phuong', focus:'48% 30%',
-   quote:'Biết đâu trong những lần chơi hết mình chẳng cần lý do, ta lại nhận ra rằng niềm vui đơn thuần vốn chẳng đòi hỏi quá nhiều điều.',
-   meta:'Nickname: chill · lớp <3, chơi tới, làm tới'},
-  {id:'truc-linh', name:'Trương Hoàng Trúc Linh', role:'Phó chủ nhiệm', photo:'team/truc-linh', focus:'53% 25%',
-   quote:'Đây sẽ là một cuộc hành trình tràn đầy niềm vui!',
-   meta:'Nickname: cá mèo, hoàng linh · #manifest'}
-];
-export const departments = [
-  {id:'er', code:'ER', name:'Ban Đối ngoại', short:'Đối ngoại', tone:'coral',
-   description:'Làm việc cùng doanh nghiệp Little Joy, kết nối brand, nhà tài trợ và KOL/KOC.',
-   lead:{name:'Lê Phương Minh', short:'Phương Minh', photo:'team/phuong-minh', face:'team/phuong-minh-face', focus:'47% 30%',
-     quote:'Có duyên đi khách, có vía chốt deal. ER có mối, chỉ thiếu mỗi bạn.',
-     meta:'Nickname: emily · Song Ngư tháng 2', keywords:['chốt deal']}},
-  {id:'op', code:'OP', name:'Ban Vận hành', short:'Vận hành', tone:'yellow',
-   description:'Lên ý tưởng, xây dựng kế hoạch vận hành và triển khai các hoạt động. Theo dõi tiến độ, chuẩn bị hậu cần, quản lý các nguồn lực và chủ động xử lý những vấn đề phát sinh.',
-   lead:{name:'Vũ Hồng Khánh Thy', short:'Khánh Thy', photo:'team/khanh-thy', face:'team/khanh-thy-face', focus:'30% 35%',
-     quote:'Vào với tụi tui nếu bạn muốn: vui tới bến, năng suất tới nóc, đụng là làm và làm cùng nhau.',
-     meta:'Nickname: 00 có · Xử Nữ tháng 9', keywords:['ngứa tay','SUNG!','nói 1 làm 10']}},
-  {id:'hr', code:'HR', name:'Ban Nhân sự', short:'Nhân sự', tone:'blue',
-   description:'Chăm sóc sức khoẻ tinh thần, thể chất. Quản lí thu chi. Phối hợp cùng các ban khác cho các hoạt động gây quỹ và thiện nguyện.',
-   lead:{name:'Nguyễn Thanh Uyên', short:'Thanh Uyên', photo:'team/thanh-uyen', face:'team/thanh-uyen-face', focus:'55% 0%',
-     quote:'Hok sợ task khó, chỉ sợ phải "vượt task" một mình.',
-     meta:'Nickname: Íp pồ, Harry, Quĩn · Thiên Bình tháng 9', keywords:['anh em support','quan trọng là mình vui']}},
-  {id:'media', code:'MEDIA', name:'Ban Truyền thông', short:'Truyền thông', tone:'green',
-   description:'Xây dựng và truyền tải thống nhất hình ảnh, câu chuyện dự án POET đến cộng đồng, đối tác và các đơn vị truyền thông. Luôn đồng hành và hỗ trợ toàn diện các chương trình gây quỹ, hoạt động tại điểm trường cùng các hoạt động nội bộ.',
-   lead:{name:'Nguyễn Lê Quỳnh Như', short:'Quỳnh Như', photo:'team/quynh-nhu', face:'team/quynh-nhu-face', focus:'66% 30%',
-     quote:'Vào với tụi tui nếu bạn có TẤT: tất tay, tất bật, tất tần tật.',
-     meta:'Nickname: Ngọc Quỳnh · Thiên Bình tháng 10', keywords:['Creat-i-t','Cùn nhau','VUI']}}
-];
 // Approved previews: POET WEBSITE_ĐẶC BIỆT ĐỌC KĨ.md, image 34.
 // The 42.2m fundraising total belongs to Mùa 5, not to the concert alone.
 export const highlights = [

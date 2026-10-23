@@ -194,12 +194,6 @@ document.querySelectorAll('.tier-section').forEach(section=>{
   }));
 });
 
-// UI-016: department panel fades up when it is chosen. Tab switching itself is the shared tablist code above.
-document.querySelectorAll('.dept-panel').forEach(panel=>new MutationObserver(()=>{
-  if(panel.hidden||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
-  panel.classList.remove('is-entering');void panel.offsetWidth;panel.classList.add('is-entering');
-}).observe(panel,{attributes:true,attributeFilter:['hidden']}));
-
 // UI-018: countdown on the campaign card. The build renders the same state; this recalculates it in Vietnam time on load.
 document.querySelectorAll('[data-campaign-timeline]').forEach(el=>{
   const start=Date.parse(el.dataset.prep+'T00:00:00+07:00'),trip=Date.parse(el.dataset.trip+'T00:00:00+07:00'),end=Date.parse(el.dataset.end+'T23:59:59+07:00');
