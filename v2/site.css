@@ -993,7 +993,7 @@ html.reveal-motion .reach.is-drawing .reach-bar{transition:transform 1100ms cubi
 /* Brand tint plus a soft dark band behind the label keeps the white title readable on any photo. */
 .mission-cover::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgb(0 0 0 / 55%),rgb(0 0 0 / 30%) 45%,rgb(0 0 0 / 8%) 80%),color-mix(in srgb,var(--tone) 35%,transparent)}
 .mission-cover-label{position:absolute;z-index:1;left:24px;top:50%;display:flex;flex-direction:column;gap:4px;color:#fff;transform:translateY(-50%) scale(.72);transform-origin:left center}
-.mission-cover-label span{font-size:13px;font-weight:var(--font-weight-bold);opacity:.9}
+.mission-cover-label span{font-size:clamp(34px,4vw,52px);line-height:1;letter-spacing:-.03em;font-weight:var(--font-weight-bold);opacity:.95}
 .mission-cover-label b{font-size:clamp(24px,3vw,34px);line-height:1.1;white-space:nowrap}
 /* Closed state only once site.js marks the stack interactive; without JS every card stays open and readable. */
 @media(min-width:761px){
