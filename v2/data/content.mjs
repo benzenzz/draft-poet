@@ -104,9 +104,9 @@ export const journey = [
 ];
 export const activities = [
   {title:`POET ${season.year}`,tag:season.name,description:`Cùng xây ${season.title} cho ${season.beneficiaries} em học sinh tại Ea Kiết.`,art:'season',photo:'playground-joy',focus:'50% 42%',href:'du-an/#dang-thuc-hien',meta:season.timeframe},
-  {title:'Big Joy Little Joy',tag:'Thương hiệu đồng hành',description:'Những đóng góp nhỏ, từ công việc mỗi ngày, cùng tạo nên niềm vui lớn.',art:'bjl-j',photo:'bicycle-joy',focus:'50% 58%',href:'dong-hanh/#doanh-nghiep',meta:'10 cột mốc đồng hành'},
+  {title:'Big Joy Little Joy',tag:'Thương hiệu đồng hành',description:'Những đóng góp nhỏ, từ công việc mỗi ngày, cùng tạo nên niềm vui lớn.',art:'bjl-j',photo:'big-joy-little-joy',focus:'50% 55%',href:'dong-hanh/#doanh-nghiep',meta:'10 cột mốc đồng hành'},
   {title:'Young Joy Collection',tag:'Sắp được bật mí',description:'Bộ sưu tập merchandise gây quỹ cùng POET. Sản phẩm và thông tin mở bán sẽ được công bố sau.',art:'collection',photo:'community-day',focus:'50% 50%',href:'dong-hanh/#collection',meta:'Chưa mở bán'},
-  {title:'Big Joy Pop-up',tag:'Sắp được bật mí',description:'Không gian trải nghiệm và hội chợ cộng đồng kết nối các Little Joy, dự kiến vào cuối tháng 12.',art:'popup',photo:'poet-volunteers',focus:'50% 45%',href:'dong-hanh/#pop-up',meta:'Chưa mở bán vé'}
+  {title:'Big Joy Pop-up',tag:'Sắp được bật mí',description:'Không gian trải nghiệm và hội chợ cộng đồng kết nối các Little Joy, dự kiến vào cuối tháng 12.',art:'popup',photo:'big-joy-pop-up',focus:'50% 45%',href:'dong-hanh/#pop-up',meta:'Chưa mở bán vé'}
 ];
 // One project collection powers Home, the completed-project tab and detail routes.
 // Volunteer tab notice (UI-014). open=false: Mùa 6 đã đóng đơn, mời theo dõi Facebook.
@@ -348,15 +348,16 @@ export const projectWays = {
 export const projectStory = {
   title: ['Một khoảng sân.', 'Để niềm vui có chỗ lớn lên.'],
   place: `${season.school} · ${season.location}`,
-  hero: {id: 'tro-choi-san-truong', alt: 'Các em học sinh chơi cùng nhau trên sân trường.'},
+  hero: {id: 'du-an-hero', alt: 'Các em học sinh cười đùa cùng nhau trên sân trường.'},
+  heroDone: {id: 'du-an-da-hoan-thanh'},
   steps: [
-    {photo: 'lop-hoc', alt: 'Một phòng học của điểm trường.', crop: 'c1',
+    {photo: 'story-ngoai-cua-lop', alt: 'Cặp sách và áo các em để ngoài cửa lớp của điểm trường.', crop: 'c0',
      text: 'Ở điểm trường Ea Kiết, ngoài cửa lớp…'},
-    {photo: 'tro-choi-san-truong', alt: 'Các em chơi trên khoảng sân rải đá.', crop: 'c2', hl: 'coral',
+    {photo: 'story-thiet-bi-hu', alt: 'Bộ thiết bị vui chơi cũ trên khoảng sân đất của điểm trường.', crop: 'c0', hl: 'coral',
      text: '…khoảng sân vẫn [lầy trơn mỗi mùa mưa], những thiết bị vui chơi đã hư hỏng.'},
     {photo: 'cau-truot-mua-6', alt: 'Các em nhỏ cười trong ống chui của cầu trượt.', crop: 'c3', hl: 'yellow', long: true,
      text: 'POET muốn góp tiếp một phần nhỏ vào câu chuyện ấy: [một khoảng sân an toàn hơn], để sau tiếng trống tan tiết, các em được chạy nhảy, được chơi cùng bạn.'},
-    {photo: 'tro-choi-san-truong', alt: 'Một em nhỏ cười e thẹn giữa giờ chơi cùng bạn.', crop: 'c4', hl: 'mint', long: true,
+    {photo: 'story-lon-len', alt: 'Hai em nhỏ chơi cùng nhau giữa giờ ra chơi.', crop: 'c0', hl: 'mint', long: true,
      text: 'Bởi có những điều lớn lên trong giờ học và cũng có những điều [lớn lên khi một đứa trẻ được vui chơi].'}
   ]
 };
@@ -364,7 +365,7 @@ export const projectStory = {
 export const projectDetails = {
   'vet-nut': {
     meta: {place: 'TP. Hồ Chí Minh', date: '16.07.2022'},
-    hero: {photo: 'story-vet-nut', pos: '50% 40%'},
+    hero: {photo: 'vn-hero', pos: '50% 40%'},
     lead: 'Với sự tham gia của 120 khán giả và 5 nhà tài trợ, chương trình đã thành công lan tỏa thông điệp tích cực về sức khỏe tinh thần đến cộng đồng, đêm nhạc cũng đã tạo nên một sân chơi để các nghệ sĩ trẻ thể hiện đam mê âm nhạc của mình. Ý nghĩa hơn cả, đây còn là hoạt động gây quỹ cho Dự án cải thiện chất lượng học tập tại Trường tiểu học Mỹ Thạnh Bắc (Đức Huệ, Long An).',
     stats: [
       {value: '120', label: 'khán giả', tone: 'coral'},
@@ -373,18 +374,18 @@ export const projectDetails = {
       {value: '30tr+', label: 'từ nhà hảo tâm', tone: 'blue'}
     ],
     quote: {
-      photo: '3348058642180157',
+      photo: 'vn-quote',
       text: '…dùng âm nhạc để chạm tới đứa trẻ bên trong của mỗi người, đặc biệt là những bạn trẻ ở độ tuổi vừa trưởng thành với nhiều tâm sự khó giãi bày.',
       name: 'Lê Phương Minh',
       role: 'Trưởng Ban tổ chức đêm nhạc, giải thích cho chủ đề “Vết Nứt”'
     },
     steps: [
-      {when: '2 tháng chuẩn bị', photo: '3348057892180232',
+      {when: '2 tháng chuẩn bị', photo: 'vn-khan-gia',
        text: '“Vết Nứt” là đêm nhạc gây quỹ diễn ra trong khuôn khổ của POET 2022. Sau 2 tháng dày công chuẩn bị, từ khâu liên hệ nhà tài trợ tới thuê địa điểm và lên bài truyền thông, “Vết Nứt” đã thành công diễn ra vào ngày 16/07/2022.'},
-      {when: 'Trên sân khấu', photo: '3348058328846855',
+      {when: 'Trên sân khấu', photo: 'vn-san-khau',
        text: 'Đêm nhạc có sự xuất hiện của các nghệ sĩ trẻ, với phong cách đa dạng như Nguyên Đán, Helen, Minh Trung, Nhữ Thùy Dương,... Ngoài ra, còn có sự góp mặt của nghệ sĩ Mer, tác giả của bài hát mang giai điệu vui tươi “Giấc mơ rất thơ”.',
        chips: ['Nguyên Đán', 'Helen', 'Minh Trung', 'Nhữ Thùy Dương', 'Mer'], chipIcon: 'music'},
-      {when: 'Những ngôi sao giấy', photo: '3348058605513494',
+      {when: 'Những ngôi sao giấy', photo: 'vn-ngoi-sao',
        text: 'Cũng trong khuôn khổ của “Vết Nứt”, các bạn khán giả đã cùng nhau tham gia hoạt động xếp sao giấy. Những ngôi sao sau khi xếp xong, sẽ được bỏ ngay ngắn vào trong một hũ thuỷ tinh, và được chuyển đến tận tay các em nhỏ trong chuyến đi cuối của dự án.'},
       {when: 'Về tới điểm trường', photo: '3348058578846830',
        text: 'Toàn bộ lợi nhuận của đêm nhạc cùng với số tiền hơn 30 triệu đồng nhận được từ các nhà hảo tâm đã được dùng vào Dự án cải thiện điều kiện học tập của em ở trường tiểu học Mỹ Thạnh Bắc (Đức Huệ, Long An).'}
@@ -396,23 +397,23 @@ export const projectDetails = {
   'go-ngai': {
     meta: {place: 'Mỹ Thạnh Bắc, Long An', date: '25 – 26.07.2022'},
     tagline: '“Mùa Hè Yêu Thương”',
-    hero: {photo: '3348058765513478', pos: '50% 90%'},
+    hero: {photo: 'mtb-hero', pos: '50% 50%'},
     lead: 'POET đã có cơ hội trao tặng 30 suất đồ dùng học tập, 10 suất học bổng, 5 xe đạp, 3 quạt treo tường và 3 tủ nhôm đựng tài liệu cho 3 lớp học tại điểm trường. Bên cạnh đó, POET còn tổ chức hoạt động vui chơi chạy trạm với chủ đề bảo vệ môi trường nhằm giúp đỡ các em học sinh có thêm những kiến thức bổ ích trong cuộc sống.',
     stats: null,
     steps: [
-      {when: '25 – 26.07.2022', photo: '3348058765513478',
+      {when: '25 – 26.07.2022', photo: 'mtb-1',
        text: 'Từ 25 – 26/07/2022, POET đã thành công tổ chức chặng cuối cùng của Dự án cải thiện điều kiện học tập của em ở trường tiểu học Mỹ Thạnh Bắc (Đức Huệ, Long An), mang tên “Mùa Hè Yêu Thương”.'},
-      {when: 'Từ đâu có quỹ', photo: '3348058835513471',
+      {when: 'Từ đâu có quỹ', photo: 'mtb-2',
        text: 'Dự án được hiện thực hóa thông qua hai hình thức gây quỹ chính là 1. Dự án Quyên góp – “Thư viện bỏ hoang”, và 2. Đêm nhạc “Vết Nứt”, cùng với hiện kim từ nhà tài trợ chương trình.'},
-      {when: 'Cùng thầy cô', photo: '3348057752180246',
+      {when: 'Cùng thầy cô', photo: 'mtb-3',
        text: 'Bên cạnh đó, những đóng góp thiết thực của tập thể giáo viên tại điểm trường tiểu học Mỹ Thạnh Bắc đã giúp POET 2022 hoàn thành tốt nhất những mục tiêu được đề ra.'},
-      {when: 'Quà đến tay các em', photo: '3348057808846907',
+      {when: 'Quà đến tay các em', photo: 'mtb-4',
        text: 'Các vật phẩm được trao đến cho các em học sinh bao gồm:',
        chips: ['Sách vở và tập trắng', 'Dụng cụ học tập (bút màu, thước kẻ,…)', 'Tủ sách', 'Học bổng và xe đạp dành cho các em có hoàn cảnh đặc biệt khó khăn'], chipIcon: 'check'},
-      {when: 'Chạy trạm', photo: '3348057688846919',
+      {when: 'Chạy trạm', photo: 'mtb-5',
        text: 'POET còn tổ chức hoạt động vui chơi chạy trạm với chủ đề bảo vệ môi trường nhằm giúp đỡ các em học sinh có thêm những kiến thức bổ ích trong cuộc sống.'}
     ],
-    gallery: ['3348058578846830', '3348057608846927', '3348058412180180', '3348057742180247', '3348058118846876', '3348058718846816', '3348058525513502', '3348057855513569'],
+    gallery: ['mtb-g1', 'mtb-g2', 'mtb-g3', 'mtb-g4', 'mtb-g5', 'mtb-g6', 'mtb-g7', 'mtb-g8'],
     next: 'vet-nut'
   }
 };
