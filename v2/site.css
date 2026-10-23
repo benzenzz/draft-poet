@@ -1389,6 +1389,8 @@ poet-nav.site-home-nav .site-nav-inner>.btn{border-radius:14px}
 
 /* UI-016: executives and department tabs. Tone colours live on each panel as --c/--c2/--k; the selected tab uses ink, not a tone. */
 .departments{padding-block:var(--site-space)}
+.people-section .departments{padding-block:0}
+.departments .dept-head>div>h2:first-child{margin-top:0}
 .dept-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px 40px}
 .dept-chip{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--blue-ink);background:var(--blue-tint);border-radius:999px;padding:6px 12px 6px 8px}
 .dept-chip .prototype-icon{width:16px;height:16px;flex-basis:16px;color:var(--blue-mid)}
