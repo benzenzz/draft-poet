@@ -6,7 +6,7 @@ for(const file of ['v2/index.html','v2/site.css','v2/site.js','v2/chrome.js','v2
  const response=await fetch(origin+'/'+file.split('/').map(encodeURIComponent).join('/')+'?review=home-integration'),buffer=Buffer.from(await response.arrayBuffer()),local=sha(fs.readFileSync(file)),served=sha(buffer);
  assert.equal(response.status,200,file);assert.equal(served,local,'Preview must serve current worktree bytes: '+file);report.files.push({file,status:response.status,contentType:response.headers.get('content-type'),sha256:served});
 }
-const home=fs.readFileSync('v2/index.html','utf8');assert(home.includes('home-integration-1')&&home.includes('press-grid')&&home.includes('class="action-icon"')&&home.includes('mỗi hành động đều có ý nghĩa'));
+const home=fs.readFileSync('v2/index.html','utf8');assert(home.includes('projects-detail-2')&&home.includes('press-grid')&&home.includes('class="action-icon"')&&home.includes('mỗi hành động đều có ý nghĩa'));
 if(!process.argv.includes('--identity-only')){
  const browser=await chromium.launch({channel:'msedge',headless:true});
  try{for(const width of [1440,390]){
