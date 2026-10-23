@@ -2,6 +2,9 @@
 export function createFundraisingReveal(card) {
   if(!card.hasAttribute('data-fund-animate'))return null;
   const reduced=matchMedia('(prefers-reduced-motion:reduce)');
+  // Explicit loopback-only motion review; public pages retain OS preferences.
+  const fullPreview=['localhost','127.0.0.1','[::1]'].includes(location.hostname)&&new URLSearchParams(location.search).get('homeMotion')==='full';
+  const reduceMotion=()=>reduced.matches&&!fullPreview;
   const format=n=>new Intl.NumberFormat('vi-VN').format(n);
   let frame,observer,running=false,disposed=false,played=card.dataset.fundAnimated==='true',state,raised;
   const total=card.querySelector('[data-fund-raised]');
@@ -25,14 +28,14 @@ export function createFundraisingReveal(card) {
   }
   function start(){
     if(played)return;
-    if(reduced.matches||!state.known){finish();return;}
+    if(reduceMotion()||!state.known){finish();return;}
     played=true;running=true;card.dataset.fundAnimated='true';observer?.disconnect();
     // Write the first frame before exposing the numeric layer: no final-value flash.
     total.textContent='0';counters.forEach(counter=>counter.textContent='0');
     card.style.setProperty('--fund-display-progress','0%');card.dataset.fundMotion='running';
     const startTime=performance.now();
     const tick=now=>{
-      const elapsed=Math.max(0,now-startTime),amountProgress=Math.min(1,elapsed/500),countProgress=Math.min(1,elapsed/750);
+      const elapsed=Math.max(0,now-startTime),amountProgress=Math.min(1,elapsed/400),countProgress=Math.min(1,elapsed/750);
       total.textContent=format(amountProgress===1?raised:Math.round(raised*amountProgress));
       card.style.setProperty('--fund-display-progress',`${state.progress*amountProgress}%`);
       counters.forEach(counter=>{const value=Number(counter.dataset.fundCount);counter.textContent=format(countProgress===1?value:Math.round(value*countProgress));});
@@ -48,12 +51,12 @@ export function createFundraisingReveal(card) {
     for(const number of card.querySelectorAll('.fund-number'))number.dataset.fundFinal=number.querySelector('span').textContent;
     reserveNumbers();
     if(interrupted){finish();return;}
-    if(played||reduced.matches)finish();
+    if(played||reduceMotion())finish();
   }
-  const onMotionChange=()=>{if(reduced.matches)finish();};
+  const onMotionChange=()=>{if(reduceMotion())finish();};
   reduced.addEventListener('change',onMotionChange);
   return {update,observe(){
-    if(played||reduced.matches||!('IntersectionObserver'in window)){finish();return;}
+    if(played||reduceMotion()||!('IntersectionObserver'in window)){finish();return;}
     document.fonts.ready.then(()=>{
       if(disposed)return;
       reserveNumbers();
