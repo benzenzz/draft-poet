@@ -1589,3 +1589,6 @@ html.reveal-motion .mission-section.will-enter.is-in .mission-card{opacity:1;tra
 }
 @media(prefers-reduced-motion:reduce){.plan-station{transition:none}.plan-station:hover{transform:none}}
 .plan-timeline li>.plan-night{font-size:15px;line-height:1.55;color:#fdf0cf;font-weight:700}
+.plan-timeline li>.plan-night{background:#ef8a7d;color:#332b27}
+.plan-night .prototype-icon{color:#332b27}
+.plan-timeline li.is-night::before{background:#ef8a7d;border-color:#ef8a7d}
