@@ -2039,3 +2039,15 @@ poet-nav.site-home-nav .site-nav-inner>.btn{border-radius:14px}
 .wall-glyph img{display:block;width:26px;height:26px;object-fit:contain}
 .message-glyph{width:28px;height:28px;border:0;border-radius:0;background:none}
 .message-glyph img{display:block;width:28px;height:28px;object-fit:contain}
+.partner-jump a{--c:var(--coral)}
+.partner-jump a.partner-jump-yellow{--c:var(--poet-yellow)}
+.partner-jump a.partner-jump-blue{--c:var(--poet-blue)}
+.partner-jump a[aria-current=true]{background:var(--c);color:var(--poet-heading);font-weight:var(--font-weight-bold)}
+.partner-jump a[aria-current=true] .tab-icon{background:var(--poet-white)}
+/* Action buttons on Đồng hành use the nav "Ủng hộ ngay" pink with white text. */
+.contact-section{--ct-btn:var(--coral);--ct-btn-hover:var(--coral-hover)}
+.contact-section .btn--line{background:var(--coral);border-color:var(--coral);color:#fff!important}
+.contact-section .btn--line:hover{background:var(--coral-hover);border-color:var(--coral-hover)}
+.tier-section .btn--coral{background:var(--coral);border-color:var(--coral)}
+.tier-section .btn--coral:hover{background:var(--coral-hover);border-color:var(--coral-hover)}
+.contact-section .btn--coral,.contact-section .btn--line{font-weight:var(--font-weight-bold)}

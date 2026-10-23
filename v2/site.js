@@ -269,6 +269,15 @@ document.querySelectorAll('.hero-tabs').forEach(list=>{
   new MutationObserver(sync).observe(list,{subtree:true,attributes:true,attributeFilter:['aria-selected']});
   sync();
 });
+// Đồng hành foot: the jump links pick the way, mirror the hero tabs and bring the reader back to the top of the page.
+document.querySelectorAll('.partner-jump').forEach(nav=>{
+  const links=[...nav.querySelectorAll('a')],tabFor=a=>byId('tab-'+a.hash.slice(1));
+  const sync=()=>links.forEach(a=>{const on=tabFor(a)?.getAttribute('aria-selected')==='true';if(on)a.setAttribute('aria-current','true');else a.removeAttribute('aria-current');});
+  links.forEach(a=>a.addEventListener('click',e=>{const tab=tabFor(a);if(!tab)return;e.preventDefault();tab.click();scrollTo({top:0,behavior:reduced.matches?'auto':'smooth'});}));
+  const list=tabFor(links[0])?.closest('[role=tablist]');
+  if(list)new MutationObserver(sync).observe(list,{subtree:true,attributes:true,attributeFilter:['aria-selected']});
+  sync();
+});
 // UI-015: video rail on mobile steps one card at a time. Buttons refresh when the tab shows, since hidden panels measure as zero.
 document.querySelectorAll('.volunteer-videos').forEach(wrap=>{
   const rail=wrap.querySelector('[data-v-rail]'),prev=wrap.querySelector('[data-v-prev]'),next=wrap.querySelector('[data-v-next]');
