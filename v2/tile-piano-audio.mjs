@@ -74,7 +74,7 @@ export function createToyPiano({AudioContext=globalThis.AudioContext||globalThis
     if(token!==generation)return false;
     if(disposed||context.state!=='running')throw new Error('Audio unavailable');
     enabled=true;
-    const now=context.currentTime;hold(master.gain,now);master.gain.linearRampToValueAtTime(.2,now+.02);
+    const now=context.currentTime;hold(master.gain,now);master.gain.linearRampToValueAtTime(.45,now+.02);
     return true;
   }
   function play(midi,{sustain=false,onEnded=()=>{}}={}){
