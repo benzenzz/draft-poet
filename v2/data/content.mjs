@@ -333,8 +333,9 @@ export const contactIntro = {
 };
 // UI-022 (projects): "Chọn cách bạn cùng POET gieo mầm". Individual cards reuse individualWays; business and volunteer cards are below.
 export const projectWays = {
-  title: 'Chọn cách bạn cùng POET gieo mầm',
-  lead: 'Dù là cá nhân, thương hiệu hay bạn trẻ muốn góp sức, Công viên Niềm vui luôn có một chỗ dành cho bạn.',
+  eyebrow: 'Mỗi hành động đều có ý nghĩa',
+  // Non-breaking space keeps “cười” from ending up alone on the last line.
+  title: 'Cùng POET viết tiếp câu chuyện trao nụ cười',
   business: [
     {icon: 'store', title: 'Thương hiệu đồng hành',
      text: 'Trở thành một “Little Joy” trong chiến dịch Big Joy Little Joy: góp một phần doanh thu sản phẩm để cùng xây Công viên Niềm vui.',

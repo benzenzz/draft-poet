@@ -5,6 +5,9 @@
 .site-content,.site-nav,.site-dialog{--poet-ink:#332b27}
 html{scroll-padding-top:100px}
 body{font-family:var(--poet-font)}
+/* Hide the caret Edge/Chrome caret browsing (F7) draws in plain text; fields keep theirs. */
+body{caret-color:transparent}
+input,textarea,select,[contenteditable="true"]{caret-color:auto}
 /* Keep the existing Hero's measured type metrics and all its SVG styling. */
 .hero--world{font-family:var(--font-family-primary)}
 .site-content,.site-nav,.site-footer,.site-dialog{font:var(--font-weight-regular) 17px/1.65 var(--poet-font);color:var(--poet-ink)}
@@ -1653,7 +1656,7 @@ poet-nav.site-home-nav .site-nav-inner>.btn{border-radius:14px}
 /* UI-022 (projects): ways to join. Centred heading and tabs, cards below; status labels stay regular weight. */
 .project-ways{padding-top:var(--site-space);padding-bottom:var(--site-space);text-align:center}
 .pw-head h2{margin:0 auto;max-width:18em;font-size:var(--type-h2);font-weight:700;line-height:1.12;letter-spacing:-.04em;text-wrap:balance;color:var(--poet-heading)}
-.pw-head p{margin:16px auto 0;max-width:34em;font-size:var(--type-intro);line-height:1.6;color:var(--poet-muted)}
+.pw-head .eyebrow{margin:0 auto 12px!important;text-align:center}
 .project-ways .site-tabs{display:inline-flex;width:auto;margin:clamp(28px,3.4vw,40px) auto 0}
 .project-ways .site-tabs--partner{padding-bottom:12px;border-bottom:1px solid var(--poet-border)}
 .project-ways .pw-count{font-size:13px;font-weight:400;opacity:.8}
@@ -1960,7 +1963,7 @@ poet-nav.site-home-nav .site-nav-inner>.btn{border-radius:14px}
 /* Feedback 9: "Chọn cách bạn cùng POET gieo mầm" fits one laptop screen; budget figures centred under their headings. */
 @media(min-width:901px){
  .project-ways{padding-top:clamp(40px,4.2vw,64px);padding-bottom:clamp(40px,4.2vw,64px)}
- .pw-head p{margin-top:10px}
+
  .project-ways .site-tabs{margin-top:clamp(20px,2.2vw,28px)}
  .pw-grid{margin-top:clamp(20px,2.2vw,28px)}
  .pw-card{padding:clamp(20px,2vw,26px)}
