@@ -1854,3 +1854,15 @@ html.reveal-motion .mission-section.will-enter.is-in .mission-card{opacity:1;tra
  .pd-next-btn{width:52px;height:52px}
 }
 @media(prefers-reduced-motion:reduce){.pd-g,.pd-g img,.pd-next>img,.pd-next-btn{transition:none!important;transform:none!important}}
+/* brief and stats sit in the hero, small */
+.pd-hero{height:clamp(560px,62vw,760px)}
+.pd-hero .pd-lead{max-width:44em;margin:18px 0 0;font-size:16px;line-height:1.55;color:rgba(255,255,255,.92)}
+.pd-hero .pd-stats{display:flex;flex-wrap:wrap;gap:12px 32px;margin-top:20px}
+.pd-hero .pd-stat{background:none;border:0;padding:0}
+.pd-hero .pd-stat b{font-size:24px;line-height:1.1}
+.pd-hero .pd-stat span{margin-top:4px;font-size:13px;color:rgba(255,255,255,.85)}
+.pd-hero .pd-stat.is-coral b{color:#ffb3a7}
+.pd-hero .pd-stat.is-yellow b{color:#ffd77a}
+.pd-hero .pd-stat.is-green b{color:#a6e3c9}
+.pd-hero .pd-stat.is-blue b{color:#b4e1f2}
+@media(max-width:640px){.pd-hero{height:640px}.pd-hero .pd-stats{gap:10px 20px}.pd-hero .pd-stat b{font-size:20px}}
