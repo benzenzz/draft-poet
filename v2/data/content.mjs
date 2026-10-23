@@ -323,6 +323,27 @@ export const contactIntro = {
   formText: 'Xem lại bản nháp trước khi gửi. POET chỉ nhận khi bạn chủ động gửi email.',
   privacy: 'Thông tin chỉ dùng để soạn email trên máy bạn, không được lưu lại.'
 };
+// UI-022 (projects): "Chọn cách bạn cùng POET gieo mầm". Individual cards reuse individualWays; business and volunteer cards are below.
+export const projectWays = {
+  title: 'Chọn cách bạn cùng POET gieo mầm',
+  lead: 'Dù là cá nhân, thương hiệu hay bạn trẻ muốn góp sức, Công viên Niềm vui luôn có một chỗ dành cho bạn.',
+  business: [
+    {icon: 'store', title: 'Thương hiệu đồng hành',
+     text: 'Trở thành một “Little Joy” trong chiến dịch Big Joy Little Joy: góp một phần doanh thu sản phẩm để cùng xây Công viên Niềm vui.',
+     cta: 'Tìm hiểu Big Joy Little Joy', href: 'dong-hanh/#doanh-nghiep'},
+    {icon: 'handshake', title: 'Nhà tài trợ',
+     text: 'Hỗ trợ hiện kim hoặc nguồn lực thiết thực cho Công viên Niềm vui. POET trao đổi từng đề xuất theo nhu cầu điểm trường và khả năng của đơn vị.',
+     cta: 'Trao đổi cơ hội tài trợ', href: 'dong-hanh/#doanh-nghiep'}
+  ],
+  volunteer: [
+    {icon: 'megaphone', status: 'Hẹn bạn mùa sau', title: 'Tuyển quân Mùa 7',
+     text: 'Đơn tuyển tình nguyện viên Mùa 6 đã đóng. Theo dõi Facebook POET để nhận thông tin tuyển quân Mùa 7 sớm nhất nha!',
+     cta: 'Theo dõi Facebook POET', href: 'social:facebook'},
+    {icon: 'users', title: 'Khám phá các phân ban',
+     text: 'Đối ngoại, Vận hành, Nhân sự, Truyền thông: mỗi ban một việc, cùng chung một tinh thần.',
+     cta: 'Xem các phân ban', href: 'dong-hanh/#tinh-nguyen-vien'}
+  ]
+};
 // Partner page, individual tab (UI-008)
 export const individualWays = {
   eyebrow: 'Hình thức quyên góp cá nhân',

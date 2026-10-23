@@ -24,11 +24,11 @@ document.querySelectorAll('[role=tablist]').forEach(list=>{
     if(focus){tab.focus();tab.scrollIntoView({block:'nearest',inline:'nearest',behavior:'instant'});}
     if(update)history.replaceState(null,'','#'+tab.getAttribute('aria-controls'));
   }
-  list.addEventListener('click',e=>{const t=e.target.closest('[role=tab]');if(t)select(t,{update:true});});
+  list.addEventListener('click',e=>{const t=e.target.closest('[role=tab]');if(t)select(t,{update:!list.hasAttribute('data-no-hash')});});
   list.addEventListener('keydown',e=>{
     const i=tabs.indexOf(document.activeElement);if(i<0)return;
     let next;if(e.key==='ArrowRight')next=(i+1)%tabs.length;if(e.key==='ArrowLeft')next=(i-1+tabs.length)%tabs.length;if(e.key==='Home')next=0;if(e.key==='End')next=tabs.length-1;
-    if(next!==undefined){e.preventDefault();select(tabs[next],{focus:true,update:true});}
+    if(next!==undefined){e.preventDefault();select(tabs[next],{focus:true,update:!list.hasAttribute('data-no-hash')});}
   });
   tabControllers.push({tabs,select});
   const preferred=list.dataset.defaultTab||document.querySelector('[data-default-tab]')?.dataset.defaultTab;
