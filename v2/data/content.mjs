@@ -360,6 +360,61 @@ export const projectStory = {
      text: 'Bởi có những điều lớn lên trong giờ học và cũng có những điều [lớn lên khi một đứa trẻ được vui chơi].'}
   ]
 };
+// UI-024 (projects): detail pages of the two completed Mùa 5 projects. Keyed by the project id; photos are provisional until Demi sends the right ones. Copy is Demi's, unedited.
+export const projectDetails = {
+  'vet-nut': {
+    meta: {place: 'TP. Hồ Chí Minh', date: '16.07.2022'},
+    hero: {photo: 'story-vet-nut', pos: '50% 40%'},
+    lead: 'Với sự tham gia của 120 khán giả và 5 nhà tài trợ, chương trình đã thành công lan tỏa thông điệp tích cực về sức khỏe tinh thần đến cộng đồng, đêm nhạc cũng đã tạo nên một sân chơi để các nghệ sĩ trẻ thể hiện đam mê âm nhạc của mình. Ý nghĩa hơn cả, đây còn là hoạt động gây quỹ cho Dự án cải thiện chất lượng học tập tại Trường tiểu học Mỹ Thạnh Bắc (Đức Huệ, Long An).',
+    stats: [
+      {value: '120', label: 'khán giả', tone: 'coral'},
+      {value: '5', label: 'nhà tài trợ', tone: 'yellow'},
+      {value: '2 tháng', label: 'chuẩn bị', tone: 'green'},
+      {value: '30tr+', label: 'từ nhà hảo tâm', tone: 'blue'}
+    ],
+    quote: {
+      photo: '3348058642180157',
+      text: '…dùng âm nhạc để chạm tới đứa trẻ bên trong của mỗi người, đặc biệt là những bạn trẻ ở độ tuổi vừa trưởng thành với nhiều tâm sự khó giãi bày.',
+      name: 'Lê Phương Minh',
+      role: 'Trưởng Ban tổ chức đêm nhạc, giải thích cho chủ đề “Vết Nứt”'
+    },
+    steps: [
+      {when: '2 tháng chuẩn bị', photo: '3348057892180232',
+       text: '“Vết Nứt” là đêm nhạc gây quỹ diễn ra trong khuôn khổ của POET 2022. Sau 2 tháng dày công chuẩn bị, từ khâu liên hệ nhà tài trợ tới thuê địa điểm và lên bài truyền thông, “Vết Nứt” đã thành công diễn ra vào ngày 16/07/2022.'},
+      {when: 'Trên sân khấu', photo: '3348058328846855',
+       text: 'Đêm nhạc có sự xuất hiện của các nghệ sĩ trẻ, với phong cách đa dạng như Nguyên Đán, Helen, Minh Trung, Nhữ Thùy Dương,... Ngoài ra, còn có sự góp mặt của nghệ sĩ Mer, tác giả của bài hát mang giai điệu vui tươi “Giấc mơ rất thơ”.',
+       chips: ['Nguyên Đán', 'Helen', 'Minh Trung', 'Nhữ Thùy Dương', 'Mer'], chipIcon: 'music'},
+      {when: 'Những ngôi sao giấy', photo: '3348058605513494',
+       text: 'Cũng trong khuôn khổ của “Vết Nứt”, các bạn khán giả đã cùng nhau tham gia hoạt động xếp sao giấy. Những ngôi sao sau khi xếp xong, sẽ được bỏ ngay ngắn vào trong một hũ thuỷ tinh, và được chuyển đến tận tay các em nhỏ trong chuyến đi cuối của dự án.'},
+      {when: 'Về tới điểm trường', photo: '3348058578846830',
+       text: 'Toàn bộ lợi nhuận của đêm nhạc cùng với số tiền hơn 30 triệu đồng nhận được từ các nhà hảo tâm đã được dùng vào Dự án cải thiện điều kiện học tập của em ở trường tiểu học Mỹ Thạnh Bắc (Đức Huệ, Long An).'}
+    ],
+    gallery: ['3348058835513471', '3348058678846820', '3348058328846855', '3348058605513494', '3348057892180232'],
+    next: 'go-ngai'
+  },
+  'go-ngai': {
+    meta: {place: 'Mỹ Thạnh Bắc, Long An', date: '25 – 26.07.2022'},
+    tagline: '“Mùa Hè Yêu Thương”',
+    hero: {photo: '3348058765513478', pos: '50% 90%'},
+    lead: 'POET đã có cơ hội trao tặng 30 suất đồ dùng học tập, 10 suất học bổng, 5 xe đạp, 3 quạt treo tường và 3 tủ nhôm đựng tài liệu cho 3 lớp học tại điểm trường. Bên cạnh đó, POET còn tổ chức hoạt động vui chơi chạy trạm với chủ đề bảo vệ môi trường nhằm giúp đỡ các em học sinh có thêm những kiến thức bổ ích trong cuộc sống.',
+    stats: null,
+    steps: [
+      {when: '25 – 26.07.2022', photo: '3348058765513478',
+       text: 'Từ 25 – 26/07/2022, POET đã thành công tổ chức chặng cuối cùng của Dự án cải thiện điều kiện học tập của em ở trường tiểu học Mỹ Thạnh Bắc (Đức Huệ, Long An), mang tên “Mùa Hè Yêu Thương”.'},
+      {when: 'Từ đâu có quỹ', photo: '3348058835513471',
+       text: 'Dự án được hiện thực hóa thông qua hai hình thức gây quỹ chính là 1. Dự án Quyên góp – “Thư viện bỏ hoang”, và 2. Đêm nhạc “Vết Nứt”, cùng với hiện kim từ nhà tài trợ chương trình.'},
+      {when: 'Cùng thầy cô', photo: '3348057752180246',
+       text: 'Bên cạnh đó, những đóng góp thiết thực của tập thể giáo viên tại điểm trường tiểu học Mỹ Thạnh Bắc đã giúp POET 2022 hoàn thành tốt nhất những mục tiêu được đề ra.'},
+      {when: 'Quà đến tay các em', photo: '3348057808846907',
+       text: 'Các vật phẩm được trao đến cho các em học sinh bao gồm:',
+       chips: ['Sách vở và tập trắng', 'Dụng cụ học tập (bút màu, thước kẻ,…)', 'Tủ sách', 'Học bổng và xe đạp dành cho các em có hoàn cảnh đặc biệt khó khăn'], chipIcon: 'check'},
+      {when: 'Chạy trạm', photo: '3348057688846919',
+       text: 'POET còn tổ chức hoạt động vui chơi chạy trạm với chủ đề bảo vệ môi trường nhằm giúp đỡ các em học sinh có thêm những kiến thức bổ ích trong cuộc sống.'}
+    ],
+    gallery: ['3348058578846830', '3348057608846927', '3348058412180180', '3348057742180247', '3348058118846876', '3348058718846816', '3348058525513502', '3348057855513569'],
+    next: 'vet-nut'
+  }
+};
 // Partner page, individual tab (UI-008)
 export const individualWays = {
   eyebrow: 'Hình thức quyên góp cá nhân',
