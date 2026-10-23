@@ -227,7 +227,7 @@ document.querySelectorAll('.project-story').forEach(sec=>{
   sec.classList.add('is-enhanced');
   const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
   const once=(el,cls,threshold)=>{const io=new IntersectionObserver(es=>{if(es.some(e=>e.isIntersecting)){el.classList.add(cls);io.disconnect();}},{threshold});io.observe(el);};
-  once(sec.querySelector('.story-open'),'is-in',.3);
+  document.querySelectorAll('.story-open').forEach(h=>{h.classList.add('is-enhanced');once(h,'is-in',.3);});
   sec.querySelectorAll('.story-step').forEach(st=>once(st,'is-shown',.2));
 
   const desk=matchMedia('(min-width:901px)');
@@ -256,6 +256,11 @@ document.querySelectorAll('.project-story').forEach(sec=>{
   update();
 });
 
+// UI-024: the page hero photo follows the chosen status tab (one photo for now; each tab carries data-hero-<panel id>).
+document.querySelectorAll('.hero-tabs [role=tab]').forEach(tab=>tab.addEventListener('click',()=>{
+  const img=tab.closest('.story-open').querySelector('img'),src=img.getAttribute('data-hero-'+tab.getAttribute('aria-controls'));
+  if(src&&img.getAttribute("src")!==src)img.src=src;
+}));
 // UI-015: video rail on mobile steps one card at a time. Buttons refresh when the tab shows, since hidden panels measure as zero.
 document.querySelectorAll('.volunteer-videos').forEach(wrap=>{
   const rail=wrap.querySelector('[data-v-rail]'),prev=wrap.querySelector('[data-v-prev]'),next=wrap.querySelector('[data-v-next]');

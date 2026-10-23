@@ -1685,16 +1685,16 @@ html.reveal-motion .mission-section.will-enter.is-in .mission-card{opacity:1;tra
 .project-story{background:var(--poet-white);border-top:1px solid #e2ddd2;border-bottom:1px solid #e2ddd2;padding-bottom:clamp(64px,8vw,120px)}
 .story-open{position:relative;overflow:clip;height:clamp(420px,52vw,680px);margin:0}
 .story-open>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:40% 30%;filter:brightness(.62) saturate(1.05);transform:scale(1.12)}
-.project-story.is-enhanced .story-open.is-in>img{transform:scale(1.02);transition:transform 2.4s cubic-bezier(.2,.7,.2,1)}
+.story-open.is-enhanced.is-in>img{transform:scale(1.02);transition:transform 2.4s cubic-bezier(.2,.7,.2,1)}
 .story-open-text{position:absolute;left:0;right:0;bottom:0;padding:0 var(--site-gutter) clamp(32px,4.6vw,64px);color:#fff}
 .story-open-text h2{margin:0;font-size:clamp(38px,5.4vw,76px);font-weight:700;line-height:1.12;letter-spacing:-.045em;color:#fff;text-wrap:balance}
 .story-open-text h2 span{display:block;color:#ffd77a}
 .story-place{display:flex;align-items:center;gap:8px;margin:16px 0 0;font-size:15px;color:rgba(255,255,255,.88)}
 .story-place .prototype-icon{width:18px;height:18px;flex-basis:18px}
-.project-story.is-enhanced .story-open-text>*{opacity:0;transform:translateY(18px);transition:opacity .9s ease,transform .9s ease}
-.project-story.is-enhanced .story-open.is-in .story-open-text>*{opacity:1;transform:none}
-.project-story.is-enhanced .story-open.is-in .story-open-text>h2{transition-delay:.3s}
-.project-story.is-enhanced .story-open.is-in .story-open-text>.story-place{transition-delay:.3s}
+.story-open.is-enhanced-text>*{opacity:0;transform:translateY(18px);transition:opacity .9s ease,transform .9s ease}
+.story-open.is-enhanced.is-in .story-open-text>*{opacity:1;transform:none}
+.story-open.is-enhanced.is-in .story-open-text>h2{transition-delay:.3s}
+.story-open.is-enhanced.is-in .story-open-text>.story-place{transition-delay:.3s}
 .story-scrolly{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);column-gap:6%;padding:0 var(--site-gutter)}
 .story-stage{position:sticky;top:max(4vh,calc(50vh - min(39vh,300px)));height:min(78vh,600px);margin-top:clamp(48px,6vw,88px);align-self:start}
 .story-frame{position:absolute;inset:0;margin:0;border-radius:32px 80px 32px 32px;overflow:clip;opacity:0;z-index:0;transition:opacity 0s 1.2s}
@@ -1745,7 +1745,7 @@ html.reveal-motion .mission-section.will-enter.is-in .mission-card{opacity:1;tra
  .story-step+.story-step{margin-top:28px}
 }
 @media(prefers-reduced-motion:reduce){
- .story-frame,.story-frame img,.story-open>img,.project-story.is-enhanced .story-open-text>*,.project-story.is-enhanced .story-step,.project-story.is-enhanced .story-step-photo img{transition:none!important;transform:none!important}
+ .story-frame,.story-frame img,.story-open>img,.story-open.is-enhanced-text>*,.project-story.is-enhanced .story-step,.project-story.is-enhanced .story-step-photo img{transition:none!important;transform:none!important}
  .project-story.is-enhanced .story-step{opacity:1}
 }
 /* plan schedule: no panel behind the timeline */
@@ -1755,3 +1755,13 @@ html.reveal-motion .mission-section.will-enter.is-in .mission-card{opacity:1;tra
 /* shorter opener for the story section */
 .story-open{height:clamp(300px,34vw,440px)}
 @media(max-width:640px){.story-open{height:360px}}
+/* hero: photo with the switch floating bottom-right, styled like the photo */
+.hero-tabs.site-tabs--status{position:absolute;right:var(--site-gutter);bottom:clamp(20px,3vw,36px);z-index:3;display:flex;gap:6px;width:auto;margin:0;padding:8px;border:0;border-radius:20px;background:#fffefa;box-shadow:0 18px 40px -18px rgba(20,18,16,.6)}
+.hero-tabs.site-tabs--status button{min-height:48px;padding:6px 16px 6px 6px;font-size:15px}
+.hero-tabs.site-tabs--status .tab-icon{width:36px;height:36px}
+@media(max-width:640px){
+ .story-open{height:520px}
+ .story-open-text{bottom:112px}
+ .hero-tabs.site-tabs--status{left:var(--site-gutter);right:var(--site-gutter);bottom:20px;display:grid;grid-template-columns:1fr 1fr}
+ .hero-tabs.site-tabs--status button{justify-content:center}
+}
