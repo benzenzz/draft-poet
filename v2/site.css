@@ -2035,7 +2035,7 @@ poet-nav.site-home-nav .site-nav-inner>.btn{border-radius:14px}
 }
 .site-content .wall-status .wall-sent{margin:0}
 /* Wall icons: hand-drawn Công viên Niềm vui set (colour images, not masks). */
-.wall-glyph{width:46px;height:46px}
-.wall-glyph img{display:block;width:34px;height:34px;object-fit:contain}
-.message-glyph{width:42px;height:42px}
-.message-glyph img{display:block;width:32px;height:32px;object-fit:contain}
+.wall-glyph{width:36px;height:36px}
+.wall-glyph img{display:block;width:26px;height:26px;object-fit:contain}
+.message-glyph{width:28px;height:28px;border:0;border-radius:0;background:none}
+.message-glyph img{display:block;width:28px;height:28px;object-fit:contain}
