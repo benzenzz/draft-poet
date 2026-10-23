@@ -1750,3 +1750,5 @@ html.reveal-motion .mission-section.will-enter.is-in .mission-card{opacity:1;tra
 }
 /* plan schedule: no panel behind the timeline */
 .plan-schedule{background:none;padding:0}
+.plan-timeline li>.plan-night{background:#ef8a7d;color:#fff}
+.plan-night .prototype-icon{color:#fff}
