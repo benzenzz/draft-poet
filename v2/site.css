@@ -1978,3 +1978,21 @@ poet-nav.site-home-nav .site-nav-inner>.btn{border-radius:14px}
 @media(min-width:901px){
  .plan-head>p,.tier-head .lead{justify-self:end;text-align:right}
 }
+
+/* Feedback 9: "Chọn cách bạn cùng POET gieo mầm" fits one laptop screen; budget figures centred under their headings. */
+@media(min-width:901px){
+ .project-ways{padding-top:clamp(40px,4.2vw,64px);padding-bottom:clamp(40px,4.2vw,64px)}
+ .pw-head p{margin-top:10px}
+ .project-ways .site-tabs{margin-top:clamp(20px,2.2vw,28px)}
+ .pw-grid{margin-top:clamp(20px,2.2vw,28px)}
+ .pw-card{padding:clamp(20px,2vw,26px)}
+ .pw-card.is-feature{padding:clamp(24px,2.6vw,36px)}
+ .pw-ic{width:44px;height:44px}
+ .pw-card h3{margin-top:16px;font-size:19px}
+ .pw-card p{font-size:14.5px;line-height:1.55}
+ .pw-cta{padding-top:18px}
+ .pw-btn,.pw-donate,.pw-locked{min-height:var(--btn-h-sm)}
+ .budget-table th:nth-child(3),.budget-table th:nth-child(4),.budget-table th:nth-child(5),.budget-table td.q,.budget-table td.p,.budget-table td.t{text-align:center}
+ .budget-table td.t{padding-right:16px}
+ .budget-table tfoot td.t{text-align:center;padding-inline:16px}
+}
