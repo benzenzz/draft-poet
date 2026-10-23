@@ -1,4 +1,6 @@
 // Home-only presentation. Financial calculation and checkout stay elsewhere.
+const AMOUNT_MS=1400,COUNT_MS=1600,COUNT_DELAY_MS=200;
+const easeOutExpo=t=>t===1?1:1-2**(-10*t);
 export function createFundraisingReveal(card) {
   if(!card.hasAttribute('data-fund-animate'))return null;
   const reduced=matchMedia('(prefers-reduced-motion:reduce)');
@@ -35,11 +37,13 @@ export function createFundraisingReveal(card) {
     card.style.setProperty('--fund-display-progress','0%');card.dataset.fundMotion='running';
     const startTime=performance.now();
     const tick=now=>{
-      const elapsed=Math.max(0,now-startTime),amountProgress=Math.min(1,elapsed/400),countProgress=Math.min(1,elapsed/750);
+      // Amount and bar share one eased clock so the fill tracks the number; counters follow 150ms apart.
+      const elapsed=Math.max(0,now-startTime),amountProgress=easeOutExpo(Math.min(1,elapsed/AMOUNT_MS));
       total.textContent=format(amountProgress===1?raised:Math.round(raised*amountProgress));
       card.style.setProperty('--fund-display-progress',`${state.progress*amountProgress}%`);
-      counters.forEach(counter=>{const value=Number(counter.dataset.fundCount);counter.textContent=format(countProgress===1?value:Math.round(value*countProgress));});
-      if(countProgress<1)frame=requestAnimationFrame(tick);else finish();
+      let counting=amountProgress<1;
+      counters.forEach((counter,i)=>{const value=Number(counter.dataset.fundCount),t=Math.min(1,Math.max(0,(elapsed-COUNT_DELAY_MS-i*150)/COUNT_MS)),p=easeOutExpo(t);if(t<1)counting=true;counter.textContent=format(p===1?value:Math.round(value*p));});
+      if(counting)frame=requestAnimationFrame(tick);else finish();
     };
     frame=requestAnimationFrame(tick);
   }

@@ -218,6 +218,7 @@ document.querySelectorAll('.budget-sec').forEach(sec=>{
 
 // UI-023: "Một khoảng sân" story. Without this script every line and photo is visible; this only adds the reveal, the distance fade and the photo crossfade.
 document.querySelectorAll('.project-story').forEach(sec=>{
+  if(root.classList.contains('m-ready'))return; // motion/story.mjs owns the story when it loaded
   sec.classList.add('is-enhanced');
   const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
   const once=(el,cls,threshold)=>{const io=new IntersectionObserver(es=>{if(es.some(e=>e.isIntersecting)){el.classList.add(cls);io.disconnect();}},{threshold});io.observe(el);};
