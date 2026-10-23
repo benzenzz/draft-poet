@@ -966,12 +966,14 @@ html.reveal-motion .reach.is-drawing .reach-bar{transition:transform 1100ms cubi
    Stats: no fill, one dark-brown stroke, one ink colour, no underline bars. */
 .about-introduction{align-items:stretch}
 .about-intro-copy{align-self:stretch;display:flex;flex-direction:column;max-width:none;min-width:0}
-.about-intro-copy .reach{--reach-ink:var(--poet-heading);--reach-rule:var(--line);grid-column:auto;margin-top:clamp(28px,3vw,40px);background:transparent;border:1.5px solid var(--poet-heading);padding-block:clamp(20px,2.2vw,28px)}
+.about-intro-copy .reach{--reach-ink:var(--poet-heading);--reach-rule:var(--line);grid-column:auto;margin-top:clamp(28px,3vw,40px);background:transparent;border:1px solid var(--poet-heading);padding-block:clamp(20px,2.2vw,28px)}
 .about-intro-copy .reach-cell{--reach-ink:var(--poet-heading);padding-inline:clamp(14px,1.8vw,26px)}
 .about-intro-copy .reach-number{font-size:clamp(40px,4.2vw,60px)}
 .about-intro-copy .reach-value{text-align:left;min-width:0!important}
 .about-intro-copy .reach-label b{font-size:16px}
 .about-introduction .about-intro-copy .reach-label{margin-top:10px;font-size:14px}
+/* Stacked layout: copy, then the photo, then the stats. */
+@media(max-width:900px){.about-introduction{row-gap:0}.about-intro-copy{display:contents}.about-intro-copy>*:not(.reach){order:0}.about-introduction .about-intro-photo{order:1;margin-top:28px}.about-intro-copy .reach{order:2;margin-top:24px}}
 @media(max-width:640px){.about-intro-copy .reach{padding:4px 18px}.about-intro-copy .reach-cell{padding:18px 0;grid-template-columns:118px minmax(0,1fr)}.about-intro-copy .reach-number{font-size:44px}}
 /* Sứ mệnh của POET: three bars; the photo cover shrinks to 46% on the right to reveal the copy. */
 .mission-section{--mission-ease:cubic-bezier(.65,0,.35,1);--mission-panel:color-mix(in srgb,var(--poet-cream) 90%,var(--poet-yellow))}
