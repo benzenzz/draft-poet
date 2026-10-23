@@ -1748,3 +1748,5 @@ html.reveal-motion .mission-section.will-enter.is-in .mission-card{opacity:1;tra
  .story-frame,.story-frame img,.story-open>img,.project-story.is-enhanced .story-open-text>*,.project-story.is-enhanced .story-step,.project-story.is-enhanced .story-step-photo img{transition:none!important;transform:none!important}
  .project-story.is-enhanced .story-step{opacity:1}
 }
+/* plan schedule: no panel behind the timeline */
+.plan-schedule{background:none;padding:0}
