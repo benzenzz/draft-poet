@@ -904,9 +904,8 @@ html.reveal-motion .site-content .about-hero-copy h1{animation:about-title-in 80
 .site-content .campaign-banner h2{margin:0;font-size:var(--type-h2);font-weight:var(--font-weight-bold);line-height:1.12;letter-spacing:-.045em;color:var(--poet-heading);text-wrap:balance}
 .site-content .campaign-banner h2+p{margin:20px 0 0;max-width:32em;font-size:17px;line-height:1.6;color:#5a4f3d}
 .campaign-banner b{font-weight:var(--font-weight-bold)}
-.campaign-art{position:relative;display:grid;place-items:center}
-.campaign-art::before{content:"";position:absolute;inset:6% 4%;border-radius:46% 54% 50% 50%/55% 45% 55% 45%;background:#ffffffb3}
-.campaign-art img{position:relative;width:100%;max-width:340px;height:auto;border-radius:32px 80px 32px 32px;filter:drop-shadow(0 8px 14px #7a52001f)}
+.campaign-art{display:grid;place-items:center}
+.campaign-art img{width:100%;max-width:480px;height:auto}
 .site-content .campaign-quote{position:relative;max-width:40em;margin:clamp(40px,5vw,64px) auto 0;padding-top:34px;text-align:center}
 .campaign-quote::before{content:"“";position:absolute;top:-18px;left:50%;transform:translateX(-50%);color:var(--poet-yellow);font-size:72px;font-weight:var(--font-weight-bold);line-height:1}
 /* Real Product Sans Italic (assets/css/typography.css); never a synthesised slant. */
@@ -921,13 +920,13 @@ html.reveal-motion .site-content .about-hero-copy h1{animation:about-title-in 80
 .site-tabs--switch button[aria-selected=true]{background:var(--switch-on);box-shadow:inset 0 0 0 2px var(--switch-ring);color:var(--poet-heading);font-weight:var(--font-weight-bold)}
 .site-tabs--switch button:focus-visible{outline:3px solid var(--poet-ink);outline-offset:2px}
 @media(max-width:900px){
- .campaign-art img{max-width:280px}
+ .campaign-art img{max-width:400px}
  .campaign-quote blockquote{font-size:22px}
 }
 @media(max-width:640px){
  .campaign-banner{grid-template-columns:1fr;border-radius:24px 56px 24px 24px;padding:26px 22px}
 
- .campaign-art img{max-width:240px}
+ .campaign-art img{max-width:340px}
  .site-content .campaign-banner h2{font-size:var(--type-h2)}
  .site-content .campaign-banner h2+p{font-size:16px}
  .campaign-quote blockquote{font-size:20px}
@@ -1920,6 +1919,9 @@ poet-nav.site-home-nav .site-nav-inner>.btn{border-radius:14px}
 @media(hover:hover) and (pointer:fine){.home-press-logos a:hover{transform:translateY(-2px)}}
 @media(prefers-reduced-motion:reduce){.home-press-logos a{transition:none}.home-press-logos a:hover{transform:none}}
 @media(min-width:641px) and (max-width:900px){.home-credibility-inner>div{flex-basis:100%}.home-trust-separator{display:none}}
+/* Same shell and columns as .campaign-band--prototype .campaign-grid, so the separator sits in the gap between the Mùa 6 and fundraising cards. */
+@media(min-width:901px){.home-credibility-inner{--cred-gap:32px;display:grid;grid-template-columns:minmax(0,1fr) 1px minmax(0,1fr);column-gap:calc(var(--cred-gap) / 2 - .5px);max-width:1350px;padding-inline:clamp(24px,5vw,68px)}}
+@media(min-width:901px) and (max-width:1199px){.home-credibility-inner{--cred-gap:24px;padding-inline:32px}}
 @media(max-width:640px){
  .home-credibility{padding-block:4px}
  .home-credibility-inner{display:block}
