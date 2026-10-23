@@ -25,6 +25,7 @@ const box=(cls,a,b,c,d,z,Z,cap=true)=>prism(cls,rect(a,b,c,d),Z,Z-z,cap);
 const post=(cls,u,v,z,h,r=3)=>box(cls,u-r,u+r,v-r,v+r,z,z+h);
 const contact=(u,v,r,z=1)=>poly('contact',circle(u+10,v+6,r,z)).replace('class="contact"','class="contact" data-round-shadow');
 const objects=[];
+const boardPoly=poly,boardLine=line;
 function item(kind,name,u,v,s,extra=''){
     if(name!=='have-fun-sign'){
       // A stationary silhouette receives input; only the illustration rises.
@@ -35,7 +36,19 @@ function item(kind,name,u,v,s,extra=''){
       s=shadow+`<g class="object-hover"><g id="${id}" class="object-art">${s.replace(shadow,'')}</g></g><use class="object-hit" href="#${hit}" aria-hidden="true"/>`;
       extra+=' object-target';
     }
-    objects.push({depth:u+v,s:group(`build-item ${kind} ${extra}`,name,[u,v,0],s,`data-build="${kind}" data-elevation="0" data-ground="${u} ${v}" data-depth="${n(u+v)}"`)});
+    if(name==='slide'||name==='swing'){
+      const [x,y]=P(u,v,0),size=name==='slide'?.7:.85;
+      s=`<g class="equipment-size" transform="translate(${n(x)} ${n(y)}) scale(${size}) translate(${-n(x)} ${-n(y)})">${s}</g>`;
+    }
+    if(kind==='character')s=`<g class="mascot-position">${s}</g>`;
+    // Static mounting height is separate from the entry/hover transforms.
+    const elevation=kind.includes('building')||name.startsWith('meadow-')||name.startsWith('flowers-')?9:0;
+    if(elevation)s=`<g class="tile-mounted" transform="translate(0 -${elevation})">${s}</g>`;
+    const onEdge=Math.min(u,v)<103||Math.max(u,v)>717;
+    const footprint=name==='school'?{du:GRID.cell*.4,dv:GRID.cell*1.43}:kind.includes('building')?{du:GRID.cell*.88,dv:GRID.cell*.35}:null;
+    const supports=footprint?route.filter(t=>t.footprint.a<u+footprint.du&&t.footprint.b>u-footprint.du&&t.footprint.c<v+footprint.dv&&t.footprint.d>v-footprint.dv):onEdge?[route.reduce((a,b)=>Math.hypot(a.u-u,a.v-v)<Math.hypot(b.u-u,b.v-v)?a:b)]:[];
+    const supportAttr=supports.length?` data-support-tiles="${supports.map(t=>'tile-'+(t.order+1)).join(' ')}"`:'';
+    objects.push({depth:u+v,s:group(`build-item ${kind} ${extra}`,name,[u,v,elevation],s,`data-build="${kind}" data-elevation="${elevation}" data-ground="${u} ${v}" data-depth="${n(u+v)}"${supportAttr}`)});
 }
 const paint=['coral','blue','yellow','green'];
 function icon(kind,u,v,z,r=14,direction=1){
@@ -84,37 +97,47 @@ for(let i=6;i>=0;i--)tile(innerLo+i*step,innerLo+(i+1)*step,innerHi,hi,innerLo+(
 
 // Buildings have small footprints, shallow plinths and doors/windows on both visible faces.
 function building(name,u,v,w,d,h,color,roof='gable'){
+  // Rotate the geometry in the board plane; no mirrored SVG/text transform.
+  const turn=([x,y,z])=>[u+y-v,v-x+u,z];
+  const poly=(cls,points)=>boardPoly(cls,points.map(turn));
+  const line=(cls,points,width)=>boardLine(cls,points.map(turn),width);
+  const box=(cls,a,b,c,d,z,Z,cap=true)=>prism(cls,rect(a,b,c,d).map(p=>turn([...p,0]).slice(0,2)),Z,Z-z,cap);
   const a=u-w/2,b=u+w/2,c=v-d/2,e=v+d/2;
-  let s=poly('contact',rect(a-3,b+12,c-3,e+10).map(p=>[...p,1]))+box('paint-'+color,a-4,b+4,c-4,e+4,0,5)+box('house',a,b,c,e,5,h);
-  // A facade band has no exposed horizontal cap inside the opaque house.
-  s+=box('paint-'+color,a-1,b+1,c-1,e+1,10,19,false);
-  // Front is the constant-v wall; side is constant-u. Insets remain in that wall plane.
-  for(let x=a+12;x<b-10;x+=22)for(let z=35;z<h-12;z+=27){
-    s+=poly('window-rim',[[x-6,e+.2,z],[x+6,e+.2,z],[x+6,e+.2,z+16],[x-6,e+.2,z+16]]);
-    s+=poly('window',[[x-3.8,e+.4,z+2],[x+3.8,e+.4,z+2],[x+3.8,e+.4,z+14],[x-3.8,e+.4,z+14]]);
+  const H=61,front=e+15,ridge=v-5;
+  let s=poly('contact',rect(a-5,b+8,c-4,front+18).map(p=>[...p,1]));
+  s+=box('school-step',a-7,b+7,e-3,front+20,0,3)+box('school-step',a-5,b+5,e-3,front+13,3,6);
+  s+=box('school-wall',a,b,c,e,6,H);
+  for(let i=0;i<4;i++){
+    const x=a+7+i*w/4,bay=w/4-14;
+    s+=poly('school-door',[[x,e+.3,7],[x+bay,e+.3,7],[x+bay,e+.3,46],[x,e+.3,46]]);
+    for(let j=0;j<4;j++)s+=poly('school-vent',[[x+j*bay/4,e+.4,50],[x+j*bay/4+bay/5,e+.4,50],[x+j*bay/4+bay/5,e+.4,54],[x+j*bay/4,e+.4,54]]);
+    s+=line('school-door-seam',[[x+bay/2,e+.7,8],[x+bay/2,e+.7,45]],.9);
   }
-  for(let y=c+13;y<e-9;y+=21)for(let z=35;z<h-12;z+=27)s+=poly('window',[[b+.3,y-5,z],[b+.3,y+5,z],[b+.3,y+5,z+15],[b+.3,y-5,z+15]]);
-  s+=poly('door',[[u-8,e+.8,5],[u+8,e+.8,5],[u+8,e+.8,32],[u-8,e+.8,32]])+line('door-handle',[[u+3,e+1,17],[u+3,e+1,20]],2);
-  if(roof==='gable'){
-    s+=poly('paint-'+color+'-side face-dark',[[a-6,e+6,h],[b+6,e+6,h],[u,e+6,h+27]])+
-      poly('paint-'+color+'-top',[[a-6,c-6,h],[u,c-6,h+27],[u,e+6,h+27],[a-6,e+6,h]])+
-      poly('paint-'+color+'-side face-light',[[u,c-6,h+27],[b+6,c-6,h],[b+6,e+6,h],[u,e+6,h+27]]);
-  }else{
-    s+=box('paint-'+color,a-5,b+5,c-5,e+5,h,h+8)+poly('roof-inset',rect(a+3,b-3,c+3,e-3).map(p=>[...p,h+8.2]));
-    s+=icon('flower',u,v,h+9,16);
+  const point=(x,z)=>P(...turn([x,e+.8,z])).map(n).join(' ');
+  const wave=(cls,z,offset)=>`<path class="school-mural ${cls}" d="M${point(a,7)}L${point(a,z)}C${point(a+w*.25,z+offset)} ${point(a+w*.33,z-offset)} ${point(a+w*.5,z)}S${point(a+w*.8,z+offset)} ${point(b,z-2)}L${point(b,7)}Z"/>`;
+  s+=wave('mural-coral',28,10)+wave('mural-yellow',22,-7)+wave('mural-teal',16,8)+wave('mural-blue',10,-5);
+  for(const x of[a+w*.2,a+w*.73]){
+    for(let j=0;j<5;j++){
+      const angle=j/5*Math.PI*2;
+      s+=poly('school-petal',Array.from({length:10},(_,k)=>[x+Math.cos(angle)*4+Math.cos(k/10*Math.PI*2)*2.5,e+1,21+Math.sin(angle)*4+Math.sin(k/10*Math.PI*2)*2.5]));
+    }
+    s+=poly('school-flower-center',Array.from({length:12},(_,k)=>[x+Math.cos(k/12*Math.PI*2)*2,e+1.2,21+Math.sin(k/12*Math.PI*2)*2]));
   }
-  // Tiny book emblem for the school, instead of invented headline copy.
-  if(name==='school')s+=poly('book-left',[[u-16,e+1,h-7],[u,e+1,h-10],[u,e+1,h-28],[u-16,e+1,h-25]])+poly('book-right',[[u,e+1,h-10],[u+16,e+1,h-7],[u+16,e+1,h-25],[u,e+1,h-28]]);
+  s+=box('school-porch',a-3,b+3,e,front+5,6,8);
+  for(let i=0;i<=4;i++)s+=box('school-column',a+i*w/4-2,a+i*w/4+2,front-2,front+2,8,H);
+  s+=box('school-column',a-2,b+2,front-1,front+2,H-5,H);
+  s+=poly('school-roof-back',[[a-6,c-7,H],[b+6,c-7,H],[b+6,ridge,H+19],[a-6,ridge,H+19]]);
+  s+=poly('school-roof-front',[[a-6,ridge,H+19],[b+6,ridge,H+19],[b+6,front+8,H],[a-6,front+8,H]]);
+  s+=line('school-eave',[[a-6,front+8,H],[b+6,front+8,H]],2);
   item('building',name,u,v,s,'t-'+color);
 }
-building('school',lo+GRID.cell*2.5,near,GRID.cell*2.85,GRID.cell*.70,65,'coral');
-building('little-house',lo+GRID.cell*6.5,near,GRID.cell*.72,GRID.cell*.68,55,'blue');
+building('school',near,lo+GRID.cell*3,GRID.cell*2.85,GRID.cell*.70,65,'coral');
 
 // A two-cell footprint on each remaining edge. Facades face the playground.
 function stall(name,u,v,edge,color,label,variant){
   if(variant!=='awning')return serviceStall(name,u,v,edge,label,variant);
   const w=GRID.cell*1.72,d=GRID.cell*.63,h=57;
-  const at=(x,y,z)=>edge==='left'?[u+y,v+x,z]:edge==='right'?[u-y,v-x,z]:[u+x,v-y,z];
+  const at=(x,y,z)=>edge==='left'?[u+y,v+x,z]:edge==='right'?[u-y,v-x,z]:edge==='top'?[u+x,v+y,z]:[u+x,v-y,z];
   const panel=(cls,points)=>poly(cls,points.map(p=>at(...p)));
   const wall=(cls,a,b,c,e,z,Z)=>panel(cls,[[a,e,z],[b,e,z],[b,e,Z],[a,e,Z]]);
   let art=contact(u,v,GRID.cell*.62);
@@ -145,11 +168,11 @@ function stall(name,u,v,edge,color,label,variant){
   let a=P(...at(-w/2+6,d/2+8,h-12)),b=P(...at(w/2-6,d/2+8,h-12));if(a[0]>b[0])[a,b]=[b,a];
   const aw=w-12;
   art+=`<g transform="matrix(${n((b[0]-a[0])/aw)} ${n((b[1]-a[1])/aw)} 0 1 ${n(a[0])} ${n(a[1])})"><rect class="stall-sign" x="-2" y="-12" width="${aw+4}" height="19" rx="2"/><text class="stall-label" x="${aw/2}" y="1" text-anchor="middle">${label}</text></g>`;
-  item('building stall',name,u,v,`<title>${label}</title>${art}`,'stall-'+variant);
+  item('building stall',name,u,v,`<title>${label}</title><g class="booth-layout" data-front-normal="0 1">${art}</g>`,'stall-'+variant);
 }
 function serviceStall(name,u,v,edge,label,variant){
   const w=GRID.cell*1.72,d=GRID.cell*.63,merch=variant==='merch';
-  // Local +y ALWAYS points inward: -u at the right edge, -v at the bottom.
+  // Local +y points inward: +v at the rear/top edge, -u right, -v bottom.
   // These bounds are the assigned two-by-one cells, including every overhang.
   const at=(x,y,z)=>{
     if(Math.abs(x)>GRID.cell||Math.abs(y)>GRID.cell/2)throw new Error(name+' exceeds its two-cell footprint');
@@ -157,9 +180,11 @@ function serviceStall(name,u,v,edge,label,variant){
   };
   const panel=(cls,pts)=>poly(cls,pts.map(p=>at(...p)));
   const rail=(cls,pts,width=2)=>line(cls,pts.map(p=>at(...p)),width);
-  // Both inward-facing local frames reflect the board plane. Reverse their
-  // winding so prism() still paints the near, camera-visible vertical faces.
-  const block=(cls,a,b,c,e,z,Z)=>prism(cls,rect(a,b,c,e).map(p=>at(...p).slice(0,2)).reverse(),Z,Z-z);
+  // Only the reflected right/bottom frames need reversed face winding.
+  const block=(cls,a,b,c,e,z,Z)=>{
+    const footprint=rect(a,b,c,e).map(p=>at(...p).slice(0,2));
+    return prism(cls,edge==='top'?footprint:footprint.reverse(),Z,Z-z);
+  };
   const face=(cls,a,b,y,z,Z)=>panel(cls,[[a,y,z],[b,y,z],[b,y,Z],[a,y,Z]]);
   const curve=(cls,commands)=>`<path class="${cls}" d="${commands.map(([op,...pts])=>op+pts.map(p=>P(...at(...p)).map(n).join(' ')).join(' ')).join(' ')}"/>`;
   const flower=(x,y,z)=>{
@@ -221,12 +246,12 @@ function serviceStall(name,u,v,edge,label,variant){
   for(const x of [-w*.35,w*.35])art+=rail('booth-roof-frame',[[x,roofBack,mountZ],[x,signY,mountZ+7]],2);
   let a=P(...at(-aw/2,signY,mountZ+19)),b=P(...at(aw/2,signY,mountZ+19));if(a[0]>b[0])[a,b]=[b,a];
   art+=`<g class="booth-fascia" transform="matrix(${n((b[0]-a[0])/aw)} ${n((b[1]-a[1])/aw)} 0 1 ${n(a[0])} ${n(a[1])})"><rect class="booth-sign" x="0" y="-14" width="${aw}" height="28" rx="1.5"/><text class="booth-label" x="${aw/2}" y="5" text-anchor="middle">${label.replace(' · ',' ')}</text></g>`;
-  const frontNormal=edge==='right'?'-1 0':'0 -1';
+  const frontNormal=edge==='right'?'-1 0':edge==='top'?'0 1':'0 -1';
   item('building stall',name,u,v,`<title>${label}</title><g class="booth-layout" data-front-normal="${frontNormal}" data-two-cell-bounds="${GRID.cell} ${GRID.cell/2}">${art}</g>`,'stall-'+variant);
 }
-stall('big-joy-little-joy',near,lo+GRID.cell*3,'left','green','Big Joy Little Joy','awning');
-stall('young-joy-collection',far,lo+GRID.cell*4,'right','coral','Young Joy Collection','merch');
-stall('poet-community',lo+GRID.cell*5,far,'bottom','yellow','POET · Community','info');
+stall('poet-community',lo+GRID.cell*3,near,'top','yellow','POET · Community','info');
+stall('big-joy-little-joy',lo+GRID.cell*5.3,near,'top','green','Big Joy Little Joy','awning');
+stall('young-joy-collection',lo+GRID.cell*7.6,near,'top','coral','Young Joy Collection','merch');
 
 function slide(){
   const u=280,v=320,z=95;let s=contact(u+24,v+40,60);
@@ -274,11 +299,6 @@ function tree(name,u,v,size=1){
   const crown=`M${n(x-r)} ${n(y+10)}c${-r} -5 ${-r} -33 0 -34 -2 -24 34 -31 43 -9 27 -1 34 35 10 42Z`,a=x-r;
   s+=`<g class="tree-canopy"><defs><clipPath id="canopy-${name}"><path d="${crown}"/></clipPath></defs><path class="tree-crown" d="${crown}"/><path class="tree-shade" clip-path="url(#canopy-${name})" d="M${n(a-20)} ${n(y-5)}C${n(a+3)} ${n(y+5)} ${n(a+27)} ${n(y+8)} ${n(a+49)} ${n(y-3)}C${n(a+62)} ${n(y-10)} ${n(a+70)} ${n(y-17)} ${n(a+75)} ${n(y-22)}L${n(a+85)} ${n(y+26)}H${n(a-22)}Z"/></g>`;
   item('vegetation',name,u,v,s);
-}
-function flowers(u,v){
-  let s=box('planter',u-15,u+37,v-12,v+13,0,7);
-  for(let i=0;i<3;i++){const[x,y]=P(u+i*13,v,25+i%2*8);s+=`<path class="flower-stem" d="M${n(x)} ${n(y+18)}v-18"/>`;for(let j=0;j<5;j++){const a=j/5*Math.PI*2;s+=`<circle class="flower-petal" cx="${n(x+Math.cos(a)*4.2)}" cy="${n(y+Math.sin(a)*4.2)}" r="3.3"/>`;}s+=`<circle class="flower-heart" cx="${n(x)}" cy="${n(y)}" r="2.8"/>`;}
-  item('vegetation','flowers-'+u+'-'+v,u+10,v,group('flower-sway','flower-stems',[u+10,v,6],s));
 }
 function bush(u,v){let s=contact(u,v,24);for(const [x,y,z,r]of[[u-14,v,14,15],[u,v,22,19],[u+16,v,13,14]])s+=prism('bush',circle(x,y,r).map(p=>p.slice(0,2)),z,z-1);item('vegetation','bush-'+u+'-'+v,u,v,s);}
 function lamp(u,v){const[x,y]=P(u,v,81);item('prop','lamp-'+u+'-'+v,u,v,contact(u,v,12)+prism('paint-blue',circle(u,v,10).map(p=>p.slice(0,2)),5,4)+post('paint-green',u,v,4,74,2)+`<circle class="lamp-globe" cx="${n(x)}" cy="${n(y)}" r="9"/>`);}
@@ -366,16 +386,18 @@ function parkSign(u,v){
   item('prop','park-sign',u,v,s);
 }
 function figure(name,file,iw,ih,u,v,Z,extra=''){
-  Z*=1.3;const[x,y]=P(u,v,10),w=Z*iw/ih,ground=P(u,v,10).map(n).join(' ');
+  Z*=1.3*1.15;const[x,y]=P(u,v,10),w=Z*iw/ih,ground=P(u,v,10).map(n).join(' ');
   item('character',name,u,v,contact(u,v,17,9)+`<g class="flower-hover" data-origin="${ground}" style="transform-origin:${origin([u,v,10])}"><g class="character-body" data-origin="${ground}" style="transform-origin:${origin([u,v,10])}"><image id="flower-image-${name}" href="../assets/mascot/be-cuc/${file}.webp" x="${n(x-w/2)}" y="${n(y-Z)}" width="${n(w)}" height="${n(Z)}"/></g></g>`,extra+' flower-character');
 }
 tree('school-tree',near,near,.8);
-for(const p of [[lo+GRID.cell*7.5,near],[far,560]])flowers(...p);
+
+// One flowering shrub sits on the front-left tile strip itself.
+
 const cue=haveFunSign(48,620);
 // Keep the walking lane clear; these two figures stand just inside the route.
-figure('daisy-explorer','du-lich',239,200,360,600,72,'npc');
-figure('daisy-juice','enjoy',183,200,574,390,74);
-figure('daisy-welcome','vui-tuoi',180,200,160,505,75);
+figure('daisy-explorer','du-lich',239,200,450,645,72,'npc');
+figure('daisy-juice','enjoy',183,200,625,395,74);
+figure('daisy-welcome','vui-tuoi',180,200,190,600,75);
 // Central graphic marks use the same plane as the board, rather than separate platforms.
 let playSurface=poly('play-area',rect(220,600,220,600).map(p=>[...p,.2]));
 playSurface+=line('play-border',[[225,225,.3],[595,225,.3],[595,595,.3],[225,595,.3],[225,225,.3]],2);
@@ -397,13 +419,11 @@ const side=`<path class="board-side face-light" d="M${shifted(middle,0)}Q${pathP
 const dark=`<path class="board-side face-dark" d="M${shifted(right,0)}Q${pathPoint(820,radius/2)} ${pathPoint(820,radius)}L${pathPoint(820,820-radius)}Q${pathPoint(820,820-radius/2)} ${shifted(middle,0)}L${shifted(middle,-14)}Q${pathPoint(820,820-radius/2,-14)} ${pathPoint(820,820-radius,-14)}L${pathPoint(820,radius,-14)}Q${pathPoint(820,radius/2,-14)} ${shifted(right,-14)}Z"/>`;
 const board=group('build-item board','single-board',[410,410,-14],side+dark+`<path class="board-top" d="${roundedOutline(0,820,0,820,radius)}"/><path class="board-rim" d="${roundedOutline(8,812,8,812,radius-8,.1)}"/>`+playSurface,'data-build="board" data-elevation="0" data-thickness="14" data-corner-radius="48"');
 const shadow=`<path class="board-shadow" d="${roundedOutline(12,827,12,827,radius,-22)}"/>`;
-const mark='<g class="intro-mark" aria-hidden="true"><image class="intro-primary-logo" href="../assets/brand/poet-primary-intro.webp" x="723" y="335" width="84" height="110" preserveAspectRatio="xMidYMid meet"/></g>';
+const mark='';
 const walkRoute=[...route.slice(ROUTE_START),...route.slice(0,ROUTE_START)],walkStops=walkRoute.map(p=>P(p.u,p.v,10).map(n));
 const walkPath=`<path id="poet-mascot-route" d="${[...walkStops,walkStops[0]].map((p,i)=>(i?'L':'M')+p.join(',')).join(' ')}" fill="none" stroke="none" pointer-events="none" data-start-x="${walkStops[0][0]}" data-start-y="${walkStops[0][1]}" data-tile-orders="${walkRoute.map(p=>p.order).join(',')}"/>`;
-// The same official standing artwork, at exactly its previous 5.2%-of-stage size.
+// Preserve the official standing artwork; enlarge 15%, anchored at its feet.
 const[mx,my]=P(652,652,10),anchor={x:n(mx/W*100),y:n(my/H*100)};
-const mw=W*.052,mh=mw*400/310;
-objects.push({depth:1304,s:group('build-item main-mascot object-target','be-mam',[652,652,10],`<g class="object-hover"><g class="object-art" id="object-art-be-mam"><g class="main-mascot-body" data-origin="${n(mx)} ${n(my)}"><image href="../assets/mascot/be-mam/stand.webp" x="${n(mx-mw/2)}" y="${n(my-mh)}" width="${n(mw)}" height="${n(mh)}"/></g></g></g><use class="object-hit" href="#object-art-be-mam" aria-hidden="true"/>`,'data-build="mascot" data-depth="1304" data-current-tile="24"')});
 const windLayer=(layer,ids)=>`<g class="wind-layer wind-${layer}" aria-hidden="true" pointer-events="none">${ids.map(i=>`<g class="wind-leaf" data-leaf="${i}" opacity="0"><g class="leaf-shape"><path class="leaf-fill" d="M-8 0Q-3-8 8 0Q3 8-8 0Z"/><path class="leaf-vein" d="M-5 0H5"/></g></g>`).join('')}</g>`;
 const svg=`<svg class="playground" viewBox="0 0 ${W} ${H}" role="group" aria-label="Thế giới sân chơi POET" focusable="false">\n${walkPath}\n${windLayer('back',[0,1])}\n<g class="world-float"><g class="world-drift">${shadow}\n${board}\n${objects.sort((a,b)=>a.depth-b.depth).map(o=>o.s).join('\n')}\n${cue}</g></g>\n${windLayer('front',[2,3])}\n${mark}\n</svg>`;
 if(route.length!==32||route.some(p=>p.z!==9))throw new Error('Route must contain 32 equal-elevation pieces');
@@ -419,5 +439,5 @@ if(process.argv.includes('--write')){
     .replace(/\s*<div class="mascot"[^>]*>[\s\S]*?<\/div>/,'')
     .replace('A connected route through four floating playground terraces. No hero copy.','One flat POET game board, a closed colorful route and a miniature playground. No hero copy.');
   fs.writeFileSync(file,html);
-  console.log(JSON.stringify({written:'v2/index.html',board:1,grid:GRID,thickness:14,tiles:route.length,closedRoute:true,schools:1,schoolCells:3,houses:1,stalls:3,equipment:4,mascot:anchor}));
+  console.log(JSON.stringify({written:'v2/index.html',board:1,grid:GRID,thickness:14,tiles:route.length,closedRoute:true,schools:1,schoolCells:3,houses:0,stalls:3,equipment:4,mascot:anchor}));
 }else console.log(svg);

@@ -140,3 +140,13 @@ Production changes are code-native SVG in `v2/tools/board-playground.mjs`: Commu
 ## UI-004 follow-up — footer photo retired (2026-10-21)
 
 The user replaced the classroom treatment with a plain rounded dark footer shape. The photo is no longer rendered or requested by the footer. Both the normalized asset and original source remain preserved; no asset was deleted. Participation uses the existing heart/building/users SVGs inside coral/yellow/green CSS tiles; no new artwork or icon package was added.
+
+## Home finishing — navigation flower (2026-10-22)
+
+- User-selected brand artwork: `New materials/MASCOT/Bé Cúc Young Joy/Cúc Tươi Cười.png`, 2008×2008 RGBA; SHA-256 `BB07092F0D3F39AD5EB59342F91945A23115A0071EF3028C32213B3FE5A9E64E`. Classified as a supplied mascot/UI asset, not a factual source. Original preserved.
+- Verified alpha bounds `[339,348,1737,1660)`. `assets/mascot/be-cuc/smiling-flower-nav.png` trims that transparent padding and downsamples to 144×135 RGBA; no background or artwork replacement. Used for the existing partnership dropdown only.
+- The supplied school photo is an architectural reference only; its people, vegetation and watermark are not copied into the SVG model. Affiliation content remains “Đang cập nhật” pending a confirmed organization/logo.
+
+### Navbar / affiliation follow-up
+
+The user subsequently supplied `C:/Users/trang/Downloads/images (2).png` for the affiliation group: VNV — Cộng đồng Tình nguyện Việt Nam. Classified as a supplied organization logo; copied byte-identically (561×547, 9409 bytes) to `assets/brand/vnv-community.png`, SHA-256 `357A84FCBBA93BA252951B7EEBA3CC528842609779E716CC9C3FA05AC061DA2E`. Original and artwork are preserved; only white padding is framed with CSS to balance visible logo sizes. No organization URL was supplied, so no destination was invented. The partnership dropdown now retains its original label, pale background, border and caret with the supplied flower artwork.

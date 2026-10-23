@@ -1,6 +1,6 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
-import {TILE_MELODY,midiFrequency,createToyPiano} from '../../tile-piano-audio.mjs';
+import {TILE_MELODY,ALPHABET_PHRASES,melodyForTiles,midiFrequency,createToyPiano} from '../../tile-piano-audio.mjs';
 import {orderPianoTiles} from '../../tile-piano.mjs';
 
 test('geometric ring order is stable despite reversed/shuffled DOM order',()=>{
@@ -19,11 +19,21 @@ test('geometric ring order is stable despite reversed/shuffled DOM order',()=>{
   assert.equal(ring[1].dataset.center,'146,58'); // clockwise in screen projection
 });
 
-test('fixed pentatonic pitches use A4=440 and a smooth 32-tile seam',()=>{
-  assert.deepEqual(TILE_MELODY,[60,62,64,67,69,72,69,67,64,62]);
+test('Alphabet preserves repeated notes, F4 and complete phrases on the 32-tile ring',()=>{
+  assert.equal(TILE_MELODY.length,43);
+  const ring=melodyForTiles(32);
+  assert.equal(ring.length,32);
+  assert.deepEqual(ring.slice(0,7),[60,60,67,67,69,69,67]);
+  assert.deepEqual(ring.slice(7,16),[65,65,64,64,62,62,62,62,60]);
+  assert.deepEqual(ring.slice(0,29),ALPHABET_PHRASES.slice(0,4).flat());
+  assert.deepEqual(ring.slice(29),[62,62,60]);
+  assert.deepEqual(melodyForTiles(32),ring);
+  assert.deepEqual(melodyForTiles(43),TILE_MELODY);
+  assert.deepEqual(melodyForTiles(50),[...TILE_MELODY,...ALPHABET_PHRASES[0]]);
   assert.equal(midiFrequency(69),440);
   assert(Math.abs(midiFrequency(60)-261.625565)<.000001);
-  assert(Math.abs(TILE_MELODY[31%10]-TILE_MELODY[0])<=2);
+  assert(Math.abs(midiFrequency(65)-349.228231)<.000001);
+  assert.equal(ring.at(-1),ring[0]);
 });
 
 test('construction/muting/disposal are silent and unsupported audio fails on opt-in only',async()=>{

@@ -25,27 +25,24 @@
     // Local review defaults to full; ?heroMotion=respect and public pages honor the OS.
     const reduceMotion=()=>reduced.matches&&!(debug?.forceMotion||previewMotion);
     const select=s=>[...hero.querySelectorAll(s)],q=s=>hero.querySelector(s);
-    const mascot=q('.main-mascot'),mascotBody=q('.main-mascot-body'),world=q('.world-drift'),slot=document.querySelector('.mascot-slot');
+    const world=q('.world-drift'),slot=document.querySelector('.mascot-slot');
     const floating=q('.world-float');
     const introScene=q('.poet-intro'),introCopy=q('.intro-copy'),curtain=q('.intro-curtain'),introLines=select('[data-intro-line]');
     introLines.forEach(line=>{
       if(line.dataset.prepared)return;
-      if(line.hasAttribute('data-intro-logo')){line.dataset.prepared='true';return;}
       const text=line.textContent.trim(),parts=text.split(/\s+/);
       line.setAttribute('aria-label',text);line.dataset.prepared='true';line.replaceChildren();
-      parts.forEach((part,i)=>{if(i&&!line.matches('.intro-name'))line.append(' ');const mask=document.createElement('span'),ink=document.createElement('span');mask.className='intro-word';mask.setAttribute('aria-hidden','true');ink.textContent=part;mask.append(ink);line.append(mask);});
+      parts.forEach((part,i)=>{if(i)line.append(' ');const mask=document.createElement('span'),ink=document.createElement('span');mask.className='intro-word';mask.setAttribute('aria-hidden','true');ink.textContent=part;mask.append(ink);line.append(mask);});
     });
     const introWords=select('.intro-word > span'),joinLink=q('.join-joy-link'),joinHover=q('.join-joy-hover'),cue=q('.join-joy-cue'),cuePaths=select('.join-joy-cue path');
-    const introLogo=q('[data-intro-logo]'),introGlyphs=select('.intro-logo-letter'),poemLines=introLines.filter(line=>!line.hasAttribute('data-intro-logo'));
     const tiles=select('.tile').sort((a,b)=>+a.dataset.routeIndex-+b.dataset.routeIndex);
     const tileByOrder=new Map(tiles.map(tile=>[+tile.dataset.order,tile])),tileGlows=select('.tile-activation'),glowTweens=new Map();
-    const groups=select('.build-item'),pivots=select('.swing-seat,.seesaw-plank,.flower-sway,.character-body,.main-mascot-body');
+    const groups=select('.build-item'),pivots=select('.swing-seat,.seesaw-plank,.flower-sway,.character-body');
     const flowerHovers=select('.flower-hover'),flowerTweens=new Map(),hoveredFlowers=new Set();
     const leaves=select('.wind-leaf'),leafShapes=select('.leaf-shape'),finePointer=matchMedia('(hover: hover) and (pointer: fine)');
     const routeStops=tiles.map(tile=>{const[u,v]=tile.dataset.center.split(',').map(Number);return{order:+tile.dataset.order,u,v,x:765+(u-v)*Math.cos(Math.PI/6),y:80+.44*(u+v)-10};});
-    const depthObjects=groups.filter(el=>el!==mascot&&el.dataset.depth).sort((a,b)=>+a.dataset.depth-+b.dataset.depth),mascotNext=mascot.nextElementSibling;
     const mark=q('.intro-mark'),shadow=q('.board-shadow'),route=q('#poet-mascot-route');
-    const owned=[...new Set([...groups,...pivots,...flowerHovers,...leaves,...leafShapes,...tileGlows,...introLines,...introWords,...introGlyphs,...cuePaths,introScene,introCopy,curtain,joinHover,cue,floating,world,mark,shadow,mascot].filter(Boolean))];
+    const owned=[...new Set([...groups,...pivots,...flowerHovers,...leaves,...leafShapes,...tileGlows,...introLines,...introWords,...cuePaths,introScene,introCopy,curtain,joinHover,cue,floating,world,mark,shadow].filter(Boolean))];
     const snapshots=new Map(owned.map(el=>[el,{style:el.getAttribute('style'),transform:el.getAttribute('transform'),svgOrigin:el.getAttribute('data-svg-origin')}]));
     const slotVisibility=slot?.style.visibility;
     const ambientTimelines=[],entries=[],phaseEvents=[];
@@ -53,7 +50,8 @@
     let activeTile=null,joinHovered=false,joinFocused=false,handoff=null;
     let resolveIntro;const introFinished=new Promise(resolve=>{resolveIntro=resolve;});
     let INTRO=.56;
-    const TILE_STAGGER=.055,TILE_DURATION=.60;
+    const TILE_DURATION=.30,TILE_BATCH=.85,TILE_STAGGER=(TILE_BATCH-TILE_DURATION)/Math.max(1,tiles.length-1);
+    const tileEnds=new Map();
     const tileRun={};let suppressTileNotes=false;
     const tileEvent=(name,detail={})=>hero.dispatchEvent(new CustomEvent('poet:tile-'+name,{detail:{run:tileRun,...detail}}));
     const phase=name=>{root.dataset.worldState=name;phaseEvents.push({name,time:master?.time()||0});if(name==='tiles')trace('TILE_ASSEMBLY_STARTED',{element:debug?.elementState(tiles[0])});if(name==='playground')trace('WORLD_POP_STARTED');};
@@ -83,119 +81,70 @@
       if(introScene)gsap.set(introScene,{autoAlpha:0});
       if(joinLink){joinLink.setAttribute('tabindex','-1');joinLink.setAttribute('aria-disabled','true');}
       if(cue)gsap.set(cue,{opacity:0});
-      world.insertBefore(mascot,mascotNext);delete mascot.dataset.currentTile;delete mascot.dataset.nextTile;
       root.classList.remove('intro-pending');
     }
     function createIntro(reducedVersion=false){
       if(!introScene)return null;
       gsap.set(introScene,{autoAlpha:1});gsap.set(introLines,{visibility:'visible'});introScene.setAttribute('aria-hidden','false');
       const intro=gsap.timeline();
-      gsap.set(introLogo,{x:0,scale:1,transformOrigin:'100% 50%'});introGlyphs.forEach(svgOrigin);
-      // Fit the visible two-line typography, excluding its generous line-box leading.
-      const bounds=introLogo.getBoundingClientRect(),font=getComputedStyle(poemLines[0]),measure=document.createElement('canvas').getContext('2d');
-      measure.font=`${font.fontWeight} ${font.fontSize} ${font.fontFamily}`;
-      const first=measure.measureText(poemLines[0].getAttribute('aria-label')),last=measure.measureText(poemLines.at(-1).getAttribute('aria-label'));
-      const lineGap=poemLines.at(-1).getBoundingClientRect().top-poemLines[0].getBoundingClientRect().top;
-      const fitScale=Math.min(1,(lineGap+first.actualBoundingBoxAscent+last.actualBoundingBoxDescent)*1.12/bounds.height);
+      gsap.set(introWords,{yPercent:0,rotation:0,opacity:1});
+      gsap.set(introCopy,{y:0,opacity:1});gsap.set(introLines,{y:0,opacity:1});
       if(reducedVersion){
-        gsap.set(introLogo,{scale:fitScale});
-        gsap.set(introWords,{yPercent:0,rotation:0,opacity:1});
-        gsap.set(introGlyphs,{y:0,rotation:0,scale:1,opacity:1});
-        intro.to(introScene,{autoAlpha:0,duration:.2,ease:'power1.out'},3.2).call(notifyIntroComplete);
+        intro.to(introCopy,{opacity:0,duration:.15},1.65).set(introScene,{autoAlpha:0},1.8).call(notifyIntroComplete);
         return intro;
       }
-      gsap.set(introWords,{yPercent:115,rotation:1.5,opacity:0});
-      gsap.set(introGlyphs,{y:18,rotation:-3,scale:.96,opacity:0,force3D:false});
-      const centerShift=innerWidth/2-(bounds.left+bounds.width/2);
-      gsap.set(introLogo,{x:centerShift});
-      // Greeting (logo, poem, hold, fade) plays 1.5x faster; the curtain handoff keeps its own pace.
-      const g=t=>t/1.5,HANDOFF=g(4.75);
-      intro.to(introGlyphs,{y:0,rotation:0,scale:1,opacity:1,duration:g(.6),stagger:g(.18),ease:'power3.out'},g(.18));
-      introGlyphs.forEach((letter,i)=>intro.call(()=>trace('INTRO_LOGO_LETTER_REVEAL',{letter:letter.dataset.letter}),null,g(.18+i*.18)));
-      intro.to(introLogo,{x:0,scale:fitScale,duration:g(.65),ease:'power3.inOut'},g(1.45))
-        .call(()=>trace('INTRO_LOGO_MOVED_LEFT'),null,g(2.1));
-      const times=[g(2.2),g(2.78)];
-      poemLines.forEach((line,i)=>{
-        intro.to(line.querySelectorAll('.intro-word > span'),{yPercent:0,rotation:0,opacity:1,duration:g(.6),stagger:g(.055),ease:'power3.out'},times[i]);
-        intro.call(()=>trace('INTRO_LINE_REVEAL',{line:i+1,text:line.getAttribute('aria-label')}),null,times[i]);
-      });
-      intro.to(introCopy,{y:-12,opacity:0,duration:g(.65),ease:'sine.inOut'},g(4.7))
-        .call(()=>trace('INTRO_HANDOFF_STARTED'),null,HANDOFF)
-        .to(curtain,{yPercent:-110,duration:1.6,ease:'sine.inOut'},HANDOFF);
-      if(mark)intro.to(mark,{opacity:.85,scale:1,duration:.5,ease:'sine.inOut'},HANDOFF+.55).to(mark,{opacity:0,duration:.55,ease:'sine.inOut'},HANDOFF+1.1);
-      // The landing zone is open while the curtain softly finishes its last .4s.
-      intro.addLabel('world-open',HANDOFF+1.2).call(notifyIntroComplete,null,'world-open');
-      intro.set(introScene,{autoAlpha:0},HANDOFF+1.6);
+      gsap.set(introLines,{y:8,opacity:0});
+      intro.to(introLines,{y:0,opacity:1,duration:.35,stagger:.24,ease:'power2.out'},0)
+        .to(introCopy,{y:-6,opacity:0,duration:.25,ease:'sine.inOut'},1.65)
+        .call(()=>trace('INTRO_HANDOFF_STARTED'),null,1.65)
+        .to(curtain,{yPercent:-110,duration:.45,ease:'sine.inOut'},1.65)
+        .addLabel('world-open',1.9).call(notifyIntroComplete,null,'world-open')
+        .set(introScene,{autoAlpha:0},2.1);
       return intro;
     }
     function record(el,kind,start,duration,extra={}){
       entries.push({name:el.dataset.obj||kind,kind,start,end:start+duration,...extra});
     }
     function animateTileAssembly(){
+      // Short upward translation in screen space, adapted to this fixed SVG camera.
+      const sceneScale=q('.playground').getBoundingClientRect().width/1530;
+      const rise=Math.min(28,18/Math.max(.5,sceneScale));
       tiles.forEach((tile,i)=>{
-        const at=INTRO+i*TILE_STAGGER,fallDistance=420+(i%5)*46+(i%3)*13;
-        let duringReported=false;
-        master.fromTo(tile,{y:-fallDistance,opacity:1,scale:1,svgOrigin:tile.dataset.origin,smoothOrigin:false,force3D:false},
-          {y:0,duration:.36,ease:'power3.in',immediateRender:false,onComplete(){if(!suppressTileNotes&&!destroyed&&!reduceMotion()&&!document.hidden&&!pageSuspended&&onScreen&&master.isActive())tileEvent('land',{tile});},onUpdate:i===0?()=>{if(!duringReported&&master.time()>at+.15){duringReported=true;trace('TILE_TRANSFORM_DURING',{element:debug?.elementState(tile)});}}:undefined},at)
-          .to(tile,{y:2,scaleY:.98,duration:.06,ease:'power1.out'},at+.36)
-          .to(tile,{y:-1.6,scaleY:1.006,duration:.08,ease:'power2.out'},at+.42)
-          .to(tile,{y:0,scaleY:1,duration:.10,ease:'power2.inOut',onComplete:i===0?()=>trace('TILE_TRANSFORM_AFTER',{element:debug?.elementState(tile)}):i===tiles.length-1?()=>tileEvent('assembled'):undefined},at+.50);
-        record(tile,'tile',at,TILE_DURATION,{order:+tile.dataset.order,fallDistance,compression:.98});
+        const at=INTRO+i*TILE_STAGGER;
+        tileEnds.set(tile.dataset.obj,at+TILE_DURATION);
+        master.fromTo(tile,{y:rise,opacity:0,scale:1,svgOrigin:tile.dataset.origin,smoothOrigin:false,force3D:false},
+          {y:0,opacity:1,duration:TILE_DURATION,ease:'power2.out',immediateRender:false,onComplete(){
+            if(!suppressTileNotes&&!destroyed&&!reduceMotion()&&!document.hidden&&!pageSuspended&&onScreen&&master.isActive())tileEvent('settled',{tile});
+            if(i===tiles.length-1)tileEvent('assembled');
+          }},at);
+        record(tile,'tile',at,TILE_DURATION,{order:+tile.dataset.order,rise});
       });
-      const at=INTRO+.88;
-      master.fromTo(q('.board'),{y:18,scaleY:.98,opacity:0,svgOrigin:q('.board').dataset.origin,smoothOrigin:false},
-          {y:0,scaleY:1,opacity:1,duration:.44,ease:'power3.out',immediateRender:false},at)
-        .fromTo(shadow,{opacity:0},{opacity:.07,duration:.4,ease:'power2.out',immediateRender:false},at);
-      record(q('.board'),'board',at,.44);
+      const at=Math.max(0,INTRO-.1);
+      master.fromTo(q('.board'),{y:12,opacity:0,svgOrigin:q('.board').dataset.origin,smoothOrigin:false},
+        {y:0,opacity:1,duration:.3,ease:'power2.out',immediateRender:false},at)
+        .fromTo(shadow,{opacity:0},{opacity:.07,duration:.3,ease:'power2.out',immediateRender:false},at);
+      record(q('.board'),'board',at,.3);
     }
-    const popPresets={
-      building:{scale:.9,y:26,lift:3,overshoot:1.025,compression:.989,rise:.32},
-      equipment:{scale:.84,y:38,lift:6,overshoot:1.055,compression:.976,rise:.32},
-      sign:{scale:.88,y:30,lift:4,overshoot:1.04,compression:.982,rise:.34},
-      environment:{scale:.84,y:24,lift:5,overshoot:1.075,compression:.97,rise:.27},
-      detail:{scale:.86,y:22,lift:5,overshoot:1.08,compression:.968,rise:.25},
-      character:{scale:.92,y:18,lift:3,overshoot:1.03,compression:.985,rise:.26},
-    };
-    function pop(el,kind,at,pace=1){
+    function pop(el,kind,at){
       if(!el)return;
-      const p=popPresets[kind],rise=p.rise*pace,compression=.1*pace,rebound=.12*pace,settle=.13*pace,duration=rise+compression+rebound+settle;
-      master.fromTo(el,{y:p.y,scale:p.scale,opacity:0,rotation:0,svgOrigin:el.dataset.origin,smoothOrigin:false,force3D:false},
-        {y:-p.lift,scale:p.overshoot,opacity:1,duration:rise,ease:'power3.out',immediateRender:false},at)
-        .to(el,{y:.8,scaleX:1+(1-p.compression)*.5,scaleY:p.compression,duration:compression,ease:'power2.inOut'},at+rise)
-        .to(el,{y:-p.lift*.14,scaleX:.998,scaleY:1.005,duration:rebound,ease:'sine.inOut'},at+rise+compression)
-        .to(el,{y:0,scale:1,duration:settle,ease:'sine.inOut'},at+rise+compression+rebound);
-      record(el,kind,at,duration,{overshoot:p.overshoot});
+      const duration=kind==='character'?.48:.42;
+      master.fromTo(el,{y:kind==='character'?14:20,scale:1,rotation:0,opacity:0,svgOrigin:el.dataset.origin,smoothOrigin:false,force3D:false},
+        {y:0,opacity:1,duration,ease:'power2.out',immediateRender:false},at);
+      record(el,kind,at,duration);
     }
     function animateWorldReveal(){
-      // Derive the boundary from the final tile's actual landing/settle duration.
-      const WORLD=INTRO+Math.max(0,tiles.length-1)*TILE_STAGGER+TILE_DURATION;
-      ['slide','swing','seesaw','roundabout'].forEach((name,i)=>{
-        const el=q(`[data-obj="${name}"]`),at=WORLD+i*.075;
-        pop(el,'equipment',at,.88);
-        if(name==='swing')master.fromTo(q('.swing-seat'),{rotation:3,svgOrigin:q('.swing-seat').dataset.origin,smoothOrigin:false},{rotation:0,duration:.484,ease:'back.out(.45)',immediateRender:false},at+.3344);
-        if(name==='seesaw')master.fromTo(q('.seesaw-plank'),{rotation:-2,svgOrigin:q('.seesaw-plank').dataset.origin,smoothOrigin:false},{rotation:0,duration:.3696,ease:'power2.out',immediateRender:false},at+.308);
+      ['slide','swing','seesaw','roundabout'].forEach((name,i)=>pop(q('[data-obj="'+name+'"]'),'equipment',INTRO+.16+i*.09));
+      select('.building,.vegetation,.prop').forEach((el,i)=>{
+        const kind=el.matches('.building')?'building':el.dataset.obj==='have-fun-sign'?'sign':el.dataset.obj.startsWith('flowers-')||el.dataset.obj.startsWith('meadow-')?'detail':'environment';
+        const supports=(el.dataset.supportTiles||'').split(' ').filter(Boolean);
+        const supportedAt=Math.max(0,...supports.map(id=>tileEnds.get(id)||0));
+        const at=supports.length?supportedAt+.08:INTRO+.25+(i%3)*.09;
+        pop(el,kind,at);entries.at(-1).supports=supports;
       });
-      const start=routeStops[0],angle=p=>Math.atan2(.44*(p.u+p.v-820),(p.u-p.v)*Math.cos(Math.PI/6));
-      const startAngle=angle(start),perimeter=select('.building,.vegetation,.prop').filter(el=>el.dataset.obj!=='have-fun-sign').map(el=>{
-        const[u,v]=el.dataset.ground.split(' ').map(Number),clockwise=(angle({u,v})-startAngle+Math.PI*2)%(Math.PI*2);
-        return{el,clockwise};
-      }).sort((a,b)=>a.clockwise-b.clockwise);
-      perimeter.forEach(({el,clockwise},i)=>{
-        const kind=el.matches('.building')?'building':el.dataset.obj==='park-sign'?'sign':el.dataset.obj.startsWith('flowers-')?'detail':'environment';
-        const at=WORLD+.18+i*.085;pop(el,kind,at,.88);el.dataset.revealOrder=String(i);
-        entries.at(-1).clockwise=clockwise;entries.at(-1).perimeterOrder=i;
-        master.call(()=>trace('PERIMETER_OBJECT_REVEAL',{name:el.dataset.obj,order:i,clockwise}),null,at);
-      });
-      pop(q('[data-obj="have-fun-sign"]'),'sign',master.duration(),.88);
     }
     function animateMascotEntry(){
-      const START=master.duration();
-      select('.character').forEach((el,i)=>pop(el,'character',START+i*.06));
-      const at=START+.18;
-      master.fromTo(mascot,{opacity:0,y:25,scale:.9,svgOrigin:mascot.dataset.origin,smoothOrigin:false,force3D:false},
-          {opacity:1,y:-4,scale:1.015,duration:.26,ease:'power2.out',immediateRender:false},at)
-        .to(mascot,{y:0,scale:1,duration:.16,ease:'power2.inOut'},at+.26);
-      record(mascot,'mascot',at,.42);
+      select('.character').forEach((el,i)=>pop(el,'character',INTRO+.9+i*.1));
+
     }
     function stopGlowTween(glow){glowTweens.get(glow)?.kill();glowTweens.delete(glow);}
     function deactivateTile(){
@@ -270,7 +219,7 @@
       gsap.set(flowerHovers,{scale:1,y:0});
     }
     function reactFlower(node,enter){
-      if(enter&&(!resolved||destroyed||!onScreen||document.hidden||pageSuspended||handoff||!finePointer.matches))return;
+      if(enter&&(!resolved||destroyed||!onScreen||document.hidden||pageSuspended||handoff||hero.dataset.mascotDragging||!finePointer.matches))return;
       if(enter&&hoveredFlowers.has(node))return;
       flowerTweens.get(node)?.kill();flowerTweens.delete(node);
       enter?hoveredFlowers.add(node):hoveredFlowers.delete(node);
@@ -317,21 +266,20 @@
         ambientTimelines.push(tl);
       });
       select('.character .character-body').forEach((el,i)=>{
-        const tl=gsap.timeline({paused:true,repeat:-1,repeatDelay:1.8+i*.6,delay:1+i*.4,id:'poet-idle-'+i});
-        tl.to(el,{rotation:1.6,x:1,duration:1.5,ease:'sine.inOut'}).to(el,{rotation:-1.6,x:-1,duration:3,ease:'sine.inOut'}).to(el,{rotation:0,x:0,duration:1.5,ease:'sine.inOut'});
+        const tilt=[3.4,-4,3.1][i%3],bounce=[6,5,7][i%3],half=[1.05,1.2,.95][i%3];
+        const tl=gsap.timeline({paused:true,repeat:-1,delay:i*.37,id:'poet-idle-'+i});
+        tl.to(el,{rotation:tilt,y:-bounce,duration:half,ease:'sine.inOut'})
+          .to(el,{rotation:-tilt,y:0,duration:half,ease:'sine.inOut'});
         ambientTimelines.push(tl);
       });
-      const sprout=gsap.timeline({paused:true,repeat:-1,yoyo:true,id:'poet-sprout-idle'});
-      sprout.to(mascotBody,{scaleY:1.012,duration:2.2,ease:'sine.inOut'});
-      ambientTimelines.push(sprout);startWind();syncMotion();
+      startWind();syncMotion();
     }
     function stopAmbientMotion(){
       resetFlowerHovers();
       ambientTimelines.forEach(tl=>tl.kill());ambientTimelines.length=0;pathLoop=null;
       resetTileActivation();
-      stopDrift();gsap.set([...pivots,mascot],{x:0,y:0,rotation:0,scale:1});gsap.set(leaves,{opacity:0});
+      stopDrift();gsap.set(pivots,{x:0,y:0,rotation:0,scale:1});gsap.set(leaves,{opacity:0});
       if(floating)gsap.set(floating,{x:0,y:0});
-      world.insertBefore(mascot,mascotNext);delete mascot.dataset.currentTile;delete mascot.dataset.nextTile;
     }
     function syncMotion(){
       if(destroyed)return;
@@ -384,7 +332,6 @@
         if(el._gsap)el._gsap.uncache=1;
       }
       if(slot)slot.style.visibility=slotVisibility;
-      world.insertBefore(mascot,mascotNext);delete mascot.dataset.currentTile;delete mascot.dataset.nextTile;
       root.classList.remove('intro-pending');hero.classList.remove('world-building');phase('stopped');
     }
     // Edge contact alone counts as isIntersecting at a deep-link scroll position.
@@ -395,12 +342,12 @@
       phase('loading');
       trace('HERO_INITIALIZED',{tileCount:tiles.length,worldObjectCount:groups.filter(el=>!el.matches('.tile,.board')).length});
       // Let the real hero assets and initial SVG paint settle before timed choreography.
-      // This prevents first-image decoding/layout from competing with the falling pieces.
+      // This keeps first-image decoding/layout outside the short assembly timeline.
       const urls=[...new Set([...select('image').map(el=>el.getAttribute('href')),...select('img').map(el=>el.currentSrc||el.src)])];
       await Promise.allSettled(urls.map(src=>{const image=new Image();image.src=src;return image.decode();}));
       await document.fonts.load('24px "Product Sans"').catch(()=>{});
-      // The greeting is measured to fit the logo, so its display face must be ready first.
-      await document.fonts.load('700 24px "Suaserif"').catch(()=>{});
+      // Use the existing real italic face before revealing the two-line greeting.
+      await document.fonts.load('italic 24px "Product Sans"').catch(()=>{});
       await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
       if(destroyed||resolved)return;
       // A deep link/restored scroll may skip the greeting, never construction.
@@ -419,7 +366,7 @@
       if(intro){
         master.addLabel('intro',0).call(()=>phase('intro'),null,0).add(intro,0);
       }else{
-        gsap.set(mark,{opacity:0});notifyIntroComplete();
+        if(mark)gsap.set(mark,{opacity:0});notifyIntroComplete();
       }
       master.addLabel('tiles',INTRO);
       animateTileAssembly();animateWorldReveal();animateMascotEntry();
@@ -434,6 +381,7 @@
       trace('TILE_TRANSFORM_BEFORE',{element:debug?.elementState(tiles[0])});
       syncMotion();
     }
+    hero.addEventListener('poet:mascot-drag-start',resetFlowerHovers,{signal:events.signal});
     select('.flower-character').forEach(character=>{
       const node=character.querySelector('.flower-hover');
       character.addEventListener('pointerenter',event=>{if(event.pointerType!=='touch')reactFlower(node,true);},{signal:events.signal});
@@ -512,7 +460,7 @@
       if(bounds.top>8||bounds.bottom<innerHeight*.65)return;
       event.preventDefault();transitionToActivities({source:'scroll'});
     },{passive:false,signal:events.signal});
-    hero.addEventListener('pointermove',event=>{if(!driftX||event.pointerType==='touch')return;driftX((event.clientX/innerWidth-.5)*10);driftY((event.clientY/innerHeight-.5)*7);pointerSettle?.restart(true);},{passive:true,signal:events.signal});
+    hero.addEventListener('pointermove',event=>{if(!driftX||event.pointerType==='touch'||hero.dataset.mascotDragging)return;driftX((event.clientX/innerWidth-.5)*10);driftY((event.clientY/innerHeight-.5)*7);pointerSettle?.restart(true);},{passive:true,signal:events.signal});
     hero.addEventListener('pointerleave',()=>{pointerSettle?.pause();driftX?.(0);driftY?.(0);},{signal:events.signal});
     finePointer.addEventListener('change',()=>{if(!finePointer.matches){joinHovered=false;resetFlowerHovers();}updateJoinInteraction(true);syncMotion();},{signal:events.signal});
     document.addEventListener('visibilitychange',syncMotion,{signal:events.signal});
@@ -534,7 +482,7 @@
         if(!master||destroyed)return;
         master.pause().totalTime(0,true);stopAmbientMotion();resolved=false;introNotified=false;
         prepareHeroAnimation();master.invalidate().totalTime(time,false);
-        if(time>=INTRO)gsap.set(mark,{opacity:0});
+        if(mark&&time>=INTRO)gsap.set(mark,{opacity:0});
         if(resolved)ambientTimelines.forEach(t=>t.pause());
       },
     };

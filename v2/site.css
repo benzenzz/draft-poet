@@ -817,3 +817,48 @@ poet-nav.site-home-nav .site-nav-inner>.btn{border-radius:14px}
 .site-footer a:focus-visible{outline-color:#fee161}
 @media(hover:hover) and (pointer:fine){.site-footer .site-socials a:hover{background:#403d38;border-color:#fffaf2}}
 @media(max-width:600px){.site-footer .site-footer-top{grid-template-columns:1fr;gap:28px}.site-footer .site-footer-contact{grid-template-columns:1fr;gap:20px}.site-footer .site-socials{grid-column:auto}.site-footer .site-footer-email{grid-column:auto;font-size:20px!important}}
+
+/* Home-only affiliation/press and truthful archive metrics. */
+.home-credibility{padding-block:22px;background:var(--poet-cream);border-bottom:1px solid var(--poet-border)}
+.home-credibility-inner{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:20px 56px;padding-block:0}
+.home-credibility-inner>div{display:flex;align-items:center;justify-content:center;gap:24px;min-width:0}
+.home-trust-label{font-size:15px;line-height:1.5;font-weight:400;color:var(--poet-muted);white-space:nowrap}
+.home-trust-separator{width:1px;height:24px;background:var(--poet-border);flex:none}
+.home-press-logos{display:flex;align-items:center;gap:28px;flex:none}
+.home-press-logos a{position:relative;display:flex;align-items:center;border-radius:6px;transition:transform 200ms;touch-action:manipulation}
+/* Enlarge the linked logos' hit area without increasing the compact strip. */
+.home-press-logos a::before{content:"";position:absolute;left:0;right:0;top:50%;height:44px;transform:translateY(-50%)}
+.home-press-logos a:focus-visible{outline:3px solid var(--poet-ink);outline-offset:4px}
+.home-press-logos img{display:block;width:auto;max-width:none;object-fit:contain}
+.home-press-logos .home-trust-logo--student{height:30px}
+.home-press-logos .home-trust-logo--newspaper{height:17px}
+/* Keep the previously approved CSS framing; do not edit the white-backed PNG. */
+.home-affiliation-logo{position:relative;flex:none;height:26px;aspect-ratio:441/268;overflow:hidden}
+.home-affiliation-logo img{position:absolute;width:127.211%;max-width:none;height:auto;left:-13.605%;top:-54.478%}
+@media(hover:hover) and (pointer:fine){.home-press-logos a:hover{transform:translateY(-2px)}}
+@media(prefers-reduced-motion:reduce){.home-press-logos a{transition:none}.home-press-logos a:hover{transform:none}}
+@media(min-width:641px) and (max-width:900px){.home-credibility-inner>div{flex-basis:100%}.home-trust-separator{display:none}}
+@media(max-width:640px){
+ .home-credibility{padding-block:4px}
+ .home-credibility-inner{display:block}
+ .home-credibility-inner>div{justify-content:space-between;flex-wrap:wrap;padding-block:14px;gap:16px}
+ .home-credibility .home-press{border-top:1px solid var(--poet-border)}
+ .home-trust-label{font-size:14px}
+ .home-trust-separator{display:none}
+ .home-affiliation-logo{height:22px}
+ .home-press-logos{gap:18px}
+ .home-press-logos .home-trust-logo--student{height:26px}
+ .home-press-logos .home-trust-logo--newspaper{height:15px}
+}
+.archive-section--home .inline-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:24px 0}
+.archive-section--home .inline-metrics li{border:1px solid #b7d9c6;border-radius:var(--radius-card);background:transparent;padding:14px 16px;display:flex;flex-direction:column;gap:5px;min-width:0}
+.archive-section--home .inline-metrics strong{font-size:36px;line-height:1.1;color:var(--poet-heading);font-variant-numeric:tabular-nums}
+.archive-section--home .inline-metrics span{font-size:14px;line-height:1.45}
+@media(max-width:600px){.archive-section--home .inline-metrics{gap:8px}.archive-section--home .inline-metrics li{padding:12px 10px}.archive-section--home .inline-metrics strong{font-size:32px}}
+
+.site-nav .site-dropdown>button{position:relative;min-height:44px;padding:7px 15px;gap:7px;border:1px solid #fee161;border-radius:8px;background:#fffcef;justify-content:center;touch-action:manipulation}
+.site-nav .site-partner-mascot{width:26px;height:29px;object-fit:contain}
+.partner-nav-name{display:inline;white-space:nowrap}
+.site-nav .site-dropdown>button:hover{background:#fff5d1}
+.site-dropdown>button:focus-visible{outline:3px solid var(--poet-ink);outline-offset:3px}
+@media(max-width:900px){.site-nav .site-dropdown>button{justify-content:flex-start;gap:10px;font-size:18px}.site-nav .site-partner-mascot{width:31px;height:34px}}

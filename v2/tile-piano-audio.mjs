@@ -1,5 +1,28 @@
 // Small, bounded Web Audio instrument. One context serves tiles and the Have fun chord.
-export const TILE_MELODY=[60,62,64,67,69,72,69,67,64,62];
+export const ALPHABET_PHRASES=[
+  [60,60,67,67,69,69,67],
+  [65,65,64,64,62,62,62,62,60],
+  [67,67,65,64,64,62],
+  [67,67,67,65,64,64,62],
+  [60,60,67,67,69,69,67],
+  [65,65,64,64,62,62,60],
+];
+export const TILE_MELODY=ALPHABET_PHRASES.flat();
+export function melodyForTiles(count){
+  const notes=[];
+  for(const phrase of ALPHABET_PHRASES){
+    if(notes.length+phrase.length>count)break;
+    notes.push(...phrase);
+  }
+  // Preserve complete phrases; a short remaining tail resolves to C4.
+  if(count<TILE_MELODY.length){
+    const remaining=count-notes.length;
+    notes.push(...Array.from({length:remaining},(_,i)=>i===remaining-1?60:62));
+  }else{
+    while(notes.length<count)notes.push(ALPHABET_PHRASES[0][(notes.length-TILE_MELODY.length)%7]);
+  }
+  return notes;
+}
 export const midiFrequency=midi=>440*2**((midi-69)/12);
 
 export function createToyPiano({AudioContext=globalThis.AudioContext||globalThis.webkitAudioContext,onStateChange=()=>{}}={}){

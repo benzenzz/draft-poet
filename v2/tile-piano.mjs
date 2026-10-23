@@ -1,4 +1,4 @@
-import {createToyPiano,TILE_MELODY} from './tile-piano-audio.mjs?v=tile-piano-2';
+import {createToyPiano,melodyForTiles} from './tile-piano-audio.mjs?v=alphabet-1';
 
 // Sort projected geometry clockwise from the back/top corner, not SVG order.
 export function orderPianoTiles(tiles){
@@ -16,6 +16,9 @@ export function initTilePiano(hero){
   const events=new AbortController(),listen=(target,type,fn,options={})=>target.addEventListener(type,fn,{...options,signal:events.signal});
   const root=document.documentElement,landed=new Set(),highlights=new Map(),reentries=new WeakMap();
   let assembled=['alive','reduced','fallback'].includes(root.dataset.worldState),run=null,enabled=false,attempt=0,lastTime=-Infinity,currentTile=null,focusIndex=0,touch=null,chordActive=false;
+  let preferred=true,unlockAllowed=true;
+  try{preferred=localStorage.getItem('poet:playground:sound')!=='off';}catch{}
+  function preference(on){preferred=on;try{localStorage.setItem('poet:playground:sound',on?'on':'off');}catch{}}
   const controls=document.createElement('div');controls.className='tile-piano-controls';
   controls.innerHTML='<button type="button" class="tile-piano-toggle" aria-pressed="false" aria-describedby="tile-piano-help"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4Z"/><path class="piano-speaker-on" d="M15 8c3 2 3 6 0 8m3-11c5 4 5 10 0 14"/><path class="piano-speaker-off" d="m16 9 5 6m0-6-5 6"/></svg></button><p class="sr-only" id="tile-piano-help">Đường đàn POET. Bật âm rồi rê chuột hoặc chạm ô. Dùng phím mũi tên để chọn ô, Enter hoặc Space để chơi.</p><p class="tile-piano-status" role="status"></p>';
   hero.append(controls);
@@ -26,7 +29,7 @@ export function initTilePiano(hero){
   function stopSound(){chordActive=false;attempt++;render(false);button.disabled=false;audio.mute();clearHighlights();currentTile=null;}
   function ready(value){assembled=value;tiles.forEach((tile,i)=>tile.tabIndex=value&&i===focusIndex?0:-1);}
   function play(tile,source){
-    if(!enabled||document.hidden||!audio.running)return;
+    if(!enabled||document.hidden||!audio.running||hero.hasAttribute('data-mascot-dragging'))return;
     let note;
     try{note=audio.play(Number(tile.dataset.pianoMidi));}
     catch{stopSound();status.textContent='Chưa phát được âm thanh. Bạn thử bật lại nhé.';return;}
@@ -36,22 +39,24 @@ export function initTilePiano(hero){
     hero.dispatchEvent(new CustomEvent('poet:tile-note',{detail:{...note,tile:tile.dataset.obj,source}}));
   }
   function userNote(tile,source='pointer'){
-    if(!assembled||!tile||document.hidden||root.hasAttribute('data-hero-transition'))return;
+    if(!assembled||!tile||document.hidden||hero.hasAttribute('data-mascot-dragging')||root.hasAttribute('data-hero-transition'))return;
     const now=performance.now();
     if(now-lastTime<60||now-(reentries.get(tile)??-Infinity)<90)return;
     if(!enabled||!audio.running)return;
     lastTime=now;reentries.set(tile,now);play(tile,source);
   }
-  const names={60:'Đô',62:'Rê',64:'Mi',67:'Sol',69:'La',72:'Đô cao'};
+  const names={60:'Đô',62:'Rê',64:'Mi',65:'Fa',67:'Sol',69:'La'};
+  const melody=melodyForTiles(tiles.length);
   tiles.forEach((tile,i)=>{
-    const midi=TILE_MELODY[i%TILE_MELODY.length];
+    const midi=melody[i];
     tile.dataset.pianoIndex=String(i);tile.dataset.pianoMidi=String(midi);
     tile.setAttribute('role','button');tile.setAttribute('aria-label',`Ô nhạc ${names[midi]}, ${i+1} trên ${tiles.length}`);
     tile.setAttribute('aria-describedby','tile-piano-help');tile.tabIndex=-1;
   });
   ready(assembled);
   listen(button,'click',async()=>{
-    if(enabled){stopSound();return;}
+    if(enabled){preference(false);unlockAllowed=false;stopSound();return;}
+    preference(true);unlockAllowed=false;
     const token=++attempt;button.disabled=true;status.textContent='';
     try{
       if(!await audio.enable())return;
@@ -82,9 +87,9 @@ export function initTilePiano(hero){
     }else if(key==='Enter'||key===' '){event.preventDefault();if(!event.repeat)userNote(tile,'keyboard');}
   });
   listen(hero,'poet:tile-assembly-start',event=>{run=event.detail.run;landed.clear();ready(false);currentTile=null;clearHighlights();});
-  listen(hero,'poet:tile-land',event=>{
+  listen(hero,'poet:tile-settled',event=>{
     const {tile,run:landingRun}=event.detail;if(run===null)run=landingRun;if(run!==landingRun||landed.has(tile))return;
-    landed.add(tile);play(tile,'landing');
+    landed.add(tile);play(tile,'assembly');
   });
   listen(hero,'poet:tile-assembled',()=>ready(true));
   listen(hero,'poet:hero-ready',()=>ready(true));
@@ -95,13 +100,22 @@ export function initTilePiano(hero){
     if(!audio.playChord(()=>{if(chordActive)stopSound();}))chordActive=false;
   });
   listen(document,'poet:hero-handoff',event=>{if(event.detail.phase==='start'&&!chordActive)stopSound();});
-  listen(document,'visibilitychange',()=>{if(document.hidden)stopSound();});
+  listen(document,'visibilitychange',()=>{if(document.hidden){unlockAllowed=false;stopSound();}});
   const observer='IntersectionObserver'in window?new IntersectionObserver(([entry])=>{if((!entry.isIntersecting||entry.intersectionRatio<.1)&&!chordActive)stopSound();},{threshold:[0,.1]}):null;observer?.observe(hero);
   function dispose(){stopSound();events.abort();observer?.disconnect();audio.dispose();controls.remove();delete hero.dataset.pianoReady;}
   listen(window,'pagehide',event=>{if(event.persisted)stopSound();else dispose();});
   render(false);
   const autoToken=++attempt;
-  audio.enable({autoplay:true}).then(on=>{if(autoToken===attempt&&!document.hidden)render(!!on);}).catch(()=>{});
+  if(preferred)audio.enable({autoplay:true}).then(on=>{if(autoToken===attempt&&!document.hidden)render(!!on);}).catch(()=>{});
+  const unlock=event=>{
+    if(!preferred||!unlockAllowed||enabled||document.hidden||button.contains(event.target))return;
+    if(event.type==='keydown'&&!['Enter',' '].includes(event.key))return;
+    const rect=hero.getBoundingClientRect();if(rect.bottom<=0||rect.top>=innerHeight)return;
+    unlockAllowed=false;const token=++attempt;
+    audio.enable().then(on=>{if(token===attempt&&preferred&&!document.hidden)render(!!on);}).catch(()=>{});
+  };
+  listen(document,'pointerup',unlock,{capture:true,passive:true});
+  listen(document,'keydown',unlock,{capture:true});
   return dispose;
 }
 

@@ -16,6 +16,14 @@ __pycache__/
 *.py[cod]
 .cache/
 *.log
+dist/
+build/
+coverage/
+tmp/
+temp/
+*.tmp
+*.pem
+*.key
 
 # OS/editor temporary files
 .DS_Store
