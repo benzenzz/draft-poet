@@ -390,6 +390,7 @@ export const projectDetails = {
        text: 'Toàn bộ lợi nhuận của đêm nhạc cùng với số tiền hơn 30 triệu đồng nhận được từ các nhà hảo tâm đã được dùng vào Dự án cải thiện điều kiện học tập của em ở trường tiểu học Mỹ Thạnh Bắc (Đức Huệ, Long An).'}
     ],
     gallery: ['3348058835513471', '3348058678846820', '3348058328846855', '3348058605513494', '3348057892180232'],
+    hideGallery: true, // tạm ẩn phần Khoảnh khắc theo yêu cầu của chị Demi
     next: 'go-ngai'
   },
   'go-ngai': {

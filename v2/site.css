@@ -1874,17 +1874,17 @@ poet-nav.site-home-nav .site-nav-inner>.btn{border-radius:14px}
 .pd-g2,.pd-g3,.pd-g7{grid-column:span 5}
 .pd-g4,.pd-g5,.pd-g6{grid-column:span 4}
 .pd-g8{grid-column:span 7}
-.pd-next{position:relative;display:block;height:clamp(280px,30vw,380px);margin:clamp(56px,7vw,104px) var(--site-gutter) 0;border-radius:24px;overflow:clip;color:#fff;text-decoration:none}
+.pd-next{position:relative;display:block;height:clamp(200px,19vw,260px);margin:clamp(56px,7vw,104px) var(--site-gutter) 0;border-radius:24px;overflow:clip;color:#fff;text-decoration:none}
 .pd-next>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.5);transition:transform .8s ease}
 .pd-next:hover>img{transform:scale(1.05)}
 .pd-next-text{position:absolute;left:clamp(24px,3vw,40px);bottom:clamp(24px,3vw,40px);max-width:70%}
 .pd-next-label{display:block;font-size:14px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#ffd77a}
-.pd-next-text strong{display:block;margin-top:8px;font-size:clamp(26px,3vw,40px);line-height:1.15;color:#fff}
+.pd-next-text strong{display:block;margin-top:6px;font-size:clamp(24px,2.5vw,34px);line-height:1.15;color:#fff}
 .pd-next-btn{position:absolute;right:clamp(24px,3vw,40px);bottom:clamp(24px,3vw,40px);display:grid;place-items:center;width:64px;height:64px;border-radius:50%;background:var(--coral);color:#fff;transition:transform .3s ease}
 .pd-next-btn .prototype-icon{width:24px;height:24px;flex-basis:24px}
 .pd-next:hover .pd-next-btn{transform:translateX(6px)}
 .pd-next:focus-visible{outline:3px solid var(--poet-ink);outline-offset:3px}
-.pd-all{margin:22px 0 0;text-align:center;padding-bottom:var(--site-space)}
+.site-content .pd-all{max-width:none;margin:22px 0 0;text-align:center;padding-bottom:var(--site-space)}
 .pd-all a{display:inline-flex;align-items:center;gap:8px;font-weight:700;color:var(--poet-heading);text-decoration:underline;text-decoration-color:var(--poet-green);text-underline-offset:6px}
 .pd-all .prototype-icon{width:16px;height:16px;flex-basis:16px}
 @media(min-width:641px) and (max-width:900px){
@@ -1908,7 +1908,10 @@ poet-nav.site-home-nav .site-nav-inner>.btn{border-radius:14px}
  .pd-grid{grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:150px;gap:8px}
  .pd-g{grid-column:auto!important;grid-row:auto!important}
  .pd-g1{grid-column:span 2!important;grid-row:span 2!important}
- .pd-next{height:300px}
+ .pd-next{height:220px}
+ .pd-next-text{left:20px;bottom:20px;max-width:calc(100% - 100px)}
+ .pd-next-text strong{font-size:21px;line-height:1.2}
+ .pd-next-label{font-size:12px}
  .pd-next-btn{width:52px;height:52px}
 }
 @media(prefers-reduced-motion:reduce){.pd-g,.pd-g img,.pd-next>img,.pd-next-btn{transition:none!important;transform:none!important}}
