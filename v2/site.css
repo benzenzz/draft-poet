@@ -1752,3 +1752,6 @@ html.reveal-motion .mission-section.will-enter.is-in .mission-card{opacity:1;tra
 .plan-schedule{background:none;padding:0}
 .plan-timeline li>.plan-night{background:#ef8a7d;color:#fff}
 .plan-night .prototype-icon{color:#fff}
+/* shorter opener for the story section */
+.story-open{height:clamp(300px,34vw,440px)}
+@media(max-width:640px){.story-open{height:360px}}
