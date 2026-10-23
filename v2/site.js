@@ -285,6 +285,13 @@ document.querySelectorAll('.volunteer-videos').forEach(wrap=>{
   rail.addEventListener('scroll',update,{passive:true});
   new IntersectionObserver(es=>{if(es.some(e=>e.isIntersecting))update();}).observe(rail);
 });
+// TikTok's player loads only after a click: the card is swapped for the iframe in place.
+document.querySelectorAll('[data-v-tiktok]').forEach(card=>card.addEventListener('click',()=>{
+  const f=document.createElement('iframe');
+  f.className=card.className+' v-frame';f.title='Video TikTok của POET';f.loading='lazy';f.allowFullscreen=true;
+  f.allow='autoplay; fullscreen; encrypted-media';f.src=`https://www.tiktok.com/player/v1/${card.dataset.vTiktok}?autoplay=1`;
+  card.replaceWith(f);f.focus();
+}));
 
 // Client-side correspondence only. A reviewed mailto draft never submits data.
 // Shared copy feedback: buttons with .copy-idle/.copy-done swap to "Đã sao chép" for 1.6s.

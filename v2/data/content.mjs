@@ -124,56 +124,11 @@ export const recruitment = {
   closedLabel: 'Mùa 6 · đã đóng đơn',
   applicationUrl: null,
   deadline: null,
-  // Ứng viên từ prototype, số liệu là mẫu. Chỉ bật published khi POET (chị Cá Mèo) xác nhận video, link và số thật.
+  // POET TikTok videos (@poet.npo), id only. Thumbnails use existing photos: TikTok oEmbed no longer returns thumbnail_url.
   videos: [
-    {
-      published: false,
-      author: 'Cá Mèo',
-      handle: '@cameosotchuangot',
-      title: 'Hành trình tiền trạm Ea Kiết: bữa trưa gói cơm muối và nụ cười ngây thơ',
-      url: null,
-      poster: null,
-      fallbackPhoto: 'community-day',
-      views: '145.7K',
-      likes: '14.2K',
-      duration: '0:58'
-    },
-    {
-      published: false,
-      author: 'kuntent',
-      handle: '@kuntent22',
-      title: 'Một ngày làm hậu cần POET: đóng gói 300 bộ dụng cụ học tập có gì vui?',
-      url: null,
-      poster: null,
-      fallbackPhoto: 'school-friends',
-      views: '302.1K',
-      likes: '28.5K',
-      duration: '0:45'
-    },
-    {
-      published: false,
-      author: 'trâm na',
-      handle: '@nu.tramanh',
-      title: 'Đi thiện nguyện không chỉ là cho đi, mà là tìm thấy thanh xuân của chính mình',
-      url: null,
-      poster: null,
-      fallbackPhoto: 'playground-joy',
-      views: '429.9K',
-      likes: '51.3K',
-      duration: '1:12'
-    },
-    {
-      published: false,
-      author: 'Hà Trang là ai?',
-      handle: '@chang.since2001',
-      title: 'Chuyến xe đêm Sài Gòn – Đắk Lắk và ngọn lửa trại ấm áp của POET',
-      url: null,
-      poster: null,
-      fallbackPhoto: 'bicycle-joy',
-      views: '134.5K',
-      likes: '12.8K',
-      duration: '0:52'
-    }
+    {id: '7691974748988869895', photo: 'community-day'},
+    {id: '7692724969809120530', photo: 'school-friends'},
+    {id: '7692340261279616274', photo: 'playground-joy'}
   ],
   notice: {
     kicker: 'Thông báo tuyển quân',
@@ -214,7 +169,7 @@ export const reach = [
 
 // About “Sứ mệnh của POET”: card copy approved in the ABOUT-002 brief/prototype; photos user-supplied (ASSET_STATUS.md).
 export const mission = {
-  eyebrow:'Điều chúng mình theo đuổi',title:'Sứ mệnh của POET',
+  title:'Sứ mệnh của POET',
   items:[
     {number:'01',audience:'Cho các em',tone:'coral',title:'Học đủ đầy, cả vật chất lẫn tinh thần',points:['Sửa chữa, bổ sung cơ sở vật chất thiết yếu cho trường','Tặng dụng cụ học tập, xe đạp cho học sinh khó khăn','Hoạt động “học là chơi, chơi là học” để các em vui và hiểu mình hơn'],image:'mission-children',position:'50% 38%',alt:'Các em nhỏ cười, giơ tay hình chữ V trong một hoạt động của POET.'},
     {number:'02',audience:'Cho tình nguyện viên',tone:'green',title:'Sân chơi để học hỏi và lớn lên',text:'Được định hướng rõ, giao việc đúng thế mạnh và đủ nguồn lực, để vừa làm tốt vừa học thêm qua mỗi chuyến đi.',image:'mission-volunteers',position:'50% 50%',alt:'Tay các tình nguyện viên POET cùng cầm những tấm thiệp giấy kraft vẽ tay trên bàn.'},
