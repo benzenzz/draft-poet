@@ -1,6 +1,6 @@
 /* Hero-only geometry and illustration. Palette comes from POET.pdf / existing v2 tokens.
    Typography, site navigation, and every content section retain their existing styles. */
-/* Hero-only display face: the Intro greeting and lettering on the board. Site text stays Product Sans. */
+/* Approved display lettering on the board; the Intro uses Product Sans Italic. */
 @font-face { font-family: 'Suaserif'; src: url('../assets/fonts/suaserif-bold.otf') format('opentype'); font-weight: 700; font-style: normal; font-display: swap; }
 .world-wrap { height: 160svh; overflow-x: clip; background: var(--paper); }
 .hero--world { height: 100svh; min-height: 520px; isolation: isolate; background: var(--paper); --pastel-pink: #f3a9c4; --font-board: 'Suaserif', var(--font-family-primary); }
@@ -52,10 +52,12 @@ html.hero-only .hero--world { position: relative; height: 100%; min-height: 400p
     --tile-wall-dark: var(--edge);
   }
 }
-.hero--world .board-top { fill: color-mix(in srgb, var(--pastel-pink) 25%, white); }
-.hero--world .board-rim { fill: color-mix(in srgb, var(--pastel-pink) 18%, white); }
-.hero--world .board-side { fill: color-mix(in srgb, var(--pastel-pink) 60%, white); }
-.hero--world .board-side.face-dark { fill: color-mix(in srgb, var(--pastel-pink) 78%, white); }
+.hero--world { --board-cream:#f5e6cc; --board-rim:#faeedc; --board-edge:#e5cfae; --board-edge-dark:#d8bd98; }
+/* Warm illustration colors sampled by eye from the reference, not brand tokens. */
+.hero--world .board-top { fill: var(--board-cream); }
+.hero--world .board-rim { fill: var(--board-rim); }
+.hero--world .board-side { fill: var(--board-edge); }
+.hero--world .board-side.face-dark { fill: var(--board-edge-dark); }
 .hero--world .board-shadow { fill: var(--coral-edge); opacity: .07; }
 .hero--world .play-area { fill: color-mix(in srgb, var(--yellow) 27%, white); }
 .hero--world .play-border { stroke: white; opacity: .8; }
@@ -140,18 +142,14 @@ html[data-world-state="alive"][data-world-motion="paused"] .hero--world .join-jo
 .intro-pending .poet-intro { visibility: visible; opacity: 1; }
 .intro-pending [data-intro-line] { visibility: hidden; }
 .intro-curtain { position: absolute; top: 0; left: -10%; width: 120%; height: 115%; background: color-mix(in srgb, var(--coral) 12%, white); border-radius: 0 0 50% 50% / 0 0 7% 7%; }
-.intro-copy { --intro-logo-width: clamp(72px, 12vw, 168px); position: relative; display: grid; grid-template-columns: var(--intro-logo-width) max-content; align-items: center; justify-content: center; column-gap: clamp(16px, 3vw, 48px); width: min(1120px, calc(100% - 40px)); text-align: left; color: var(--green-edge); font-family:var(--font-family-primary); }
+.intro-copy { position: relative; display: grid; place-items:center; width:min(1120px,calc(100% - 32px)); text-align:center; color:var(--green-edge); font-family:var(--font-family-primary); }
 .intro-copy p { margin: 0; }
-.hero--world .intro-name { width: var(--intro-logo-width); min-width: 0; margin: 0; font: inherit; line-height: 1; }
-.intro-logo { display: block; width: 100%; height: auto; overflow: visible; }
-.intro-logo-letter { transform-box: view-box; }
-.intro-poems { text-align: left; }
-.intro-poem { font-family: var(--font-board); font-weight: 700; font-size: clamp(14px, 2.5vw, 36px); line-height: 1.8; white-space: nowrap; }
+.intro-poems { text-align:center; }
+.intro-poem { font-family:var(--font-family-primary); font-style:italic; font-weight:400; font-size:clamp(18px,2.5vw,36px); line-height:1.2; white-space:nowrap; }
 .intro-word { display: inline-block; overflow: clip; vertical-align: bottom; padding: .18em .025em; margin: -.18em -.025em; }
 .intro-word > span { display: inline-block; }
 @media (max-width: 480px) {
-  .intro-copy { --intro-logo-width: clamp(60px, 18vw, 82px); column-gap: clamp(12px, 3.6vw, 17px); }
-  .intro-poem { font-size: clamp(11.5px, 3.6vw, 16px); }
+  .intro-poem { font-size:clamp(17px,4.6vw,22px); }
 }
 .hero--world .character-body { transform-box: view-box; }
 .hero--world .fence-rail { stroke: var(--blue); }
@@ -180,6 +178,8 @@ html[data-world-state="alive"][data-world-motion="paused"] .hero--world .join-jo
 .hero--world .slide-rail { stroke: color-mix(in srgb, var(--blue) 55%, white); }
 .hero--world .tree-crown { fill: color-mix(in srgb, var(--green) 65%, white); }
 .hero--world .tree-shade { fill: var(--green); opacity: .62; }
+.hero--world .low-shrub .tree-crown { fill: var(--green); }
+.hero--world .low-shrub .tree-shade { fill: var(--green-edge); opacity: .65; }
 .hero--world .world-float, .hero--world .world-drift, .hero--world .main-mascot, .hero--world .main-mascot-body,
 .hero--world .wind-leaf, .hero--world .leaf-shape { transform-box: view-box; }
 .hero--world .wind-layer { pointer-events: none; }
@@ -277,4 +277,42 @@ html[data-world-state="alive"][data-world-motion="paused"] .hero--world .join-jo
 .hero--world .booth-sign{fill:var(--booth-cream);stroke:var(--booth-green);stroke-width:.7}
 .hero--world .stall-merch .booth-sign{stroke:var(--booth-coral)}
 .hero--world .booth-label{fill:var(--booth-ink);font:700 11.5px var(--font-board)}
+.hero--world :is(.stall-info,.stall-merch) .booth-label{font-size:18px}
 .hero--world .flower-hover{transform-box:view-box;pointer-events:none}
+
+/* Optional tile instrument: independent of scene geometry and Hero motion. */
+.hero--world .tile-key-hit{fill:transparent;pointer-events:all;stroke:none;vector-effect:non-scaling-stroke}
+.hero--world .tile:focus{outline:none}
+.hero--world .tile:focus-visible .tile-key-hit{stroke:var(--poet-ink,#243c33);stroke-width:3;stroke-linejoin:round}
+.hero--world .tile[data-piano-playing] .tile-key-hit{fill:#fff;fill-opacity:.24}
+.hero--world .tile-piano-controls{position:absolute;z-index:12;right:clamp(16px,3vw,40px);bottom:max(18px,env(safe-area-inset-bottom));max-width:260px;font-family:var(--font-family-primary)}
+.hero--world .tile-piano-toggle{display:inline-flex;align-items:center;justify-content:center;gap:0;width:44px;height:44px;min-width:44px;min-height:44px;padding:0;border:1px solid var(--poet-border,#dedad2);border-radius:12px;background:var(--paper,#fbf8f2);color:var(--poet-ink,#243c33);font:700 14px/1.4 var(--font-family-primary);cursor:pointer;touch-action:manipulation}
+.hero--world .tile-piano-toggle svg{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.hero--world .tile-piano-toggle:focus-visible{outline:3px solid var(--poet-ink,#243c33);outline-offset:3px}
+.hero--world .tile-piano-toggle[aria-pressed=false] .piano-speaker-on,
+.hero--world .tile-piano-toggle[aria-pressed=true] .piano-speaker-off{display:none}
+.hero--world .tile-piano-status{margin:8px 0 0;max-width:30ch;color:var(--poet-ink,#243c33);font-size:13px;line-height:1.5}
+.hero--world .tile-piano-status:empty{display:none}
+html[data-hero-transition] .hero--world .tile-piano-controls{visibility:hidden}
+
+/* Home finishing: mascot input is confined to its painted silhouette. */
+.hero--world .flower-character{cursor:grab;touch-action:none}
+.hero--world .flower-character[data-dragging]{cursor:grabbing}
+.hero--world .flower-character:focus-visible{outline:none}
+.hero--world .flower-character:focus-visible image{filter:drop-shadow(0 0 3px #225c46)}
+.hero--world .school-wall-top{fill:#fff5df}.hero--world .school-wall-side{fill:#f9f4df}
+.hero--world .school-wall-side.face-dark{fill:#ece7ce}
+.hero--world .school-step-top,.hero--world .school-step-side{fill:#d5c8b5}
+.hero--world .school-door{fill:#f3eccd;stroke:#d1c7a3;stroke-width:.7}
+.hero--world .school-door-seam{stroke:#d1c7a3}
+.hero--world .school-vent{fill:#777a60}
+.hero--world .school-column-top,.hero--world .school-column-side{fill:#fffdf3}
+.hero--world .school-roof-front{fill:#eb8c70}.hero--world .school-roof-back{fill:#cf725a}
+.hero--world .school-eave{stroke:#a9604f}
+.hero--world .mural-coral{fill:#e6a392}.hero--world .mural-yellow{fill:#f5d66e}
+.hero--world .mural-teal{fill:#69b8a8}.hero--world .mural-blue{fill:#458db0}
+.hero--world .school-petal{fill:#f8db78}.hero--world .school-flower-center{fill:#e99383}
+
+.hero--world .school-porch-top,.hero--world .school-porch-side{fill:#e1d6c3}
+
+.hero--world .flower-character .object-hit{cursor:inherit;touch-action:none}

@@ -1028,7 +1028,12 @@ html.reveal-motion .mission-section.will-enter.is-in .mission-card{opacity:1;tra
 
 /* Home card only: fixed full-width gradient, reserved numeric widths, no live frames. */
 .campaign-band--prototype [data-fund-animate] .fund-status{background:var(--milestone-ink);color:#fff;opacity:1}
-.campaign-band--prototype [data-fund-animate] .fund-actions [data-donate]{background:var(--milestone-color);border-color:var(--milestone-color);color:var(--poet-action-ink)!important}
+.campaign-band--prototype [data-fund-animate]{--fund-cta-bg:#bf554a;--fund-cta-ink:#fff}
+.campaign-band--prototype [data-fund-animate][data-milestone=yellow]{--fund-cta-bg:#ebcc4f;--fund-cta-ink:#332b27}
+.campaign-band--prototype [data-fund-animate][data-milestone=green]{--fund-cta-bg:#27815f}
+.campaign-band--prototype [data-fund-animate][data-milestone=blue]{--fund-cta-bg:#317da8}
+.campaign-band--prototype [data-fund-animate] .fund-actions [data-donate]{background:var(--fund-cta-bg);border-color:var(--fund-cta-bg);color:var(--fund-cta-ink)!important}
+@media(hover:hover) and (pointer:fine){.campaign-band--prototype [data-fund-animate] .fund-actions [data-donate]:hover{background:color-mix(in srgb,var(--fund-cta-bg) 92%,#000);border-color:color-mix(in srgb,var(--fund-cta-bg) 92%,#000)}}
 .campaign-band--prototype [data-fund-animate] .fund-actions [data-donate] .prototype-icon{color:currentColor}
 .campaign-band--prototype [data-fund-animate] .fund-preview-note{font-size:11px;margin:8px 0 0;line-height:1.4;color:var(--milestone-ink)}
 .campaign-band--prototype [data-fund-animate] .fund-target>.fund-number{font:inherit;letter-spacing:inherit;color:inherit}
@@ -1085,6 +1090,21 @@ html.reveal-motion .mission-section.will-enter.is-in .mission-card{opacity:1;tra
 @media(max-width:900px){.join-section--home .participation-panel{padding:32px 24px}.join-section--home .participation-grid{grid-template-columns:1fr;gap:16px}.join-section--home .action-card{padding:24px}.join-section--home .action-cta{align-self:flex-start}}
 @media(max-width:600px){.join-section--home .participation-panel{padding:28px 18px}.join-section--home .action-card{padding:20px}.join-section--home .action-cta{align-self:stretch}.join-section--home .section-heading{margin-bottom:24px}}
 @media(max-width:359px){.join-section--home .participation-panel{padding-inline:14px}.join-section--home .action-card{padding:18px}.join-section--home .action-card h3{font-size:22px}}
+
+/* HOME-005: existing Home hooks keep About typography and controls independent. */
+.activities-section .activity-text-line{display:block}
+.activities-section[data-caption-pending] .activity-slide.is-active .activity-copy>:not(.btn){visibility:hidden}
+.campaign-band--prototype .campaign-story{--campaign-secondary:#6f6862}
+.campaign-band--prototype .campaign-story>p:not(.eyebrow),
+.campaign-band--prototype .campaign-summary-list,
+.campaign-band--prototype .campaign-card-footer>span,
+.campaign-band--prototype .campaign-card-footer>span strong{color:var(--campaign-secondary)}
+.campaign-band--prototype .campaign-story :is(p,.campaign-summary-list) strong{color:var(--poet-heading)}
+.activities-section .activity-copy .btn,
+.campaign-band--prototype .fund-actions .btn,
+.activities-section .activity-static-cta,
+.join-section--home .action-cta,
+poet-nav.site-home-nav .site-nav-inner>.btn{border-radius:14px}
 
 /* Footer groups retain the original contact data and destinations. */
 .site-footer{background:#211f1c;border-radius:16px 16px 0 0}
@@ -1866,3 +1886,47 @@ html.reveal-motion .mission-section.will-enter.is-in .mission-card{opacity:1;tra
 .pd-hero .pd-stat.is-green b{color:#a6e3c9}
 .pd-hero .pd-stat.is-blue b{color:#b4e1f2}
 @media(max-width:640px){.pd-hero{height:640px}.pd-hero .pd-stats{gap:10px 20px}.pd-hero .pd-stat b{font-size:20px}}
+/* Home-only affiliation/press and truthful archive metrics. */
+.home-credibility{padding-block:22px;background:var(--poet-cream);border-bottom:1px solid var(--poet-border)}
+.home-credibility-inner{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:20px 56px;padding-block:0}
+.home-credibility-inner>div{display:flex;align-items:center;justify-content:center;gap:24px;min-width:0}
+.home-trust-label{font-size:15px;line-height:1.5;font-weight:400;color:var(--poet-muted);white-space:nowrap}
+.home-trust-separator{width:1px;height:24px;background:var(--poet-border);flex:none}
+.home-press-logos{display:flex;align-items:center;gap:28px;flex:none}
+.home-press-logos a{position:relative;display:flex;align-items:center;border-radius:6px;transition:transform 200ms;touch-action:manipulation}
+/* Enlarge the linked logos' hit area without increasing the compact strip. */
+.home-press-logos a::before{content:"";position:absolute;left:0;right:0;top:50%;height:44px;transform:translateY(-50%)}
+.home-press-logos a:focus-visible{outline:3px solid var(--poet-ink);outline-offset:4px}
+.home-press-logos img{display:block;width:auto;max-width:none;object-fit:contain}
+.home-press-logos .home-trust-logo--student{height:30px}
+.home-press-logos .home-trust-logo--newspaper{height:17px}
+/* Keep the previously approved CSS framing; do not edit the white-backed PNG. */
+.home-affiliation-logo{position:relative;flex:none;height:26px;aspect-ratio:441/268;overflow:hidden}
+.home-affiliation-logo img{position:absolute;width:127.211%;max-width:none;height:auto;left:-13.605%;top:-54.478%}
+@media(hover:hover) and (pointer:fine){.home-press-logos a:hover{transform:translateY(-2px)}}
+@media(prefers-reduced-motion:reduce){.home-press-logos a{transition:none}.home-press-logos a:hover{transform:none}}
+@media(min-width:641px) and (max-width:900px){.home-credibility-inner>div{flex-basis:100%}.home-trust-separator{display:none}}
+@media(max-width:640px){
+ .home-credibility{padding-block:4px}
+ .home-credibility-inner{display:block}
+ .home-credibility-inner>div{justify-content:space-between;flex-wrap:wrap;padding-block:14px;gap:16px}
+ .home-credibility .home-press{border-top:1px solid var(--poet-border)}
+ .home-trust-label{font-size:14px}
+ .home-trust-separator{display:none}
+ .home-affiliation-logo{height:22px}
+ .home-press-logos{gap:18px}
+ .home-press-logos .home-trust-logo--student{height:26px}
+ .home-press-logos .home-trust-logo--newspaper{height:15px}
+}
+.archive-section--home .inline-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:24px 0}
+.archive-section--home .inline-metrics li{border:1px solid #b7d9c6;border-radius:var(--radius-card);background:transparent;padding:14px 16px;display:flex;flex-direction:column;gap:5px;min-width:0}
+.archive-section--home .inline-metrics strong{font-size:36px;line-height:1.1;color:var(--poet-heading);font-variant-numeric:tabular-nums}
+.archive-section--home .inline-metrics span{font-size:14px;line-height:1.45}
+@media(max-width:600px){.archive-section--home .inline-metrics{gap:8px}.archive-section--home .inline-metrics li{padding:12px 10px}.archive-section--home .inline-metrics strong{font-size:32px}}
+
+.site-nav .site-dropdown>button{position:relative;min-height:44px;padding:7px 15px;gap:7px;border:1px solid #fee161;border-radius:8px;background:#fffcef;justify-content:center;touch-action:manipulation}
+.site-nav .site-partner-mascot{width:26px;height:29px;object-fit:contain}
+.partner-nav-name{display:inline;white-space:nowrap}
+.site-nav .site-dropdown>button:hover{background:#fff5d1}
+.site-dropdown>button:focus-visible{outline:3px solid var(--poet-ink);outline-offset:3px}
+@media(max-width:900px){.site-nav .site-dropdown>button{justify-content:flex-start;gap:10px;font-size:18px}.site-nav .site-partner-mascot{width:31px;height:34px}}
