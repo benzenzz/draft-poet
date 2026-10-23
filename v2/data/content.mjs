@@ -74,11 +74,19 @@ export const season = {
   ],
   // The existing donation API is global. No campaign-scoped progress is supplied.
   raised: null, individuals: null, businesses: null,
-  budget: [ // Dossier p8; source notebook unit-price typo deliberately omitted.
-    ['Quạt treo tường', '17 cái', 5950000], ['Xe đạp', '6 chiếc', 12000000],
-    ['Dụng cụ học tập', '300 phần', 21000000], ['Vở trắng 5 ô ly', '300 phần, 10 quyển/phần', 30000000],
-    ['Áo đồng phục', '300 áo', 45000000], ['Góc trò chơi', '2 gói', 3000000],
-    ['Hoạt động tại trường', '1 gói', 5000000]
+  budgetIntro: {
+    title: 'Ngân sách<br>gây quỹ Mùa 6',
+    lead: 'Mỗi khoản dưới đây được tính từ khảo sát nhu cầu thực tế tại điểm trường Ea Kiết. POET công khai từng khoản để mọi người và nhà tài trợ cùng theo dõi.'
+  },
+  // Thành tiền = qty × price. Tổng phải bằng targetAmount (build-site kiểm tra).
+  budget: [
+    {name:'Quạt treo tường cho các phòng học', note:'Làm mát lớp học những ngày nắng gắt Tây Nguyên', qty:17, unit:'cái', price:350000, color:'#f4b3a9'},
+    {name:'Xe đạp mới cho học sinh ở xa, hoàn cảnh đặc biệt', note:'Giúp các em rút ngắn quãng đường vượt đồi đến trường', qty:6, unit:'chiếc', price:2000000, color:'#5fb08a'},
+    {name:'Dụng cụ học tập: bút gel, bút chì, gôm, thước kẻ', note:'Đủ trang bị cho 300 em học sinh cấp 1', qty:300, unit:'phần', price:70000, color:'#6aa7bf'},
+    {name:'Vở trắng 5 ô ly: 10 quyển, định lượng 120 gsm', note:'Giấy chống loá, dùng được cả năm học', qty:300, unit:'phần', price:100000, color:'#f7bc3c'},
+    {name:'Áo đồng phục mới: áo có cổ, ấm áp, chỉn chu', note:'Tạo cảm giác gắn kết và giữ ấm cho các em', qty:300, unit:'áo', price:150000, color:'#ef8a7d'},
+    {name:'Góc trò chơi sân trường: cầu tuột & đồ chơi vận động', note:'Thay cầu tuột đã gãy hỏng, tạo sân chơi an toàn', qty:2, unit:'gói', price:1500000, color:'#a5cbd9'},
+    {name:'Tổ chức hoạt động tại trường: trạm trò chơi, văn nghệ, chiếu phim', note:'Vật phẩm trò chơi, quà thưởng, rạp phim mini và lửa trại', qty:1, unit:'gói', price:5000000, color:'#fad57f'}
   ]
 };
 // Dossier p10. Planned dates. start = ngày bắt đầu chặng, dùng để tính bé Hoa đang ở đâu (UI-011)

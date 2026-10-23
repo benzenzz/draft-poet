@@ -212,6 +212,16 @@ document.querySelectorAll('[data-campaign-timeline]').forEach(el=>{
   el.querySelector('.fund-timeline-track b').style.left=pct+'%';
 });
 
+// UI-021: hovering a budget row lights its segment on the allocation bar and dims the rest.
+document.querySelectorAll('.budget-sec').forEach(sec=>{
+  const stack=sec.querySelector('.budget-stack');
+  const mark=k=>{stack.classList.toggle('is-focus',k!==null);stack.querySelectorAll('i').forEach(i=>i.classList.toggle('is-on',i.dataset.k===k));};
+  sec.querySelectorAll('tbody tr').forEach(tr=>{
+    tr.addEventListener('mouseenter',()=>mark(tr.dataset.k));
+    tr.addEventListener('mouseleave',()=>mark(null));
+  });
+});
+
 // UI-015: video rail on mobile steps one card at a time. Buttons refresh when the tab shows, since hidden panels measure as zero.
 document.querySelectorAll('.volunteer-videos').forEach(wrap=>{
   const rail=wrap.querySelector('[data-v-rail]'),prev=wrap.querySelector('[data-v-prev]'),next=wrap.querySelector('[data-v-next]');
