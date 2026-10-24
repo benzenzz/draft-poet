@@ -4,7 +4,7 @@
 // previous one and the text slides up line by line. Scrolling back reverses the wipe.
 // All motion is CSS transitions on transform/opacity/clip-path; this file only reads
 // positions once per frame and flips attributes.
-import {splitWords,staggerLines} from './split.mjs?v=anim-1';
+import {splitWords,staggerLines} from './split.mjs?v=anim-2';
 
 const pad=n=>String(n).padStart(2,'0');
 
