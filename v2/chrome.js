@@ -1,6 +1,9 @@
 import {contacts,socials} from './data/site-data.js?v=contacts-2';
 const base=new URL('.',import.meta.url),asset=new URL('../assets/brand/poet-logo.webp',base).href;
 const url=path=>new URL(path,base).href;
+// Lucide icons as inline SVG drawn with currentColor: text glyphs like ↗ become emoji on iOS.
+const LUCIDE={'arrow-up-right':'<path d="M7 7h10v10"/><path d="M7 17 17 7"/>'};
+const arrowSvg=(name,cls='')=>`<svg${cls?` class="${cls}"`:''} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">${LUCIDE[name]}</svg>`;
 const navIcon=name=>'<span class="prototype-icon" style="--icon:url('+new URL('../assets/icons/lucide/'+name+'.svg',base).href+')" aria-hidden="true"></span>';
 const navItems=[['home','', 'Trang chủ'],['team','team/','Về chúng tôi'],['du-an','du-an/','Dự án']];
 class PoetNav extends HTMLElement {
@@ -32,7 +35,7 @@ class PoetFooter extends HTMLElement {
   connectedCallback(){
     this.classList.add('site-footer');
     this.id='lien-he-poet';
-    this.innerHTML=`<footer class="site-footer-inner"><div class="site-footer-top"><div class="site-footer-description"><div class="site-footer-brand"><img src="${asset}" width="52" height="68" alt=""><span>Câu lạc bộ Thiện&nbsp;nguyện&nbsp;POET</span></div><p>Người trẻ cùng góp sức cho cộng đồng.<br>Thành lập năm 2022 tại TP. Hồ Chí Minh.</p><a class="text-link" href="${url('team/')}">Về chúng tôi <span aria-hidden="true">↗</span></a></div><div class="site-footer-contact">${contacts.people.map(p=>`<div><small>${p.role}</small><strong>${p.name}</strong><a href="tel:${p.phone}">${p.phone}</a></div>`).join('')}<a class="site-footer-email" href="mailto:${contacts.email}">${contacts.email}</a></div><nav class="site-socials" aria-label="POET trên mạng xã hội">${socials.map(([name,href])=>`<a href="${href}" target="_blank" rel="noopener noreferrer" aria-label="${name} (mở trong tab mới)"><span class="prototype-icon" style="--icon:url('${new URL('../assets/icons/social/'+name.toLowerCase()+'.svg',base).href}')" aria-hidden="true"></span></a>`).join('')}</nav></div><div class="site-footer-bottom"><span>© ${new Date().getFullYear()} Câu lạc bộ Thiện nguyện POET</span></div></footer>`;
+    this.innerHTML=`<footer class="site-footer-inner"><div class="site-footer-top"><div class="site-footer-description"><div class="site-footer-brand"><img src="${asset}" width="52" height="68" alt=""><span>Câu lạc bộ Thiện&nbsp;nguyện&nbsp;POET</span></div><p>Người trẻ cùng góp sức cho cộng đồng.<br>Thành lập năm 2022 tại TP. Hồ Chí Minh.</p><a class="text-link" href="${url('team/')}">Về chúng tôi${arrowSvg('arrow-up-right','link-arrow')}</a></div><div class="site-footer-contact">${contacts.people.map(p=>`<div><small>${p.role}</small><strong>${p.name}</strong><a href="tel:${p.phone}">${p.phone}</a></div>`).join('')}<a class="site-footer-email" href="mailto:${contacts.email}">${contacts.email}</a></div><nav class="site-socials" aria-label="POET trên mạng xã hội">${socials.map(([name,href])=>`<a href="${href}" target="_blank" rel="noopener noreferrer" aria-label="${name} (mở trong tab mới)"><span class="prototype-icon" style="--icon:url('${new URL('../assets/icons/social/'+name.toLowerCase()+'.svg',base).href}')" aria-hidden="true"></span></a>`).join('')}</nav></div><div class="site-footer-bottom"><span>© ${new Date().getFullYear()} Câu lạc bộ Thiện nguyện POET</span></div></footer>`;
   }
 }
 customElements.define('poet-nav',PoetNav);customElements.define('poet-footer',PoetFooter);
