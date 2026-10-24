@@ -71,8 +71,6 @@
     $('thanks-success').hidden = false;
     statusEl.className = 'thanks-status is-ok';
     statusEl.textContent = '✓ Đã nhận thanh toán';
-    $('result-title').textContent = 'Cảm ơn bạn đã tham gia xây dựng!';
-    $('thanks-lead').textContent = 'Lời nhắn và phần quyên góp của bạn đã được POET gửi gắm đến “Công viên niềm vui”. Sự đồng hành và tin tưởng của bạn là động lực rất lớn giúp chuyến xe niềm vui có thêm nhiều tiếng cười hơn!';
     celebrateOnce();
 
     // The letter needs the donor details; without them (other device/browser) skip it.

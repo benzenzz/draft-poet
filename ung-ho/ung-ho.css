@@ -193,3 +193,5 @@
 .podium-step.is-1 .podium-name { font-size: 18px; }
 .podium-note { margin: 10px 0 0; font-size: 13px; color: var(--ink-soft); text-align: center; }
 @media (min-width: 760px) { .podium-name { font-size: 18px; } .podium-step.is-1 .podium-name { font-size: 21px; } .podium-amount { font-size: 15px; } }
+.thanks-sub { max-width: 520px; margin: 0 auto 6px; color: var(--ink-soft); }
+.thanks-hero h1 + .thanks-lead { margin-top: 14px; }

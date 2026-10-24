@@ -2024,3 +2024,6 @@ button.v-card{width:100%;padding:0;border:0;font:inherit;cursor:pointer}
 .check-label input{accent-color:var(--coral-deep)}
 .donate-form .btn{background:var(--coral);border-color:var(--coral);color:#fff!important}
 @media(hover:hover) and (pointer:fine){.donate-form .btn:hover:not(:disabled){background:var(--coral-hover);border-color:var(--coral-hover)}}
+/* fb-21: one style for every small label above a heading or story step. Colours stay per block. */
+:root{--label-size:clamp(15px,1.1vw,17px);--label-weight:700;--label-tracking:.01em;--label-leading:1.4}
+.site-content :is(.eyebrow,.when,.tier-kicker,.campaign-season,.blog-kicker,.blog-card-kicker),.site-dialog .eyebrow{font-size:var(--label-size)!important;font-weight:var(--label-weight)!important;letter-spacing:var(--label-tracking)!important;line-height:var(--label-leading)!important;text-transform:none!important}
