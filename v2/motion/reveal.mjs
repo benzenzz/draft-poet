@@ -1,6 +1,6 @@
 // Gentle one-time entrances where they help reading: the six plan stations,
 // the project gallery and the pull quote. Elements already on screen at load stay put.
-import {splitWords,staggerLines} from './split.mjs?v=anim-1';
+import {splitWords,staggerLines} from './split.mjs?v=anim-2';
 
 const offscreen=el=>el.getBoundingClientRect().top>innerHeight;
 

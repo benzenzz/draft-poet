@@ -6,6 +6,7 @@ does and does not animate) is `animation-master-brief.md` in the project's style
 
 | File | Owns |
 | --- | --- |
+| `always-motion.js` | Classic script, first in `<head>`: turns the OS reduced-motion setting off for the site. |
 | `motion.mjs` | Entry. Reads `html.m-js`, marks `m-ready` plus `m-full` or `m-reduced`. |
 | `story.mjs` | `.project-story` scroll stories and `.story-open` openers. Replaces the UI-023 block in `site.js`, which steps aside when `m-ready` is set. |
 | `numbers.mjs` | Count-ups for `.pd-stats`, archive `.inline-metrics`, `.budget-sum`; budget split wipe; trip countdown bar. |
@@ -20,8 +21,10 @@ Rules:
 
 - The head script (built by `tools/build-site.mjs`) sets `m-js` only for full motion and
   removes it after 3s if `motion.mjs` never runs, so content is never left hidden.
-- Local previews (`127.0.0.1`) play full motion even when the OS reports reduced motion,
-  like the rest of `/v2`; add `?heroMotion=respect` to test reduced motion.
+- Every device plays full motion, including ones whose OS asks for reduced motion (Demi's
+  decision, 2026-10-24). `always-motion.js` loads first in `<head>`: it reports
+  `prefers-reduced-motion` as off to all scripts and removes the reduce-only CSS blocks.
+  Add `?heroMotion=respect` to any page to test the reduced versions.
 - Only `transform`, `opacity` and `clip-path` animate. Pinning is `position: sticky`; the
   page scrolls natively. One passive scroll listener, batched with `requestAnimationFrame`.
 - Wrappers are custom tags, not `span`, because page rules such as `.pd-stat span` and
