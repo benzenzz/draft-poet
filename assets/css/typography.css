@@ -1,0 +1,43 @@
+/* POET typography: original OTF binaries are never renamed or modified.
+   Metadata/provenance/license review: docs/PRODUCT_SANS_TYPOGRAPHY.md.
+   Only the supplied real 400/700 faces are registered. */
+@font-face{font-family:'Product Sans';src:url('../../v2/fonts/Product%20Sans%20Regular.otf') format('opentype');font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:'Product Sans';src:url('../../v2/fonts/Product%20Sans%20Italic.otf') format('opentype');font-weight:400;font-style:italic;font-display:swap}
+@font-face{font-family:'Product Sans';src:url('../../v2/fonts/Product%20Sans%20Bold.otf') format('opentype');font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:'Product Sans';src:url('../../v2/fonts/Product%20Sans%20Bold%20Italic.otf') format('opentype');font-weight:700;font-style:italic;font-display:swap}
+
+:root{
+  --font-family-primary:'Product Sans',sans-serif;
+  --font-weight-regular:400;
+  --font-weight-bold:700;
+  /* Light300 and Medium500 are unavailable. These role aliases are honestly
+     Regular400 until authentic matching, licensed faces have been reviewed. */
+  --font-weight-secondary:var(--font-weight-regular);
+  --font-weight-body:var(--font-weight-regular);
+  --font-weight-ui:var(--font-weight-regular);
+  --font-weight-heading:var(--font-weight-bold);
+  --font-size-caption:12px;
+  --font-size-meta:14px;
+  --font-size-body:16px;
+  --font-size-title:24px;
+  --font-size-display:48px;
+  --font-leading-body:1.6;
+  --font-leading-heading:1.25;
+  /* Compatibility names used by existing layouts. All resolve to ONE family. */
+  --font:var(--font-family-primary);
+  --text:var(--font-family-primary);
+  --display:var(--font-family-primary);
+  --hand:var(--font-family-primary);
+  --poet-font:var(--font-family-primary);
+  font-family:var(--font-family-primary);
+  font-synthesis:none;
+}
+body{font-family:var(--font-family-primary)}
+b,strong{font-weight:var(--font-weight-bold)}
+button,input,textarea,select,option,optgroup{font-family:var(--font-family-primary);font-synthesis:none}
+code,pre,kbd,samp{font-family:var(--font-family-primary)}
+.type-caption{font-size:var(--font-size-caption);font-weight:var(--font-weight-secondary);line-height:var(--font-leading-body)}
+.type-meta{font-size:var(--font-size-meta);font-weight:var(--font-weight-secondary);line-height:var(--font-leading-body)}
+.type-body{font-size:var(--font-size-body);font-weight:var(--font-weight-body);line-height:var(--font-leading-body)}
+.type-title{font-size:var(--font-size-title);font-weight:var(--font-weight-heading);line-height:var(--font-leading-heading)}
+.type-display{font-size:var(--font-size-display);font-weight:var(--font-weight-heading);line-height:var(--font-leading-heading)}

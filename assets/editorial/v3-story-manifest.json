@@ -1,0 +1,56 @@
+{
+  "reviewed": "2026-10-20",
+  "sources": [
+    {
+      "name": "vet-nut",
+      "id": "1OUhaFvghUGYCiOgGJTdg6Ufl5pDDCR5w",
+      "filename": "DSC03962.JPG",
+      "folder": "1E4uZ1FYLX3H3x6YzxEtiGgbcaRdO0iSv",
+      "width": 6000,
+      "height": 3376,
+      "classification": "Authentic POET event photograph from the user-provided Vết Nứt album; provisional editorial selection.",
+      "source": "https://drive.google.com/file/d/1OUhaFvghUGYCiOgGJTdg6Ufl5pDDCR5w/view",
+      "album": "https://drive.google.com/drive/folders/1E4uZ1FYLX3H3x6YzxEtiGgbcaRdO0iSv",
+      "derivatives": [
+        {
+          "file": "story-vet-nut-640.webp",
+          "width": 640,
+          "height": 360,
+          "bytes": 54820
+        },
+        {
+          "file": "story-vet-nut-1280.webp",
+          "width": 1280,
+          "height": 720,
+          "bytes": 149534
+        }
+      ]
+    },
+    {
+      "name": "go-ngai",
+      "id": "1OWxnIiGqIn2XBqbl5xu2MxAuke8lqHlL",
+      "filename": "IMG_4610.jpg",
+      "folder": "1qQuLoEB6SYtZSqAtHzARUNReY_G2mLXl",
+      "width": 5184,
+      "height": 3456,
+      "classification": "Authentic POET group photograph from the user-provided Final Trip album; provisional editorial selection.",
+      "source": "https://drive.google.com/file/d/1OWxnIiGqIn2XBqbl5xu2MxAuke8lqHlL/view",
+      "album": "https://drive.google.com/drive/folders/1qQuLoEB6SYtZSqAtHzARUNReY_G2mLXl",
+      "derivatives": [
+        {
+          "file": "story-go-ngai-640.webp",
+          "width": 640,
+          "height": 427,
+          "bytes": 95228
+        },
+        {
+          "file": "story-go-ngai-1280.webp",
+          "width": 1280,
+          "height": 853,
+          "bytes": 284930
+        }
+      ]
+    }
+  ],
+  "processing": "Original proportions and colors preserved; downsampled to 640/1280px WebP. No source material was modified. No temporary or signed download URLs are used at runtime."
+}

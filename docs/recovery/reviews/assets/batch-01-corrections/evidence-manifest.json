@@ -1,0 +1,184 @@
+{
+    "baseline":  "e0a993839c83ef5273c4b518b833d856263241a6",
+    "recordedAt":  "2026-10-21T05:14:33.8551715Z",
+    "applicationVerified":  true,
+    "browser":  "Existing Playwright MCP / Microsoft Edge",
+    "screenshotCount":  18,
+    "screenshotBytes":  2264568,
+    "viewportMetadata":  [
+                             {
+                                 "width":  1440,
+                                 "height":  900
+                             },
+                             {
+                                 "width":  768,
+                                 "height":  1024
+                             },
+                             {
+                                 "width":  390,
+                                 "height":  844
+                             },
+                             {
+                                 "width":  320,
+                                 "height":  740
+                             }
+                         ],
+    "files":  [
+                  {
+                      "file":  "after.json",
+                      "bytes":  39631,
+                      "sha256":  "392d28853e5c0c3f027586cf82e0c07a75efb4891c03e35c6c1d82b2f54adb56"
+                  },
+                  {
+                      "file":  "after-1440-participation.png",
+                      "bytes":  62892,
+                      "sha256":  "2cc9112854e79172c7cf31c7942e1448a96bd0da2a4251c47e5e2409c1a3570d",
+                      "width":  1282,
+                      "height":  551
+                  },
+                  {
+                      "file":  "after-1440-press-end.png",
+                      "bytes":  238081,
+                      "sha256":  "cc98e59dc4304ce943827f29731dea84ba3fba408ca8761216d37ab6c9d2d2c6",
+                      "width":  1440,
+                      "height":  916
+                  },
+                  {
+                      "file":  "after-1440-press-start.png",
+                      "bytes":  251537,
+                      "sha256":  "2d878df71fd858b4e2c31f5e4d1c81a959d90fcfdf3c5cee53fc5d3e14d497e4",
+                      "width":  1440,
+                      "height":  916
+                  },
+                  {
+                      "file":  "after-320-participation.png",
+                      "bytes":  60612,
+                      "sha256":  "aab11f5ed3deb22f981facc368b3c32dde9fedea15715305bd21e8127a6ccc71",
+                      "width":  276,
+                      "height":  1133
+                  },
+                  {
+                      "file":  "after-320-press-start.png",
+                      "bytes":  112431,
+                      "sha256":  "25996f07f37099f31466f6ed39e8bbc922320a8f5eec8b28e942bb0b048a9cac",
+                      "width":  320,
+                      "height":  973
+                  },
+                  {
+                      "file":  "after-390-participation.png",
+                      "bytes":  60787,
+                      "sha256":  "235c3f69e2576b9dba4adcb08c46bf673d59ed1c6a1616b9782f50b180e2c666",
+                      "width":  346,
+                      "height":  1026
+                  },
+                  {
+                      "file":  "after-390-press-start.png",
+                      "bytes":  129764,
+                      "sha256":  "eb3beab21471a7e8dab3ddb55eafef147c3ba005b9acc264cf70490dbd6c1838",
+                      "width":  390,
+                      "height":  852
+                  },
+                  {
+                      "file":  "after-768-participation.png",
+                      "bytes":  60181,
+                      "sha256":  "fbc1386ca76f9e60787484f7505d4313800b9a5bcc8aa35d604a6d14f7b8e4e8",
+                      "width":  696,
+                      "height":  549
+                  },
+                  {
+                      "file":  "after-768-press-start.png",
+                      "bytes":  163473,
+                      "sha256":  "5ffc89ceed086cbe7264030c02b5e1337577eeba704b658bd9548a2e8dd10c22",
+                      "width":  768,
+                      "height":  908
+                  },
+                  {
+                      "file":  "before.json",
+                      "bytes":  21028,
+                      "sha256":  "8a86c1c639b948bd677bf8f66af7a0022c18231f63c03b07a1c165cd54c6c769"
+                  },
+                  {
+                      "file":  "before-1440-participation.png",
+                      "bytes":  58558,
+                      "sha256":  "8feebc1abbac2f6d1aa03333f880be9c7257d2617c9e0108982b6391a0a65669",
+                      "width":  1282,
+                      "height":  551
+                  },
+                  {
+                      "file":  "before-1440-press-end.png",
+                      "bytes":  237701,
+                      "sha256":  "256ad2fc98e2d38ceba55608c5b01faf92012d6a02d45017ba1bedc3feb06676",
+                      "width":  1440,
+                      "height":  916
+                  },
+                  {
+                      "file":  "before-1440-press-start.png",
+                      "bytes":  250319,
+                      "sha256":  "3705ecad19463e42e721e92dd11a8c332f69b287119962f6ed03520a3881aeb7",
+                      "width":  1440,
+                      "height":  916
+                  },
+                  {
+                      "file":  "before-320-participation.png",
+                      "bytes":  58957,
+                      "sha256":  "c9dd418f78e99dbef9edc828531977c2b9d3f3086eeb460e056e51459dec5b92",
+                      "width":  276,
+                      "height":  1104
+                  },
+                  {
+                      "file":  "before-320-press-start.png",
+                      "bytes":  111376,
+                      "sha256":  "69521aeb46a006c9d2c4f27e596b79b1c79a064c068f1f0732a122cbbc9856a4",
+                      "width":  320,
+                      "height":  973
+                  },
+                  {
+                      "file":  "before-390-participation.png",
+                      "bytes":  59432,
+                      "sha256":  "30ae0dcd94ca3287466fb483d30b3f6536101564494fe8b8795c4dd9388cef9c",
+                      "width":  346,
+                      "height":  1026
+                  },
+                  {
+                      "file":  "before-390-press-start.png",
+                      "bytes":  128656,
+                      "sha256":  "4ab898ec19ca025daf5998ba21ea5e2da8aaa765fe6b748516dc784146501792",
+                      "width":  390,
+                      "height":  852
+                  },
+                  {
+                      "file":  "before-768-participation.png",
+                      "bytes":  57479,
+                      "sha256":  "beb534988db007320553f357e35504f3615c4b80128fc5e11b756abed2add49b",
+                      "width":  696,
+                      "height":  549
+                  },
+                  {
+                      "file":  "before-768-press-start.png",
+                      "bytes":  162332,
+                      "sha256":  "ef7e5f062a8c78f4211240ceba9d62ddeda76efa020125e984fed5dccfe5bb61",
+                      "width":  768,
+                      "height":  908
+                  },
+                  {
+                      "file":  "corrections.diff",
+                      "bytes":  5821,
+                      "sha256":  "f66e1b55a023db4ff92ff66d1f4149a0b2f858f9a570c63744d2501d237bacc6"
+                  },
+                  {
+                      "file":  "preservation.json",
+                      "bytes":  2772,
+                      "sha256":  "265186b8d7c1abf48686cf07d31022c7b690a0373c38490f097acd0ff54f180d"
+                  },
+                  {
+                      "file":  "preservation.mjs",
+                      "bytes":  4123,
+                      "sha256":  "7f8431eb829418c53e82f0d3c142bb4b08bcf18245968092ddcc636a337e8773"
+                  },
+                  {
+                      "file":  "regression.mjs",
+                      "bytes":  11630,
+                      "sha256":  "c5b8d27df193f952620eb7f96ded89d09216163eefdec96ccd7e15b88a9707e5"
+                  }
+              ]
+}

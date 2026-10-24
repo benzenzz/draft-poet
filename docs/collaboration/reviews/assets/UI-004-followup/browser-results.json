@@ -1,0 +1,2483 @@
+{
+  "startedAt": "2026-10-21T09:30:18.911Z",
+  "checks": [
+    {
+      "name": "1440 no horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "1440 lowercase eyebrow centered across panel",
+      "passed": true
+    },
+    {
+      "name": "1440 three tinted icon tiles preserve icon identities",
+      "passed": true
+    },
+    {
+      "name": "1440 real Product Sans Bold and unchanged header height",
+      "passed": true
+    },
+    {
+      "name": "1440 wordmark four colors/no simulated outline/no overlapping letters",
+      "passed": true
+    },
+    {
+      "name": "1440 header does not request Cookie Crumble",
+      "passed": true
+    },
+    {
+      "name": "1440 default funding data/target/provisional/navbar unchanged",
+      "passed": true
+    },
+    {
+      "name": "1440 warm titles / light title on dark participation panel",
+      "passed": true
+    },
+    {
+      "name": "1440 title contrast on rendered backgrounds",
+      "passed": true
+    },
+    {
+      "name": "1440 exact participation heading/order/copy",
+      "passed": true
+    },
+    {
+      "name": "1440 CTA copy, real destinations, palette and contrast",
+      "passed": true
+    },
+    {
+      "name": "1440 participation layout and button alignment",
+      "passed": true
+    },
+    {
+      "name": "1440 all original footer facts/links retained",
+      "passed": true
+    },
+    {
+      "name": "1440 plain dark rounded footer without classroom image",
+      "passed": true
+    },
+    {
+      "name": "1440 social names/exact URLs/44px targets/rel/icons",
+      "passed": true
+    },
+    {
+      "name": "1440 100000 fixture genuinely coral, explicit label, original target/provisional",
+      "passed": true
+    },
+    {
+      "name": "1440 tiny fill truthful / four-color gradient / warm label contrast / reduced motion",
+      "passed": true
+    },
+    {
+      "name": "768 no horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "768 lowercase eyebrow centered across panel",
+      "passed": true
+    },
+    {
+      "name": "768 three tinted icon tiles preserve icon identities",
+      "passed": true
+    },
+    {
+      "name": "768 real Product Sans Bold and unchanged header height",
+      "passed": true
+    },
+    {
+      "name": "768 wordmark four colors/no simulated outline/no overlapping letters",
+      "passed": true
+    },
+    {
+      "name": "768 header does not request Cookie Crumble",
+      "passed": true
+    },
+    {
+      "name": "768 default funding data/target/provisional/navbar unchanged",
+      "passed": true
+    },
+    {
+      "name": "768 warm titles / light title on dark participation panel",
+      "passed": true
+    },
+    {
+      "name": "768 title contrast on rendered backgrounds",
+      "passed": true
+    },
+    {
+      "name": "768 exact participation heading/order/copy",
+      "passed": true
+    },
+    {
+      "name": "768 CTA copy, real destinations, palette and contrast",
+      "passed": true
+    },
+    {
+      "name": "768 participation layout and button alignment",
+      "passed": true
+    },
+    {
+      "name": "768 all original footer facts/links retained",
+      "passed": true
+    },
+    {
+      "name": "768 plain dark rounded footer without classroom image",
+      "passed": true
+    },
+    {
+      "name": "768 social names/exact URLs/44px targets/rel/icons",
+      "passed": true
+    },
+    {
+      "name": "768 100000 fixture genuinely coral, explicit label, original target/provisional",
+      "passed": true
+    },
+    {
+      "name": "768 tiny fill truthful / four-color gradient / warm label contrast / reduced motion",
+      "passed": true
+    },
+    {
+      "name": "390 no horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "390 lowercase eyebrow centered across panel",
+      "passed": true
+    },
+    {
+      "name": "390 three tinted icon tiles preserve icon identities",
+      "passed": true
+    },
+    {
+      "name": "390 real Product Sans Bold and unchanged header height",
+      "passed": true
+    },
+    {
+      "name": "390 wordmark four colors/no simulated outline/no overlapping letters",
+      "passed": true
+    },
+    {
+      "name": "390 header does not request Cookie Crumble",
+      "passed": true
+    },
+    {
+      "name": "390 default funding data/target/provisional/navbar unchanged",
+      "passed": true
+    },
+    {
+      "name": "390 warm titles / light title on dark participation panel",
+      "passed": true
+    },
+    {
+      "name": "390 title contrast on rendered backgrounds",
+      "passed": true
+    },
+    {
+      "name": "390 exact participation heading/order/copy",
+      "passed": true
+    },
+    {
+      "name": "390 CTA copy, real destinations, palette and contrast",
+      "passed": true
+    },
+    {
+      "name": "390 participation layout and button alignment",
+      "passed": true
+    },
+    {
+      "name": "390 all original footer facts/links retained",
+      "passed": true
+    },
+    {
+      "name": "390 plain dark rounded footer without classroom image",
+      "passed": true
+    },
+    {
+      "name": "390 social names/exact URLs/44px targets/rel/icons",
+      "passed": true
+    },
+    {
+      "name": "390 100000 fixture genuinely coral, explicit label, original target/provisional",
+      "passed": true
+    },
+    {
+      "name": "390 tiny fill truthful / four-color gradient / warm label contrast / reduced motion",
+      "passed": true
+    },
+    {
+      "name": "320 no horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "320 lowercase eyebrow centered across panel",
+      "passed": true
+    },
+    {
+      "name": "320 three tinted icon tiles preserve icon identities",
+      "passed": true
+    },
+    {
+      "name": "320 real Product Sans Bold and unchanged header height",
+      "passed": true
+    },
+    {
+      "name": "320 wordmark four colors/no simulated outline/no overlapping letters",
+      "passed": true
+    },
+    {
+      "name": "320 header does not request Cookie Crumble",
+      "passed": true
+    },
+    {
+      "name": "320 default funding data/target/provisional/navbar unchanged",
+      "passed": true
+    },
+    {
+      "name": "320 warm titles / light title on dark participation panel",
+      "passed": true
+    },
+    {
+      "name": "320 title contrast on rendered backgrounds",
+      "passed": true
+    },
+    {
+      "name": "320 exact participation heading/order/copy",
+      "passed": true
+    },
+    {
+      "name": "320 CTA copy, real destinations, palette and contrast",
+      "passed": true
+    },
+    {
+      "name": "320 participation layout and button alignment",
+      "passed": true
+    },
+    {
+      "name": "320 all original footer facts/links retained",
+      "passed": true
+    },
+    {
+      "name": "320 plain dark rounded footer without classroom image",
+      "passed": true
+    },
+    {
+      "name": "320 social names/exact URLs/44px targets/rel/icons",
+      "passed": true
+    },
+    {
+      "name": "320 100000 fixture genuinely coral, explicit label, original target/provisional",
+      "passed": true
+    },
+    {
+      "name": "320 tiny fill truthful / four-color gradient / warm label contrast / reduced motion",
+      "passed": true
+    },
+    {
+      "name": "25 percent milestone/button synchronized with contrast",
+      "passed": true
+    },
+    {
+      "name": "50 percent milestone/button synchronized with contrast",
+      "passed": true
+    },
+    {
+      "name": "75 percent milestone/button synchronized with contrast",
+      "passed": true
+    },
+    {
+      "name": "100 percent milestone/button synchronized with contrast",
+      "passed": true
+    },
+    {
+      "name": "Article title hover remains green",
+      "passed": true
+    },
+    {
+      "name": "Article title keyboard focus remains green",
+      "passed": true
+    },
+    {
+      "name": "Mobile menu opens with Product Sans header",
+      "passed": true
+    },
+    {
+      "name": "Mobile Escape closes menu and returns focus",
+      "passed": true
+    },
+    {
+      "name": "Social keyboard focus visible",
+      "passed": true
+    },
+    {
+      "name": "Participation destination ca-nhan activates existing content",
+      "passed": true
+    },
+    {
+      "name": "Participation destination doanh-nghiep activates existing content",
+      "passed": true
+    },
+    {
+      "name": "Participation destination tinh-nguyen-vien activates existing content",
+      "passed": true
+    },
+    {
+      "name": "1440 team/ loads without horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "1440 team/ scoped headings use warm ink or light text on dark",
+      "passed": true
+    },
+    {
+      "name": "1440 du-an/ loads without horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "1440 du-an/ scoped headings use warm ink or light text on dark",
+      "passed": true
+    },
+    {
+      "name": "1440 dong-hanh/ loads without horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "1440 dong-hanh/ scoped headings use warm ink or light text on dark",
+      "passed": true
+    },
+    {
+      "name": "1440 tinh-nguyen-vien/ loads without horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "1440 tinh-nguyen-vien/ scoped headings use warm ink or light text on dark",
+      "passed": true
+    },
+    {
+      "name": "1440 du-an/vet-nut/ loads without horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "1440 du-an/vet-nut/ scoped headings use warm ink or light text on dark",
+      "passed": true
+    },
+    {
+      "name": "1440 du-an/go-ngai/ loads without horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "1440 du-an/go-ngai/ scoped headings use warm ink or light text on dark",
+      "passed": true
+    },
+    {
+      "name": "1440 team/phan-ban/ loads without horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "1440 team/phan-ban/ scoped headings use warm ink or light text on dark",
+      "passed": true
+    },
+    {
+      "name": "768 team/ loads without horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "768 team/ scoped headings use warm ink or light text on dark",
+      "passed": true
+    },
+    {
+      "name": "768 du-an/ loads without horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "768 du-an/ scoped headings use warm ink or light text on dark",
+      "passed": true
+    },
+    {
+      "name": "768 dong-hanh/ loads without horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "768 dong-hanh/ scoped headings use warm ink or light text on dark",
+      "passed": true
+    },
+    {
+      "name": "768 tinh-nguyen-vien/ loads without horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "768 tinh-nguyen-vien/ scoped headings use warm ink or light text on dark",
+      "passed": true
+    },
+    {
+      "name": "768 du-an/vet-nut/ loads without horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "768 du-an/vet-nut/ scoped headings use warm ink or light text on dark",
+      "passed": true
+    },
+    {
+      "name": "768 du-an/go-ngai/ loads without horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "768 du-an/go-ngai/ scoped headings use warm ink or light text on dark",
+      "passed": true
+    },
+    {
+      "name": "768 team/phan-ban/ loads without horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "768 team/phan-ban/ scoped headings use warm ink or light text on dark",
+      "passed": true
+    },
+    {
+      "name": "390 team/ loads without horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "390 team/ scoped headings use warm ink or light text on dark",
+      "passed": true
+    },
+    {
+      "name": "390 du-an/ loads without horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "390 du-an/ scoped headings use warm ink or light text on dark",
+      "passed": true
+    },
+    {
+      "name": "390 dong-hanh/ loads without horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "390 dong-hanh/ scoped headings use warm ink or light text on dark",
+      "passed": true
+    },
+    {
+      "name": "390 tinh-nguyen-vien/ loads without horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "390 tinh-nguyen-vien/ scoped headings use warm ink or light text on dark",
+      "passed": true
+    },
+    {
+      "name": "390 du-an/vet-nut/ loads without horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "390 du-an/vet-nut/ scoped headings use warm ink or light text on dark",
+      "passed": true
+    },
+    {
+      "name": "390 du-an/go-ngai/ loads without horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "390 du-an/go-ngai/ scoped headings use warm ink or light text on dark",
+      "passed": true
+    },
+    {
+      "name": "390 team/phan-ban/ loads without horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "390 team/phan-ban/ scoped headings use warm ink or light text on dark",
+      "passed": true
+    },
+    {
+      "name": "320 team/ loads without horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "320 team/ scoped headings use warm ink or light text on dark",
+      "passed": true
+    },
+    {
+      "name": "320 du-an/ loads without horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "320 du-an/ scoped headings use warm ink or light text on dark",
+      "passed": true
+    },
+    {
+      "name": "320 dong-hanh/ loads without horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "320 dong-hanh/ scoped headings use warm ink or light text on dark",
+      "passed": true
+    },
+    {
+      "name": "320 tinh-nguyen-vien/ loads without horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "320 tinh-nguyen-vien/ scoped headings use warm ink or light text on dark",
+      "passed": true
+    },
+    {
+      "name": "320 du-an/vet-nut/ loads without horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "320 du-an/vet-nut/ scoped headings use warm ink or light text on dark",
+      "passed": true
+    },
+    {
+      "name": "320 du-an/go-ngai/ loads without horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "320 du-an/go-ngai/ scoped headings use warm ink or light text on dark",
+      "passed": true
+    },
+    {
+      "name": "320 team/phan-ban/ loads without horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "320 team/phan-ban/ scoped headings use warm ink or light text on dark",
+      "passed": true
+    },
+    {
+      "name": "500/750ms reveal retained for fixture and no premature final paint",
+      "passed": true
+    },
+    {
+      "name": "No new page errors or real form/payment submissions",
+      "passed": true
+    }
+  ],
+  "viewports": [
+    {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "wordmark": {
+        "font": "700 38px / 38px \"Product Sans\", sans-serif",
+        "loaded": true,
+        "letters": [
+          {
+            "color": "rgb(239, 138, 125)",
+            "stroke": "0px",
+            "shadow": "none",
+            "filter": "none",
+            "rect": {
+              "x": 148.5625,
+              "y": 916.5,
+              "width": 22.5,
+              "height": 38,
+              "bottom": 954.5
+            }
+          },
+          {
+            "color": "rgb(92, 166, 212)",
+            "stroke": "0px",
+            "shadow": "none",
+            "filter": "none",
+            "rect": {
+              "x": 172.0625,
+              "y": 916.5,
+              "width": 31.25,
+              "height": 38,
+              "bottom": 954.5
+            }
+          },
+          {
+            "color": "rgb(57, 159, 120)",
+            "stroke": "0px",
+            "shadow": "none",
+            "filter": "none",
+            "rect": {
+              "x": 204.3125,
+              "y": 916.5,
+              "width": 21.96875,
+              "height": 38,
+              "bottom": 954.5
+            }
+          },
+          {
+            "color": "rgb(254, 225, 97)",
+            "stroke": "0px",
+            "shadow": "none",
+            "filter": "none",
+            "rect": {
+              "x": 227.28125,
+              "y": 916.5,
+              "width": 22.15625,
+              "height": 38,
+              "bottom": 954.5
+            }
+          }
+        ],
+        "headerHeight": 74
+      },
+      "fund": {
+        "raised": "78450000",
+        "target": "121950000",
+        "provisional": "true",
+        "label": "78.450.000",
+        "milestone": "green",
+        "fixture": null,
+        "button": "rgb(57, 159, 120)",
+        "navbar": "rgb(239, 138, 125)"
+      },
+      "participation": {
+        "eyebrow": "mỗi hành động đều có ý nghĩa",
+        "heading": "Cùng POET viết tiếp câu chuyện niềm vui",
+        "cards": [
+          {
+            "rect": {
+              "x": 111.1875,
+              "y": 4733.3125,
+              "width": 392.53125,
+              "height": 341.75,
+              "bottom": 5075.0625
+            },
+            "title": "Đóng góp cá nhân",
+            "copy": [
+              "Gây quỹ trực tiếp: QR Donate",
+              "Mua vé tham dự Pop up Event",
+              "Mua merch trong bộ sưu tập Young Joy Collection"
+            ],
+            "cta": "Ủng hộ ngay→",
+            "href": "http://127.0.0.1:8766/v2/dong-hanh/#ca-nhan",
+            "buttonRect": {
+              "x": 136.1875,
+              "y": 4998.0625,
+              "width": 342.53125,
+              "height": 52,
+              "bottom": 5050.0625
+            },
+            "color": "rgb(51, 43, 39)",
+            "background": "rgb(255, 254, 250)"
+          },
+          {
+            "rect": {
+              "x": 523.71875,
+              "y": 4733.3125,
+              "width": 392.546875,
+              "height": 341.75,
+              "bottom": 5075.0625
+            },
+            "title": "Trở thành Doanh nghiệp đồng hành và Tài trợ",
+            "copy": [
+              "Doanh nghiệp trở thành “Little Joy” trong chiến dịch gây quỹ Big Joy Little Joy.",
+              "Doanh nghiệp tài trợ hiện vật hoặc hiện kim."
+            ],
+            "cta": "Chi tiết hoạt động và tham gia→",
+            "href": "http://127.0.0.1:8766/v2/dong-hanh/#doanh-nghiep",
+            "buttonRect": {
+              "x": 548.71875,
+              "y": 4998.0625,
+              "width": 342.546875,
+              "height": 52,
+              "bottom": 5050.0625
+            },
+            "color": "rgb(51, 43, 39)",
+            "background": "rgb(254, 225, 97)"
+          },
+          {
+            "rect": {
+              "x": 936.265625,
+              "y": 4733.3125,
+              "width": 392.53125,
+              "height": 341.75,
+              "bottom": 5075.0625
+            },
+            "title": "Ứng tuyển Tình nguyện viên",
+            "copy": [
+              "Tìm hiểu về công việc tại 4 ban: Vận hành, Truyền thông, Nhân sự hoặc Đối ngoại và đăng ký để nhận thông báo tuyển thành viên cho mùa mới."
+            ],
+            "cta": "Tìm hiểu & Đăng ký→",
+            "href": "http://127.0.0.1:8766/v2/dong-hanh/#tinh-nguyen-vien",
+            "buttonRect": {
+              "x": 961.265625,
+              "y": 4998.0625,
+              "width": 342.53125,
+              "height": 52,
+              "bottom": 5050.0625
+            },
+            "color": "rgb(255, 255, 255)",
+            "background": "rgb(34, 92, 70)"
+          }
+        ]
+      },
+      "footer": {
+        "text": "POET\n\nNgười trẻ cùng góp sức cho cộng đồng.\nThành lập năm 2022 tại TP. Hồ Chí Minh.\n\nVề chúng tôi\n↗\nTrưởng Ban Điều Hành\nHoài Phương\n0903872278\nTrưởng Ban Đối Ngoại\nPhương Minh\n0815852427\npoet.npo@gmail.com\n© 2026 POET",
+        "hrefs": [
+          "http://127.0.0.1:8766/v2/team/",
+          "tel:0903872278",
+          "tel:0815852427",
+          "mailto:poet.npo@gmail.com",
+          "https://www.facebook.com/poetorganization",
+          "https://www.instagram.com/poet.npo/",
+          "https://www.threads.com/@poet.npo",
+          "https://www.tiktok.com/@poet.npo"
+        ],
+        "shape": {
+          "background": "rgb(33, 31, 28)",
+          "borderRadius": "16px",
+          "photoCount": 0
+        },
+        "socials": [
+          {
+            "href": "https://www.facebook.com/poetorganization",
+            "label": "Facebook (mở trong tab mới)",
+            "rel": "noopener noreferrer",
+            "target": "_blank",
+            "rect": {
+              "x": 80,
+              "y": 5502.15625,
+              "width": 48,
+              "height": 48,
+              "bottom": 5550.15625
+            },
+            "mask": "url(\"http://127.0.0.1:8766/assets/icons/social/facebook.svg\")"
+          },
+          {
+            "href": "https://www.instagram.com/poet.npo/",
+            "label": "Instagram (mở trong tab mới)",
+            "rel": "noopener noreferrer",
+            "target": "_blank",
+            "rect": {
+              "x": 140,
+              "y": 5502.15625,
+              "width": 48,
+              "height": 48,
+              "bottom": 5550.15625
+            },
+            "mask": "url(\"http://127.0.0.1:8766/assets/icons/social/instagram.svg\")"
+          },
+          {
+            "href": "https://www.threads.com/@poet.npo",
+            "label": "Threads (mở trong tab mới)",
+            "rel": "noopener noreferrer",
+            "target": "_blank",
+            "rect": {
+              "x": 200,
+              "y": 5502.15625,
+              "width": 48,
+              "height": 48,
+              "bottom": 5550.15625
+            },
+            "mask": "url(\"http://127.0.0.1:8766/assets/icons/social/threads.svg\")"
+          },
+          {
+            "href": "https://www.tiktok.com/@poet.npo",
+            "label": "TikTok (mở trong tab mới)",
+            "rel": "noopener noreferrer",
+            "target": "_blank",
+            "rect": {
+              "x": 260,
+              "y": 5502.15625,
+              "width": 48,
+              "height": 48,
+              "bottom": 5550.15625
+            },
+            "mask": "url(\"http://127.0.0.1:8766/assets/icons/social/tiktok.svg\")"
+          }
+        ]
+      },
+      "titles": [
+        {
+          "text": "Hành trình Mùa 6:Trao nụ cười, dựng sân chơi",
+          "color": "rgb(51, 43, 39)",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "text": "Những hành trình yêu thương đã “cập bến”",
+          "color": "rgb(51, 43, 39)",
+          "background": "rgb(251, 248, 242)"
+        },
+        {
+          "text": "Đêm nhạc acoustic gây quỹ “Vết Nứt”",
+          "color": "rgb(51, 43, 39)",
+          "background": "rgb(255, 254, 250)"
+        },
+        {
+          "text": "Chương trình thiện nguyện tại Trường Tiểu học Mỹ Thạnh Bắc",
+          "color": "rgb(51, 43, 39)",
+          "background": "rgb(255, 254, 250)"
+        },
+        {
+          "text": "Bạn trẻ gấp sao, hưởng ứng đêm nhạc ‘chữa lành’ gây quỹ thiện nguyện (mở trong tab mới)",
+          "color": "rgb(51, 43, 39)",
+          "background": "rgb(244, 241, 233)"
+        },
+        {
+          "text": "Sáng tạo để lan tỏa nhiệt huyết tận hiến (mở trong tab mới)",
+          "color": "rgb(51, 43, 39)",
+          "background": "rgb(244, 241, 233)"
+        },
+        {
+          "text": "Những “thủ lĩnh” Gen Z năng nổ sáng tạo hoạt động Đoàn, lan tỏa nhiệt huyết tận hiến (mở trong tab mới)",
+          "color": "rgb(51, 43, 39)",
+          "background": "rgb(244, 241, 233)"
+        },
+        {
+          "text": "Cùng POET viết tiếp câu chuyện niềm vui",
+          "color": "rgb(255, 250, 242)",
+          "background": "rgb(33, 31, 28)"
+        }
+      ],
+      "resources": [
+        "http://127.0.0.1:8766/v2/v2.css",
+        "http://127.0.0.1:8766/v2/world.css?v=hero-no-round-shadows-1",
+        "http://127.0.0.1:8766/v2/fonts/Product%20Sans%20Regular.otf",
+        "http://127.0.0.1:8766/v2/site.css?v=ui-004-2",
+        "http://127.0.0.1:8766/v2/chrome.js?v=ui-004-2",
+        "http://127.0.0.1:8766/v2/site.js?v=ui-004-2",
+        "http://127.0.0.1:8766/v2/vendor/gsap/gsap.min.js",
+        "http://127.0.0.1:8766/v2/hero-debug.js?v=hero-runtime-6",
+        "http://127.0.0.1:8766/v2/world.js?v=hero-no-round-shadows-1",
+        "http://127.0.0.1:8766/v2/vendor/gsap/MotionPathPlugin.min.js",
+        "http://127.0.0.1:8766/assets/brand/poet-secondary.png",
+        "http://127.0.0.1:8766/assets/mascot/be-cuc/vui-tuoi.webp",
+        "http://127.0.0.1:8766/assets/mascot/be-cuc/du-lich.webp",
+        "http://127.0.0.1:8766/assets/mascot/be-mam/stand.webp",
+        "http://127.0.0.1:8766/assets/mascot/be-cuc/enjoy.webp",
+        "http://127.0.0.1:8766/assets/brand/poet-primary-intro.webp",
+        "http://127.0.0.1:8766/assets/editorial/playground-joy-1920.webp",
+        "http://127.0.0.1:8766/assets/editorial/bicycle-joy-1920.webp",
+        "http://127.0.0.1:8766/assets/css/typography.css?v=product-sans-unified-1",
+        "http://127.0.0.1:8766/v2/data/site-data.js",
+        "http://127.0.0.1:8766/ung-ho/checkout.js",
+        "http://127.0.0.1:8766/v2/fundraising-preview.mjs",
+        "http://127.0.0.1:8766/v2/fundraising-progress.mjs?v=ui-002-1",
+        "http://127.0.0.1:8766/v2/activity-carousel.js?v=ui-002-1",
+        "http://127.0.0.1:8766/v2/press-strip.js?v=poet-v3-1",
+        "http://127.0.0.1:8766/v2/fonts/Product%20Sans%20Bold.otf",
+        "http://127.0.0.1:8766/assets/icons/lucide/circle-check.svg",
+        "http://127.0.0.1:8766/assets/icons/lucide/users.svg",
+        "http://127.0.0.1:8766/assets/icons/lucide/building-2.svg",
+        "http://127.0.0.1:8766/assets/icons/lucide/heart.svg",
+        "http://127.0.0.1:8766/assets/brand/poet-logo.webp",
+        "http://127.0.0.1:8766/v2/fundraising-reveal.mjs",
+        "http://127.0.0.1:8766/assets/icons/lucide/chevron-down.svg",
+        "http://127.0.0.1:8766/assets/icons/social/facebook.svg",
+        "http://127.0.0.1:8766/assets/icons/social/instagram.svg",
+        "http://127.0.0.1:8766/assets/icons/social/threads.svg",
+        "http://127.0.0.1:8766/assets/icons/social/tiktok.svg",
+        "http://127.0.0.1:8766/assets/press/hoa-hoc-tro.png",
+        "http://127.0.0.1:8766/assets/press/tien-phong.png",
+        "http://127.0.0.1:8766/assets/brand/poet-logo.webp"
+      ],
+      "feedback": {
+        "label": "mỗi hành động đều có ý nghĩa",
+        "align": "center",
+        "center": 0,
+        "icons": [
+          {
+            "width": 44,
+            "height": 44,
+            "color": "rgb(239, 138, 125)",
+            "background": "rgb(81, 53, 54)",
+            "mask": "url(\"http://127.0.0.1:8766/assets/icons/lucide/heart.svg\")"
+          },
+          {
+            "width": 44,
+            "height": 44,
+            "color": "rgb(254, 225, 97)",
+            "background": "rgb(81, 70, 31)",
+            "mask": "url(\"http://127.0.0.1:8766/assets/icons/lucide/building-2.svg\")"
+          },
+          {
+            "width": 44,
+            "height": 44,
+            "color": "rgb(57, 159, 120)",
+            "background": "rgb(33, 59, 48)",
+            "mask": "url(\"http://127.0.0.1:8766/assets/icons/lucide/users.svg\")"
+          }
+        ]
+      },
+      "fixture": {
+        "raised": "100000",
+        "target": "121950000",
+        "provisional": "true",
+        "milestone": "coral",
+        "amount": "100.000",
+        "label": "Dữ liệu xem thử",
+        "percent": 0.08200082000820008,
+        "aria": "0.08",
+        "clip": "inset(0px 99.918% 0px 0px)",
+        "trackWidth": 525,
+        "minWidth": "0px",
+        "gradient": "linear-gradient(90deg, rgb(239, 138, 125) 0%, rgb(239, 138, 125) 25%, rgb(254, 225, 97) 25%, rgb(254, 225, 97) 50%, rgb(57, 159, 120) 50%, rgb(57, 159, 120) 75%, rgb(92, 166, 212) 75%, rgb(92, 166, 212) 100%)",
+        "background": "rgb(255, 248, 245)",
+        "border": "rgb(240, 196, 189)",
+        "button": "rgb(239, 138, 125)",
+        "text": "rgb(37, 31, 28)",
+        "badge": "rgb(132, 60, 51)",
+        "badgeText": "rgb(255, 255, 255)",
+        "navbar": "rgb(239, 138, 125)",
+        "motion": "done"
+      }
+    },
+    {
+      "width": 768,
+      "scrollWidth": 768,
+      "wordmark": {
+        "font": "700 35px / 35px \"Product Sans\", sans-serif",
+        "loaded": true,
+        "letters": [
+          {
+            "color": "rgb(239, 138, 125)",
+            "stroke": "0px",
+            "shadow": "none",
+            "filter": "none",
+            "rect": {
+              "x": 61.265625,
+              "y": 861,
+              "width": 20.734375,
+              "height": 35,
+              "bottom": 896
+            }
+          },
+          {
+            "color": "rgb(92, 166, 212)",
+            "stroke": "0px",
+            "shadow": "none",
+            "filter": "none",
+            "rect": {
+              "x": 83,
+              "y": 861,
+              "width": 28.78125,
+              "height": 35,
+              "bottom": 896
+            }
+          },
+          {
+            "color": "rgb(57, 159, 120)",
+            "stroke": "0px",
+            "shadow": "none",
+            "filter": "none",
+            "rect": {
+              "x": 112.78125,
+              "y": 861,
+              "width": 20.234375,
+              "height": 35,
+              "bottom": 896
+            }
+          },
+          {
+            "color": "rgb(254, 225, 97)",
+            "stroke": "0px",
+            "shadow": "none",
+            "filter": "none",
+            "rect": {
+              "x": 134.015625,
+              "y": 861,
+              "width": 20.40625,
+              "height": 35,
+              "bottom": 896
+            }
+          }
+        ],
+        "headerHeight": 72
+      },
+      "fund": {
+        "raised": "78450000",
+        "target": "121950000",
+        "provisional": "true",
+        "label": "78.450.000",
+        "milestone": "green",
+        "fixture": null,
+        "button": "rgb(57, 159, 120)",
+        "navbar": "rgb(239, 138, 125)"
+      },
+      "participation": {
+        "eyebrow": "mỗi hành động đều có ý nghĩa",
+        "heading": "Cùng POET viết tiếp câu chuyện niềm vui",
+        "cards": [
+          {
+            "rect": {
+              "x": 60,
+              "y": 4828.109375,
+              "width": 648,
+              "height": 321,
+              "bottom": 5149.109375
+            },
+            "title": "Đóng góp cá nhân",
+            "copy": [
+              "Gây quỹ trực tiếp: QR Donate",
+              "Mua vé tham dự Pop up Event",
+              "Mua merch trong bộ sưu tập Young Joy Collection"
+            ],
+            "cta": "Ủng hộ ngay→",
+            "href": "http://127.0.0.1:8766/v2/dong-hanh/#ca-nhan",
+            "buttonRect": {
+              "x": 85,
+              "y": 5072.109375,
+              "width": 129.296875,
+              "height": 52,
+              "bottom": 5124.109375
+            },
+            "color": "rgb(51, 43, 39)",
+            "background": "rgb(255, 254, 250)"
+          },
+          {
+            "rect": {
+              "x": 60,
+              "y": 5165.109375,
+              "width": 648,
+              "height": 288.25,
+              "bottom": 5453.359375
+            },
+            "title": "Trở thành Doanh nghiệp đồng hành và Tài trợ",
+            "copy": [
+              "Doanh nghiệp trở thành “Little Joy” trong chiến dịch gây quỹ Big Joy Little Joy.",
+              "Doanh nghiệp tài trợ hiện vật hoặc hiện kim."
+            ],
+            "cta": "Chi tiết hoạt động và tham gia→",
+            "href": "http://127.0.0.1:8766/v2/dong-hanh/#doanh-nghiep",
+            "buttonRect": {
+              "x": 85,
+              "y": 5376.359375,
+              "width": 242.4375,
+              "height": 52,
+              "bottom": 5428.359375
+            },
+            "color": "rgb(51, 43, 39)",
+            "background": "rgb(254, 225, 97)"
+          },
+          {
+            "rect": {
+              "x": 60,
+              "y": 5469.359375,
+              "width": 648,
+              "height": 280.25,
+              "bottom": 5749.609375
+            },
+            "title": "Ứng tuyển Tình nguyện viên",
+            "copy": [
+              "Tìm hiểu về công việc tại 4 ban: Vận hành, Truyền thông, Nhân sự hoặc Đối ngoại và đăng ký để nhận thông báo tuyển thành viên cho mùa mới."
+            ],
+            "cta": "Tìm hiểu & Đăng ký→",
+            "href": "http://127.0.0.1:8766/v2/dong-hanh/#tinh-nguyen-vien",
+            "buttonRect": {
+              "x": 85,
+              "y": 5672.609375,
+              "width": 172.015625,
+              "height": 52,
+              "bottom": 5724.609375
+            },
+            "color": "rgb(255, 255, 255)",
+            "background": "rgb(34, 92, 70)"
+          }
+        ]
+      },
+      "footer": {
+        "text": "POET\n\nNgười trẻ cùng góp sức cho cộng đồng.\nThành lập năm 2022 tại TP. Hồ Chí Minh.\n\nVề chúng tôi\n↗\nTrưởng Ban Điều Hành\nHoài Phương\n0903872278\nTrưởng Ban Đối Ngoại\nPhương Minh\n0815852427\npoet.npo@gmail.com\n© 2026 POET",
+        "hrefs": [
+          "http://127.0.0.1:8766/v2/team/",
+          "tel:0903872278",
+          "tel:0815852427",
+          "mailto:poet.npo@gmail.com",
+          "https://www.facebook.com/poetorganization",
+          "https://www.instagram.com/poet.npo/",
+          "https://www.threads.com/@poet.npo",
+          "https://www.tiktok.com/@poet.npo"
+        ],
+        "shape": {
+          "background": "rgb(33, 31, 28)",
+          "borderRadius": "16px",
+          "photoCount": 0
+        },
+        "socials": [
+          {
+            "href": "https://www.facebook.com/poetorganization",
+            "label": "Facebook (mở trong tab mới)",
+            "rel": "noopener noreferrer",
+            "target": "_blank",
+            "rect": {
+              "x": 36,
+              "y": 6176.75,
+              "width": 48,
+              "height": 48,
+              "bottom": 6224.75
+            },
+            "mask": "url(\"http://127.0.0.1:8766/assets/icons/social/facebook.svg\")"
+          },
+          {
+            "href": "https://www.instagram.com/poet.npo/",
+            "label": "Instagram (mở trong tab mới)",
+            "rel": "noopener noreferrer",
+            "target": "_blank",
+            "rect": {
+              "x": 96,
+              "y": 6176.75,
+              "width": 48,
+              "height": 48,
+              "bottom": 6224.75
+            },
+            "mask": "url(\"http://127.0.0.1:8766/assets/icons/social/instagram.svg\")"
+          },
+          {
+            "href": "https://www.threads.com/@poet.npo",
+            "label": "Threads (mở trong tab mới)",
+            "rel": "noopener noreferrer",
+            "target": "_blank",
+            "rect": {
+              "x": 156,
+              "y": 6176.75,
+              "width": 48,
+              "height": 48,
+              "bottom": 6224.75
+            },
+            "mask": "url(\"http://127.0.0.1:8766/assets/icons/social/threads.svg\")"
+          },
+          {
+            "href": "https://www.tiktok.com/@poet.npo",
+            "label": "TikTok (mở trong tab mới)",
+            "rel": "noopener noreferrer",
+            "target": "_blank",
+            "rect": {
+              "x": 216,
+              "y": 6176.75,
+              "width": 48,
+              "height": 48,
+              "bottom": 6224.75
+            },
+            "mask": "url(\"http://127.0.0.1:8766/assets/icons/social/tiktok.svg\")"
+          }
+        ]
+      },
+      "titles": [
+        {
+          "text": "Hành trình Mùa 6:Trao nụ cười, dựng sân chơi",
+          "color": "rgb(51, 43, 39)",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "text": "Những hành trình yêu thương đã “cập bến”",
+          "color": "rgb(51, 43, 39)",
+          "background": "rgb(251, 248, 242)"
+        },
+        {
+          "text": "Đêm nhạc acoustic gây quỹ “Vết Nứt”",
+          "color": "rgb(51, 43, 39)",
+          "background": "rgb(255, 254, 250)"
+        },
+        {
+          "text": "Chương trình thiện nguyện tại Trường Tiểu học Mỹ Thạnh Bắc",
+          "color": "rgb(51, 43, 39)",
+          "background": "rgb(255, 254, 250)"
+        },
+        {
+          "text": "Bạn trẻ gấp sao, hưởng ứng đêm nhạc ‘chữa lành’ gây quỹ thiện nguyện (mở trong tab mới)",
+          "color": "rgb(51, 43, 39)",
+          "background": "rgb(244, 241, 233)"
+        },
+        {
+          "text": "Sáng tạo để lan tỏa nhiệt huyết tận hiến (mở trong tab mới)",
+          "color": "rgb(51, 43, 39)",
+          "background": "rgb(244, 241, 233)"
+        },
+        {
+          "text": "Những “thủ lĩnh” Gen Z năng nổ sáng tạo hoạt động Đoàn, lan tỏa nhiệt huyết tận hiến (mở trong tab mới)",
+          "color": "rgb(51, 43, 39)",
+          "background": "rgb(244, 241, 233)"
+        },
+        {
+          "text": "Cùng POET viết tiếp câu chuyện niềm vui",
+          "color": "rgb(255, 250, 242)",
+          "background": "rgb(33, 31, 28)"
+        }
+      ],
+      "resources": [
+        "http://127.0.0.1:8766/v2/v2.css",
+        "http://127.0.0.1:8766/v2/world.css?v=hero-no-round-shadows-1",
+        "http://127.0.0.1:8766/v2/fonts/Product%20Sans%20Regular.otf",
+        "http://127.0.0.1:8766/v2/site.css?v=ui-004-2",
+        "http://127.0.0.1:8766/v2/chrome.js?v=ui-004-2",
+        "http://127.0.0.1:8766/v2/site.js?v=ui-004-2",
+        "http://127.0.0.1:8766/v2/vendor/gsap/gsap.min.js",
+        "http://127.0.0.1:8766/v2/vendor/gsap/MotionPathPlugin.min.js",
+        "http://127.0.0.1:8766/v2/hero-debug.js?v=hero-runtime-6",
+        "http://127.0.0.1:8766/assets/brand/poet-secondary.png",
+        "http://127.0.0.1:8766/v2/world.js?v=hero-no-round-shadows-1",
+        "http://127.0.0.1:8766/assets/mascot/be-cuc/vui-tuoi.webp",
+        "http://127.0.0.1:8766/assets/mascot/be-cuc/du-lich.webp",
+        "http://127.0.0.1:8766/assets/mascot/be-cuc/enjoy.webp",
+        "http://127.0.0.1:8766/assets/mascot/be-mam/stand.webp",
+        "http://127.0.0.1:8766/assets/brand/poet-primary-intro.webp",
+        "http://127.0.0.1:8766/assets/editorial/playground-joy-1280.webp",
+        "http://127.0.0.1:8766/assets/editorial/bicycle-joy-1280.webp",
+        "http://127.0.0.1:8766/assets/css/typography.css?v=product-sans-unified-1",
+        "http://127.0.0.1:8766/ung-ho/checkout.js",
+        "http://127.0.0.1:8766/v2/fundraising-preview.mjs",
+        "http://127.0.0.1:8766/v2/fundraising-progress.mjs?v=ui-002-1",
+        "http://127.0.0.1:8766/v2/activity-carousel.js?v=ui-002-1",
+        "http://127.0.0.1:8766/v2/press-strip.js?v=poet-v3-1",
+        "http://127.0.0.1:8766/v2/data/site-data.js",
+        "http://127.0.0.1:8766/v2/fonts/Product%20Sans%20Bold.otf",
+        "http://127.0.0.1:8766/assets/icons/lucide/circle-check.svg",
+        "http://127.0.0.1:8766/v2/fundraising-reveal.mjs",
+        "http://127.0.0.1:8766/assets/icons/lucide/users.svg",
+        "http://127.0.0.1:8766/assets/icons/lucide/building-2.svg",
+        "http://127.0.0.1:8766/assets/icons/lucide/heart.svg",
+        "http://127.0.0.1:8766/assets/brand/poet-logo.webp",
+        "http://127.0.0.1:8766/assets/icons/social/facebook.svg",
+        "http://127.0.0.1:8766/assets/icons/social/instagram.svg",
+        "http://127.0.0.1:8766/assets/icons/social/threads.svg",
+        "http://127.0.0.1:8766/assets/icons/social/tiktok.svg",
+        "http://127.0.0.1:8766/assets/press/hoa-hoc-tro.png",
+        "http://127.0.0.1:8766/assets/press/tien-phong.png",
+        "http://127.0.0.1:8766/assets/brand/poet-logo.webp"
+      ],
+      "feedback": {
+        "label": "mỗi hành động đều có ý nghĩa",
+        "align": "center",
+        "center": 0,
+        "icons": [
+          {
+            "width": 44,
+            "height": 44,
+            "color": "rgb(239, 138, 125)",
+            "background": "rgb(81, 53, 54)",
+            "mask": "url(\"http://127.0.0.1:8766/assets/icons/lucide/heart.svg\")"
+          },
+          {
+            "width": 44,
+            "height": 44,
+            "color": "rgb(254, 225, 97)",
+            "background": "rgb(81, 70, 31)",
+            "mask": "url(\"http://127.0.0.1:8766/assets/icons/lucide/building-2.svg\")"
+          },
+          {
+            "width": 44,
+            "height": 44,
+            "color": "rgb(57, 159, 120)",
+            "background": "rgb(33, 59, 48)",
+            "mask": "url(\"http://127.0.0.1:8766/assets/icons/lucide/users.svg\")"
+          }
+        ]
+      },
+      "fixture": {
+        "raised": "100000",
+        "target": "121950000",
+        "provisional": "true",
+        "milestone": "coral",
+        "amount": "100.000",
+        "label": "Dữ liệu xem thử",
+        "percent": 0.08200082000820008,
+        "aria": "0.08",
+        "clip": "inset(0px 99.918% 0px 0px)",
+        "trackWidth": 658,
+        "minWidth": "0px",
+        "gradient": "linear-gradient(90deg, rgb(239, 138, 125) 0%, rgb(239, 138, 125) 25%, rgb(254, 225, 97) 25%, rgb(254, 225, 97) 50%, rgb(57, 159, 120) 50%, rgb(57, 159, 120) 75%, rgb(92, 166, 212) 75%, rgb(92, 166, 212) 100%)",
+        "background": "rgb(255, 248, 245)",
+        "border": "rgb(240, 196, 189)",
+        "button": "rgb(239, 138, 125)",
+        "text": "rgb(37, 31, 28)",
+        "badge": "rgb(132, 60, 51)",
+        "badgeText": "rgb(255, 255, 255)",
+        "navbar": "rgb(239, 138, 125)",
+        "motion": "done"
+      }
+    },
+    {
+      "width": 390,
+      "scrollWidth": 390,
+      "wordmark": {
+        "font": "700 33px / 33px \"Product Sans\", sans-serif",
+        "loaded": true,
+        "letters": [
+          {
+            "color": "rgb(239, 138, 125)",
+            "stroke": "0px",
+            "shadow": "none",
+            "filter": "none",
+            "rect": {
+              "x": 47.734375,
+              "y": 862,
+              "width": 19.546875,
+              "height": 33,
+              "bottom": 895
+            }
+          },
+          {
+            "color": "rgb(92, 166, 212)",
+            "stroke": "0px",
+            "shadow": "none",
+            "filter": "none",
+            "rect": {
+              "x": 68.28125,
+              "y": 862,
+              "width": 27.140625,
+              "height": 33,
+              "bottom": 895
+            }
+          },
+          {
+            "color": "rgb(57, 159, 120)",
+            "stroke": "0px",
+            "shadow": "none",
+            "filter": "none",
+            "rect": {
+              "x": 96.421875,
+              "y": 862,
+              "width": 19.078125,
+              "height": 33,
+              "bottom": 895
+            }
+          },
+          {
+            "color": "rgb(254, 225, 97)",
+            "stroke": "0px",
+            "shadow": "none",
+            "filter": "none",
+            "rect": {
+              "x": 116.5,
+              "y": 862,
+              "width": 19.25,
+              "height": 33,
+              "bottom": 895
+            }
+          }
+        ],
+        "headerHeight": 72
+      },
+      "fund": {
+        "raised": "78450000",
+        "target": "121950000",
+        "provisional": "true",
+        "label": "78.450.000",
+        "milestone": "green",
+        "fixture": null,
+        "button": "rgb(57, 159, 120)",
+        "navbar": "rgb(239, 138, 125)"
+      },
+      "participation": {
+        "eyebrow": "mỗi hành động đều có ý nghĩa",
+        "heading": "Cùng POET viết tiếp câu chuyện niềm vui",
+        "cards": [
+          {
+            "rect": {
+              "x": 40,
+              "y": 5709.8125,
+              "width": 310,
+              "height": 337.75,
+              "bottom": 6047.5625
+            },
+            "title": "Đóng góp cá nhân",
+            "copy": [
+              "Gây quỹ trực tiếp: QR Donate",
+              "Mua vé tham dự Pop up Event",
+              "Mua merch trong bộ sưu tập Young Joy Collection"
+            ],
+            "cta": "Ủng hộ ngay→",
+            "href": "http://127.0.0.1:8766/v2/dong-hanh/#ca-nhan",
+            "buttonRect": {
+              "x": 61,
+              "y": 5974.5625,
+              "width": 268,
+              "height": 52,
+              "bottom": 6026.5625
+            },
+            "color": "rgb(51, 43, 39)",
+            "background": "rgb(255, 254, 250)"
+          },
+          {
+            "rect": {
+              "x": 40,
+              "y": 6063.5625,
+              "width": 310,
+              "height": 383.25,
+              "bottom": 6446.8125
+            },
+            "title": "Trở thành Doanh nghiệp đồng hành và Tài trợ",
+            "copy": [
+              "Doanh nghiệp trở thành “Little Joy” trong chiến dịch gây quỹ Big Joy Little Joy.",
+              "Doanh nghiệp tài trợ hiện vật hoặc hiện kim."
+            ],
+            "cta": "Chi tiết hoạt động và tham gia→",
+            "href": "http://127.0.0.1:8766/v2/dong-hanh/#doanh-nghiep",
+            "buttonRect": {
+              "x": 61,
+              "y": 6373.8125,
+              "width": 268,
+              "height": 52,
+              "bottom": 6425.8125
+            },
+            "color": "rgb(51, 43, 39)",
+            "background": "rgb(254, 225, 97)"
+          },
+          {
+            "rect": {
+              "x": 40,
+              "y": 6462.8125,
+              "width": 310,
+              "height": 350.5,
+              "bottom": 6813.3125
+            },
+            "title": "Ứng tuyển Tình nguyện viên",
+            "copy": [
+              "Tìm hiểu về công việc tại 4 ban: Vận hành, Truyền thông, Nhân sự hoặc Đối ngoại và đăng ký để nhận thông báo tuyển thành viên cho mùa mới."
+            ],
+            "cta": "Tìm hiểu & Đăng ký→",
+            "href": "http://127.0.0.1:8766/v2/dong-hanh/#tinh-nguyen-vien",
+            "buttonRect": {
+              "x": 61,
+              "y": 6740.3125,
+              "width": 268,
+              "height": 52,
+              "bottom": 6792.3125
+            },
+            "color": "rgb(255, 255, 255)",
+            "background": "rgb(34, 92, 70)"
+          }
+        ]
+      },
+      "footer": {
+        "text": "POET\n\nNgười trẻ cùng góp sức cho cộng đồng.\nThành lập năm 2022 tại TP. Hồ Chí Minh.\n\nVề chúng tôi\n↗\nTrưởng Ban Điều Hành\nHoài Phương\n0903872278\nTrưởng Ban Đối Ngoại\nPhương Minh\n0815852427\npoet.npo@gmail.com\n© 2026 POET",
+        "hrefs": [
+          "http://127.0.0.1:8766/v2/team/",
+          "tel:0903872278",
+          "tel:0815852427",
+          "mailto:poet.npo@gmail.com",
+          "https://www.facebook.com/poetorganization",
+          "https://www.instagram.com/poet.npo/",
+          "https://www.threads.com/@poet.npo",
+          "https://www.tiktok.com/@poet.npo"
+        ],
+        "shape": {
+          "background": "rgb(33, 31, 28)",
+          "borderRadius": "16px",
+          "photoCount": 0
+        },
+        "socials": [
+          {
+            "href": "https://www.facebook.com/poetorganization",
+            "label": "Facebook (mở trong tab mới)",
+            "rel": "noopener noreferrer",
+            "target": "_blank",
+            "rect": {
+              "x": 22,
+              "y": 7487.46875,
+              "width": 48,
+              "height": 48,
+              "bottom": 7535.46875
+            },
+            "mask": "url(\"http://127.0.0.1:8766/assets/icons/social/facebook.svg\")"
+          },
+          {
+            "href": "https://www.instagram.com/poet.npo/",
+            "label": "Instagram (mở trong tab mới)",
+            "rel": "noopener noreferrer",
+            "target": "_blank",
+            "rect": {
+              "x": 82,
+              "y": 7487.46875,
+              "width": 48,
+              "height": 48,
+              "bottom": 7535.46875
+            },
+            "mask": "url(\"http://127.0.0.1:8766/assets/icons/social/instagram.svg\")"
+          },
+          {
+            "href": "https://www.threads.com/@poet.npo",
+            "label": "Threads (mở trong tab mới)",
+            "rel": "noopener noreferrer",
+            "target": "_blank",
+            "rect": {
+              "x": 142,
+              "y": 7487.46875,
+              "width": 48,
+              "height": 48,
+              "bottom": 7535.46875
+            },
+            "mask": "url(\"http://127.0.0.1:8766/assets/icons/social/threads.svg\")"
+          },
+          {
+            "href": "https://www.tiktok.com/@poet.npo",
+            "label": "TikTok (mở trong tab mới)",
+            "rel": "noopener noreferrer",
+            "target": "_blank",
+            "rect": {
+              "x": 202,
+              "y": 7487.46875,
+              "width": 48,
+              "height": 48,
+              "bottom": 7535.46875
+            },
+            "mask": "url(\"http://127.0.0.1:8766/assets/icons/social/tiktok.svg\")"
+          }
+        ]
+      },
+      "titles": [
+        {
+          "text": "Hành trình Mùa 6:Trao nụ cười, dựng sân chơi",
+          "color": "rgb(51, 43, 39)",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "text": "Những hành trình yêu thương đã “cập bến”",
+          "color": "rgb(51, 43, 39)",
+          "background": "rgb(251, 248, 242)"
+        },
+        {
+          "text": "Đêm nhạc acoustic gây quỹ “Vết Nứt”",
+          "color": "rgb(51, 43, 39)",
+          "background": "rgb(255, 254, 250)"
+        },
+        {
+          "text": "Chương trình thiện nguyện tại Trường Tiểu học Mỹ Thạnh Bắc",
+          "color": "rgb(51, 43, 39)",
+          "background": "rgb(255, 254, 250)"
+        },
+        {
+          "text": "Bạn trẻ gấp sao, hưởng ứng đêm nhạc ‘chữa lành’ gây quỹ thiện nguyện (mở trong tab mới)",
+          "color": "rgb(51, 43, 39)",
+          "background": "rgb(244, 241, 233)"
+        },
+        {
+          "text": "Sáng tạo để lan tỏa nhiệt huyết tận hiến (mở trong tab mới)",
+          "color": "rgb(51, 43, 39)",
+          "background": "rgb(244, 241, 233)"
+        },
+        {
+          "text": "Những “thủ lĩnh” Gen Z năng nổ sáng tạo hoạt động Đoàn, lan tỏa nhiệt huyết tận hiến (mở trong tab mới)",
+          "color": "rgb(51, 43, 39)",
+          "background": "rgb(244, 241, 233)"
+        },
+        {
+          "text": "Cùng POET viết tiếp câu chuyện niềm vui",
+          "color": "rgb(255, 250, 242)",
+          "background": "rgb(33, 31, 28)"
+        }
+      ],
+      "resources": [
+        "http://127.0.0.1:8766/v2/v2.css",
+        "http://127.0.0.1:8766/v2/world.css?v=hero-no-round-shadows-1",
+        "http://127.0.0.1:8766/v2/site.css?v=ui-004-2",
+        "http://127.0.0.1:8766/v2/fonts/Product%20Sans%20Regular.otf",
+        "http://127.0.0.1:8766/v2/chrome.js?v=ui-004-2",
+        "http://127.0.0.1:8766/v2/site.js?v=ui-004-2",
+        "http://127.0.0.1:8766/v2/vendor/gsap/MotionPathPlugin.min.js",
+        "http://127.0.0.1:8766/v2/vendor/gsap/gsap.min.js",
+        "http://127.0.0.1:8766/v2/hero-debug.js?v=hero-runtime-6",
+        "http://127.0.0.1:8766/v2/world.js?v=hero-no-round-shadows-1",
+        "http://127.0.0.1:8766/assets/brand/poet-secondary.png",
+        "http://127.0.0.1:8766/assets/mascot/be-cuc/vui-tuoi.webp",
+        "http://127.0.0.1:8766/assets/mascot/be-cuc/du-lich.webp",
+        "http://127.0.0.1:8766/assets/mascot/be-cuc/enjoy.webp",
+        "http://127.0.0.1:8766/assets/mascot/be-mam/stand.webp",
+        "http://127.0.0.1:8766/assets/brand/poet-primary-intro.webp",
+        "http://127.0.0.1:8766/assets/editorial/playground-joy-640.webp",
+        "http://127.0.0.1:8766/assets/editorial/bicycle-joy-640.webp",
+        "http://127.0.0.1:8766/assets/css/typography.css?v=product-sans-unified-1",
+        "http://127.0.0.1:8766/v2/data/site-data.js",
+        "http://127.0.0.1:8766/ung-ho/checkout.js",
+        "http://127.0.0.1:8766/v2/fundraising-preview.mjs",
+        "http://127.0.0.1:8766/v2/fundraising-progress.mjs?v=ui-002-1",
+        "http://127.0.0.1:8766/v2/activity-carousel.js?v=ui-002-1",
+        "http://127.0.0.1:8766/v2/press-strip.js?v=poet-v3-1",
+        "http://127.0.0.1:8766/v2/fonts/Product%20Sans%20Bold.otf",
+        "http://127.0.0.1:8766/assets/icons/lucide/circle-check.svg",
+        "http://127.0.0.1:8766/v2/fundraising-reveal.mjs",
+        "http://127.0.0.1:8766/assets/icons/lucide/heart.svg",
+        "http://127.0.0.1:8766/assets/icons/lucide/building-2.svg",
+        "http://127.0.0.1:8766/assets/icons/lucide/users.svg",
+        "http://127.0.0.1:8766/assets/brand/poet-logo.webp",
+        "http://127.0.0.1:8766/assets/icons/social/facebook.svg",
+        "http://127.0.0.1:8766/assets/icons/social/instagram.svg",
+        "http://127.0.0.1:8766/assets/icons/social/threads.svg",
+        "http://127.0.0.1:8766/assets/icons/social/tiktok.svg",
+        "http://127.0.0.1:8766/assets/press/tien-phong.png",
+        "http://127.0.0.1:8766/assets/press/hoa-hoc-tro.png",
+        "http://127.0.0.1:8766/assets/brand/poet-logo.webp"
+      ],
+      "feedback": {
+        "label": "mỗi hành động đều có ý nghĩa",
+        "align": "center",
+        "center": 0,
+        "icons": [
+          {
+            "width": 44,
+            "height": 44,
+            "color": "rgb(239, 138, 125)",
+            "background": "rgb(81, 53, 54)",
+            "mask": "url(\"http://127.0.0.1:8766/assets/icons/lucide/heart.svg\")"
+          },
+          {
+            "width": 44,
+            "height": 44,
+            "color": "rgb(254, 225, 97)",
+            "background": "rgb(81, 70, 31)",
+            "mask": "url(\"http://127.0.0.1:8766/assets/icons/lucide/building-2.svg\")"
+          },
+          {
+            "width": 44,
+            "height": 44,
+            "color": "rgb(57, 159, 120)",
+            "background": "rgb(33, 59, 48)",
+            "mask": "url(\"http://127.0.0.1:8766/assets/icons/lucide/users.svg\")"
+          }
+        ]
+      },
+      "fixture": {
+        "raised": "100000",
+        "target": "121950000",
+        "provisional": "true",
+        "milestone": "coral",
+        "amount": "100.000",
+        "label": "Dữ liệu xem thử",
+        "percent": 0.08200082000820008,
+        "aria": "0.08",
+        "clip": "inset(0px 99.918% 0px 0px)",
+        "trackWidth": 296,
+        "minWidth": "0px",
+        "gradient": "linear-gradient(90deg, rgb(239, 138, 125) 0%, rgb(239, 138, 125) 25%, rgb(254, 225, 97) 25%, rgb(254, 225, 97) 50%, rgb(57, 159, 120) 50%, rgb(57, 159, 120) 75%, rgb(92, 166, 212) 75%, rgb(92, 166, 212) 100%)",
+        "background": "rgb(255, 248, 245)",
+        "border": "rgb(240, 196, 189)",
+        "button": "rgb(239, 138, 125)",
+        "text": "rgb(37, 31, 28)",
+        "badge": "rgb(132, 60, 51)",
+        "badgeText": "rgb(255, 255, 255)",
+        "navbar": "rgb(239, 138, 125)",
+        "motion": "done"
+      }
+    },
+    {
+      "width": 320,
+      "scrollWidth": 320,
+      "wordmark": {
+        "font": "700 30px / 30px \"Product Sans\", sans-serif",
+        "loaded": true,
+        "letters": [
+          {
+            "color": "rgb(239, 138, 125)",
+            "stroke": "0px",
+            "shadow": "none",
+            "filter": "none",
+            "rect": {
+              "x": 38.4375,
+              "y": 863.5,
+              "width": 17.765625,
+              "height": 30,
+              "bottom": 893.5
+            }
+          },
+          {
+            "color": "rgb(92, 166, 212)",
+            "stroke": "0px",
+            "shadow": "none",
+            "filter": "none",
+            "rect": {
+              "x": 57.203125,
+              "y": 863.5,
+              "width": 24.671875,
+              "height": 30,
+              "bottom": 893.5
+            }
+          },
+          {
+            "color": "rgb(57, 159, 120)",
+            "stroke": "0px",
+            "shadow": "none",
+            "filter": "none",
+            "rect": {
+              "x": 82.875,
+              "y": 863.5,
+              "width": 17.34375,
+              "height": 30,
+              "bottom": 893.5
+            }
+          },
+          {
+            "color": "rgb(254, 225, 97)",
+            "stroke": "0px",
+            "shadow": "none",
+            "filter": "none",
+            "rect": {
+              "x": 101.21875,
+              "y": 863.5,
+              "width": 17.5,
+              "height": 30,
+              "bottom": 893.5
+            }
+          }
+        ],
+        "headerHeight": 72
+      },
+      "fund": {
+        "raised": "78450000",
+        "target": "121950000",
+        "provisional": "true",
+        "label": "78.450.000",
+        "milestone": "green",
+        "fixture": null,
+        "button": "rgb(57, 159, 120)",
+        "navbar": "rgb(239, 138, 125)"
+      },
+      "participation": {
+        "eyebrow": "mỗi hành động đều có ý nghĩa",
+        "heading": "Cùng POET viết tiếp câu chuyện niềm vui",
+        "cards": [
+          {
+            "rect": {
+              "x": 36,
+              "y": 5930.796875,
+              "width": 248,
+              "height": 357.25,
+              "bottom": 6288.046875
+            },
+            "title": "Đóng góp cá nhân",
+            "copy": [
+              "Gây quỹ trực tiếp: QR Donate",
+              "Mua vé tham dự Pop up Event",
+              "Mua merch trong bộ sưu tập Young Joy Collection"
+            ],
+            "cta": "Ủng hộ ngay→",
+            "href": "http://127.0.0.1:8766/v2/dong-hanh/#ca-nhan",
+            "buttonRect": {
+              "x": 55,
+              "y": 6217.046875,
+              "width": 210,
+              "height": 52,
+              "bottom": 6269.046875
+            },
+            "color": "rgb(51, 43, 39)",
+            "background": "rgb(255, 254, 250)"
+          },
+          {
+            "rect": {
+              "x": 36,
+              "y": 6304.046875,
+              "width": 248,
+              "height": 412.84375,
+              "bottom": 6716.890625
+            },
+            "title": "Trở thành Doanh nghiệp đồng hành và Tài trợ",
+            "copy": [
+              "Doanh nghiệp trở thành “Little Joy” trong chiến dịch gây quỹ Big Joy Little Joy.",
+              "Doanh nghiệp tài trợ hiện vật hoặc hiện kim."
+            ],
+            "cta": "Chi tiết hoạt động và tham gia→",
+            "href": "http://127.0.0.1:8766/v2/dong-hanh/#doanh-nghiep",
+            "buttonRect": {
+              "x": 55,
+              "y": 6637.296875,
+              "width": 210,
+              "height": 60.59375,
+              "bottom": 6697.890625
+            },
+            "color": "rgb(51, 43, 39)",
+            "background": "rgb(254, 225, 97)"
+          },
+          {
+            "rect": {
+              "x": 36,
+              "y": 6732.890625,
+              "width": 248,
+              "height": 368.75,
+              "bottom": 7101.640625
+            },
+            "title": "Ứng tuyển Tình nguyện viên",
+            "copy": [
+              "Tìm hiểu về công việc tại 4 ban: Vận hành, Truyền thông, Nhân sự hoặc Đối ngoại và đăng ký để nhận thông báo tuyển thành viên cho mùa mới."
+            ],
+            "cta": "Tìm hiểu & Đăng ký→",
+            "href": "http://127.0.0.1:8766/v2/dong-hanh/#tinh-nguyen-vien",
+            "buttonRect": {
+              "x": 55,
+              "y": 7030.640625,
+              "width": 210,
+              "height": 52,
+              "bottom": 7082.640625
+            },
+            "color": "rgb(255, 255, 255)",
+            "background": "rgb(34, 92, 70)"
+          }
+        ]
+      },
+      "footer": {
+        "text": "POET\n\nNgười trẻ cùng góp sức cho cộng đồng.\nThành lập năm 2022 tại TP. Hồ Chí Minh.\n\nVề chúng tôi\n↗\nTrưởng Ban Điều Hành\nHoài Phương\n0903872278\nTrưởng Ban Đối Ngoại\nPhương Minh\n0815852427\npoet.npo@gmail.com\n© 2026 POET",
+        "hrefs": [
+          "http://127.0.0.1:8766/v2/team/",
+          "tel:0903872278",
+          "tel:0815852427",
+          "mailto:poet.npo@gmail.com",
+          "https://www.facebook.com/poetorganization",
+          "https://www.instagram.com/poet.npo/",
+          "https://www.threads.com/@poet.npo",
+          "https://www.tiktok.com/@poet.npo"
+        ],
+        "shape": {
+          "background": "rgb(33, 31, 28)",
+          "borderRadius": "16px",
+          "photoCount": 0
+        },
+        "socials": [
+          {
+            "href": "https://www.facebook.com/poetorganization",
+            "label": "Facebook (mở trong tab mới)",
+            "rel": "noopener noreferrer",
+            "target": "_blank",
+            "rect": {
+              "x": 22,
+              "y": 7775.796875,
+              "width": 48,
+              "height": 48,
+              "bottom": 7823.796875
+            },
+            "mask": "url(\"http://127.0.0.1:8766/assets/icons/social/facebook.svg\")"
+          },
+          {
+            "href": "https://www.instagram.com/poet.npo/",
+            "label": "Instagram (mở trong tab mới)",
+            "rel": "noopener noreferrer",
+            "target": "_blank",
+            "rect": {
+              "x": 82,
+              "y": 7775.796875,
+              "width": 48,
+              "height": 48,
+              "bottom": 7823.796875
+            },
+            "mask": "url(\"http://127.0.0.1:8766/assets/icons/social/instagram.svg\")"
+          },
+          {
+            "href": "https://www.threads.com/@poet.npo",
+            "label": "Threads (mở trong tab mới)",
+            "rel": "noopener noreferrer",
+            "target": "_blank",
+            "rect": {
+              "x": 142,
+              "y": 7775.796875,
+              "width": 48,
+              "height": 48,
+              "bottom": 7823.796875
+            },
+            "mask": "url(\"http://127.0.0.1:8766/assets/icons/social/threads.svg\")"
+          },
+          {
+            "href": "https://www.tiktok.com/@poet.npo",
+            "label": "TikTok (mở trong tab mới)",
+            "rel": "noopener noreferrer",
+            "target": "_blank",
+            "rect": {
+              "x": 202,
+              "y": 7775.796875,
+              "width": 48,
+              "height": 48,
+              "bottom": 7823.796875
+            },
+            "mask": "url(\"http://127.0.0.1:8766/assets/icons/social/tiktok.svg\")"
+          }
+        ]
+      },
+      "titles": [
+        {
+          "text": "Hành trình Mùa 6:Trao nụ cười, dựng sân chơi",
+          "color": "rgb(51, 43, 39)",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "text": "Những hành trình yêu thương đã “cập bến”",
+          "color": "rgb(51, 43, 39)",
+          "background": "rgb(251, 248, 242)"
+        },
+        {
+          "text": "Đêm nhạc acoustic gây quỹ “Vết Nứt”",
+          "color": "rgb(51, 43, 39)",
+          "background": "rgb(255, 254, 250)"
+        },
+        {
+          "text": "Chương trình thiện nguyện tại Trường Tiểu học Mỹ Thạnh Bắc",
+          "color": "rgb(51, 43, 39)",
+          "background": "rgb(255, 254, 250)"
+        },
+        {
+          "text": "Bạn trẻ gấp sao, hưởng ứng đêm nhạc ‘chữa lành’ gây quỹ thiện nguyện (mở trong tab mới)",
+          "color": "rgb(51, 43, 39)",
+          "background": "rgb(244, 241, 233)"
+        },
+        {
+          "text": "Sáng tạo để lan tỏa nhiệt huyết tận hiến (mở trong tab mới)",
+          "color": "rgb(51, 43, 39)",
+          "background": "rgb(244, 241, 233)"
+        },
+        {
+          "text": "Những “thủ lĩnh” Gen Z năng nổ sáng tạo hoạt động Đoàn, lan tỏa nhiệt huyết tận hiến (mở trong tab mới)",
+          "color": "rgb(51, 43, 39)",
+          "background": "rgb(244, 241, 233)"
+        },
+        {
+          "text": "Cùng POET viết tiếp câu chuyện niềm vui",
+          "color": "rgb(255, 250, 242)",
+          "background": "rgb(33, 31, 28)"
+        }
+      ],
+      "resources": [
+        "http://127.0.0.1:8766/v2/v2.css",
+        "http://127.0.0.1:8766/v2/world.css?v=hero-no-round-shadows-1",
+        "http://127.0.0.1:8766/v2/fonts/Product%20Sans%20Regular.otf",
+        "http://127.0.0.1:8766/v2/site.css?v=ui-004-2",
+        "http://127.0.0.1:8766/v2/chrome.js?v=ui-004-2",
+        "http://127.0.0.1:8766/v2/site.js?v=ui-004-2",
+        "http://127.0.0.1:8766/v2/vendor/gsap/gsap.min.js",
+        "http://127.0.0.1:8766/v2/vendor/gsap/MotionPathPlugin.min.js",
+        "http://127.0.0.1:8766/v2/hero-debug.js?v=hero-runtime-6",
+        "http://127.0.0.1:8766/v2/world.js?v=hero-no-round-shadows-1",
+        "http://127.0.0.1:8766/assets/brand/poet-secondary.png",
+        "http://127.0.0.1:8766/assets/mascot/be-cuc/vui-tuoi.webp",
+        "http://127.0.0.1:8766/assets/mascot/be-cuc/du-lich.webp",
+        "http://127.0.0.1:8766/assets/mascot/be-cuc/enjoy.webp",
+        "http://127.0.0.1:8766/assets/mascot/be-mam/stand.webp",
+        "http://127.0.0.1:8766/assets/brand/poet-primary-intro.webp",
+        "http://127.0.0.1:8766/assets/editorial/playground-joy-640.webp",
+        "http://127.0.0.1:8766/assets/editorial/bicycle-joy-640.webp",
+        "http://127.0.0.1:8766/assets/css/typography.css?v=product-sans-unified-1",
+        "http://127.0.0.1:8766/v2/data/site-data.js",
+        "http://127.0.0.1:8766/ung-ho/checkout.js",
+        "http://127.0.0.1:8766/v2/fundraising-preview.mjs",
+        "http://127.0.0.1:8766/v2/fundraising-progress.mjs?v=ui-002-1",
+        "http://127.0.0.1:8766/v2/activity-carousel.js?v=ui-002-1",
+        "http://127.0.0.1:8766/v2/press-strip.js?v=poet-v3-1",
+        "http://127.0.0.1:8766/v2/fonts/Product%20Sans%20Bold.otf",
+        "http://127.0.0.1:8766/assets/icons/lucide/circle-check.svg",
+        "http://127.0.0.1:8766/assets/icons/lucide/heart.svg",
+        "http://127.0.0.1:8766/assets/icons/lucide/building-2.svg",
+        "http://127.0.0.1:8766/assets/icons/lucide/users.svg",
+        "http://127.0.0.1:8766/assets/brand/poet-logo.webp",
+        "http://127.0.0.1:8766/v2/fundraising-reveal.mjs",
+        "http://127.0.0.1:8766/assets/icons/social/facebook.svg",
+        "http://127.0.0.1:8766/assets/icons/social/instagram.svg",
+        "http://127.0.0.1:8766/assets/icons/social/threads.svg",
+        "http://127.0.0.1:8766/assets/icons/social/tiktok.svg",
+        "http://127.0.0.1:8766/assets/press/tien-phong.png",
+        "http://127.0.0.1:8766/assets/press/hoa-hoc-tro.png",
+        "http://127.0.0.1:8766/assets/brand/poet-logo.webp"
+      ],
+      "feedback": {
+        "label": "mỗi hành động đều có ý nghĩa",
+        "align": "center",
+        "center": 0,
+        "icons": [
+          {
+            "width": 44,
+            "height": 44,
+            "color": "rgb(239, 138, 125)",
+            "background": "rgb(81, 53, 54)",
+            "mask": "url(\"http://127.0.0.1:8766/assets/icons/lucide/heart.svg\")"
+          },
+          {
+            "width": 44,
+            "height": 44,
+            "color": "rgb(254, 225, 97)",
+            "background": "rgb(81, 70, 31)",
+            "mask": "url(\"http://127.0.0.1:8766/assets/icons/lucide/building-2.svg\")"
+          },
+          {
+            "width": 44,
+            "height": 44,
+            "color": "rgb(57, 159, 120)",
+            "background": "rgb(33, 59, 48)",
+            "mask": "url(\"http://127.0.0.1:8766/assets/icons/lucide/users.svg\")"
+          }
+        ]
+      },
+      "fixture": {
+        "raised": "100000",
+        "target": "121950000",
+        "provisional": "true",
+        "milestone": "coral",
+        "amount": "100.000",
+        "label": "Dữ liệu xem thử",
+        "percent": 0.08200082000820008,
+        "aria": "0.08",
+        "clip": "inset(0px 99.918% 0px 0px)",
+        "trackWidth": 246,
+        "minWidth": "0px",
+        "gradient": "linear-gradient(90deg, rgb(239, 138, 125) 0%, rgb(239, 138, 125) 25%, rgb(254, 225, 97) 25%, rgb(254, 225, 97) 50%, rgb(57, 159, 120) 50%, rgb(57, 159, 120) 75%, rgb(92, 166, 212) 75%, rgb(92, 166, 212) 100%)",
+        "background": "rgb(255, 248, 245)",
+        "border": "rgb(240, 196, 189)",
+        "button": "rgb(239, 138, 125)",
+        "text": "rgb(37, 31, 28)",
+        "badge": "rgb(132, 60, 51)",
+        "badgeText": "rgb(255, 255, 255)",
+        "navbar": "rgb(239, 138, 125)",
+        "motion": "done"
+      }
+    }
+  ],
+  "milestones": [
+    {
+      "percent": 25,
+      "milestone": "yellow",
+      "progress": "25",
+      "background": "rgb(254, 225, 97)",
+      "theme": "#FEE161",
+      "text": "rgb(37, 31, 28)"
+    },
+    {
+      "percent": 50,
+      "milestone": "green",
+      "progress": "50",
+      "background": "rgb(57, 159, 120)",
+      "theme": "#399F78",
+      "text": "rgb(37, 31, 28)"
+    },
+    {
+      "percent": 75,
+      "milestone": "blue",
+      "progress": "75",
+      "background": "rgb(92, 166, 212)",
+      "theme": "#5CA6D4",
+      "text": "rgb(37, 31, 28)"
+    },
+    {
+      "percent": 100,
+      "milestone": "blue",
+      "progress": "100",
+      "background": "rgb(92, 166, 212)",
+      "theme": "#5CA6D4",
+      "text": "rgb(37, 31, 28)"
+    }
+  ],
+  "screenshots": [
+    {
+      "file": "1440-participation.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "selector": ".join-section--home .participation-panel",
+      "stickyHeaderHidden": true
+    },
+    {
+      "file": "1440-footer.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "selector": "poet-footer",
+      "stickyHeaderHidden": true
+    },
+    {
+      "file": "390-participation.png",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "selector": ".join-section--home .participation-panel",
+      "stickyHeaderHidden": true
+    },
+    {
+      "file": "390-footer.png",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "selector": "poet-footer",
+      "stickyHeaderHidden": true
+    }
+  ],
+  "pageErrors": [],
+  "blockedExternal": [],
+  "submissions": 0,
+  "animation": {
+    "before": {
+      "motion": "pending",
+      "visibility": "hidden"
+    },
+    "samples": [
+      {
+        "elapsed": null,
+        "amount": "100.000",
+        "count": "248",
+        "motion": "pending"
+      },
+      {
+        "elapsed": null,
+        "amount": "100.000",
+        "count": "248",
+        "motion": "pending"
+      },
+      {
+        "elapsed": -5.3999999970197905,
+        "amount": "0",
+        "count": "0",
+        "motion": "running"
+      },
+      {
+        "elapsed": 27.700000002980232,
+        "amount": "0",
+        "count": "0",
+        "motion": "running"
+      },
+      {
+        "elapsed": 44.40000000298028,
+        "amount": "5.580",
+        "count": "9",
+        "motion": "running"
+      },
+      {
+        "elapsed": 61.00000000298019,
+        "amount": "8.920",
+        "count": "15",
+        "motion": "running"
+      },
+      {
+        "elapsed": 77.70000000298023,
+        "amount": "12.240",
+        "count": "20",
+        "motion": "running"
+      },
+      {
+        "elapsed": 94.40000000298028,
+        "amount": "15.580",
+        "count": "26",
+        "motion": "running"
+      },
+      {
+        "elapsed": 111.10000000298032,
+        "amount": "18.920",
+        "count": "31",
+        "motion": "running"
+      },
+      {
+        "elapsed": 127.80000000298014,
+        "amount": "22.260",
+        "count": "37",
+        "motion": "running"
+      },
+      {
+        "elapsed": 144.5000000029802,
+        "amount": "25.600",
+        "count": "42",
+        "motion": "running"
+      },
+      {
+        "elapsed": 161.20000000298023,
+        "amount": "28.940",
+        "count": "48",
+        "motion": "running"
+      },
+      {
+        "elapsed": 177.80000000298014,
+        "amount": "32.280",
+        "count": "53",
+        "motion": "running"
+      },
+      {
+        "elapsed": 194.5000000029802,
+        "amount": "35.600",
+        "count": "59",
+        "motion": "running"
+      },
+      {
+        "elapsed": 211.20000000298023,
+        "amount": "38.940",
+        "count": "64",
+        "motion": "running"
+      },
+      {
+        "elapsed": 227.80000000298014,
+        "amount": "42.280",
+        "count": "70",
+        "motion": "running"
+      },
+      {
+        "elapsed": 244.40000000298028,
+        "amount": "45.600",
+        "count": "75",
+        "motion": "running"
+      },
+      {
+        "elapsed": 261.20000000298023,
+        "amount": "48.920",
+        "count": "81",
+        "motion": "running"
+      },
+      {
+        "elapsed": 277.80000000298014,
+        "amount": "52.280",
+        "count": "86",
+        "motion": "running"
+      },
+      {
+        "elapsed": 294.5000000029802,
+        "amount": "55.600",
+        "count": "92",
+        "motion": "running"
+      },
+      {
+        "elapsed": 311.20000000298023,
+        "amount": "58.940",
+        "count": "97",
+        "motion": "running"
+      },
+      {
+        "elapsed": 327.80000000298014,
+        "amount": "62.280",
+        "count": "103",
+        "motion": "running"
+      },
+      {
+        "elapsed": 344.5000000029802,
+        "amount": "65.600",
+        "count": "108",
+        "motion": "running"
+      },
+      {
+        "elapsed": 361.1000000029803,
+        "amount": "68.940",
+        "count": "114",
+        "motion": "running"
+      },
+      {
+        "elapsed": 377.80000000298014,
+        "amount": "72.260",
+        "count": "119",
+        "motion": "running"
+      },
+      {
+        "elapsed": 394.4000000029803,
+        "amount": "75.600",
+        "count": "125",
+        "motion": "running"
+      },
+      {
+        "elapsed": 411.1000000029803,
+        "amount": "78.920",
+        "count": "130",
+        "motion": "running"
+      },
+      {
+        "elapsed": 427.80000000298014,
+        "amount": "82.260",
+        "count": "136",
+        "motion": "running"
+      },
+      {
+        "elapsed": 444.4000000029803,
+        "amount": "85.600",
+        "count": "142",
+        "motion": "running"
+      },
+      {
+        "elapsed": 461.20000000298023,
+        "amount": "88.920",
+        "count": "147",
+        "motion": "running"
+      },
+      {
+        "elapsed": 477.70000000298023,
+        "amount": "92.280",
+        "count": "153",
+        "motion": "running"
+      },
+      {
+        "elapsed": 494.5000000029802,
+        "amount": "95.580",
+        "count": "158",
+        "motion": "running"
+      },
+      {
+        "elapsed": 511.1000000029803,
+        "amount": "98.940",
+        "count": "164",
+        "motion": "running"
+      },
+      {
+        "elapsed": 527.7000000029802,
+        "amount": "100.000",
+        "count": "169",
+        "motion": "running"
+      },
+      {
+        "elapsed": 544.5000000029802,
+        "amount": "100.000",
+        "count": "175",
+        "motion": "running"
+      },
+      {
+        "elapsed": 561.1000000029803,
+        "amount": "100.000",
+        "count": "180",
+        "motion": "running"
+      },
+      {
+        "elapsed": 577.8000000029801,
+        "amount": "100.000",
+        "count": "186",
+        "motion": "running"
+      },
+      {
+        "elapsed": 594.4000000029803,
+        "amount": "100.000",
+        "count": "191",
+        "motion": "running"
+      },
+      {
+        "elapsed": 611.1000000029803,
+        "amount": "100.000",
+        "count": "197",
+        "motion": "running"
+      },
+      {
+        "elapsed": 627.8000000029801,
+        "amount": "100.000",
+        "count": "202",
+        "motion": "running"
+      },
+      {
+        "elapsed": 644.5000000029802,
+        "amount": "100.000",
+        "count": "208",
+        "motion": "running"
+      },
+      {
+        "elapsed": 661.2000000029802,
+        "amount": "100.000",
+        "count": "213",
+        "motion": "running"
+      },
+      {
+        "elapsed": 677.8000000029801,
+        "amount": "100.000",
+        "count": "219",
+        "motion": "running"
+      },
+      {
+        "elapsed": 694.4000000029803,
+        "amount": "100.000",
+        "count": "224",
+        "motion": "running"
+      },
+      {
+        "elapsed": 711.1000000029803,
+        "amount": "100.000",
+        "count": "230",
+        "motion": "running"
+      },
+      {
+        "elapsed": 727.8000000029801,
+        "amount": "100.000",
+        "count": "235",
+        "motion": "running"
+      },
+      {
+        "elapsed": 744.4000000029803,
+        "amount": "100.000",
+        "count": "241",
+        "motion": "running"
+      },
+      {
+        "elapsed": 761.2000000029802,
+        "amount": "100.000",
+        "count": "246",
+        "motion": "running"
+      },
+      {
+        "elapsed": 777.9000000029803,
+        "amount": "100.000",
+        "count": "248",
+        "motion": "done"
+      },
+      {
+        "elapsed": 794.5000000029802,
+        "amount": "100.000",
+        "count": "248",
+        "motion": "done"
+      },
+      {
+        "elapsed": 811.2000000029802,
+        "amount": "100.000",
+        "count": "248",
+        "motion": "done"
+      },
+      {
+        "elapsed": 827.8000000029801,
+        "amount": "100.000",
+        "count": "248",
+        "motion": "done"
+      },
+      {
+        "elapsed": 844.5000000029802,
+        "amount": "100.000",
+        "count": "248",
+        "motion": "done"
+      },
+      {
+        "elapsed": 861.1000000029803,
+        "amount": "100.000",
+        "count": "248",
+        "motion": "done"
+      },
+      {
+        "elapsed": 877.8000000029801,
+        "amount": "100.000",
+        "count": "248",
+        "motion": "done"
+      },
+      {
+        "elapsed": 894.5000000029802,
+        "amount": "100.000",
+        "count": "248",
+        "motion": "done"
+      },
+      {
+        "elapsed": 911.1000000029803,
+        "amount": "100.000",
+        "count": "248",
+        "motion": "done"
+      },
+      {
+        "elapsed": 927.9000000029803,
+        "amount": "100.000",
+        "count": "248",
+        "motion": "done"
+      },
+      {
+        "elapsed": 944.5000000029802,
+        "amount": "100.000",
+        "count": "248",
+        "motion": "done"
+      },
+      {
+        "elapsed": 961.4000000029803,
+        "amount": "100.000",
+        "count": "248",
+        "motion": "done"
+      },
+      {
+        "elapsed": 978.2000000029802,
+        "amount": "100.000",
+        "count": "248",
+        "motion": "done"
+      },
+      {
+        "elapsed": 994.8000000029801,
+        "amount": "100.000",
+        "count": "248",
+        "motion": "done"
+      },
+      {
+        "elapsed": 1011.4000000029803,
+        "amount": "100.000",
+        "count": "248",
+        "motion": "done"
+      },
+      {
+        "elapsed": 1028.0000000029802,
+        "amount": "100.000",
+        "count": "248",
+        "motion": "done"
+      }
+    ],
+    "after": "done"
+  },
+  "status": "passed",
+  "capturePolicy": "Only four affected section screenshots published; other unchanged section captures remain in ignored local QA output.",
+  "localScreenshotCount": 17
+}

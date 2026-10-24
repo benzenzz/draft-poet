@@ -1,0 +1,302 @@
+{
+  "phase": "before",
+  "startedAt": "2026-10-21T07:22:06.283Z",
+  "checks": [],
+  "screenshots": [
+    "before-1440-header-home.png",
+    "before-1440-activity.png",
+    "before-1440-fundraising.png",
+    "before-1440-header-about.png",
+    "before-390-header-home.png",
+    "before-390-activity.png",
+    "before-390-fundraising.png",
+    "before-390-header-about.png"
+  ],
+  "observations": [
+    {
+      "width": 1440,
+      "height": 900,
+      "overflow": false,
+      "header": {
+        "x": 0,
+        "y": 6,
+        "width": 1440,
+        "height": 74,
+        "top": 6,
+        "right": 1440,
+        "bottom": 80,
+        "left": 0
+      },
+      "brand": {
+        "x": 113,
+        "y": 24.5,
+        "width": 92.71875,
+        "height": 36,
+        "top": 24.5,
+        "right": 205.71875,
+        "bottom": 60.5,
+        "left": 113
+      },
+      "brandFont": "\"Product Sans\", sans-serif",
+      "bodyFont": "\"Product Sans\", sans-serif",
+      "playback": true,
+      "photoNote": true
+    },
+    {
+      "fundraising": {
+        "fundraising": "",
+        "raised": "78450000",
+        "target": "121950000",
+        "provisional": "true",
+        "progressLabel": "Tiến độ Mùa 6",
+        "milestone": "green"
+      },
+      "amount": "78.450.000",
+      "badge": "Đạt 64%*",
+      "note": "* Số tiền và số người đóng góp minh họa từ prototype, chưa xác nhận.",
+      "stats": [
+        {
+          "text": "248 người",
+          "rect": {
+            "x": 782,
+            "y": 520.21875,
+            "width": 230.5,
+            "height": 25.1875,
+            "top": 520.21875,
+            "right": 1012.5,
+            "bottom": 545.40625,
+            "left": 782
+          }
+        },
+        {
+          "text": "14 đối tác",
+          "rect": {
+            "x": 1050.5,
+            "y": 520.21875,
+            "width": 230.5,
+            "height": 25.1875,
+            "top": 520.21875,
+            "right": 1281,
+            "bottom": 545.40625,
+            "left": 1050.5
+          }
+        }
+      ],
+      "cta": "rgb(239, 138, 125)"
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "header": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 72,
+        "top": 0,
+        "right": 390,
+        "bottom": 72,
+        "left": 0
+      },
+      "brand": {
+        "x": 18,
+        "y": 19.5,
+        "width": 82.421875,
+        "height": 32,
+        "top": 19.5,
+        "right": 100.421875,
+        "bottom": 51.5,
+        "left": 18
+      },
+      "brandFont": "\"Product Sans\", sans-serif",
+      "bodyFont": "\"Product Sans\", sans-serif",
+      "playback": true,
+      "photoNote": true
+    },
+    {
+      "fundraising": {
+        "fundraising": "",
+        "raised": "78450000",
+        "target": "121950000",
+        "provisional": "true",
+        "progressLabel": "Tiến độ Mùa 6",
+        "milestone": "green"
+      },
+      "amount": "78.450.000",
+      "badge": "Đạt 64%*",
+      "note": "* Số tiền và số người đóng góp minh họa từ prototype, chưa xác nhận.",
+      "stats": [
+        {
+          "text": "248 người",
+          "rect": {
+            "x": 55,
+            "y": 467.53125,
+            "width": 128.5,
+            "height": 40.578125,
+            "top": 467.53125,
+            "right": 183.5,
+            "bottom": 508.109375,
+            "left": 55
+          }
+        },
+        {
+          "text": "14 đối tác",
+          "rect": {
+            "x": 206.5,
+            "y": 467.53125,
+            "width": 128.5,
+            "height": 40.578125,
+            "top": 467.53125,
+            "right": 335,
+            "bottom": 508.109375,
+            "left": 206.5
+          }
+        }
+      ],
+      "cta": "rgb(239, 138, 125)"
+    },
+    {
+      "width": 768,
+      "height": 1024,
+      "overflow": false,
+      "header": {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 72,
+        "top": 0,
+        "right": 768,
+        "bottom": 72,
+        "left": 0
+      },
+      "brand": {
+        "x": 28,
+        "y": 18.5,
+        "width": 87.578125,
+        "height": 34,
+        "top": 18.5,
+        "right": 115.578125,
+        "bottom": 52.5,
+        "left": 28
+      },
+      "brandFont": "\"Product Sans\", sans-serif",
+      "bodyFont": "\"Product Sans\", sans-serif",
+      "playback": true,
+      "photoNote": true
+    },
+    {
+      "fundraising": {
+        "fundraising": "",
+        "raised": "78450000",
+        "target": "121950000",
+        "provisional": "true",
+        "progressLabel": "Tiến độ Mùa 6",
+        "milestone": "green"
+      },
+      "amount": "78.450.000",
+      "badge": "Đạt 64%*",
+      "note": "* Số tiền và số người đóng góp minh họa từ prototype, chưa xác nhận.",
+      "stats": [
+        {
+          "text": "248 người",
+          "rect": {
+            "x": 65,
+            "y": 591.625,
+            "width": 304,
+            "height": 25.1875,
+            "top": 591.625,
+            "right": 369,
+            "bottom": 616.8125,
+            "left": 65
+          }
+        },
+        {
+          "text": "14 đối tác",
+          "rect": {
+            "x": 399,
+            "y": 591.625,
+            "width": 304,
+            "height": 25.1875,
+            "top": 591.625,
+            "right": 703,
+            "bottom": 616.8125,
+            "left": 399
+          }
+        }
+      ],
+      "cta": "rgb(239, 138, 125)"
+    },
+    {
+      "width": 320,
+      "height": 740,
+      "overflow": false,
+      "header": {
+        "x": 0,
+        "y": 0,
+        "width": 320,
+        "height": 72,
+        "top": 0,
+        "right": 320,
+        "bottom": 72,
+        "left": 0
+      },
+      "brand": {
+        "x": 12,
+        "y": 20.5,
+        "width": 77.28125,
+        "height": 30,
+        "top": 20.5,
+        "right": 89.28125,
+        "bottom": 50.5,
+        "left": 12
+      },
+      "brandFont": "\"Product Sans\", sans-serif",
+      "bodyFont": "\"Product Sans\", sans-serif",
+      "playback": true,
+      "photoNote": true
+    },
+    {
+      "fundraising": {
+        "fundraising": "",
+        "raised": "78450000",
+        "target": "121950000",
+        "provisional": "true",
+        "progressLabel": "Tiến độ Mùa 6",
+        "milestone": "green"
+      },
+      "amount": "78.450.000",
+      "badge": "Đạt 64%*",
+      "note": "* Số tiền và số người đóng góp minh họa từ prototype, chưa xác nhận.",
+      "stats": [
+        {
+          "text": "248 người",
+          "rect": {
+            "x": 45,
+            "y": 424.125,
+            "width": 103.5,
+            "height": 40.578125,
+            "top": 424.125,
+            "right": 148.5,
+            "bottom": 464.703125,
+            "left": 45
+          }
+        },
+        {
+          "text": "14 đối tác",
+          "rect": {
+            "x": 171.5,
+            "y": 424.125,
+            "width": 103.5,
+            "height": 40.578125,
+            "top": 424.125,
+            "right": 275,
+            "bottom": 464.703125,
+            "left": 171.5
+          }
+        }
+      ],
+      "cta": "rgb(239, 138, 125)"
+    }
+  ],
+  "status": "passed"
+}

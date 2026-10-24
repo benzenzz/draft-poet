@@ -1,0 +1,393 @@
+{
+  "localPreviewOsReduce": {
+    "osReduce": true,
+    "htmlClass": true,
+    "before": [
+      [
+        "will-reveal",
+        0,
+        "matrix(1, 0, 0, 1, -40, 0)"
+      ],
+      [
+        "will-reveal",
+        0,
+        "matrix(1, 0, 0, 1, 40, 0)"
+      ]
+    ],
+    "samples": [
+      [
+        [
+          "will-reveal is-revealed",
+          0.7,
+          "matrix(1, 0, 0, 1, -11.8894, 0)"
+        ],
+        [
+          "will-reveal is-revealed",
+          0.49,
+          "matrix(1, 0, 0, 1, 20.29, 0)"
+        ]
+      ],
+      [
+        [
+          "will-reveal is-revealed",
+          0.92,
+          "matrix(1, 0, 0, 1, -3.20086, 0)"
+        ],
+        [
+          "will-reveal is-revealed",
+          0.85,
+          "matrix(1, 0, 0, 1, 5.88791, 0)"
+        ]
+      ],
+      [
+        [
+          "will-reveal is-revealed",
+          0.98,
+          "matrix(1, 0, 0, 1, -0.68188, 0)"
+        ],
+        [
+          "will-reveal is-revealed",
+          0.96,
+          "matrix(1, 0, 0, 1, 1.42926, 0)"
+        ]
+      ],
+      [
+        [
+          "will-reveal is-revealed",
+          1,
+          "matrix(1, 0, 0, 1, -0.105395, 0)"
+        ],
+        [
+          "will-reveal is-revealed",
+          0.99,
+          "matrix(1, 0, 0, 1, 0.303669, 0)"
+        ]
+      ],
+      [
+        [
+          "will-reveal is-revealed",
+          1,
+          "matrix(1, 0, 0, 1, -0.000649755, 0)"
+        ],
+        [
+          "will-reveal is-revealed",
+          1,
+          "matrix(1, 0, 0, 1, 0.0159359, 0)"
+        ]
+      ],
+      [
+        [
+          "will-reveal is-revealed",
+          1,
+          "none"
+        ],
+        [
+          "will-reveal is-revealed",
+          1,
+          "none"
+        ]
+      ]
+    ],
+    "settled": [
+      [
+        "will-reveal is-revealed",
+        1,
+        "none"
+      ],
+      [
+        "will-reveal is-revealed",
+        1,
+        "none"
+      ]
+    ],
+    "overflow": 0
+  },
+  "respectOptOut": {
+    "osReduce": true,
+    "htmlClass": false,
+    "before": [
+      [
+        "",
+        1,
+        "none"
+      ],
+      [
+        "",
+        1,
+        "none"
+      ]
+    ],
+    "samples": [
+      [
+        [
+          "",
+          1,
+          "none"
+        ],
+        [
+          "",
+          1,
+          "none"
+        ]
+      ],
+      [
+        [
+          "",
+          1,
+          "none"
+        ],
+        [
+          "",
+          1,
+          "none"
+        ]
+      ],
+      [
+        [
+          "",
+          1,
+          "none"
+        ],
+        [
+          "",
+          1,
+          "none"
+        ]
+      ],
+      [
+        [
+          "",
+          1,
+          "none"
+        ],
+        [
+          "",
+          1,
+          "none"
+        ]
+      ],
+      [
+        [
+          "",
+          1,
+          "none"
+        ],
+        [
+          "",
+          1,
+          "none"
+        ]
+      ],
+      [
+        [
+          "",
+          1,
+          "none"
+        ],
+        [
+          "",
+          1,
+          "none"
+        ]
+      ]
+    ],
+    "settled": [
+      [
+        "",
+        1,
+        "none"
+      ],
+      [
+        "",
+        1,
+        "none"
+      ]
+    ],
+    "overflow": 0
+  },
+  "noPreference": {
+    "osReduce": false,
+    "htmlClass": true,
+    "before": [
+      [
+        "will-reveal",
+        0,
+        "matrix(1, 0, 0, 1, -40, 0)"
+      ],
+      [
+        "will-reveal",
+        0,
+        "matrix(1, 0, 0, 1, 40, 0)"
+      ]
+    ],
+    "samples": [
+      [
+        [
+          "will-reveal is-revealed",
+          0.39,
+          "matrix(1, 0, 0, 1, -24.5994, 0)"
+        ],
+        [
+          "will-reveal is-revealed",
+          0.04,
+          "matrix(1, 0, 0, 1, 38.2721, 0)"
+        ]
+      ],
+      [
+        [
+          "will-reveal is-revealed",
+          0.78,
+          "matrix(1, 0, 0, 1, -8.68874, 0)"
+        ],
+        [
+          "will-reveal is-revealed",
+          0.62,
+          "matrix(1, 0, 0, 1, 15.1712, 0)"
+        ]
+      ],
+      [
+        [
+          "will-reveal is-revealed",
+          0.94,
+          "matrix(1, 0, 0, 1, -2.24349, 0)"
+        ],
+        [
+          "will-reveal is-revealed",
+          0.89,
+          "matrix(1, 0, 0, 1, 4.21674, 0)"
+        ]
+      ],
+      [
+        [
+          "will-reveal is-revealed",
+          0.99,
+          "matrix(1, 0, 0, 1, -0.545343, 0)"
+        ],
+        [
+          "will-reveal is-revealed",
+          0.97,
+          "matrix(1, 0, 0, 1, 1.17542, 0)"
+        ]
+      ],
+      [
+        [
+          "will-reveal is-revealed",
+          1,
+          "matrix(1, 0, 0, 1, -0.0503486, 0)"
+        ],
+        [
+          "will-reveal is-revealed",
+          1,
+          "matrix(1, 0, 0, 1, 0.174625, 0)"
+        ]
+      ],
+      [
+        [
+          "will-reveal is-revealed",
+          1,
+          "matrix(1, 0, 0, 1, -7.87994e-05, 0)"
+        ],
+        [
+          "will-reveal is-revealed",
+          1,
+          "matrix(1, 0, 0, 1, 0.00854716, 0)"
+        ]
+      ]
+    ],
+    "settled": [
+      [
+        "will-reveal is-revealed",
+        1,
+        "none"
+      ],
+      [
+        "will-reveal is-revealed",
+        1,
+        "none"
+      ]
+    ],
+    "overflow": 0
+  },
+  "archive": [
+    {
+      "w": 508,
+      "h": 636.06,
+      "top": 2677.16,
+      "img": 284.63,
+      "cta": 3244.22
+    },
+    {
+      "w": 508,
+      "h": 636.06,
+      "top": 2677.16,
+      "img": 284.63,
+      "cta": 3244.22
+    }
+  ],
+  "media": {
+    "cards": [
+      {
+        "w": 413.9,
+        "h": 261.4,
+        "top": 401.1,
+        "pub": "Tiền Phong",
+        "date": "2022-07-19",
+        "shown": "19/07/2022",
+        "title": "Bạn trẻ gấp sao, hưởng ứng đêm nhạc ‘chữa lành’ gây quỹ thiện nguyện",
+        "href": "https://tienphong.vn/ban-tre-gap-sao-huong-ung-dem-nhac-chua-lanh-gay-quy-thien-nguyen-post1454826.tpo",
+        "anchors": 1,
+        "imgs": 0
+      },
+      {
+        "w": 413.9,
+        "h": 261.4,
+        "top": 401.1,
+        "pub": "Tiền Phong",
+        "date": "2022-12-17",
+        "shown": "17/12/2022",
+        "title": "Sáng tạo để lan tỏa nhiệt huyết tận hiến",
+        "href": "https://tienphong.vn/sang-tao-de-lan-toa-nhiet-huyet-tan-hien-post1494246.tpo",
+        "anchors": 1,
+        "imgs": 0
+      },
+      {
+        "w": 413.9,
+        "h": 261.4,
+        "top": 401.1,
+        "pub": "Hoa Học Trò",
+        "date": "2022-12-13",
+        "shown": "13/12/2022",
+        "title": "Những “thủ lĩnh” Gen Z năng nổ sáng tạo hoạt động Đoàn, lan tỏa nhiệt huyết tận hiến",
+        "href": "https://hoahoctro.tienphong.vn/nhung-thu-linh-gen-z-nang-no-sang-tao-hoat-dong-doan-lan-toa-nhiet-huyet-tan-hien-post1494482.tpo",
+        "anchors": 1,
+        "imgs": 0
+      }
+    ],
+    "heading": {
+      "eyebrow": "Góc nhìn truyền thông",
+      "h2": "Báo chí viết về hành trình của POET",
+      "source": "Nguồn: Tiền Phong & Hoa Học Trò",
+      "eyebrowColor": "rgb(160, 68, 36)"
+    },
+    "footHitsLink": true,
+    "rest": {
+      "title": "rgb(51, 43, 39)",
+      "border": "rgb(235, 228, 216)"
+    },
+    "hover": {
+      "title": "rgb(57, 159, 120)",
+      "border": "rgb(241, 210, 122)",
+      "otherTitle": "rgb(51, 43, 39)",
+      "excerpt": "rgb(111, 104, 98)",
+      "cursor": "pointer"
+    },
+    "focus": {
+      "isSecond": true,
+      "focusVisible": true,
+      "title": "rgb(57, 159, 120)",
+      "outline": "rgb(160, 68, 36) solid 3px",
+      "border": "rgb(241, 210, 122)"
+    }
+  },
+  "errors": []
+}

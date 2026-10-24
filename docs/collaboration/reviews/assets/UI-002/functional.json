@@ -1,0 +1,956 @@
+{
+  "phase": "functional",
+  "startedAt": "2026-10-21T08:04:06.366Z",
+  "checks": [
+    {
+      "name": "Header height and no stroke",
+      "passed": true
+    },
+    {
+      "name": "Official icon is 1.1–1.2x visible wordmark ink",
+      "passed": true
+    },
+    {
+      "name": "Desktop dropdown opens",
+      "passed": true
+    },
+    {
+      "name": "Desktop Escape closes and returns focus",
+      "passed": true
+    },
+    {
+      "name": "Mobile menu opens",
+      "passed": true
+    },
+    {
+      "name": "Mobile mascot and destinations",
+      "passed": true
+    },
+    {
+      "name": "Mobile Escape closes and returns focus",
+      "passed": true
+    },
+    {
+      "name": "Pending paint is zero with final digits hidden",
+      "passed": true
+    },
+    {
+      "name": "Amount reaches exact target at 500ms",
+      "passed": true
+    },
+    {
+      "name": "Counts reach exact targets at 750ms",
+      "passed": true
+    },
+    {
+      "name": "Animated values never go below zero",
+      "passed": true
+    },
+    {
+      "name": "Progress fill stays synchronized with amount",
+      "passed": true
+    },
+    {
+      "name": "Animated number width reserved",
+      "passed": true
+    },
+    {
+      "name": "SR stable without per-frame live output",
+      "passed": true
+    },
+    {
+      "name": "Animation marked played once",
+      "passed": true
+    },
+    {
+      "name": "Scroll/resize does not replay",
+      "passed": true
+    },
+    {
+      "name": "DOM-only milestone fixtures preserve mapping/clamp/navbar",
+      "passed": true
+    },
+    {
+      "name": "Unknown/error DOM fixtures show pending, never NaN",
+      "passed": true
+    },
+    {
+      "name": "Carousel autoplay advances without pause control",
+      "passed": true
+    },
+    {
+      "name": "Manual next keeps button focus",
+      "passed": true
+    },
+    {
+      "name": "Dot updates slide and persistent CTA",
+      "passed": true
+    },
+    {
+      "name": "Previous works and keeps focus",
+      "passed": true
+    },
+    {
+      "name": "Focus pauses autoplay",
+      "passed": true
+    },
+    {
+      "name": "Hover pauses autoplay",
+      "passed": true
+    },
+    {
+      "name": "Offscreen pauses autoplay",
+      "passed": true
+    },
+    {
+      "name": "Visibility-handler DOM fixture pauses and restores (not OS proof)",
+      "passed": true
+    },
+    {
+      "name": "Reduced motion immediately shows final data",
+      "passed": true
+    },
+    {
+      "name": "Reduced motion stops autoplay",
+      "passed": true
+    },
+    {
+      "name": "Reduced motion manual navigation works",
+      "passed": true
+    },
+    {
+      "name": "Donation modal opens",
+      "passed": true
+    },
+    {
+      "name": "Donation Escape restores exact trigger",
+      "passed": true
+    },
+    {
+      "name": "No payment/form write attempted",
+      "passed": true
+    },
+    {
+      "name": "No console errors",
+      "passed": true
+    }
+  ],
+  "screenshots": [
+    "functional-390-menu-dropdown.png"
+  ],
+  "observations": [],
+  "tabTool": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "properties": {
+      "action": {
+        "type": "string",
+        "enum": [
+          "list",
+          "new",
+          "close",
+          "select"
+        ],
+        "description": "Operation to perform"
+      },
+      "index": {
+        "description": "Tab index, used for close/select. If omitted for close, current tab is closed.",
+        "type": "number"
+      },
+      "url": {
+        "description": "URL to navigate to in the new tab, used for new.",
+        "type": "string"
+      }
+    },
+    "required": [
+      "action"
+    ],
+    "additionalProperties": false
+  },
+  "headerMetrics": {
+    "font": "44px / 44px \"POET Cookie Crumble\", sans-serif",
+    "inkHeight": 31,
+    "iconHeight": 36,
+    "headerHeight": 74,
+    "stroke": "0px",
+    "colors": [
+      "rgb(239, 138, 125)",
+      "rgb(92, 166, 212)",
+      "rgb(57, 159, 120)",
+      "rgb(254, 225, 97)"
+    ]
+  },
+  "animation": {
+    "before": {
+      "motion": "pending",
+      "numberVisibility": "hidden",
+      "pseudo": "\"0\"",
+      "clip": "inset(0px 100% 0px 0px)",
+      "width": 197.4375,
+      "sr": "78.450.000 VNĐ"
+    },
+    "samples": [
+      {
+        "elapsed": null,
+        "amount": "78.450.000",
+        "count": "248",
+        "clip": "inset(0px 100% 0px 0px)",
+        "width": 197.4375,
+        "motion": "pending",
+        "sr": "78.450.000 VNĐ"
+      },
+      {
+        "elapsed": 11.5,
+        "amount": "0",
+        "count": "0",
+        "clip": "inset(0px 100% 0px 0px)",
+        "width": 197.4375,
+        "motion": "running",
+        "sr": "78.450.000 VNĐ"
+      },
+      {
+        "elapsed": 61.5,
+        "amount": "1.820.040",
+        "count": "4",
+        "clip": "inset(0px 98.5076% 0px 0px)",
+        "width": 197.4375,
+        "motion": "running",
+        "sr": "78.450.000 VNĐ"
+      },
+      {
+        "elapsed": 78.20000000000005,
+        "amount": "9.665.040",
+        "count": "20",
+        "clip": "inset(0px 92.0746% 0px 0px)",
+        "width": 197.4375,
+        "motion": "running",
+        "sr": "78.450.000 VNĐ"
+      },
+      {
+        "elapsed": 94.79999999999995,
+        "amount": "12.285.270",
+        "count": "26",
+        "clip": "inset(0px 89.926% 0px 0px)",
+        "width": 197.4375,
+        "motion": "running",
+        "sr": "78.450.000 VNĐ"
+      },
+      {
+        "elapsed": 111.5,
+        "amount": "14.889.810",
+        "count": "31",
+        "clip": "inset(0px 87.7902% 0px 0px)",
+        "width": 197.4375,
+        "motion": "running",
+        "sr": "78.450.000 VNĐ"
+      },
+      {
+        "elapsed": 128.4000000000001,
+        "amount": "17.510.040",
+        "count": "37",
+        "clip": "inset(0px 85.6416% 0px 0px)",
+        "width": 197.4375,
+        "motion": "running",
+        "sr": "78.450.000 VNĐ"
+      },
+      {
+        "elapsed": 145,
+        "amount": "20.161.650",
+        "count": "42",
+        "clip": "inset(0px 83.4673% 0px 0px)",
+        "width": 197.4375,
+        "motion": "running",
+        "sr": "78.450.000 VNĐ"
+      },
+      {
+        "elapsed": 161.5999999999999,
+        "amount": "22.766.190",
+        "count": "48",
+        "clip": "inset(0px 81.3315% 0px 0px)",
+        "width": 197.4375,
+        "motion": "running",
+        "sr": "78.450.000 VNĐ"
+      },
+      {
+        "elapsed": 178.4000000000001,
+        "amount": "25.370.730",
+        "count": "53",
+        "clip": "inset(0px 79.1958% 0px 0px)",
+        "width": 197.4375,
+        "motion": "running",
+        "sr": "78.450.000 VNĐ"
+      },
+      {
+        "elapsed": 195.29999999999995,
+        "amount": "28.006.650",
+        "count": "59",
+        "clip": "inset(0px 77.0343% 0px 0px)",
+        "width": 197.4375,
+        "motion": "running",
+        "sr": "78.450.000 VNĐ"
+      },
+      {
+        "elapsed": 212.70000000000005,
+        "amount": "30.658.260",
+        "count": "65",
+        "clip": "inset(0px 74.86% 0px 0px)",
+        "width": 197.4375,
+        "motion": "running",
+        "sr": "78.450.000 VNĐ"
+      },
+      {
+        "elapsed": 228.4000000000001,
+        "amount": "33.388.320",
+        "count": "70",
+        "clip": "inset(0px 72.6213% 0px 0px)",
+        "width": 197.4375,
+        "motion": "running",
+        "sr": "78.450.000 VNĐ"
+      },
+      {
+        "elapsed": 245.0999999999999,
+        "amount": "35.851.650",
+        "count": "76",
+        "clip": "inset(0px 70.6014% 0px 0px)",
+        "width": 197.4375,
+        "motion": "running",
+        "sr": "78.450.000 VNĐ"
+      },
+      {
+        "elapsed": 261.9000000000001,
+        "amount": "38.471.880",
+        "count": "81",
+        "clip": "inset(0px 68.4527% 0px 0px)",
+        "width": 197.4375,
+        "motion": "running",
+        "sr": "78.450.000 VNĐ"
+      },
+      {
+        "elapsed": 278.5,
+        "amount": "41.107.800",
+        "count": "87",
+        "clip": "inset(0px 66.2913% 0px 0px)",
+        "width": 197.4375,
+        "motion": "running",
+        "sr": "78.450.000 VNĐ"
+      },
+      {
+        "elapsed": 294.9000000000001,
+        "amount": "43.712.340",
+        "count": "92",
+        "clip": "inset(0px 64.1555% 0px 0px)",
+        "width": 197.4375,
+        "motion": "running",
+        "sr": "78.450.000 VNĐ"
+      },
+      {
+        "elapsed": 311.5,
+        "amount": "46.285.500",
+        "count": "98",
+        "clip": "inset(0px 62.0455% 0px 0px)",
+        "width": 197.4375,
+        "motion": "running",
+        "sr": "78.450.000 VNĐ"
+      },
+      {
+        "elapsed": 328.29999999999995,
+        "amount": "48.890.040",
+        "count": "103",
+        "clip": "inset(0px 59.9098% 0px 0px)",
+        "width": 197.4375,
+        "motion": "running",
+        "sr": "78.450.000 VNĐ"
+      },
+      {
+        "elapsed": 345,
+        "amount": "51.525.960",
+        "count": "109",
+        "clip": "inset(0px 57.7483% 0px 0px)",
+        "width": 197.4375,
+        "motion": "running",
+        "sr": "78.450.000 VNĐ"
+      },
+      {
+        "elapsed": 361.70000000000005,
+        "amount": "54.146.190",
+        "count": "114",
+        "clip": "inset(0px 55.5997% 0px 0px)",
+        "width": 197.4375,
+        "motion": "running",
+        "sr": "78.450.000 VNĐ"
+      },
+      {
+        "elapsed": 378.5,
+        "amount": "56.766.420",
+        "count": "120",
+        "clip": "inset(0px 53.4511% 0px 0px)",
+        "width": 197.4375,
+        "motion": "running",
+        "sr": "78.450.000 VNĐ"
+      },
+      {
+        "elapsed": 395.1999999999998,
+        "amount": "59.402.340",
+        "count": "125",
+        "clip": "inset(0px 51.2896% 0px 0px)",
+        "width": 197.4375,
+        "motion": "running",
+        "sr": "78.450.000 VNĐ"
+      },
+      {
+        "elapsed": 411.6999999999998,
+        "amount": "62.022.570",
+        "count": "131",
+        "clip": "inset(0px 49.141% 0px 0px)",
+        "width": 197.4375,
+        "motion": "running",
+        "sr": "78.450.000 VNĐ"
+      },
+      {
+        "elapsed": 428.5,
+        "amount": "64.611.420",
+        "count": "136",
+        "clip": "inset(0px 47.0181% 0px 0px)",
+        "width": 197.4375,
+        "motion": "running",
+        "sr": "78.450.000 VNĐ"
+      },
+      {
+        "elapsed": 445.1999999999998,
+        "amount": "67.247.340",
+        "count": "142",
+        "clip": "inset(0px 44.8566% 0px 0px)",
+        "width": 197.4375,
+        "motion": "running",
+        "sr": "78.450.000 VNĐ"
+      },
+      {
+        "elapsed": 461.8000000000002,
+        "amount": "69.867.570",
+        "count": "147",
+        "clip": "inset(0px 42.708% 0px 0px)",
+        "width": 197.4375,
+        "motion": "running",
+        "sr": "78.450.000 VNĐ"
+      },
+      {
+        "elapsed": 478.5999999999999,
+        "amount": "72.472.110",
+        "count": "153",
+        "clip": "inset(0px 40.5723% 0px 0px)",
+        "width": 197.4375,
+        "motion": "running",
+        "sr": "78.450.000 VNĐ"
+      },
+      {
+        "elapsed": 495.0999999999999,
+        "amount": "75.108.030",
+        "count": "158",
+        "clip": "inset(0px 38.4108% 0px 0px)",
+        "width": 197.4375,
+        "motion": "running",
+        "sr": "78.450.000 VNĐ"
+      },
+      {
+        "elapsed": 511.9000000000001,
+        "amount": "77.696.880",
+        "count": "164",
+        "clip": "inset(0px 36.2879% 0px 0px)",
+        "width": 197.4375,
+        "motion": "running",
+        "sr": "78.450.000 VNĐ"
+      },
+      {
+        "elapsed": 528.5,
+        "amount": "78.450.000",
+        "count": "169",
+        "clip": "inset(0px 35.6704% 0px 0px)",
+        "width": 197.4375,
+        "motion": "running",
+        "sr": "78.450.000 VNĐ"
+      },
+      {
+        "elapsed": 545.0999999999999,
+        "amount": "78.450.000",
+        "count": "175",
+        "clip": "inset(0px 35.6704% 0px 0px)",
+        "width": 197.4375,
+        "motion": "running",
+        "sr": "78.450.000 VNĐ"
+      },
+      {
+        "elapsed": 562,
+        "amount": "78.450.000",
+        "count": "180",
+        "clip": "inset(0px 35.6704% 0px 0px)",
+        "width": 197.4375,
+        "motion": "running",
+        "sr": "78.450.000 VNĐ"
+      },
+      {
+        "elapsed": 578.5,
+        "amount": "78.450.000",
+        "count": "186",
+        "clip": "inset(0px 35.6704% 0px 0px)",
+        "width": 197.4375,
+        "motion": "running",
+        "sr": "78.450.000 VNĐ"
+      },
+      {
+        "elapsed": 595.0999999999999,
+        "amount": "78.450.000",
+        "count": "191",
+        "clip": "inset(0px 35.6704% 0px 0px)",
+        "width": 197.4375,
+        "motion": "running",
+        "sr": "78.450.000 VNĐ"
+      },
+      {
+        "elapsed": 611.8000000000002,
+        "amount": "78.450.000",
+        "count": "197",
+        "clip": "inset(0px 35.6704% 0px 0px)",
+        "width": 197.4375,
+        "motion": "running",
+        "sr": "78.450.000 VNĐ"
+      },
+      {
+        "elapsed": 628.4000000000001,
+        "amount": "78.450.000",
+        "count": "202",
+        "clip": "inset(0px 35.6704% 0px 0px)",
+        "width": 197.4375,
+        "motion": "running",
+        "sr": "78.450.000 VNĐ"
+      },
+      {
+        "elapsed": 645.1999999999998,
+        "amount": "78.450.000",
+        "count": "208",
+        "clip": "inset(0px 35.6704% 0px 0px)",
+        "width": 197.4375,
+        "motion": "running",
+        "sr": "78.450.000 VNĐ"
+      },
+      {
+        "elapsed": 661.9000000000001,
+        "amount": "78.450.000",
+        "count": "213",
+        "clip": "inset(0px 35.6704% 0px 0px)",
+        "width": 197.4375,
+        "motion": "running",
+        "sr": "78.450.000 VNĐ"
+      },
+      {
+        "elapsed": 678.5999999999999,
+        "amount": "78.450.000",
+        "count": "219",
+        "clip": "inset(0px 35.6704% 0px 0px)",
+        "width": 197.4375,
+        "motion": "running",
+        "sr": "78.450.000 VNĐ"
+      },
+      {
+        "elapsed": 695.3000000000002,
+        "amount": "78.450.000",
+        "count": "224",
+        "clip": "inset(0px 35.6704% 0px 0px)",
+        "width": 197.4375,
+        "motion": "running",
+        "sr": "78.450.000 VNĐ"
+      },
+      {
+        "elapsed": 712,
+        "amount": "78.450.000",
+        "count": "230",
+        "clip": "inset(0px 35.6704% 0px 0px)",
+        "width": 197.4375,
+        "motion": "running",
+        "sr": "78.450.000 VNĐ"
+      },
+      {
+        "elapsed": 728.5999999999999,
+        "amount": "78.450.000",
+        "count": "235",
+        "clip": "inset(0px 35.6704% 0px 0px)",
+        "width": 197.4375,
+        "motion": "running",
+        "sr": "78.450.000 VNĐ"
+      },
+      {
+        "elapsed": 744.9000000000001,
+        "amount": "78.450.000",
+        "count": "241",
+        "clip": "inset(0px 35.6704% 0px 0px)",
+        "width": 197.4375,
+        "motion": "running",
+        "sr": "78.450.000 VNĐ"
+      },
+      {
+        "elapsed": 761.9000000000001,
+        "amount": "78.450.000",
+        "count": "246",
+        "clip": "inset(0px 35.6704% 0px 0px)",
+        "width": 197.4375,
+        "motion": "running",
+        "sr": "78.450.000 VNĐ"
+      },
+      {
+        "elapsed": 778.3000000000002,
+        "amount": "78.450.000",
+        "count": "248",
+        "clip": "inset(0px 35.6704% 0px 0px)",
+        "width": 197.4375,
+        "motion": "done",
+        "sr": "78.450.000 VNĐ"
+      },
+      {
+        "elapsed": 795.3000000000002,
+        "amount": "78.450.000",
+        "count": "248",
+        "clip": "inset(0px 35.6704% 0px 0px)",
+        "width": 197.4375,
+        "motion": "done",
+        "sr": "78.450.000 VNĐ"
+      },
+      {
+        "elapsed": 811.6999999999998,
+        "amount": "78.450.000",
+        "count": "248",
+        "clip": "inset(0px 35.6704% 0px 0px)",
+        "width": 197.4375,
+        "motion": "done",
+        "sr": "78.450.000 VNĐ"
+      },
+      {
+        "elapsed": 828.3000000000002,
+        "amount": "78.450.000",
+        "count": "248",
+        "clip": "inset(0px 35.6704% 0px 0px)",
+        "width": 197.4375,
+        "motion": "done",
+        "sr": "78.450.000 VNĐ"
+      },
+      {
+        "elapsed": 844.9000000000001,
+        "amount": "78.450.000",
+        "count": "248",
+        "clip": "inset(0px 35.6704% 0px 0px)",
+        "width": 197.4375,
+        "motion": "done",
+        "sr": "78.450.000 VNĐ"
+      },
+      {
+        "elapsed": 861.5999999999999,
+        "amount": "78.450.000",
+        "count": "248",
+        "clip": "inset(0px 35.6704% 0px 0px)",
+        "width": 197.4375,
+        "motion": "done",
+        "sr": "78.450.000 VNĐ"
+      },
+      {
+        "elapsed": 878.3000000000002,
+        "amount": "78.450.000",
+        "count": "248",
+        "clip": "inset(0px 35.6704% 0px 0px)",
+        "width": 197.4375,
+        "motion": "done",
+        "sr": "78.450.000 VNĐ"
+      },
+      {
+        "elapsed": 894.9000000000001,
+        "amount": "78.450.000",
+        "count": "248",
+        "clip": "inset(0px 35.6704% 0px 0px)",
+        "width": 197.4375,
+        "motion": "done",
+        "sr": "78.450.000 VNĐ"
+      },
+      {
+        "elapsed": 911.6999999999998,
+        "amount": "78.450.000",
+        "count": "248",
+        "clip": "inset(0px 35.6704% 0px 0px)",
+        "width": 197.4375,
+        "motion": "done",
+        "sr": "78.450.000 VNĐ"
+      },
+      {
+        "elapsed": 928.5,
+        "amount": "78.450.000",
+        "count": "248",
+        "clip": "inset(0px 35.6704% 0px 0px)",
+        "width": 197.4375,
+        "motion": "done",
+        "sr": "78.450.000 VNĐ"
+      },
+      {
+        "elapsed": 945.0999999999999,
+        "amount": "78.450.000",
+        "count": "248",
+        "clip": "inset(0px 35.6704% 0px 0px)",
+        "width": 197.4375,
+        "motion": "done",
+        "sr": "78.450.000 VNĐ"
+      },
+      {
+        "elapsed": 962.0999999999999,
+        "amount": "78.450.000",
+        "count": "248",
+        "clip": "inset(0px 35.6704% 0px 0px)",
+        "width": 197.4375,
+        "motion": "done",
+        "sr": "78.450.000 VNĐ"
+      },
+      {
+        "elapsed": 978.6999999999998,
+        "amount": "78.450.000",
+        "count": "248",
+        "clip": "inset(0px 35.6704% 0px 0px)",
+        "width": 197.4375,
+        "motion": "done",
+        "sr": "78.450.000 VNĐ"
+      },
+      {
+        "elapsed": 995.4000000000001,
+        "amount": "78.450.000",
+        "count": "248",
+        "clip": "inset(0px 35.6704% 0px 0px)",
+        "width": 197.4375,
+        "motion": "done",
+        "sr": "78.450.000 VNĐ"
+      },
+      {
+        "elapsed": 1012.0999999999999,
+        "amount": "78.450.000",
+        "count": "248",
+        "clip": "inset(0px 35.6704% 0px 0px)",
+        "width": 197.4375,
+        "motion": "done",
+        "sr": "78.450.000 VNĐ"
+      },
+      {
+        "elapsed": 1028.8000000000002,
+        "amount": "78.450.000",
+        "count": "248",
+        "clip": "inset(0px 35.6704% 0px 0px)",
+        "width": 197.4375,
+        "motion": "done",
+        "sr": "78.450.000 VNĐ"
+      },
+      {
+        "elapsed": 1045.1,
+        "amount": "78.450.000",
+        "count": "248",
+        "clip": "inset(0px 35.6704% 0px 0px)",
+        "width": 197.4375,
+        "motion": "done",
+        "sr": "78.450.000 VNĐ"
+      },
+      {
+        "elapsed": 1062,
+        "amount": "78.450.000",
+        "count": "248",
+        "clip": "inset(0px 35.6704% 0px 0px)",
+        "width": 197.4375,
+        "motion": "done",
+        "sr": "78.450.000 VNĐ"
+      },
+      {
+        "elapsed": 1078.4,
+        "amount": "78.450.000",
+        "count": "248",
+        "clip": "inset(0px 35.6704% 0px 0px)",
+        "width": 197.4375,
+        "motion": "done",
+        "sr": "78.450.000 VNĐ"
+      },
+      {
+        "elapsed": 1095,
+        "amount": "78.450.000",
+        "count": "248",
+        "clip": "inset(0px 35.6704% 0px 0px)",
+        "width": 197.4375,
+        "motion": "done",
+        "sr": "78.450.000 VNĐ"
+      },
+      {
+        "elapsed": 1111.6999999999998,
+        "amount": "78.450.000",
+        "count": "248",
+        "clip": "inset(0px 35.6704% 0px 0px)",
+        "width": 197.4375,
+        "motion": "done",
+        "sr": "78.450.000 VNĐ"
+      },
+      {
+        "elapsed": 1128.3000000000002,
+        "amount": "78.450.000",
+        "count": "248",
+        "clip": "inset(0px 35.6704% 0px 0px)",
+        "width": 197.4375,
+        "motion": "done",
+        "sr": "78.450.000 VNĐ"
+      },
+      {
+        "elapsed": 1145.1999999999998,
+        "amount": "78.450.000",
+        "count": "248",
+        "clip": "inset(0px 35.6704% 0px 0px)",
+        "width": 197.4375,
+        "motion": "done",
+        "sr": "78.450.000 VNĐ"
+      }
+    ],
+    "final": {
+      "amount": "78.450.000",
+      "counts": [
+        "248",
+        "14"
+      ],
+      "motion": "done",
+      "played": "true",
+      "live": null,
+      "hidden": true
+    }
+  },
+  "fixtures": [
+    {
+      "percent": 0,
+      "milestone": "coral",
+      "amount": "0",
+      "progress": "0",
+      "cta": "rgb(105, 154, 121)",
+      "text": "rgb(16, 37, 29)",
+      "badge": "rgb(39, 92, 69)",
+      "badgeText": "rgb(255, 255, 255)",
+      "navbar": "rgb(239, 138, 125)",
+      "gradient": "linear-gradient(90deg, rgb(239, 138, 125) 0%, rgb(239, 138, 125) 25%, rgb(254, 225, 97) 25%, rgb(254, 225, 97) 50%, rgb(57, 159, 120) 50%, rgb(57, 159, 120) 75%, rgb(92, 166, 212) 75%, rgb(92, 166, 212) 100%)",
+      "motion": "done"
+    },
+    {
+      "percent": 25,
+      "milestone": "yellow",
+      "amount": "30.487.500",
+      "progress": "25",
+      "cta": "rgb(175, 187, 110)",
+      "text": "rgb(16, 37, 29)",
+      "badge": "rgb(44, 91, 65)",
+      "badgeText": "rgb(255, 255, 255)",
+      "navbar": "rgb(239, 138, 125)",
+      "gradient": "linear-gradient(90deg, rgb(239, 138, 125) 0%, rgb(239, 138, 125) 25%, rgb(254, 225, 97) 25%, rgb(254, 225, 97) 50%, rgb(57, 159, 120) 50%, rgb(57, 159, 120) 75%, rgb(92, 166, 212) 75%, rgb(92, 166, 212) 100%)",
+      "motion": "done"
+    },
+    {
+      "percent": 50,
+      "milestone": "green",
+      "amount": "60.975.000",
+      "progress": "50",
+      "cta": "rgb(119, 174, 115)",
+      "text": "rgb(16, 37, 29)",
+      "badge": "rgb(44, 91, 65)",
+      "badgeText": "rgb(255, 255, 255)",
+      "navbar": "rgb(239, 138, 125)",
+      "gradient": "linear-gradient(90deg, rgb(239, 138, 125) 0%, rgb(239, 138, 125) 25%, rgb(254, 225, 97) 25%, rgb(254, 225, 97) 50%, rgb(57, 159, 120) 50%, rgb(57, 159, 120) 75%, rgb(92, 166, 212) 75%, rgb(92, 166, 212) 100%)",
+      "motion": "done"
+    },
+    {
+      "percent": 75,
+      "milestone": "blue",
+      "amount": "91.462.500",
+      "progress": "75",
+      "cta": "rgb(112, 172, 140)",
+      "text": "rgb(16, 37, 29)",
+      "badge": "rgb(43, 91, 68)",
+      "badgeText": "rgb(255, 255, 255)",
+      "navbar": "rgb(239, 138, 125)",
+      "gradient": "linear-gradient(90deg, rgb(239, 138, 125) 0%, rgb(239, 138, 125) 25%, rgb(254, 225, 97) 25%, rgb(254, 225, 97) 50%, rgb(57, 159, 120) 50%, rgb(57, 159, 120) 75%, rgb(92, 166, 212) 75%, rgb(92, 166, 212) 100%)",
+      "motion": "done"
+    },
+    {
+      "percent": 100,
+      "milestone": "blue",
+      "amount": "121.950.000",
+      "progress": "100",
+      "cta": "rgb(98, 168, 189)",
+      "text": "rgb(16, 37, 29)",
+      "badge": "rgb(43, 91, 76)",
+      "badgeText": "rgb(255, 255, 255)",
+      "navbar": "rgb(239, 138, 125)",
+      "gradient": "linear-gradient(90deg, rgb(239, 138, 125) 0%, rgb(239, 138, 125) 25%, rgb(254, 225, 97) 25%, rgb(254, 225, 97) 50%, rgb(57, 159, 120) 50%, rgb(57, 159, 120) 75%, rgb(92, 166, 212) 75%, rgb(92, 166, 212) 100%)",
+      "motion": "done"
+    },
+    {
+      "percent": 125,
+      "milestone": "blue",
+      "amount": "152.437.500",
+      "progress": "100",
+      "cta": "rgb(93, 166, 208)",
+      "text": "rgb(16, 37, 29)",
+      "badge": "rgb(42, 91, 87)",
+      "badgeText": "rgb(255, 255, 255)",
+      "navbar": "rgb(239, 138, 125)",
+      "gradient": "linear-gradient(90deg, rgb(239, 138, 125) 0%, rgb(239, 138, 125) 25%, rgb(254, 225, 97) 25%, rgb(254, 225, 97) 50%, rgb(57, 159, 120) 50%, rgb(57, 159, 120) 75%, rgb(92, 166, 212) 75%, rgb(92, 166, 212) 100%)",
+      "motion": "done"
+    },
+    {
+      "invalid": "",
+      "role": "img",
+      "amount": "—",
+      "badge": "Chờ cập nhật"
+    },
+    {
+      "invalid": "-1",
+      "role": "img",
+      "amount": "—",
+      "badge": "Chờ cập nhật"
+    },
+    {
+      "invalid": "invalid",
+      "role": "img",
+      "amount": "—",
+      "badge": "Chờ cập nhật"
+    },
+    {
+      "invalidTarget": true,
+      "role": "img"
+    }
+  ],
+  "autoplayContext": {
+    "rect": {
+      "x": 0,
+      "y": 80,
+      "width": 1440,
+      "height": 820,
+      "top": 80,
+      "right": 1440,
+      "bottom": 900,
+      "left": 0
+    },
+    "focus": "<h2 class=\"sr-only\" id=\"activities-heading\" tabindex=\"-1\">Hoạt động nổi bật của POET</h2>",
+    "hover": false,
+    "hidden": false,
+    "heroState": "alive",
+    "hash": "#hoat-dong"
+  },
+  "autoplay": [
+    "0",
+    "1"
+  ],
+  "visibility": [],
+  "unverified": [
+    "Real OS/background-tab visibility: installed headless Edge emitted no visibility events when switching actual MCP tabs."
+  ],
+  "visibilityFixture": {
+    "before": "0",
+    "after": "0",
+    "restored": true
+  },
+  "paymentFixture": {
+    "settingsGET": "Browser-only fixture; actual external endpoint DNS is unverified",
+    "blockedWrites": []
+  },
+  "console": "### Result\nTotal messages: 1 (Errors: 0, Warnings: 0)\nReturning 0 messages for level \"error\"\n",
+  "status": "passed"
+}

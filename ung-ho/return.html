@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="vi" style="color-scheme: light only; background-color: #f4e6cf">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4e6cf">
+  <meta name="color-scheme" content="light only">
+  <meta name="supported-color-schemes" content="light">
+  <meta name="robots" content="noindex">
+  <style>html,body{color-scheme:light only;background-color:#f4e6cf}</style>
+  <meta name="description" content="Cảm ơn bạn đã ủng hộ POET.">
+  <title>Cảm ơn bạn — POET</title>
+  <link rel="icon" type="image/jpeg" href="../assets/logo/1555047679990943.jpg">
+  <link rel="apple-touch-icon" href="../assets/logo/1555047679990943.jpg">
+  <link rel="stylesheet" href="../style.css">
+  <script src="../components/site-header.js" defer></script>
+  <script src="../components/site-footer.js" defer></script>
+  <script src="../app.js" defer></script>
+  <link rel="stylesheet" href="ung-ho.css">
+  <script src="items.js" defer></script>
+  <script src="card.js" defer></script>
+  <script src="result.js" defer></script>
+</head>
+<body data-result="return">
+  <a class="skip-link" href="#main">Bỏ qua điều hướng</a>
+  <site-header active="donate"></site-header>
+
+  <canvas class="thanks-confetti" id="thanks-confetti" aria-hidden="true"></canvas>
+  <main id="main" class="donate thanks">
+    <section class="container thanks-hero" aria-labelledby="result-title">
+      <p class="thanks-status" id="result-status" role="status">Đang kiểm tra thanh toán…</p>
+
+      <!-- Shown only after /api/donations/:code says success -->
+      <div id="thanks-success" hidden>
+        <p class="eyebrow">Chung tay cùng POET Mùa 6</p>
+        <p>Cùng nhau xây dựng “Công viên niềm vui” · Ea Kiết, Đắk Lắk</p>
+        <h1 id="result-title">Cảm ơn bạn! <span aria-hidden="true">💛</span></h1>
+        <p class="thanks-lead" id="thanks-lead">Món quà của bạn đã đến POET. Đây là lá thư cảm ơn dành riêng cho bạn.</p>
+
+        <div class="thanks-letter" id="thanks-card" hidden>
+          <canvas id="card-canvas" width="1080" height="1350" role="img" aria-label="Thư cảm ơn của bạn"></canvas>
+          <div class="thanks-card-actions">
+            <button class="button" id="card-save" type="button">⬇ Lưu thư</button>
+            <button class="button thanks-fb" id="card-fb" type="button">Chia sẻ lên Facebook</button>
+          </div>
+          <p class="thanks-toast" id="card-toast" role="status"></p>
+        </div>
+        <p class="thanks-back"><a href="index.html">← Về trang ủng hộ</a></p>
+      </div>
+
+      <!-- Pending / unknown -->
+      <div id="thanks-wait" hidden>
+        <div class="section-kicker">ỦNG HỘ POET</div>
+        <h1 id="thanks-wait-title">Đang chờ xác nhận thanh toán</h1>
+        <p>Nếu bạn đã chuyển khoản, POET sẽ ghi nhận ngay khi ngân hàng báo về. Bạn có thể tải lại trang sau ít phút.</p>
+        <p class="thanks-cta"><a class="button button-purple" href="index.html">Quay lại trang ủng hộ</a> <a class="button" href="../">← Về trang chủ</a></p>
+      </div>
+    </section>
+  </main>
+
+  <site-footer></site-footer>
+</body>
+</html>

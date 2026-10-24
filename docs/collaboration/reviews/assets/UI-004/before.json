@@ -1,0 +1,291 @@
+{
+  "phase": "before",
+  "viewports": [
+    {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "wordmark": "44px / 44px \"POET Cookie Crumble\", sans-serif",
+      "headerHeight": 74,
+      "colors": [
+        "rgb(239, 138, 125)",
+        "rgb(92, 166, 212)",
+        "rgb(57, 159, 120)",
+        "rgb(254, 225, 97)"
+      ],
+      "raised": "78450000",
+      "target": "121950000",
+      "provisional": "true",
+      "footerText": "POET\n\nNgười trẻ cùng góp sức cho cộng đồng.\nThành lập năm 2022 tại TP. Hồ Chí Minh.\n\nVề chúng tôi\n↗\nFacebook\n↗\n(mở trong tab mới)\nInstagram\n↗\n(mở trong tab mới)\nThreads\n↗\n(mở trong tab mới)\nTikTok\n↗\n(mở trong tab mới)\nTrưởng Ban Điều Hành\nHoài Phương\n0903872278\nTrưởng Ban Đối Ngoại\nPhương Minh\n0815852427\npoet.npo@gmail.com\n© 2026 POET",
+      "socials": [
+        {
+          "href": "https://www.facebook.com/poetorganization",
+          "text": "Facebook ↗ (mở trong tab mới)",
+          "label": null
+        },
+        {
+          "href": "https://www.instagram.com/poet.npo/",
+          "text": "Instagram ↗ (mở trong tab mới)",
+          "label": null
+        },
+        {
+          "href": "https://www.threads.com/@poet.npo",
+          "text": "Threads ↗ (mở trong tab mới)",
+          "label": null
+        },
+        {
+          "href": "https://www.tiktok.com/@poet.npo",
+          "text": "TikTok ↗ (mở trong tab mới)",
+          "label": null
+        }
+      ],
+      "headings": [
+        {
+          "text": "Hành trình Mùa 6:Trao nụ cười, dựng sân chơi",
+          "color": "rgb(36, 60, 51)"
+        },
+        {
+          "text": "Những hành trình yêu thương đã “cập bến”",
+          "color": "rgb(36, 60, 51)"
+        },
+        {
+          "text": "Đêm nhạc acoustic gây quỹ “Vết Nứt”",
+          "color": "rgb(36, 60, 51)"
+        },
+        {
+          "text": "Chương trình thiện nguyện tại Trường Tiểu học Mỹ Thạnh Bắc",
+          "color": "rgb(36, 60, 51)"
+        },
+        {
+          "text": "Bạn trẻ gấp sao, hưởng ứng đêm nhạc ‘chữa lành’ gây quỹ thiện nguyện (mở trong tab mới)",
+          "color": "rgb(36, 60, 51)"
+        },
+        {
+          "text": "Sáng tạo để lan tỏa nhiệt huyết tận hiến (mở trong tab mới)",
+          "color": "rgb(36, 60, 51)"
+        },
+        {
+          "text": "Những “thủ lĩnh” Gen Z năng nổ sáng tạo hoạt động Đoàn, lan tỏa nhiệt huyết tận hiến (mở trong tab mới)",
+          "color": "rgb(36, 60, 51)"
+        }
+      ]
+    },
+    {
+      "width": 768,
+      "scrollWidth": 768,
+      "wordmark": "40px / 40px \"POET Cookie Crumble\", sans-serif",
+      "headerHeight": 72,
+      "colors": [
+        "rgb(239, 138, 125)",
+        "rgb(92, 166, 212)",
+        "rgb(57, 159, 120)",
+        "rgb(254, 225, 97)"
+      ],
+      "raised": "78450000",
+      "target": "121950000",
+      "provisional": "true",
+      "footerText": "POET\n\nNgười trẻ cùng góp sức cho cộng đồng.\nThành lập năm 2022 tại TP. Hồ Chí Minh.\n\nVề chúng tôi\n↗\nFacebook\n↗\n(mở trong tab mới)\nInstagram\n↗\n(mở trong tab mới)\nThreads\n↗\n(mở trong tab mới)\nTikTok\n↗\n(mở trong tab mới)\nTrưởng Ban Điều Hành\nHoài Phương\n0903872278\nTrưởng Ban Đối Ngoại\nPhương Minh\n0815852427\npoet.npo@gmail.com\n© 2026 POET",
+      "socials": [
+        {
+          "href": "https://www.facebook.com/poetorganization",
+          "text": "Facebook ↗ (mở trong tab mới)",
+          "label": null
+        },
+        {
+          "href": "https://www.instagram.com/poet.npo/",
+          "text": "Instagram ↗ (mở trong tab mới)",
+          "label": null
+        },
+        {
+          "href": "https://www.threads.com/@poet.npo",
+          "text": "Threads ↗ (mở trong tab mới)",
+          "label": null
+        },
+        {
+          "href": "https://www.tiktok.com/@poet.npo",
+          "text": "TikTok ↗ (mở trong tab mới)",
+          "label": null
+        }
+      ],
+      "headings": [
+        {
+          "text": "Hành trình Mùa 6:Trao nụ cười, dựng sân chơi",
+          "color": "rgb(36, 60, 51)"
+        },
+        {
+          "text": "Những hành trình yêu thương đã “cập bến”",
+          "color": "rgb(36, 60, 51)"
+        },
+        {
+          "text": "Đêm nhạc acoustic gây quỹ “Vết Nứt”",
+          "color": "rgb(36, 60, 51)"
+        },
+        {
+          "text": "Chương trình thiện nguyện tại Trường Tiểu học Mỹ Thạnh Bắc",
+          "color": "rgb(36, 60, 51)"
+        },
+        {
+          "text": "Bạn trẻ gấp sao, hưởng ứng đêm nhạc ‘chữa lành’ gây quỹ thiện nguyện (mở trong tab mới)",
+          "color": "rgb(36, 60, 51)"
+        },
+        {
+          "text": "Sáng tạo để lan tỏa nhiệt huyết tận hiến (mở trong tab mới)",
+          "color": "rgb(36, 60, 51)"
+        },
+        {
+          "text": "Những “thủ lĩnh” Gen Z năng nổ sáng tạo hoạt động Đoàn, lan tỏa nhiệt huyết tận hiến (mở trong tab mới)",
+          "color": "rgb(36, 60, 51)"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "scrollWidth": 390,
+      "wordmark": "38px / 38px \"POET Cookie Crumble\", sans-serif",
+      "headerHeight": 72,
+      "colors": [
+        "rgb(239, 138, 125)",
+        "rgb(92, 166, 212)",
+        "rgb(57, 159, 120)",
+        "rgb(254, 225, 97)"
+      ],
+      "raised": "78450000",
+      "target": "121950000",
+      "provisional": "true",
+      "footerText": "POET\n\nNgười trẻ cùng góp sức cho cộng đồng.\nThành lập năm 2022 tại TP. Hồ Chí Minh.\n\nVề chúng tôi\n↗\nFacebook\n↗\n(mở trong tab mới)\nInstagram\n↗\n(mở trong tab mới)\nThreads\n↗\n(mở trong tab mới)\nTikTok\n↗\n(mở trong tab mới)\nTrưởng Ban Điều Hành\nHoài Phương\n0903872278\nTrưởng Ban Đối Ngoại\nPhương Minh\n0815852427\npoet.npo@gmail.com\n© 2026 POET",
+      "socials": [
+        {
+          "href": "https://www.facebook.com/poetorganization",
+          "text": "Facebook ↗ (mở trong tab mới)",
+          "label": null
+        },
+        {
+          "href": "https://www.instagram.com/poet.npo/",
+          "text": "Instagram ↗ (mở trong tab mới)",
+          "label": null
+        },
+        {
+          "href": "https://www.threads.com/@poet.npo",
+          "text": "Threads ↗ (mở trong tab mới)",
+          "label": null
+        },
+        {
+          "href": "https://www.tiktok.com/@poet.npo",
+          "text": "TikTok ↗ (mở trong tab mới)",
+          "label": null
+        }
+      ],
+      "headings": [
+        {
+          "text": "Hành trình Mùa 6:Trao nụ cười, dựng sân chơi",
+          "color": "rgb(36, 60, 51)"
+        },
+        {
+          "text": "Những hành trình yêu thương đã “cập bến”",
+          "color": "rgb(36, 60, 51)"
+        },
+        {
+          "text": "Đêm nhạc acoustic gây quỹ “Vết Nứt”",
+          "color": "rgb(36, 60, 51)"
+        },
+        {
+          "text": "Chương trình thiện nguyện tại Trường Tiểu học Mỹ Thạnh Bắc",
+          "color": "rgb(36, 60, 51)"
+        },
+        {
+          "text": "Bạn trẻ gấp sao, hưởng ứng đêm nhạc ‘chữa lành’ gây quỹ thiện nguyện (mở trong tab mới)",
+          "color": "rgb(36, 60, 51)"
+        },
+        {
+          "text": "Sáng tạo để lan tỏa nhiệt huyết tận hiến (mở trong tab mới)",
+          "color": "rgb(36, 60, 51)"
+        },
+        {
+          "text": "Những “thủ lĩnh” Gen Z năng nổ sáng tạo hoạt động Đoàn, lan tỏa nhiệt huyết tận hiến (mở trong tab mới)",
+          "color": "rgb(36, 60, 51)"
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "scrollWidth": 320,
+      "wordmark": "34px / 34px \"POET Cookie Crumble\", sans-serif",
+      "headerHeight": 72,
+      "colors": [
+        "rgb(239, 138, 125)",
+        "rgb(92, 166, 212)",
+        "rgb(57, 159, 120)",
+        "rgb(254, 225, 97)"
+      ],
+      "raised": "78450000",
+      "target": "121950000",
+      "provisional": "true",
+      "footerText": "POET\n\nNgười trẻ cùng góp sức cho cộng đồng.\nThành lập năm 2022 tại TP. Hồ Chí Minh.\n\nVề chúng tôi\n↗\nFacebook\n↗\n(mở trong tab mới)\nInstagram\n↗\n(mở trong tab mới)\nThreads\n↗\n(mở trong tab mới)\nTikTok\n↗\n(mở trong tab mới)\nTrưởng Ban Điều Hành\nHoài Phương\n0903872278\nTrưởng Ban Đối Ngoại\nPhương Minh\n0815852427\npoet.npo@gmail.com\n© 2026 POET",
+      "socials": [
+        {
+          "href": "https://www.facebook.com/poetorganization",
+          "text": "Facebook ↗ (mở trong tab mới)",
+          "label": null
+        },
+        {
+          "href": "https://www.instagram.com/poet.npo/",
+          "text": "Instagram ↗ (mở trong tab mới)",
+          "label": null
+        },
+        {
+          "href": "https://www.threads.com/@poet.npo",
+          "text": "Threads ↗ (mở trong tab mới)",
+          "label": null
+        },
+        {
+          "href": "https://www.tiktok.com/@poet.npo",
+          "text": "TikTok ↗ (mở trong tab mới)",
+          "label": null
+        }
+      ],
+      "headings": [
+        {
+          "text": "Hành trình Mùa 6:Trao nụ cười, dựng sân chơi",
+          "color": "rgb(36, 60, 51)"
+        },
+        {
+          "text": "Những hành trình yêu thương đã “cập bến”",
+          "color": "rgb(36, 60, 51)"
+        },
+        {
+          "text": "Đêm nhạc acoustic gây quỹ “Vết Nứt”",
+          "color": "rgb(36, 60, 51)"
+        },
+        {
+          "text": "Chương trình thiện nguyện tại Trường Tiểu học Mỹ Thạnh Bắc",
+          "color": "rgb(36, 60, 51)"
+        },
+        {
+          "text": "Bạn trẻ gấp sao, hưởng ứng đêm nhạc ‘chữa lành’ gây quỹ thiện nguyện (mở trong tab mới)",
+          "color": "rgb(36, 60, 51)"
+        },
+        {
+          "text": "Sáng tạo để lan tỏa nhiệt huyết tận hiến (mở trong tab mới)",
+          "color": "rgb(36, 60, 51)"
+        },
+        {
+          "text": "Những “thủ lĩnh” Gen Z năng nổ sáng tạo hoạt động Đoàn, lan tỏa nhiệt huyết tận hiến (mở trong tab mới)",
+          "color": "rgb(36, 60, 51)"
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "screenshots": [
+    "before-1440-header.png",
+    "before-1440-participation.png",
+    "before-1440-footer.png",
+    "before-1440-fundraising.png",
+    "before-1440-archive.png",
+    "before-390-header.png",
+    "before-390-participation.png",
+    "before-390-footer.png",
+    "before-390-fundraising.png",
+    "before-390-archive.png"
+  ],
+  "submissions": 0
+}

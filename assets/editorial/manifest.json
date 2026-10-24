@@ -1,0 +1,366 @@
+[
+  {
+    "source": "assets/team/team.jpg",
+    "file": "assets/editorial/poet-team-640.webp",
+    "width": 640,
+    "height": 427,
+    "bytes": 50312
+  },
+  {
+    "source": "assets/team/team.jpg",
+    "file": "assets/editorial/poet-team-1280.webp",
+    "width": 1280,
+    "height": 853,
+    "bytes": 123838
+  },
+  {
+    "source": "assets/photos/1555514176610960.jpg",
+    "file": "assets/editorial/school-friends-640.webp",
+    "width": 640,
+    "height": 427,
+    "bytes": 53244
+  },
+  {
+    "source": "assets/photos/1555514176610960.jpg",
+    "file": "assets/editorial/school-friends-1280.webp",
+    "width": 1280,
+    "height": 853,
+    "bytes": 128996
+  },
+  {
+    "source": "assets/photos/3348058525513502.jpg",
+    "file": "assets/editorial/community-day-640.webp",
+    "width": 640,
+    "height": 427,
+    "bytes": 64420
+  },
+  {
+    "source": "assets/photos/3348058525513502.jpg",
+    "file": "assets/editorial/community-day-1280.webp",
+    "width": 1280,
+    "height": 853,
+    "bytes": 146132
+  },
+  {
+    "source": "assets/photos/3348058835513471.jpg",
+    "file": "assets/editorial/poet-volunteers-640.webp",
+    "width": 640,
+    "height": 427,
+    "bytes": 52312
+  },
+  {
+    "source": "assets/photos/3348058835513471.jpg",
+    "file": "assets/editorial/poet-volunteers-1280.webp",
+    "width": 1280,
+    "height": 853,
+    "bytes": 122716
+  },
+  {
+    "source": "User-supplied chat attachment 12.jpg (2048x1365, sha256 a5c70b34…5f5f)",
+    "file": "assets/editorial/mission-children-640.webp",
+    "width": 640,
+    "height": 427,
+    "bytes": 47414
+  },
+  {
+    "source": "User-supplied chat attachment 12.jpg (2048x1365, sha256 a5c70b34…5f5f)",
+    "file": "assets/editorial/mission-children-1280.webp",
+    "width": 1280,
+    "height": 853,
+    "bytes": 121688
+  },
+  {
+    "source": "User-supplied chat attachment 13.jpg (6000x4000, sha256 632ebd31…a42a)",
+    "file": "assets/editorial/mission-volunteers-640.webp",
+    "width": 640,
+    "height": 427,
+    "bytes": 37388
+  },
+  {
+    "source": "User-supplied chat attachment 13.jpg (6000x4000, sha256 632ebd31…a42a)",
+    "file": "assets/editorial/mission-volunteers-1280.webp",
+    "width": 1280,
+    "height": 853,
+    "bytes": 96242
+  },
+  {
+    "source": "User-supplied chat attachment 14.jpg (6000x4000, sha256 0efea8c9…0c6)",
+    "file": "assets/editorial/mission-community-640.webp",
+    "width": 640,
+    "height": 427,
+    "bytes": 62062
+  },
+  {
+    "source": "User-supplied chat attachment 14.jpg (6000x4000, sha256 0efea8c9…0c6)",
+    "file": "assets/editorial/mission-community-1280.webp",
+    "width": 1280,
+    "height": 853,
+    "bytes": 168612
+  },
+  {
+    "source": "assets/photos/classroom-footer.jpg",
+    "file": "assets/editorial/lop-hoc-diem-truong-1280.webp",
+    "width": 1280,
+    "height": 854,
+    "bytes": 70776
+  },
+  {
+    "source": "assets/photos/classroom-footer.jpg",
+    "file": "assets/editorial/lop-hoc-diem-truong-800.webp",
+    "width": 800,
+    "height": 533,
+    "bytes": 34964
+  },
+  {
+    "source": "assets/photos/3348058765513478.jpg",
+    "file": "assets/editorial/pd-3348058765513478-640.webp",
+    "width": 640,
+    "height": 427,
+    "bytes": 50780
+  },
+  {
+    "source": "assets/photos/3348058765513478.jpg",
+    "file": "assets/editorial/pd-3348058765513478-1280.webp",
+    "width": 1280,
+    "height": 853,
+    "bytes": 134042
+  },
+  {
+    "source": "assets/photos/3348058835513471.jpg",
+    "file": "assets/editorial/pd-3348058835513471-640.webp",
+    "width": 640,
+    "height": 427,
+    "bytes": 44442
+  },
+  {
+    "source": "assets/photos/3348058835513471.jpg",
+    "file": "assets/editorial/pd-3348058835513471-1280.webp",
+    "width": 1280,
+    "height": 853,
+    "bytes": 111670
+  },
+  {
+    "source": "assets/photos/3348057752180246.jpg",
+    "file": "assets/editorial/pd-3348057752180246-640.webp",
+    "width": 640,
+    "height": 360,
+    "bytes": 41538
+  },
+  {
+    "source": "assets/photos/3348057752180246.jpg",
+    "file": "assets/editorial/pd-3348057752180246-1280.webp",
+    "width": 1280,
+    "height": 720,
+    "bytes": 109420
+  },
+  {
+    "source": "assets/photos/3348057808846907.jpg",
+    "file": "assets/editorial/pd-3348057808846907-640.webp",
+    "width": 640,
+    "height": 360,
+    "bytes": 28594
+  },
+  {
+    "source": "assets/photos/3348057808846907.jpg",
+    "file": "assets/editorial/pd-3348057808846907-1280.webp",
+    "width": 1280,
+    "height": 720,
+    "bytes": 68146
+  },
+  {
+    "source": "assets/photos/3348057688846919.jpg",
+    "file": "assets/editorial/pd-3348057688846919-640.webp",
+    "width": 640,
+    "height": 360,
+    "bytes": 24992
+  },
+  {
+    "source": "assets/photos/3348057688846919.jpg",
+    "file": "assets/editorial/pd-3348057688846919-1280.webp",
+    "width": 1280,
+    "height": 720,
+    "bytes": 69732
+  },
+  {
+    "source": "assets/photos/3348058642180157.jpg",
+    "file": "assets/editorial/pd-3348058642180157-640.webp",
+    "width": 640,
+    "height": 427,
+    "bytes": 36020
+  },
+  {
+    "source": "assets/photos/3348058642180157.jpg",
+    "file": "assets/editorial/pd-3348058642180157-1280.webp",
+    "width": 1280,
+    "height": 853,
+    "bytes": 92916
+  },
+  {
+    "source": "assets/photos/3348057892180232.jpg",
+    "file": "assets/editorial/pd-3348057892180232-640.webp",
+    "width": 640,
+    "height": 427,
+    "bytes": 37820
+  },
+  {
+    "source": "assets/photos/3348057892180232.jpg",
+    "file": "assets/editorial/pd-3348057892180232-1280.webp",
+    "width": 1280,
+    "height": 853,
+    "bytes": 95158
+  },
+  {
+    "source": "assets/photos/3348058328846855.jpg",
+    "file": "assets/editorial/pd-3348058328846855-640.webp",
+    "width": 640,
+    "height": 427,
+    "bytes": 21452
+  },
+  {
+    "source": "assets/photos/3348058328846855.jpg",
+    "file": "assets/editorial/pd-3348058328846855-1280.webp",
+    "width": 1280,
+    "height": 853,
+    "bytes": 48630
+  },
+  {
+    "source": "assets/photos/3348058605513494.jpg",
+    "file": "assets/editorial/pd-3348058605513494-640.webp",
+    "width": 640,
+    "height": 427,
+    "bytes": 29432
+  },
+  {
+    "source": "assets/photos/3348058605513494.jpg",
+    "file": "assets/editorial/pd-3348058605513494-1280.webp",
+    "width": 1280,
+    "height": 853,
+    "bytes": 70080
+  },
+  {
+    "source": "assets/photos/3348058578846830.jpg",
+    "file": "assets/editorial/pd-3348058578846830-640.webp",
+    "width": 640,
+    "height": 427,
+    "bytes": 43088
+  },
+  {
+    "source": "assets/photos/3348058578846830.jpg",
+    "file": "assets/editorial/pd-3348058578846830-1280.webp",
+    "width": 1280,
+    "height": 853,
+    "bytes": 100158
+  },
+  {
+    "source": "assets/photos/3348058678846820.jpg",
+    "file": "assets/editorial/pd-3348058678846820-640.webp",
+    "width": 640,
+    "height": 427,
+    "bytes": 34468
+  },
+  {
+    "source": "assets/photos/3348058678846820.jpg",
+    "file": "assets/editorial/pd-3348058678846820-1280.webp",
+    "width": 1280,
+    "height": 853,
+    "bytes": 82056
+  },
+  {
+    "source": "assets/photos/3348057608846927.jpg",
+    "file": "assets/editorial/pd-3348057608846927-640.webp",
+    "width": 640,
+    "height": 360,
+    "bytes": 33684
+  },
+  {
+    "source": "assets/photos/3348057608846927.jpg",
+    "file": "assets/editorial/pd-3348057608846927-1280.webp",
+    "width": 1280,
+    "height": 720,
+    "bytes": 80866
+  },
+  {
+    "source": "assets/photos/3348058412180180.jpg",
+    "file": "assets/editorial/pd-3348058412180180-640.webp",
+    "width": 640,
+    "height": 427,
+    "bytes": 31526
+  },
+  {
+    "source": "assets/photos/3348058412180180.jpg",
+    "file": "assets/editorial/pd-3348058412180180-1280.webp",
+    "width": 1280,
+    "height": 853,
+    "bytes": 68750
+  },
+  {
+    "source": "assets/photos/3348057742180247.jpg",
+    "file": "assets/editorial/pd-3348057742180247-640.webp",
+    "width": 640,
+    "height": 360,
+    "bytes": 34972
+  },
+  {
+    "source": "assets/photos/3348057742180247.jpg",
+    "file": "assets/editorial/pd-3348057742180247-1280.webp",
+    "width": 1280,
+    "height": 720,
+    "bytes": 84808
+  },
+  {
+    "source": "assets/photos/3348058118846876.jpg",
+    "file": "assets/editorial/pd-3348058118846876-640.webp",
+    "width": 640,
+    "height": 427,
+    "bytes": 47944
+  },
+  {
+    "source": "assets/photos/3348058118846876.jpg",
+    "file": "assets/editorial/pd-3348058118846876-1280.webp",
+    "width": 1280,
+    "height": 853,
+    "bytes": 115074
+  },
+  {
+    "source": "assets/photos/3348058718846816.jpg",
+    "file": "assets/editorial/pd-3348058718846816-640.webp",
+    "width": 640,
+    "height": 427,
+    "bytes": 23464
+  },
+  {
+    "source": "assets/photos/3348058718846816.jpg",
+    "file": "assets/editorial/pd-3348058718846816-1280.webp",
+    "width": 1280,
+    "height": 853,
+    "bytes": 52812
+  },
+  {
+    "source": "assets/photos/3348058525513502.jpg",
+    "file": "assets/editorial/pd-3348058525513502-640.webp",
+    "width": 640,
+    "height": 427,
+    "bytes": 53998
+  },
+  {
+    "source": "assets/photos/3348058525513502.jpg",
+    "file": "assets/editorial/pd-3348058525513502-1280.webp",
+    "width": 1280,
+    "height": 853,
+    "bytes": 133928
+  },
+  {
+    "source": "assets/photos/3348057855513569.jpg",
+    "file": "assets/editorial/pd-3348057855513569-640.webp",
+    "width": 640,
+    "height": 360,
+    "bytes": 41496
+  },
+  {
+    "source": "assets/photos/3348057855513569.jpg",
+    "file": "assets/editorial/pd-3348057855513569-1280.webp",
+    "width": 1280,
+    "height": 720,
+    "bytes": 98504
+  }
+]

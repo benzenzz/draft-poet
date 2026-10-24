@@ -1,0 +1,180 @@
+{
+  "build": {
+    "initialCommand": "npm.cmd run build:site --prefix v2",
+    "finalCommand": "node v2/tools/build-site.mjs",
+    "result": "Built eight static V2 pages, including two project details and departments. Intro markup preserved.",
+    "byteIdenticalOutputs": [
+      "v2/index.html",
+      "v2/team/index.html",
+      "v2/du-an/index.html",
+      "v2/dong-hanh/index.html",
+      "v2/tinh-nguyen-vien/index.html",
+      "v2/du-an/vet-nut/index.html",
+      "v2/du-an/go-ngai/index.html",
+      "v2/team/phan-ban/index.html",
+      "v2/data/site-data.js"
+    ]
+  },
+  "syntax": {
+    "command": "node --check <file>",
+    "files": [
+      "v2/world.js",
+      "v2/site.js",
+      "v2/chrome.js",
+      "v2/activity-carousel.js",
+      "v2/press-strip.js",
+      "v2/fundraising-progress.mjs",
+      "v2/fundraising-reveal.mjs",
+      "v2/fundraising-preview.mjs",
+      "v2/tools/site-templates.mjs",
+      "v2/tools/build-site.mjs",
+      "v2/tools/board-playground.mjs",
+      "v2/tools/tests/ui-004-browser.mjs",
+      "v2/tools/tests/home-integration-browser.mjs",
+      "v2/tools/tests/home-integration-preservation.mjs",
+      "v2/tools/tests/home-integration-preview.mjs"
+    ],
+    "passed": 15
+  },
+  "unit": {
+    "command": "node --test v2/tools/tests/ui-002.test.mjs v2/tools/tests/ui-004.test.mjs",
+    "passed": 6,
+    "failed": 0
+  },
+  "editorial": {
+    "command": "$env:POET_QA_OUTPUT='.design-tools/output/home-integration/editorial'; node v2/tools/tests/ui-004-browser.mjs",
+    "checks": 138,
+    "status": "passed",
+    "explicitRespectMode": true
+  },
+  "natural": {
+    "command": "node v2/tools/tests/home-integration-browser.mjs",
+    "checks": 46,
+    "status": "passed"
+  },
+  "preservation": {
+    "command": "node v2/tools/tests/home-integration-preservation.mjs",
+    "checks": 39,
+    "result": "PASS Common ancestor is the shared website setup checkpoint\nPASS v2/world.js exactly matches Claude\nPASS v2/world.css exactly matches Claude\nPASS v2/tools/board-playground.mjs exactly matches Claude\nPASS v2/chrome.js exactly matches Codex\nPASS v2/activity-carousel.js exactly matches Codex\nPASS v2/press-strip.js exactly matches Codex\nPASS v2/fundraising-progress.mjs exactly matches Codex\nPASS v2/fundraising-reveal.mjs exactly matches Codex\nPASS v2/fundraising-preview.mjs exactly matches Codex\nPASS v2/data/content.mjs exactly matches Codex\nPASS v2/data/site-data.js exactly matches Codex\nPASS assets/css/typography.css exactly matches Codex\nPASS Embedded Intro / Hero / board SVG exactly matches Claude\nPASS Activity template is Codex version without obsolete playback control\nPASS press template exactly matches Claude\nPASS archive template exactly matches Claude\nPASS Home fundraising markup/data and initialization preserved\nPASS Home lowercase participation / colored icons / CTA copy preserved\nPASS People / About source not separately redesigned\nPASS site.js combines Codex imports/fixture with Claude reveal/removal of rail only\nPASS Claude press-grid CSS is preserved\nPASS Claude archive layout / reveal CSS is preserved\nPASS Codex Product Sans header CSS is preserved\nPASS Codex fundraising reveal / CTA styling is preserved\nPASS Warm headings / Home participation / plain footer preserved; Claude owns card hover\nPASS Obsolete press-rail controller/template/style fragments removed\nPASS All existing assets/fonts from 974d331 retained unchanged\nPASS All existing assets/fonts from 775fc59 retained unchanged\nPASS Payment / QR / Worker / admin / deployment unchanged\nPASS Hero cache patch and fresh merged editorial revision applied\nPASS v2/site.css has no conflict markers\nPASS v2/site.js has no conflict markers\nPASS v2/tools/site-templates.mjs has no conflict markers\nPASS v2/index.html has no conflict markers\nPASS v2/team/index.html has no conflict markers\nPASS Both backup refs and both source branches remain at original SHAs\nPASS All 23 existing untracked files remain byte-identical\nPASS Claude worktree remains clean"
+  },
+  "preview": {
+    "command": "node v2/tools/tests/home-integration-preview.mjs",
+    "servedByteIdenticalFiles": 8
+  },
+  "screenshots": [
+    {
+      "file": "1440-intro.png",
+      "source": "natural/1440-intro.png"
+    },
+    {
+      "file": "1440-hero.png",
+      "source": "natural/1440-hero.png"
+    },
+    {
+      "file": "1440-board-hover.png",
+      "source": "natural/1440-board-hover.png"
+    },
+    {
+      "file": "1440-activity.png",
+      "source": "natural/1440-activity.png"
+    },
+    {
+      "file": "390-intro.png",
+      "source": "natural/390-intro.png"
+    },
+    {
+      "file": "390-hero.png",
+      "source": "natural/390-hero.png"
+    },
+    {
+      "file": "390-activity.png",
+      "source": "natural/390-activity.png"
+    },
+    {
+      "file": "390-media.png",
+      "source": "natural/390-media.png"
+    },
+    {
+      "file": "1440-media-hover.png",
+      "source": "natural/1440-media-hover.png"
+    },
+    {
+      "file": "1440-archive.png",
+      "source": "preview/1440-archive.png"
+    },
+    {
+      "file": "390-archive-card-1.png",
+      "source": "preview/390-archive-card-1.png"
+    },
+    {
+      "file": "390-archive-card-2.png",
+      "source": "preview/390-archive-card-2.png"
+    },
+    {
+      "file": "1440-header.png",
+      "source": "editorial/1440-header.png"
+    },
+    {
+      "file": "390-header.png",
+      "source": "editorial/390-header.png"
+    },
+    {
+      "file": "1440-fundraising-default.png",
+      "source": "editorial/1440-fundraising-default.png"
+    },
+    {
+      "file": "390-fundraising-default.png",
+      "source": "editorial/390-fundraising-default.png"
+    },
+    {
+      "file": "1440-fundraising-100000.png",
+      "source": "editorial/1440-fundraising-100000.png"
+    },
+    {
+      "file": "390-fundraising-100000.png",
+      "source": "editorial/390-fundraising-100000.png"
+    },
+    {
+      "file": "1440-participation.png",
+      "source": "editorial/1440-participation.png"
+    },
+    {
+      "file": "390-participation.png",
+      "source": "editorial/390-participation.png"
+    },
+    {
+      "file": "1440-footer.png",
+      "source": "editorial/1440-footer.png"
+    },
+    {
+      "file": "390-footer.png",
+      "source": "editorial/390-footer.png"
+    },
+    {
+      "file": "1440-media.png",
+      "source": "editorial/1440-media.png"
+    }
+  ],
+  "whitespace": {
+    "allStaged": {
+      "command": "git -c core.safecrlf=false diff --cached --check",
+      "exitCode": 2,
+      "result": "docs/collaboration/reviews/UI-003-claude/shared-files.patch:146: trailing whitespace.\n+",
+      "origin": "Pre-existing Claude unified-diff context line, preserved byte-identically."
+    },
+    "excludingExistingPatch": {
+      "command": "git -c core.safecrlf=false diff --cached --check -- . ':(exclude)docs/collaboration/reviews/UI-003-claude/shared-files.patch'",
+      "exitCode": 0
+    },
+    "patchComparedToClaude": {
+      "command": "git diff 775fc596ec644c22927bb6029c0c6190a6cd0b63 --exit-code -- docs/collaboration/reviews/UI-003-claude/shared-files.patch",
+      "exitCode": 0
+    }
+  },
+  "afterCommit": {
+    "command": "node v2/tools/tests/home-integration-preview.mjs --identity-only",
+    "branch": "integration/home-review-20261021",
+    "head": "0c924cc866b6c9b1d820760518352da8b8876c6d",
+    "servedByteIdenticalFiles": 8
+  }
+}

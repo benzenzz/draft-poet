@@ -1,0 +1,40 @@
+[
+  {
+    "file": "1440-footer.png",
+    "bytes": 40610,
+    "sha256": "b59a295e1862887b1bbce0b53e46438650f891dcafb2a60e8cb0e9f018cd87cb",
+    "width": 1440,
+    "height": 464
+  },
+  {
+    "file": "1440-participation.png",
+    "bytes": 72559,
+    "sha256": "49a08925489041469d00eeb1e11c4adb392bd4324b309bb71274d8ca53ee324d",
+    "width": 1282,
+    "height": 547
+  },
+  {
+    "file": "390-footer.png",
+    "bytes": 36698,
+    "sha256": "4da248d67b579efb4f5927ff0abca272fd02dfc0870f087427760732ed86b8f7",
+    "width": 390,
+    "height": 755
+  },
+  {
+    "file": "390-participation.png",
+    "bytes": 71938,
+    "sha256": "80eebec27f69f441a605c71d4a2f964c645dbd05598801df27f9dd222e27b74a",
+    "width": 346,
+    "height": 1290
+  },
+  {
+    "file": "browser-results.json",
+    "bytes": 79800,
+    "sha256": "d8ca2d8674df7c23086a06a3edce129cc5695bf586f3aef2c3ad08cdea1bdea8"
+  },
+  {
+    "file": "preservation.json",
+    "bytes": 2229,
+    "sha256": "42f69644924f2d926a3e4e6a236e9848a317841ba9a856ab9887e757d7ad7be1"
+  }
+]

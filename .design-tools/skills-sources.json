@@ -1,0 +1,29 @@
+{
+  "sources": [
+    {
+      "name": "frontend-design",
+      "repository": "anthropics/skills",
+      "ref": "main",
+      "path": "skills/frontend-design",
+      "version": "not declared by upstream",
+      "installedFilesSHA256": {
+        "LICENSE.txt": "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594",
+        "SKILL.md": "d91970639e9f5c37682ac7ab60094d35f1c7c1f38d731bd56396563aee10c1d3"
+      },
+      "installedAt": "2026-10-17",
+      "installationMethod": "OpenAI skill-installer with explicit project-local --dest"
+    },
+    {
+      "name": "web-design-guidelines",
+      "repository": "vercel-labs/agent-skills",
+      "ref": "main",
+      "path": "skills/web-design-guidelines",
+      "version": "1.0.0",
+      "installedFilesSHA256": {
+        "SKILL.md": "f4647ca866a3accf763777f83e7682954f0187cd6bea7eea0399796652414e8f"
+      },
+      "installedAt": "2026-10-17",
+      "installationMethod": "OpenAI skill-installer with explicit project-local --dest"
+    }
+  ]
+}

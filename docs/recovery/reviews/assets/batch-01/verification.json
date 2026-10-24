@@ -1,0 +1,734 @@
+{
+  "implementationCommit": "d5c83955ade6fabe30ae0c1cbbfe20da5ba6e470",
+  "baselineCommit": "4e65da4444a52ab085f04bc0d5f960c6b4a7e643",
+  "reviewStatus": "Awaiting external PASS/FAIL; local verification does not constitute external PASS",
+  "recordedImplementationResults": {
+    "sourceReport": "../../BATCH_1_REVIEW.md",
+    "build": {
+      "command": "npm.cmd run build:site --prefix v2",
+      "status": "passed",
+      "generatedPages": 8
+    },
+    "syntax": {
+      "status": "passed",
+      "files": [
+        "v2/tools/site-templates.mjs",
+        "v2/data/content.mjs",
+        "v2/tools/build-site.mjs"
+      ]
+    },
+    "unitTests": {
+      "command": "node --test worker/test/*.test.mjs",
+      "passed": 71,
+      "failed": 0,
+      "suites": 16
+    },
+    "note": "These build/syntax/unit results were executed for Batch 1 before its implementation commit and recorded in that committed report. They were not rerun to package documentation/screenshots."
+  },
+  "browserAndProtectionChecks": [
+    {
+      "name": "desktop",
+      "startedAt": "2026-10-21T03:06:01.496Z",
+      "status": "passed",
+      "passed": 28,
+      "failed": 0,
+      "checks": [
+        {
+          "name": "Home no overflow",
+          "passed": true
+        },
+        {
+          "name": "Product Sans preserved",
+          "passed": true
+        },
+        {
+          "name": "Home named controls and image alt attributes",
+          "passed": true
+        },
+        {
+          "name": "Only Individuals and Businesses statistics",
+          "passed": true
+        },
+        {
+          "name": "Two equally wide horizontal stat cells",
+          "passed": true
+        },
+        {
+          "name": "Existing preview amount/counts unchanged",
+          "passed": true
+        },
+        {
+          "name": "Preview disclaimer retained",
+          "passed": true
+        },
+        {
+          "name": "Coral white CTA and heart preserved",
+          "passed": true
+        },
+        {
+          "name": "Four-color continuous progress preserved",
+          "passed": true
+        },
+        {
+          "name": "300 pupils retained in narrative only",
+          "passed": true
+        },
+        {
+          "name": "Home required section order",
+          "passed": true
+        },
+        {
+          "name": "Approved archive headline and two working detail routes",
+          "passed": true
+        },
+        {
+          "name": "Approved concert and school metrics",
+          "passed": true
+        },
+        {
+          "name": "Redundant archive link and press eyebrow removed",
+          "passed": true
+        },
+        {
+          "name": "Three participation pathways retained",
+          "passed": true
+        },
+        {
+          "name": "Donation dialog opens without order creation",
+          "passed": true
+        },
+        {
+          "name": "Donation Escape closes and restores focus",
+          "passed": true
+        },
+        {
+          "name": "Carousel next updates persistent CTA",
+          "passed": true
+        },
+        {
+          "name": "Carousel previous returns to first activity",
+          "passed": true
+        },
+        {
+          "name": "Home no browser console errors",
+          "passed": true
+        },
+        {
+          "name": "Home and footer local CTA destinations resolve",
+          "passed": true
+        },
+        {
+          "name": "About no overflow",
+          "passed": true
+        },
+        {
+          "name": "About named controls and image alt attributes",
+          "passed": true
+        },
+        {
+          "name": "Approved About hero and one introduction",
+          "passed": true
+        },
+        {
+          "name": "Three missions and scoped Mùa 5 values preserved",
+          "passed": true
+        },
+        {
+          "name": "About has no duplicate project collection",
+          "passed": true
+        },
+        {
+          "name": "People detail CTA and concise press title",
+          "passed": true
+        },
+        {
+          "name": "About no browser console errors",
+          "passed": true
+        }
+      ],
+      "evidenceProvenance": "Original Batch 1 local verification; application unchanged since implementation checkpoint"
+    },
+    {
+      "name": "mobile",
+      "startedAt": "2026-10-21T03:19:40.183Z",
+      "status": "passed",
+      "passed": 30,
+      "failed": 0,
+      "checks": [
+        {
+          "name": "Home no overflow",
+          "passed": true
+        },
+        {
+          "name": "Product Sans preserved",
+          "passed": true
+        },
+        {
+          "name": "Home named controls and image alt attributes",
+          "passed": true
+        },
+        {
+          "name": "Only Individuals and Businesses statistics",
+          "passed": true
+        },
+        {
+          "name": "Two equally wide horizontal stat cells",
+          "passed": true
+        },
+        {
+          "name": "Existing preview amount/counts unchanged",
+          "passed": true
+        },
+        {
+          "name": "Preview disclaimer retained",
+          "passed": true
+        },
+        {
+          "name": "Coral white CTA and heart preserved",
+          "passed": true
+        },
+        {
+          "name": "Four-color continuous progress preserved",
+          "passed": true
+        },
+        {
+          "name": "300 pupils retained in narrative only",
+          "passed": true
+        },
+        {
+          "name": "Home required section order",
+          "passed": true
+        },
+        {
+          "name": "Approved archive headline and two working detail routes",
+          "passed": true
+        },
+        {
+          "name": "Approved concert and school metrics",
+          "passed": true
+        },
+        {
+          "name": "Redundant archive link and press eyebrow removed",
+          "passed": true
+        },
+        {
+          "name": "Three participation pathways retained",
+          "passed": true
+        },
+        {
+          "name": "Donation dialog opens without order creation",
+          "passed": true
+        },
+        {
+          "name": "Donation Escape closes and restores focus",
+          "passed": true
+        },
+        {
+          "name": "Carousel next updates persistent CTA",
+          "passed": true
+        },
+        {
+          "name": "Carousel previous returns to first activity",
+          "passed": true
+        },
+        {
+          "name": "Mobile menu opens",
+          "passed": true
+        },
+        {
+          "name": "Mobile Escape closes and restores focus",
+          "passed": true
+        },
+        {
+          "name": "Home no browser console errors",
+          "passed": true
+        },
+        {
+          "name": "Home and footer local CTA destinations resolve",
+          "passed": true
+        },
+        {
+          "name": "About no overflow",
+          "passed": true
+        },
+        {
+          "name": "About named controls and image alt attributes",
+          "passed": true
+        },
+        {
+          "name": "Approved About hero and one introduction",
+          "passed": true
+        },
+        {
+          "name": "Three missions and scoped Mùa 5 values preserved",
+          "passed": true
+        },
+        {
+          "name": "About has no duplicate project collection",
+          "passed": true
+        },
+        {
+          "name": "People detail CTA and concise press title",
+          "passed": true
+        },
+        {
+          "name": "About no browser console errors",
+          "passed": true
+        }
+      ],
+      "evidenceProvenance": "Original Batch 1 local verification; application unchanged since implementation checkpoint"
+    },
+    {
+      "name": "tablet",
+      "startedAt": "2026-10-21T03:27:10.122Z",
+      "status": "passed",
+      "passed": 24,
+      "failed": 0,
+      "checks": [
+        {
+          "name": "Home no overflow",
+          "passed": true
+        },
+        {
+          "name": "Product Sans preserved",
+          "passed": true
+        },
+        {
+          "name": "Home named controls and image alt attributes",
+          "passed": true
+        },
+        {
+          "name": "Only Individuals and Businesses statistics",
+          "passed": true
+        },
+        {
+          "name": "Two equally wide horizontal stat cells",
+          "passed": true
+        },
+        {
+          "name": "Existing preview amount/counts unchanged",
+          "passed": true
+        },
+        {
+          "name": "Preview disclaimer retained",
+          "passed": true
+        },
+        {
+          "name": "Coral white CTA and heart preserved",
+          "passed": true
+        },
+        {
+          "name": "Four-color continuous progress preserved",
+          "passed": true
+        },
+        {
+          "name": "300 pupils retained in narrative only",
+          "passed": true
+        },
+        {
+          "name": "Home required section order",
+          "passed": true
+        },
+        {
+          "name": "Approved archive headline and two working detail routes",
+          "passed": true
+        },
+        {
+          "name": "Approved concert and school metrics",
+          "passed": true
+        },
+        {
+          "name": "Redundant archive link and press eyebrow removed",
+          "passed": true
+        },
+        {
+          "name": "Three participation pathways retained",
+          "passed": true
+        },
+        {
+          "name": "Home no browser console errors",
+          "passed": true
+        },
+        {
+          "name": "Home and footer local CTA destinations resolve",
+          "passed": true
+        },
+        {
+          "name": "About no overflow",
+          "passed": true
+        },
+        {
+          "name": "About named controls and image alt attributes",
+          "passed": true
+        },
+        {
+          "name": "Approved About hero and one introduction",
+          "passed": true
+        },
+        {
+          "name": "Three missions and scoped Mùa 5 values preserved",
+          "passed": true
+        },
+        {
+          "name": "About has no duplicate project collection",
+          "passed": true
+        },
+        {
+          "name": "People detail CTA and concise press title",
+          "passed": true
+        },
+        {
+          "name": "About no browser console errors",
+          "passed": true
+        }
+      ],
+      "evidenceProvenance": "Original Batch 1 local verification; application unchanged since implementation checkpoint"
+    },
+    {
+      "name": "narrow",
+      "startedAt": "2026-10-21T03:28:24.124Z",
+      "status": "passed",
+      "passed": 24,
+      "failed": 0,
+      "checks": [
+        {
+          "name": "Home no overflow",
+          "passed": true
+        },
+        {
+          "name": "Product Sans preserved",
+          "passed": true
+        },
+        {
+          "name": "Home named controls and image alt attributes",
+          "passed": true
+        },
+        {
+          "name": "Only Individuals and Businesses statistics",
+          "passed": true
+        },
+        {
+          "name": "Two equally wide horizontal stat cells",
+          "passed": true
+        },
+        {
+          "name": "Existing preview amount/counts unchanged",
+          "passed": true
+        },
+        {
+          "name": "Preview disclaimer retained",
+          "passed": true
+        },
+        {
+          "name": "Coral white CTA and heart preserved",
+          "passed": true
+        },
+        {
+          "name": "Four-color continuous progress preserved",
+          "passed": true
+        },
+        {
+          "name": "300 pupils retained in narrative only",
+          "passed": true
+        },
+        {
+          "name": "Home required section order",
+          "passed": true
+        },
+        {
+          "name": "Approved archive headline and two working detail routes",
+          "passed": true
+        },
+        {
+          "name": "Approved concert and school metrics",
+          "passed": true
+        },
+        {
+          "name": "Redundant archive link and press eyebrow removed",
+          "passed": true
+        },
+        {
+          "name": "Three participation pathways retained",
+          "passed": true
+        },
+        {
+          "name": "Home no browser console errors",
+          "passed": true
+        },
+        {
+          "name": "Home and footer local CTA destinations resolve",
+          "passed": true
+        },
+        {
+          "name": "About no overflow",
+          "passed": true
+        },
+        {
+          "name": "About named controls and image alt attributes",
+          "passed": true
+        },
+        {
+          "name": "Approved About hero and one introduction",
+          "passed": true
+        },
+        {
+          "name": "Three missions and scoped Mùa 5 values preserved",
+          "passed": true
+        },
+        {
+          "name": "About has no duplicate project collection",
+          "passed": true
+        },
+        {
+          "name": "People detail CTA and concise press title",
+          "passed": true
+        },
+        {
+          "name": "About no browser console errors",
+          "passed": true
+        }
+      ],
+      "evidenceProvenance": "Original Batch 1 local verification; application unchanged since implementation checkpoint"
+    },
+    {
+      "name": "motion",
+      "startedAt": "2026-10-21T03:32:20.611Z",
+      "status": "passed",
+      "passed": 6,
+      "failed": 0,
+      "checks": [
+        {
+          "name": "Natural Intro/Hero completes",
+          "passed": true
+        },
+        {
+          "name": "Existing GSAP 3.13.0 runtime",
+          "passed": true
+        },
+        {
+          "name": "Have fun reaches activities",
+          "passed": true
+        },
+        {
+          "name": "Wave handoff start/completion events",
+          "passed": true
+        },
+        {
+          "name": "Carousel naturally advances after handoff",
+          "passed": true
+        },
+        {
+          "name": "Natural playback no browser console errors",
+          "passed": true
+        }
+      ],
+      "evidenceProvenance": "Original Batch 1 local verification; application unchanged since implementation checkpoint"
+    },
+    {
+      "name": "smoke",
+      "startedAt": "2026-10-21T03:32:57.210Z",
+      "status": "passed",
+      "passed": 12,
+      "failed": 0,
+      "checks": [
+        {
+          "name": "/v2/du-an/#da-hoan-thanh no overflow",
+          "passed": true
+        },
+        {
+          "name": "/v2/du-an/#da-hoan-thanh no browser console errors",
+          "passed": true
+        },
+        {
+          "name": "/v2/du-an/vet-nut/ no overflow",
+          "passed": true
+        },
+        {
+          "name": "/v2/du-an/vet-nut/ no browser console errors",
+          "passed": true
+        },
+        {
+          "name": "/v2/du-an/go-ngai/ no overflow",
+          "passed": true
+        },
+        {
+          "name": "/v2/du-an/go-ngai/ no browser console errors",
+          "passed": true
+        },
+        {
+          "name": "/v2/dong-hanh/#doanh-nghiep no overflow",
+          "passed": true
+        },
+        {
+          "name": "/v2/dong-hanh/#doanh-nghiep no browser console errors",
+          "passed": true
+        },
+        {
+          "name": "/v2/tinh-nguyen-vien/ no overflow",
+          "passed": true
+        },
+        {
+          "name": "/v2/tinh-nguyen-vien/ no browser console errors",
+          "passed": true
+        },
+        {
+          "name": "/v2/team/phan-ban/ no overflow",
+          "passed": true
+        },
+        {
+          "name": "/v2/team/phan-ban/ no browser console errors",
+          "passed": true
+        }
+      ],
+      "evidenceProvenance": "Original Batch 1 local verification; application unchanged since implementation checkpoint"
+    },
+    {
+      "name": "preservation",
+      "startedAt": "2026-10-21T03:48:50.984Z",
+      "status": "passed",
+      "passed": 25,
+      "failed": 0,
+      "checks": [
+        {
+          "name": "62 protected files byte-identical",
+          "passed": true
+        },
+        {
+          "name": "Exact Intro/Hero subtree preserved",
+          "passed": true
+        },
+        {
+          "name": "v2/chrome.js unchanged",
+          "passed": true
+        },
+        {
+          "name": "v2/site.js unchanged",
+          "passed": true
+        },
+        {
+          "name": "v2/fundraising-progress.mjs unchanged",
+          "passed": true
+        },
+        {
+          "name": "season facts/contracts unchanged",
+          "passed": true
+        },
+        {
+          "name": "homepageFundraisingPreview facts/contracts unchanged",
+          "passed": true
+        },
+        {
+          "name": "activities facts/contracts unchanged",
+          "passed": true
+        },
+        {
+          "name": "impact facts/contracts unchanged",
+          "passed": true
+        },
+        {
+          "name": "media facts/contracts unchanged",
+          "passed": true
+        },
+        {
+          "name": "pressLogos facts/contracts unchanged",
+          "passed": true
+        },
+        {
+          "name": "journey facts/contracts unchanged",
+          "passed": true
+        },
+        {
+          "name": "tiers facts/contracts unchanged",
+          "passed": true
+        },
+        {
+          "name": "contacts facts/contracts unchanged",
+          "passed": true
+        },
+        {
+          "name": "socials facts/contracts unchanged",
+          "passed": true
+        },
+        {
+          "name": "recruitment facts/contracts unchanged",
+          "passed": true
+        },
+        {
+          "name": "departments facts/contracts unchanged",
+          "passed": true
+        },
+        {
+          "name": "Activity markup unchanged",
+          "passed": true
+        },
+        {
+          "name": "Press-strip markup unchanged",
+          "passed": true
+        },
+        {
+          "name": "About photo/mission/stats/people markup unchanged",
+          "passed": true
+        },
+        {
+          "name": "Individual/business/volunteer templates unchanged",
+          "passed": true
+        },
+        {
+          "name": "Only CSS delta is scoped three-to-two stat columns",
+          "passed": true
+        },
+        {
+          "name": "Builder changes cache revision only",
+          "passed": true
+        },
+        {
+          "name": "All 21 pre-existing untracked files retained",
+          "passed": true
+        },
+        {
+          "name": "No unrelated original tracked files modified",
+          "passed": true
+        }
+      ],
+      "protectedFileCount": 62,
+      "preexistingUntrackedFileCount": 21,
+      "evidenceProvenance": "Rechecked during review packaging; no application edits"
+    },
+    {
+      "name": "handoff-states",
+      "startedAt": "2026-10-21T03:56:02.160Z",
+      "status": "passed",
+      "passed": 5,
+      "failed": 0,
+      "checks": [
+        {
+          "name": "Desktop donation dialog open without transaction",
+          "passed": true
+        },
+        {
+          "name": "Donation dialog closes without submission",
+          "passed": true
+        },
+        {
+          "name": "Mobile menu expanded",
+          "passed": true
+        },
+        {
+          "name": "Mobile menu Escape closes",
+          "passed": true
+        },
+        {
+          "name": "Interactive handoff evidence no browser console errors",
+          "passed": true
+        }
+      ],
+      "evidenceProvenance": "Rechecked during review packaging; no application edits"
+    }
+  ],
+  "noRealPaymentOrSubmission": true,
+  "limitations": [
+    "Windows headless Edge; no physical-device/Safari/Firefox verification",
+    "Home prototype fundraising values remain explicitly provisional",
+    "Original QA helper requires existing local Playwright MCP setup; this package contains portable results, not a new browser installation"
+  ]
+}

@@ -1,0 +1,4 @@
+GSAP 3.13.0
+Standard 'no charge' license: https://gsap.com/standard-license.
+https://gsap.com/standard-license
+Original copyright headers are retained in both distribution files.

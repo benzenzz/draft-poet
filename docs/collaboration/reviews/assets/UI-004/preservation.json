@@ -1,0 +1,94 @@
+{
+  "base": "b7a44ede1545e5ccb2f8080fad85ecc6e4ac4ec3",
+  "checks": [
+    {
+      "name": "Expected Codex branch and UI-002 ancestor",
+      "passed": true
+    },
+    {
+      "name": "23 existing untracked files byte-identical",
+      "passed": true
+    },
+    {
+      "name": "61 original protected files byte-identical",
+      "passed": true
+    },
+    {
+      "name": "Exact Intro / Hero / board / handoff fragment preserved",
+      "passed": true
+    },
+    {
+      "name": "v2/activity-carousel.js unchanged from UI-002",
+      "passed": true
+    },
+    {
+      "name": "v2/press-strip.js unchanged from UI-002",
+      "passed": true
+    },
+    {
+      "name": "v2/fundraising-progress.mjs unchanged from UI-002",
+      "passed": true
+    },
+    {
+      "name": "v2/fundraising-reveal.mjs unchanged from UI-002",
+      "passed": true
+    },
+    {
+      "name": "v2/data/content.mjs unchanged from UI-002",
+      "passed": true
+    },
+    {
+      "name": "v2/data/site-data.js unchanged from UI-002",
+      "passed": true
+    },
+    {
+      "name": "assets/css/typography.css unchanged from UI-002",
+      "passed": true
+    },
+    {
+      "name": "People / About markup preserved",
+      "passed": true
+    },
+    {
+      "name": "Archive markup / geometry preserved",
+      "passed": true
+    },
+    {
+      "name": "About / Projects participation copy preserved",
+      "passed": true
+    },
+    {
+      "name": "Original Home fundraising data and markup preserved",
+      "passed": true
+    },
+    {
+      "name": "Activity template and motion markup preserved",
+      "passed": true
+    },
+    {
+      "name": "Existing archive/media CSS declarations untouched",
+      "passed": true
+    },
+    {
+      "name": "Seven other generated routes only refresh editorial cache revisions",
+      "passed": true
+    },
+    {
+      "name": "All 39 payment / Worker / admin / deployment files unchanged",
+      "passed": true
+    },
+    {
+      "name": "site.js only adds isolated local fixture initialization",
+      "passed": true
+    },
+    {
+      "name": "Footer photo matches verified source hash",
+      "passed": true
+    },
+    {
+      "name": "Git diff whitespace",
+      "passed": true
+    }
+  ],
+  "status": "passed"
+}

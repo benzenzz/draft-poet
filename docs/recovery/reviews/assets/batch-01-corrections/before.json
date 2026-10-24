@@ -1,0 +1,879 @@
+{
+  "phase": "before",
+  "startedAt": "2026-10-21T04:48:40.341Z",
+  "checks": [],
+  "viewports": [
+    {
+      "width": 1440,
+      "height": 900,
+      "states": [
+        {
+          "action": "Home",
+          "clientWidth": 1282,
+          "scrollWidth": 1508,
+          "scrollLeft": 4,
+          "max": 226,
+          "cards": [
+            {
+              "width": 483.96875,
+              "start": 4
+            },
+            {
+              "width": 483.96875,
+              "start": 511.96875
+            },
+            {
+              "width": 483.96875,
+              "start": 1019.9375
+            }
+          ],
+          "indicator": "1 / 3",
+          "live": "polite",
+          "atomic": null,
+          "prevDisabled": false,
+          "nextDisabled": false
+        },
+        {
+          "action": "Next",
+          "clientWidth": 1282,
+          "scrollWidth": 1508,
+          "scrollLeft": 226,
+          "max": 226,
+          "cards": [
+            {
+              "width": 483.96875,
+              "start": 4
+            },
+            {
+              "width": 483.96875,
+              "start": 511.96875
+            },
+            {
+              "width": 483.96875,
+              "start": 1019.9375
+            }
+          ],
+          "indicator": "1 / 3",
+          "live": "polite",
+          "atomic": null,
+          "prevDisabled": false,
+          "nextDisabled": true
+        },
+        {
+          "action": "End",
+          "clientWidth": 1282,
+          "scrollWidth": 1508,
+          "scrollLeft": 226,
+          "max": 226,
+          "cards": [
+            {
+              "width": 483.96875,
+              "start": 4
+            },
+            {
+              "width": 483.96875,
+              "start": 511.96875
+            },
+            {
+              "width": 483.96875,
+              "start": 1019.9375
+            }
+          ],
+          "indicator": "1 / 3",
+          "live": "polite",
+          "atomic": null,
+          "prevDisabled": false,
+          "nextDisabled": true
+        },
+        {
+          "action": "ArrowLeft",
+          "clientWidth": 1282,
+          "scrollWidth": 1508,
+          "scrollLeft": 4,
+          "max": 226,
+          "cards": [
+            {
+              "width": 483.96875,
+              "start": 4
+            },
+            {
+              "width": 483.96875,
+              "start": 511.96875
+            },
+            {
+              "width": 483.96875,
+              "start": 1019.9375
+            }
+          ],
+          "indicator": "1 / 3",
+          "live": "polite",
+          "atomic": null,
+          "prevDisabled": false,
+          "nextDisabled": false
+        },
+        {
+          "action": "Home again",
+          "clientWidth": 1282,
+          "scrollWidth": 1508,
+          "scrollLeft": 4,
+          "max": 226,
+          "cards": [
+            {
+              "width": 483.96875,
+              "start": 4
+            },
+            {
+              "width": 483.96875,
+              "start": 511.96875
+            },
+            {
+              "width": 483.96875,
+              "start": 1019.9375
+            }
+          ],
+          "indicator": "1 / 3",
+          "live": "polite",
+          "atomic": null,
+          "prevDisabled": false,
+          "nextDisabled": false
+        },
+        {
+          "action": "ArrowRight",
+          "clientWidth": 1282,
+          "scrollWidth": 1508,
+          "scrollLeft": 226,
+          "max": 226,
+          "cards": [
+            {
+              "width": 483.96875,
+              "start": 4
+            },
+            {
+              "width": 483.96875,
+              "start": 511.96875
+            },
+            {
+              "width": 483.96875,
+              "start": 1019.9375
+            }
+          ],
+          "indicator": "1 / 3",
+          "live": "polite",
+          "atomic": null,
+          "prevDisabled": false,
+          "nextDisabled": true
+        }
+      ],
+      "heading": {
+        "text": "Doanh nghiệp đồng hành",
+        "cta": "Đồng hành & tài trợ ↗",
+        "href": "../dong-hanh/#doanh-nghiep",
+        "headingBox": {
+          "x": 550.0625,
+          "y": 445.234375,
+          "width": 339.875,
+          "height": 28.046875,
+          "top": 445.234375,
+          "right": 889.9375,
+          "bottom": 473.28125,
+          "left": 550.0625
+        },
+        "cardBox": {
+          "x": 525.0625,
+          "y": 420.234375,
+          "width": 389.875,
+          "height": 270,
+          "top": 420.234375,
+          "right": 914.9375,
+          "bottom": 690.234375,
+          "left": 525.0625
+        },
+        "lines": [
+          {
+            "x": 550.0625,
+            "y": 443.234375,
+            "width": 248.484375,
+            "height": 31
+          }
+        ],
+        "clipped": true,
+        "overflow": false,
+        "font": "\"Product Sans\", sans-serif"
+      }
+    },
+    {
+      "width": 768,
+      "height": 1024,
+      "states": [
+        {
+          "action": "Home",
+          "clientWidth": 696,
+          "scrollWidth": 985,
+          "scrollLeft": 4,
+          "max": 289,
+          "cards": [
+            {
+              "width": 309.59375,
+              "start": 4
+            },
+            {
+              "width": 309.59375,
+              "start": 337.59375
+            },
+            {
+              "width": 309.59375,
+              "start": 671.1875
+            }
+          ],
+          "indicator": "1 / 3",
+          "live": "polite",
+          "atomic": null,
+          "prevDisabled": false,
+          "nextDisabled": false
+        },
+        {
+          "action": "Next",
+          "clientWidth": 696,
+          "scrollWidth": 985,
+          "scrollLeft": 289,
+          "max": 289,
+          "cards": [
+            {
+              "width": 309.59375,
+              "start": 4
+            },
+            {
+              "width": 309.59375,
+              "start": 337.59375
+            },
+            {
+              "width": 309.59375,
+              "start": 671.1875
+            }
+          ],
+          "indicator": "2 / 3",
+          "live": "polite",
+          "atomic": null,
+          "prevDisabled": false,
+          "nextDisabled": true
+        },
+        {
+          "action": "End",
+          "clientWidth": 696,
+          "scrollWidth": 985,
+          "scrollLeft": 289,
+          "max": 289,
+          "cards": [
+            {
+              "width": 309.59375,
+              "start": 4
+            },
+            {
+              "width": 309.59375,
+              "start": 337.59375
+            },
+            {
+              "width": 309.59375,
+              "start": 671.1875
+            }
+          ],
+          "indicator": "2 / 3",
+          "live": "polite",
+          "atomic": null,
+          "prevDisabled": false,
+          "nextDisabled": true
+        },
+        {
+          "action": "ArrowLeft",
+          "clientWidth": 696,
+          "scrollWidth": 985,
+          "scrollLeft": 4,
+          "max": 289,
+          "cards": [
+            {
+              "width": 309.59375,
+              "start": 4
+            },
+            {
+              "width": 309.59375,
+              "start": 337.59375
+            },
+            {
+              "width": 309.59375,
+              "start": 671.1875
+            }
+          ],
+          "indicator": "1 / 3",
+          "live": "polite",
+          "atomic": null,
+          "prevDisabled": false,
+          "nextDisabled": false
+        },
+        {
+          "action": "Home again",
+          "clientWidth": 696,
+          "scrollWidth": 985,
+          "scrollLeft": 4,
+          "max": 289,
+          "cards": [
+            {
+              "width": 309.59375,
+              "start": 4
+            },
+            {
+              "width": 309.59375,
+              "start": 337.59375
+            },
+            {
+              "width": 309.59375,
+              "start": 671.1875
+            }
+          ],
+          "indicator": "1 / 3",
+          "live": "polite",
+          "atomic": null,
+          "prevDisabled": false,
+          "nextDisabled": false
+        },
+        {
+          "action": "ArrowRight",
+          "clientWidth": 696,
+          "scrollWidth": 985,
+          "scrollLeft": 289,
+          "max": 289,
+          "cards": [
+            {
+              "width": 309.59375,
+              "start": 4
+            },
+            {
+              "width": 309.59375,
+              "start": 337.59375
+            },
+            {
+              "width": 309.59375,
+              "start": 671.1875
+            }
+          ],
+          "indicator": "2 / 3",
+          "live": "polite",
+          "atomic": null,
+          "prevDisabled": false,
+          "nextDisabled": true
+        }
+      ],
+      "heading": {
+        "text": "Doanh nghiệp đồng hành",
+        "cta": "Đồng hành & tài trợ ↗",
+        "href": "../dong-hanh/#doanh-nghiep",
+        "headingBox": {
+          "x": 301,
+          "y": 391.5,
+          "width": 166,
+          "height": 56.09375,
+          "top": 391.5,
+          "right": 467,
+          "bottom": 447.59375,
+          "left": 301
+        },
+        "cardBox": {
+          "x": 280,
+          "y": 370.5,
+          "width": 208,
+          "height": 310,
+          "top": 370.5,
+          "right": 488,
+          "bottom": 680.5,
+          "left": 280
+        },
+        "lines": [
+          {
+            "x": 301,
+            "y": 389.5,
+            "width": 138.671875,
+            "height": 31
+          },
+          {
+            "x": 301,
+            "y": 417.546875,
+            "width": 105.328125,
+            "height": 31
+          }
+        ],
+        "clipped": true,
+        "overflow": false,
+        "font": "\"Product Sans\", sans-serif"
+      }
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "states": [
+        {
+          "action": "Home",
+          "clientWidth": 346,
+          "scrollWidth": 940,
+          "scrollLeft": 4,
+          "max": 594,
+          "cards": [
+            {
+              "width": 297.4375,
+              "start": 4
+            },
+            {
+              "width": 297.4375,
+              "start": 321.4375
+            },
+            {
+              "width": 297.4375,
+              "start": 638.875
+            }
+          ],
+          "indicator": "1 / 3",
+          "live": "polite",
+          "atomic": null,
+          "prevDisabled": false,
+          "nextDisabled": false
+        },
+        {
+          "action": "Next",
+          "clientWidth": 346,
+          "scrollWidth": 940,
+          "scrollLeft": 321,
+          "max": 594,
+          "cards": [
+            {
+              "width": 297.4375,
+              "start": 4
+            },
+            {
+              "width": 297.4375,
+              "start": 321.4375
+            },
+            {
+              "width": 297.4375,
+              "start": 638.875
+            }
+          ],
+          "indicator": "2 / 3",
+          "live": "polite",
+          "atomic": null,
+          "prevDisabled": false,
+          "nextDisabled": false
+        },
+        {
+          "action": "Next",
+          "clientWidth": 346,
+          "scrollWidth": 940,
+          "scrollLeft": 594,
+          "max": 594,
+          "cards": [
+            {
+              "width": 297.4375,
+              "start": 4
+            },
+            {
+              "width": 297.4375,
+              "start": 321.4375
+            },
+            {
+              "width": 297.4375,
+              "start": 638.875
+            }
+          ],
+          "indicator": "3 / 3",
+          "live": "polite",
+          "atomic": null,
+          "prevDisabled": false,
+          "nextDisabled": true
+        },
+        {
+          "action": "End",
+          "clientWidth": 346,
+          "scrollWidth": 940,
+          "scrollLeft": 594,
+          "max": 594,
+          "cards": [
+            {
+              "width": 297.4375,
+              "start": 4
+            },
+            {
+              "width": 297.4375,
+              "start": 321.4375
+            },
+            {
+              "width": 297.4375,
+              "start": 638.875
+            }
+          ],
+          "indicator": "3 / 3",
+          "live": "polite",
+          "atomic": null,
+          "prevDisabled": false,
+          "nextDisabled": true
+        },
+        {
+          "action": "ArrowLeft",
+          "clientWidth": 346,
+          "scrollWidth": 940,
+          "scrollLeft": 321,
+          "max": 594,
+          "cards": [
+            {
+              "width": 297.4375,
+              "start": 4
+            },
+            {
+              "width": 297.4375,
+              "start": 321.4375
+            },
+            {
+              "width": 297.4375,
+              "start": 638.875
+            }
+          ],
+          "indicator": "2 / 3",
+          "live": "polite",
+          "atomic": null,
+          "prevDisabled": false,
+          "nextDisabled": false
+        },
+        {
+          "action": "Home again",
+          "clientWidth": 346,
+          "scrollWidth": 940,
+          "scrollLeft": 4,
+          "max": 594,
+          "cards": [
+            {
+              "width": 297.4375,
+              "start": 4
+            },
+            {
+              "width": 297.4375,
+              "start": 321.4375
+            },
+            {
+              "width": 297.4375,
+              "start": 638.875
+            }
+          ],
+          "indicator": "1 / 3",
+          "live": "polite",
+          "atomic": null,
+          "prevDisabled": false,
+          "nextDisabled": false
+        },
+        {
+          "action": "ArrowRight",
+          "clientWidth": 346,
+          "scrollWidth": 940,
+          "scrollLeft": 321,
+          "max": 594,
+          "cards": [
+            {
+              "width": 297.4375,
+              "start": 4
+            },
+            {
+              "width": 297.4375,
+              "start": 321.4375
+            },
+            {
+              "width": 297.4375,
+              "start": 638.875
+            }
+          ],
+          "indicator": "2 / 3",
+          "live": "polite",
+          "atomic": null,
+          "prevDisabled": false,
+          "nextDisabled": false
+        }
+      ],
+      "heading": {
+        "text": "Doanh nghiệp đồng hành",
+        "cta": "Đồng hành & tài trợ ↗",
+        "href": "../dong-hanh/#doanh-nghiep",
+        "headingBox": {
+          "x": 63,
+          "y": 672.1875,
+          "width": 264,
+          "height": 28.046875,
+          "top": 672.1875,
+          "right": 327,
+          "bottom": 700.234375,
+          "left": 63
+        },
+        "cardBox": {
+          "x": 42,
+          "y": 651.1875,
+          "width": 306,
+          "height": 240,
+          "top": 651.1875,
+          "right": 348,
+          "bottom": 891.1875,
+          "left": 42
+        },
+        "lines": [
+          {
+            "x": 63,
+            "y": 670.1875,
+            "width": 248.484375,
+            "height": 31
+          }
+        ],
+        "clipped": true,
+        "overflow": false,
+        "font": "\"Product Sans\", sans-serif"
+      }
+    },
+    {
+      "width": 320,
+      "height": 740,
+      "states": [
+        {
+          "action": "Home",
+          "clientWidth": 276,
+          "scrollWidth": 755,
+          "scrollLeft": 4,
+          "max": 479,
+          "cards": [
+            {
+              "width": 235.828125,
+              "start": 4
+            },
+            {
+              "width": 235.828125,
+              "start": 259.828125
+            },
+            {
+              "width": 235.828125,
+              "start": 515.65625
+            }
+          ],
+          "indicator": "1 / 3",
+          "live": "polite",
+          "atomic": null,
+          "prevDisabled": false,
+          "nextDisabled": false
+        },
+        {
+          "action": "Next",
+          "clientWidth": 276,
+          "scrollWidth": 755,
+          "scrollLeft": 260,
+          "max": 479,
+          "cards": [
+            {
+              "width": 235.828125,
+              "start": 4
+            },
+            {
+              "width": 235.828125,
+              "start": 259.828125
+            },
+            {
+              "width": 235.828125,
+              "start": 515.65625
+            }
+          ],
+          "indicator": "2 / 3",
+          "live": "polite",
+          "atomic": null,
+          "prevDisabled": false,
+          "nextDisabled": false
+        },
+        {
+          "action": "Next",
+          "clientWidth": 276,
+          "scrollWidth": 755,
+          "scrollLeft": 479,
+          "max": 479,
+          "cards": [
+            {
+              "width": 235.828125,
+              "start": 4
+            },
+            {
+              "width": 235.828125,
+              "start": 259.828125
+            },
+            {
+              "width": 235.828125,
+              "start": 515.65625
+            }
+          ],
+          "indicator": "3 / 3",
+          "live": "polite",
+          "atomic": null,
+          "prevDisabled": false,
+          "nextDisabled": true
+        },
+        {
+          "action": "End",
+          "clientWidth": 276,
+          "scrollWidth": 755,
+          "scrollLeft": 479,
+          "max": 479,
+          "cards": [
+            {
+              "width": 235.828125,
+              "start": 4
+            },
+            {
+              "width": 235.828125,
+              "start": 259.828125
+            },
+            {
+              "width": 235.828125,
+              "start": 515.65625
+            }
+          ],
+          "indicator": "3 / 3",
+          "live": "polite",
+          "atomic": null,
+          "prevDisabled": false,
+          "nextDisabled": true
+        },
+        {
+          "action": "ArrowLeft",
+          "clientWidth": 276,
+          "scrollWidth": 755,
+          "scrollLeft": 260,
+          "max": 479,
+          "cards": [
+            {
+              "width": 235.828125,
+              "start": 4
+            },
+            {
+              "width": 235.828125,
+              "start": 259.828125
+            },
+            {
+              "width": 235.828125,
+              "start": 515.65625
+            }
+          ],
+          "indicator": "2 / 3",
+          "live": "polite",
+          "atomic": null,
+          "prevDisabled": false,
+          "nextDisabled": false
+        },
+        {
+          "action": "Home again",
+          "clientWidth": 276,
+          "scrollWidth": 755,
+          "scrollLeft": 4,
+          "max": 479,
+          "cards": [
+            {
+              "width": 235.828125,
+              "start": 4
+            },
+            {
+              "width": 235.828125,
+              "start": 259.828125
+            },
+            {
+              "width": 235.828125,
+              "start": 515.65625
+            }
+          ],
+          "indicator": "1 / 3",
+          "live": "polite",
+          "atomic": null,
+          "prevDisabled": false,
+          "nextDisabled": false
+        },
+        {
+          "action": "ArrowRight",
+          "clientWidth": 276,
+          "scrollWidth": 755,
+          "scrollLeft": 260,
+          "max": 479,
+          "cards": [
+            {
+              "width": 235.828125,
+              "start": 4
+            },
+            {
+              "width": 235.828125,
+              "start": 259.828125
+            },
+            {
+              "width": 235.828125,
+              "start": 515.65625
+            }
+          ],
+          "indicator": "2 / 3",
+          "live": "polite",
+          "atomic": null,
+          "prevDisabled": false,
+          "nextDisabled": false
+        }
+      ],
+      "heading": {
+        "text": "Doanh nghiệp đồng hành",
+        "cta": "Đồng hành & tài trợ ↗",
+        "href": "../dong-hanh/#doanh-nghiep",
+        "headingBox": {
+          "x": 63,
+          "y": 732.0625,
+          "width": 194,
+          "height": 56.09375,
+          "top": 732.0625,
+          "right": 257,
+          "bottom": 788.15625,
+          "left": 63
+        },
+        "cardBox": {
+          "x": 42,
+          "y": 711.0625,
+          "width": 236,
+          "height": 249.46875,
+          "top": 711.0625,
+          "right": 278,
+          "bottom": 960.53125,
+          "left": 42
+        },
+        "lines": [
+          {
+            "x": 63,
+            "y": 730.0625,
+            "width": 138.671875,
+            "height": 31
+          },
+          {
+            "x": 63,
+            "y": 758.109375,
+            "width": 105.328125,
+            "height": 31
+          }
+        ],
+        "clipped": true,
+        "overflow": false,
+        "font": "\"Product Sans\", sans-serif"
+      }
+    }
+  ],
+  "screenshots": [
+    "before-1440-press-start.png",
+    "before-1440-press-end.png",
+    "before-1440-participation.png",
+    "before-768-press-start.png",
+    "before-768-participation.png",
+    "before-390-press-start.png",
+    "before-390-participation.png",
+    "before-320-press-start.png",
+    "before-320-participation.png"
+  ],
+  "server": {
+    "name": "Playwright",
+    "version": "1.64.0-alpha-1790635538000"
+  },
+  "status": "baseline-recorded"
+}

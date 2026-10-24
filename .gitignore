@@ -1,0 +1,47 @@
+.env
+.admin-token
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+!.env.example
+
+# Staging area for source materials (see AGENTS.md); not website assets
+New materials/
+
+# Dependencies and generated local tooling output
+node_modules/
+__pycache__/
+*.py[cod]
+.cache/
+*.log
+dist/
+build/
+coverage/
+tmp/
+temp/
+*.tmp
+*.pem
+*.key
+
+# OS/editor temporary files
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*.swo
+*~
+
+# Additional local secrets; retain deliberately shareable templates
+.env.*
+!.env.example
+
+# Machine-specific agent configuration and bootstrap helper
+/.codex/config.toml
+/.claude/settings.json
+/.claude/settings.local.json
+/.design-tools/trust-project.py
+
+# Reproducible historical visual-QA captures
+/.taste-skill/inspect/

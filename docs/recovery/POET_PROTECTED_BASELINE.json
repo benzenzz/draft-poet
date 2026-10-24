@@ -1,0 +1,300 @@
+{
+  "baseline": "4e65da4444a52ab085f04bc0d5f960c6b4a7e643",
+  "captured": "2026-10-21",
+  "groups": {
+    "scene": [
+      "v2/world.js",
+      "v2/world.css",
+      "v2/tools/board-playground.mjs",
+      "v2/vendor/"
+    ],
+    "approvedMotion": [
+      "v2/activity-carousel.js",
+      "v2/press-strip.js"
+    ],
+    "typography": [
+      "assets/css/typography.css",
+      "v2/fonts/"
+    ],
+    "brandAndMascots": [
+      "assets/brand/",
+      "assets/mascot/"
+    ],
+    "integrations": [
+      "worker/",
+      "ung-ho/",
+      "admin/"
+    ],
+    "staticDelivery": [
+      ".nojekyll",
+      ".github/",
+      "CNAME",
+      "_redirects",
+      "wrangler.toml"
+    ]
+  },
+  "files": [
+    {
+      "file": ".nojekyll",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "admin/admin.js",
+      "sha256": "23e2a86ec669222be85b952bcb05304f21a087a5f922e34f675d0c1a7e1ac36b"
+    },
+    {
+      "file": "admin/index.html",
+      "sha256": "f7349ee1b4f8fa93e405cd95bdb607c246297683e69262e651fa0dc4f85cb9ca"
+    },
+    {
+      "file": "assets/brand/poet-logo.webp",
+      "sha256": "aa6d71cec6a52a4e5eb240ad4f171d7c038e3f080f4881c373436d1669b3aade"
+    },
+    {
+      "file": "assets/brand/poet-primary-intro.webp",
+      "sha256": "899644dcc83d98e7feda25db1decb785c0dbf1a9dd6d3a160ec9549820572420"
+    },
+    {
+      "file": "assets/brand/poet-secondary.png",
+      "sha256": "7643c2082225e10918007b22dfd883f846643cd739e88709fc31285b05bfe4f6"
+    },
+    {
+      "file": "assets/css/typography.css",
+      "sha256": "97497060088af2906038afeac486d66fb0afc8f4b4179688b6d4aabe79b12423"
+    },
+    {
+      "file": "assets/mascot/be-cuc/du-lich.webp",
+      "sha256": "a8afa978e9586ae168ceacb4b485ba29dc11d148cae6590a6892aa2bedb15d44"
+    },
+    {
+      "file": "assets/mascot/be-cuc/enjoy.webp",
+      "sha256": "96003a6e8aea4cc99e1f4bb60be3cde9f865eb6597663a1b7aec73856ee0a6fd"
+    },
+    {
+      "file": "assets/mascot/be-cuc/song-gio.webp",
+      "sha256": "d7d9ddb572af12f4437b4a783d6f9bdb8a91988676bb1e9294bd8d643f7c8da5"
+    },
+    {
+      "file": "assets/mascot/be-cuc/vui-tuoi.webp",
+      "sha256": "70af3bf8a752800b165ad8107fc5fc82560c514a6ec6f6215ee235d5f9819025"
+    },
+    {
+      "file": "assets/mascot/be-mam/stand.webp",
+      "sha256": "3630dc0e0bc38d3b8be5bb67140e1596a3e884c43b316579c6bcec3ef6e7ff86"
+    },
+    {
+      "file": "ung-ho/cancel.html",
+      "sha256": "c3cb5006c5891440302c3c7559caccf3a2ad1dd2720797fa4995ac65e98d2722"
+    },
+    {
+      "file": "ung-ho/card.js",
+      "sha256": "2edf73bf5cd3f31b288d20ac3b7d28dd08a6388292ed82fbe369d8d2ac59923e"
+    },
+    {
+      "file": "ung-ho/checkout.js",
+      "sha256": "51b91083cd7f974f1e43aff7a41de59fc0fb5cfc8c4d9d1ef1aa5a5bc4cf9f61"
+    },
+    {
+      "file": "ung-ho/donate.js",
+      "sha256": "3784d6d49c0bf16338f673453a2017d58b99e4e8f4e57c620d655ee80cfc59f0"
+    },
+    {
+      "file": "ung-ho/index.html",
+      "sha256": "f66b00bbeacb379132290288036911a666a42c2105f7fe265bb9af141f967613"
+    },
+    {
+      "file": "ung-ho/items.js",
+      "sha256": "89c2e3ab4098ca2f4f8dcff3172af0c0d5150c3b3b29bfc39885af22ddad68ee"
+    },
+    {
+      "file": "ung-ho/result.js",
+      "sha256": "3f7d89d8acfe971fb8108db51791f90b57e0f0f6e92c6df2a8f97528cf205839"
+    },
+    {
+      "file": "ung-ho/return.html",
+      "sha256": "615a8449d094914ac33fd211d6ebda182bfe9ad1a4c7962d25aae94d67be08a7"
+    },
+    {
+      "file": "ung-ho/ung-ho.css",
+      "sha256": "6a81dc95d25187f213de290980817264925c3a95e8d33a541100f3b3c2b30374"
+    },
+    {
+      "file": "v2/activity-carousel.js",
+      "sha256": "eda4adc1eb7be370069a4aebf5ae00cd9646ec72217dddc153c81bb27fcd2ca2"
+    },
+    {
+      "file": "v2/fonts/Product Sans Bold Italic.otf",
+      "sha256": "7740d2f952d9f3e1c53554752235214a271b23e63cdcd5018e62f27efdacc5c0"
+    },
+    {
+      "file": "v2/fonts/Product Sans Bold.otf",
+      "sha256": "537bc891e9e4f889314cd26ba2ab0754fd6e240406aeae5f5fb18db19219f6c1"
+    },
+    {
+      "file": "v2/fonts/Product Sans Italic.otf",
+      "sha256": "492ad70ac48841d90ed0afbf868fc8c357444dfaea63dcf2d3e785f1123e1f1e"
+    },
+    {
+      "file": "v2/fonts/Product Sans Regular.otf",
+      "sha256": "252bcd852d84ff04af89e615e36ece925f15ddc042efa4861176e3f745137017"
+    },
+    {
+      "file": "v2/press-strip.js",
+      "sha256": "2ede68612e994123f748a2f67ab904da6ae4b841992f7f1d42cfbc3af30fecbf"
+    },
+    {
+      "file": "v2/tools/board-playground.mjs",
+      "sha256": "e4d320f4ae915f263b27154c40904f027d3ad1cd02be6c4386febbe96b98dbb6"
+    },
+    {
+      "file": "v2/vendor/gsap/MotionPathPlugin.min.js",
+      "sha256": "f984711c76037a734baf4dcaca214b381848bd6965ecd7d71491c57d7407b44f"
+    },
+    {
+      "file": "v2/vendor/gsap/NOTICE.txt",
+      "sha256": "8e10ab94f7ac32a47a562aff8578f20c326487d81f2c6e6a091bbfc5c356af8d"
+    },
+    {
+      "file": "v2/vendor/gsap/README.md",
+      "sha256": "7675b3310fbe9bbed4d904d9f9afc617ae923f0463b30e4a47ae37c6bf9abb93"
+    },
+    {
+      "file": "v2/vendor/gsap/gsap.min.js",
+      "sha256": "96c01b81f44a3290e2b4532f55e2c9534b2adc43273a19f3756b2cb41f0fd0b6"
+    },
+    {
+      "file": "v2/world.css",
+      "sha256": "f40cf9f95d6aea893d2943d7c4982f6e6483617c69ba093d9b8051ed3d6ff971"
+    },
+    {
+      "file": "v2/world.js",
+      "sha256": "07008452dc0979ba12860dbcd5022c40d5cedd817598b2ff76888dbec2d1dc27"
+    },
+    {
+      "file": "worker/PLAN.md",
+      "sha256": "386f3202c1b5abaf12c5a0ce045035a55fd3a37f6dab4515eda2b72fcddf3fc2"
+    },
+    {
+      "file": "worker/migrations/0002_success_amount_index.sql",
+      "sha256": "4dd53ccf1f1b4d854174db71b3f2be663f2102c412faf8f6549fc964b08acc32"
+    },
+    {
+      "file": "worker/migrations/0003_created_at_index.sql",
+      "sha256": "8cf53cfac3460f3ef699ab3d7ead0875905d1ccca4c189cac964ba37ce2fd097"
+    },
+    {
+      "file": "worker/migrations/0004_gift.sql",
+      "sha256": "dce93fbad17105144efe93df29952932bd8d15d9adba3ecba8771a617bdd59b0"
+    },
+    {
+      "file": "worker/schema.sql",
+      "sha256": "c779ece32cb726ce54557d91c861cece03f60cdeee8012d024d7da10ad9448ca"
+    },
+    {
+      "file": "worker/src/auth.js",
+      "sha256": "daf4a8ee372bd43b7f70881b8afa4cc3165ff2fccf97c0334782ed44817b367f"
+    },
+    {
+      "file": "worker/src/callback-urls.js",
+      "sha256": "baee421ad87858be0f730ea278dfdc188a89e80815380f0fa8e25797c05e7ac9"
+    },
+    {
+      "file": "worker/src/config.js",
+      "sha256": "a54cd1858de62adbf308f2d8e5c333bb0d22c33b453cdd936ce382f576035b9d"
+    },
+    {
+      "file": "worker/src/crypto.js",
+      "sha256": "5d708680e860f1747e61165dc360fe149ecab206cce30b78f7b66a8869a032de"
+    },
+    {
+      "file": "worker/src/gifts.js",
+      "sha256": "ea3d114df1218b3fc8319b4efeb5947bdd24eff6b2f845fc6ffd9b6af913efe5"
+    },
+    {
+      "file": "worker/src/http.js",
+      "sha256": "787e864ef390407dbfb96fc74171e98fca2479f4fd4dccd7530263b1232e1244"
+    },
+    {
+      "file": "worker/src/index.js",
+      "sha256": "ad8f14e7c78feeb3f9baa2d621dba3275da1db664eeba2a6335ec84594ad21e8"
+    },
+    {
+      "file": "worker/src/mask.js",
+      "sha256": "6a4ac605fdbb7c05497e5cdfa4a52b6e9ca894444db8322e463ec8e82eab92d5"
+    },
+    {
+      "file": "worker/src/payos.js",
+      "sha256": "e406e0ef7761e49f00323794f7facc265deb47ce2fdc95d81f2cfa74a4710745"
+    },
+    {
+      "file": "worker/src/routes-admin.js",
+      "sha256": "96f5b20b61dbcd072574f5c55cca17698f89db295acdaee5d7312518512451b5"
+    },
+    {
+      "file": "worker/src/routes-donations.js",
+      "sha256": "d058078bfe42fd94487f95d3d4b66b7f4a8789d2e6600fdc1b6030ef4e1ce4d1"
+    },
+    {
+      "file": "worker/src/routes-pages.js",
+      "sha256": "7bdfafa26cb2ee6887987894056e5637e4ea41935645bec09d5a12d291af2643"
+    },
+    {
+      "file": "worker/src/routes-webhook.js",
+      "sha256": "e824d0428d708b2e3a104469441ca44d79b61cb69fe5d28d15af454c2416a833"
+    },
+    {
+      "file": "worker/src/store.js",
+      "sha256": "aa903f70be80773aedebec872be83e5bc620a3bc822a9652587b03a7fe163d98"
+    },
+    {
+      "file": "worker/src/validation.js",
+      "sha256": "d943f6d0e82275f15719b32471c7f53991d762b0d5a9739e3c7ac3a1e9cee013"
+    },
+    {
+      "file": "worker/test/cors.test.mjs",
+      "sha256": "144cb54a5557f377ea230d13058580ebf8307baa0885394c7a0d4376d54f3757"
+    },
+    {
+      "file": "worker/test/gift.test.mjs",
+      "sha256": "4ddfc28e9fa62f4dbda605c0fe1baed40d9ca822321e56b5e05e1e98f9cb898d"
+    },
+    {
+      "file": "worker/test/mask.test.mjs",
+      "sha256": "8fd02268a80126c5b52856acbe91d7f29527493e7636d17ed5c188fb0d3beafb"
+    },
+    {
+      "file": "worker/test/return-url.test.mjs",
+      "sha256": "617b9e08edcc7353162f7bdc58816faa9034b832c963a37902f4c87b8268fd85"
+    },
+    {
+      "file": "worker/test/signature.test.mjs",
+      "sha256": "ba81b60500b721dfab3841371614d1baf525045151560f8c1831dca47c2b09a8"
+    },
+    {
+      "file": "worker/test/sort-hidden.test.mjs",
+      "sha256": "67c02d7f1a9036aa80398be5d1bff0ee24a42d1f612f774fda886716f30cf2d9"
+    },
+    {
+      "file": "worker/test/webhook-late.test.mjs",
+      "sha256": "9fe986bacb3d5c621e1ade7d55476a3adc3ec3ee6b37bc38941e51fb180b3233"
+    },
+    {
+      "file": "worker/wrangler.toml",
+      "sha256": "ed6a085b17cdee188ed0bca5484dcffe637c4e795ab70efaa79507f5c95be87c"
+    }
+  ],
+  "fragments": [
+    {
+      "file": "v2/index.html",
+      "startMarker": "<div class=\"hero-wrap world-wrap",
+      "endMarker": "<poet-nav class=\"site-home-nav",
+      "length": 110888,
+      "sha256": "4e6d85c874a4a4efb66d5d3b50b1dc4ec90980c35ea331beeeefc1d43823fccd"
+    }
+  ],
+  "notes": [
+    "Phase 0 hash snapshot, not a test of runtime behavior.",
+    "Brand tokens/wordmark/CTA/typography loading in shared editable files also require scoped diff checks.",
+    "Full initial inventory remains in audit-work/recovery-phase0/repository-baseline.json."
+  ]
+}
