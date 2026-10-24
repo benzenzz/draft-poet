@@ -19,13 +19,13 @@ m-wi{display:inline-block}
 .m-story .story-frame[data-m-state=above]::after{opacity:.28}
 .m-story .story-frame img{transform:scale(1.12)}
 .m-story .story-frame[data-m-state=on] img{transform:none}
-.m-story .story-frame[data-m-state=above] img{transform:translateY(-4%) scale(1.1)}
+.m-story .story-frame[data-m-state=above] img{transform:translateY(-6%) scale(1.04)}
 .m-full .m-story .story-frame{transition:clip-path 1100ms var(--ease-move)!important}
 .m-full .m-story .story-frame::after{transition:opacity 1100ms var(--ease-move)!important}
 .m-full .m-story .story-frame img{transition:transform 1600ms var(--ease-enter)!important}
 .m-full .m-story .story-frame[data-m-state=above] img{transition:transform 1100ms var(--ease-move)!important}
 /* Reduced motion: no wipe and no zoom, the photos simply crossfade. */
-.m-reduced .m-story .story-frame{clip-path:none;opacity:0;transition:opacity 300ms ease}
+.m-reduced .m-story .story-frame{clip-path:none;opacity:0;transition:opacity 300ms ease!important}
 .m-reduced .m-story .story-frame[data-m-state=on]{opacity:1}
 .m-reduced .m-story .story-frame::after{display:none}
 .m-reduced .m-story .story-frame img{transform:none}

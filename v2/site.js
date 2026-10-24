@@ -1,6 +1,6 @@
 import '../ung-ho/checkout.js';
 import {initLocalFundraisingPreview} from './fundraising-preview.mjs';
-import {initFundraisingProgress} from './fundraising-progress.mjs?v=home-005-2';
+import {initFundraisingProgress} from './fundraising-progress.mjs?v=home-005-3';
 initLocalFundraisingPreview();
 initFundraisingProgress();
 const base=new URL('.',import.meta.url),root=document.documentElement;
