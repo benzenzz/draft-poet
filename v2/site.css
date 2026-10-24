@@ -2014,3 +2014,13 @@ button.v-card{width:100%;padding:0;border:0;font:inherit;cursor:pointer}
 }
 @media(prefers-reduced-motion:reduce){.blog-card-cover,.blog-card-cover img{transition:none}.blog-card:hover .blog-card-cover img{transform:none}}
 .blog-card-meta{margin-top:auto;padding-top:12px}
+/* fb-21: donation dialog in the light pink of the navbar "Ủng hộ ngay" button. */
+.donate-aside{background:#fdecea}
+.donate-aside .eyebrow,.donate-aside p{color:#7a3f36}
+.donate-form input:not([type=checkbox]),.donate-form textarea{border-color:#e6c3bd}
+.donate-form input:not([type=checkbox]):focus,.donate-form textarea:focus{outline:none;border-color:var(--coral);box-shadow:0 0 0 3px #fbd3cc}
+.amount-chips button{border-color:#e6c3bd}
+.amount-chips button[aria-pressed=true]{background:#fdecea;border-color:var(--coral);color:var(--coral-ink);font-weight:var(--font-weight-bold)}
+.check-label input{accent-color:var(--coral-deep)}
+.donate-form .btn{background:var(--coral);border-color:var(--coral);color:#fff!important}
+@media(hover:hover) and (pointer:fine){.donate-form .btn:hover:not(:disabled){background:var(--coral-hover);border-color:var(--coral-hover)}}
