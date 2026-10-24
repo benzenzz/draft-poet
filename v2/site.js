@@ -48,7 +48,7 @@ function revealHash(scroll=false){
 revealHash(Boolean(location.hash));addEventListener('hashchange',()=>revealHash(true));
 document.querySelectorAll('.story-card a[href^="#"]').forEach(a=>a.addEventListener('click',()=>{const detail=byId(a.hash.slice(1));if(detail instanceof HTMLDetailsElement)detail.open=true;}));
 
-import './activity-carousel.js?v=home-005-4';
+import './activity-carousel.js?v=home-005-5';
 import './press-strip.js?v=poet-v3-1';
 
 // Reveal once, with readable fallback; no global animation loop.

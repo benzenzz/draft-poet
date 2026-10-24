@@ -68,7 +68,7 @@ export const season = {
   raised: null, individuals: null, businesses: null,
   budgetIntro: {
     title: 'Ngân sách<br>gây quỹ Mùa 6',
-    lead: 'Mỗi khoản dưới đây được tính từ khảo sát nhu cầu thực tế tại điểm trường Ea Kiết. POET công khai từng khoản để mọi người và nhà tài trợ cùng theo dõi.'
+    lead: 'Mỗi khoản dưới đây được tính từ khảo sát nhu cầu thực tế tại điểm trường Ea Kiết. POET công khai từng khoản để mọi người và nhà&nbsp;tài&nbsp;trợ cùng theo dõi.'
   },
   // Thành tiền = qty × price. Tổng phải bằng targetAmount (build-site kiểm tra).
   budget: [

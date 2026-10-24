@@ -81,8 +81,9 @@ poet-nav.site-nav{display:block;position:sticky;top:0;z-index:50;height:80px;bac
 .site-footer{display:block;margin-top:0;background:#203c31;color:#f7f5ec;border-radius:48px 48px 0 0}
 .site-footer-inner{max-width:1456px;margin:auto;padding:82px var(--site-gutter) 28px}
 .site-footer-top{display:grid;grid-template-columns:1.15fr 1fr;gap:12%;padding-bottom:70px}
-.site-footer-brand{display:flex;align-items:center;gap:14px;font-size:30px;font-weight:var(--font-weight-bold);margin-bottom:28px}
+.site-footer-brand{display:flex;align-items:center;gap:14px;font-size:23px;line-height:1.2;font-weight:var(--font-weight-bold);margin-bottom:28px}
 .site-footer-brand img{height:68px;width:52px;object-fit:contain}
+.site-footer-brand span{min-width:0;text-wrap:balance}
 .site-footer p{max-width:36ch;color:#d7e0d6}
 .site-footer a{color:inherit;overflow-wrap:anywhere;text-decoration:none}
 .site-footer a:hover{text-decoration:underline;text-underline-offset:5px}
@@ -104,9 +105,9 @@ poet-nav.site-nav{display:block;position:sticky;top:0;z-index:50;height:80px;bac
 .activity-viewport::after{content:"";position:absolute;z-index:2;inset:0;background:#071a12a3;pointer-events:none}
 .activity-cover{position:absolute;z-index:0;inset:0;width:100%;height:100%;object-fit:cover;object-position:var(--activity-focus,center)}
 .activity-slide.is-active .activity-cover{z-index:1}
-.activity-heading-line{display:block}
 .activities-section.is-ready .activity-slide{grid-area:1/1;visibility:hidden;pointer-events:none}
 .activities-section.is-ready .activity-slide:is(.is-active,.is-leaving){visibility:visible}
+.activities-section.is-ready .activity-slide.is-leaving .activity-copy{visibility:hidden}
 .activities-section.is-ready .activity-slide.is-active{pointer-events:auto}
 .activity-slide-inner{position:relative;z-index:3;min-height:calc(100svh - 80px);max-width:1456px;margin:auto;padding:60px var(--site-gutter) 110px;display:flex;align-items:center;justify-content:center;text-align:center}
 .activity-copy{width:100%;max-width:900px}
@@ -439,7 +440,7 @@ poet-nav.site-nav{display:block;position:sticky;top:0;z-index:50;height:80px;bac
  .pending-box{padding:26px;gap:15px}.pending-symbol{font-size:38px}.pending-box h3{font-size:var(--font-size-title)}.pending-box p{font-size:var(--font-size-meta)}.school-pending{margin:35px 0}
  .outcomes{grid-template-columns:1fr;gap:30px;margin-top:50px}.outcomes article{display:grid;grid-template-columns:65px 1fr;gap:10px 25px;align-items:center}.outcomes h3{font-size:25px}.outcomes p{grid-column:2;margin-top:0;font-size:15px}.outcome-shape{width:55px;height:55px;margin:0;grid-row:span 2}.shape-1{width:43px}
  
- .site-footer{border-radius:28px 28px 0 0}.site-footer-inner{padding:50px var(--site-gutter) 24px}.site-footer-top{grid-template-columns:1fr;gap:38px;padding-bottom:38px}.site-footer-brand{font-size:27px;margin-bottom:20px}.site-footer p{font-size:15px}.site-footer-contact{gap:22px 17px}.site-footer-contact strong{font-size:18px}.site-footer-contact small{font-size:11px}.site-footer-contact a{font-size:15px}.site-footer-email{font-size:21px!important}.site-footer-bottom{flex-direction:column;gap:10px}.site-socials{gap:20px;font-size:var(--font-size-caption)}
+ .site-footer{border-radius:28px 28px 0 0}.site-footer-inner{padding:50px var(--site-gutter) 24px}.site-footer-top{grid-template-columns:1fr;gap:38px;padding-bottom:38px}.site-footer-brand{font-size:20px;margin-bottom:20px}.site-footer p{font-size:15px}.site-footer-contact{gap:22px 17px}.site-footer-contact strong{font-size:18px}.site-footer-contact small{font-size:11px}.site-footer-contact a{font-size:15px}.site-footer-email{font-size:21px!important}.site-footer-bottom{flex-direction:column;gap:10px}.site-socials{gap:20px;font-size:var(--font-size-caption)}
  .site-dialog{width:calc(100% - 20px);border-radius:20px;max-height:calc(100dvh - 24px)}.site-dialog-inner{display:block}.donate-aside{padding:25px 25px 20px;border-radius:20px 20px 0 0}.donate-aside h3{font-size:27px;max-width:250px}.donate-aside p{font-size:var(--font-size-caption);margin:12px 0 0;max-width:36ch}.donate-aside img{display:none}.donate-form{padding:28px 25px}.donate-form h2{font-size:25px}.dialog-close{right:8px;top:7px}.donate-form .btn{font-size:var(--font-size-meta)}.copy-fallback{padding:25px}
 }
 @media(prefers-reduced-motion:reduce){
@@ -1079,8 +1080,6 @@ html.reveal-motion .mission-section.will-enter.is-in .mission-card{opacity:1;tra
 .site-content .campaign-band .btn--outline{color:var(--poet-heading)!important}
 
 /* HOME-005: existing Home hooks keep About typography and controls independent. */
-.activities-section .activity-text-line{display:block}
-.activities-section[data-caption-pending] .activity-slide.is-active .activity-copy>:not(.btn){visibility:hidden}
 .campaign-band--prototype .campaign-story{--campaign-secondary:#6f6862}
 .campaign-band--prototype .campaign-story>p:not(.eyebrow),
 .campaign-band--prototype .campaign-summary-list,
@@ -1527,6 +1526,7 @@ button.v-card{width:100%;padding:0;border:0;font:inherit;cursor:pointer}
 
 /* UI-021 (projects): budget. Allocation bar above a five-column table; the total row is blue. */
 .budget-sec{padding-top:var(--site-space);padding-bottom:var(--site-space)}
+.budget-head p{text-wrap:balance}
 .budget-sum{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:8px 24px;margin-top:clamp(28px,3.4vw,44px)}
 .budget-sum small{font-size:15px;color:var(--poet-muted)}
 .budget-sum strong{font-size:clamp(28px,3.2vw,40px);font-weight:700;letter-spacing:-.03em;color:var(--poet-heading);font-variant-numeric:tabular-nums}

@@ -6,8 +6,8 @@ const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const motionVersion='poet-v3-1';
 const heroVersion='home-finish-1';
 const styleVersion='prototype-restoration-1';
-const editorialVersion='fb-27';
-const homeVersion='fb-27';
+const editorialVersion='fb-28';
+const homeVersion='fb-28';
 // Glue the last two words of a text block so no line ends with a single word.
 const noOrphan=html=>html.replace(/ ([^\s<>]{1,14})(<\/(?:p|li|h2|h3|h4|figcaption)>)/g,'&nbsp;$1$2');
 if(season.budget.reduce((sum,row)=>sum+row.qty*row.price,0)!==season.targetAmount)throw new Error('Season budget and target do not match.');
@@ -40,7 +40,8 @@ html=html.replaceAll('chrome.js?v=editorial-1','chrome.js?v='+styleVersion);
 html=html.replace(/  <script type="module" src="tile-piano\.mjs[^\n]*\r?\n/g,'');
 html=html.replace(/  <script type="module" src="mascot-drag\.mjs[^\n]*\r?\n/g,'');
 html=html.replace(/  <script src="motion\/always-motion[^\n]*\r?\n/g,'');
-html=html.replace('  <meta charset="utf-8">\n','  <meta charset="utf-8">\n  <script src="motion/always-motion.js?v=anim-2"></script>\n');
+// Match the checkout's line ending: with core.autocrlf the home file arrives as CRLF.
+html=html.replace(/  <meta charset="utf-8">(\r?\n)/,(m,eol)=>`${m}  <script src="motion/always-motion.js?v=anim-2"></script>${eol}`);
 html=html.replace(/  <link rel="stylesheet" href="motion\/[^\n]*\r?\n/g,'');
 html=html.replace('  <script type="module" src="chrome.js','  '+motionHead('')+'\n  <script type="module" src="chrome.js');
 html=html.replace('</head>','  <script type="module" src="mascot-drag.mjs?v=home-finish-1"></script>\n</head>');
