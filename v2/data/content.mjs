@@ -189,8 +189,8 @@ export const pressLogos = [
   {name:'Báo Tiền Phong',image:'press/tien-phong.png',width:390,height:83,displayWidth:108,href:media[0].url}
 ];
 export const contacts = {email:'poet.npo@gmail.com',people:[
-  {name:'Hoài Phương',role:'Trưởng Ban Điều hành',phone:'0903872278'},
-  {name:'Phương Minh',role:'Trưởng Ban Đối ngoại',phone:'0815852427'}
+  {name:'Đỗ Hoài Phương',role:'Chủ nhiệm Câu lạc bộ',phone:'0903872278'},
+  {name:'Lê Phương Minh',role:'Trưởng Ban Đối ngoại',phone:'0815852427'}
 ]};
 export const socials = [
   ['Facebook','https://www.facebook.com/poetorganization'],['Instagram','https://www.instagram.com/poet.npo/'],

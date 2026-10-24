@@ -1,4 +1,4 @@
-import {contacts,socials} from './data/site-data.js';
+import {contacts,socials} from './data/site-data.js?v=contacts-2';
 const base=new URL('.',import.meta.url),asset=new URL('../assets/brand/poet-logo.webp',base).href;
 const url=path=>new URL(path,base).href;
 const navIcon=name=>'<span class="prototype-icon" style="--icon:url('+new URL('../assets/icons/lucide/'+name+'.svg',base).href+')" aria-hidden="true"></span>';
