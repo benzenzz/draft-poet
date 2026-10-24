@@ -31,7 +31,8 @@ export function fundraising(base) {
     <div class="fund-actions">${fundDonate(base)}${link(base+'dong-hanh/#loi-nhan','Xem tường lời nhắn','btn btn--outline')}</div>
   </aside>`;}
 
-const uiIcon=(base,name)=>`<span class="prototype-icon" style="--icon:url('${base}../assets/icons/lucide/${name}.svg')" aria-hidden="true"></span>`;
+// mask-image is set inline too: a relative url() inside --icon resolves against site.css, which breaks when the site lives under a sub-path (GitHub Pages /poet/).
+const uiIcon=(base,name)=>{const u=`url('${base}../assets/icons/lucide/${name}.svg')`;return `<span class="prototype-icon" style="--icon:${u};-webkit-mask-image:${u};mask-image:${u}" aria-hidden="true"></span>`;};
 const fundDonate=base=>`<a class="btn" href="${base}dong-hanh/#ca-nhan" data-donate>${uiIcon(base,'heart')}Ủng hộ ngay</a>`;
 function fundAttributes(raised,target,provisional){const state=fundraisingState(raised,target);return `data-fundraising data-raised="${raised??''}" data-target="${target}" data-provisional="${provisional}" data-progress-label="Tiến độ ${s.name}" data-milestone="${state.milestone.name}" style="${fundraisingStyle(state)}"`;}
 function fundProgress(state,provisional=false){const {known,progress,remaining}=state;return `<div class="fund-progress"><div class="fund-progress-track" ${known?`role="progressbar" aria-label="Tiến độ ${s.name}${provisional?' (số liệu minh họa từ prototype)':''}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${+progress.toFixed(2)}"`:'role="img" aria-label="Tiến độ gây quỹ đang chờ số liệu xác nhận"'}><span class="fund-progress-fill" aria-hidden="true"></span></div><div class="fund-scale"><span>0 VNĐ</span><span>Còn thiếu <span data-fund-remaining>${known?new Intl.NumberFormat('vi-VN').format(remaining)+' VNĐ':'chờ cập nhật'}</span></span><span>100%</span></div></div>`;}
@@ -216,16 +217,20 @@ function volunteerNotice(base) {
 }
 // UI-015: video library. Each card is a photo + play button; site.js swaps in TikTok's player iframe only on click, so nothing from TikTok loads with the page.
 const VIDEO_PLAY='<svg class="v-play-ic" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7 4.5v15a1 1 0 0 0 1.52.85l12-7.5a1 1 0 0 0 0-1.7l-12-7.5A1 1 0 0 0 7 4.5Z"/></svg>';
+const VIDEO_HEART='<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>';
 function videoLibrary(base) {
   const list=recruitment.videos;
   if(!list.length)return '';
   const ic=name=>uiIcon(base,name),tiktok=socials.find(([name])=>name==='TikTok')[1];
+  // Same card as the approved "Thư viện video" design: handle, title and stats sit on the photo. Empty fields are left out until POET fills them in content.mjs.
   const card=(v,i)=>{
     const photo=`${base}../assets/editorial/${v.photo}-1280.webp`;
-    const media=`<img src="${photo}" srcset="${base}../assets/editorial/${v.photo}-640.webp 640w, ${photo} 1280w" sizes="(max-width:640px) 68vw, 300px" width="1280" height="853" alt="" loading="lazy" decoding="async">`;
-    return `<li><button type="button" class="v-card v${i%4}" data-v-tiktok="${v.id}" aria-label="Phát video TikTok ${i+1} của POET">${media}<span class="v-play">${VIDEO_PLAY}</span></button><a class="v-src" href="${tiktok}/video/${v.id}" target="_blank" rel="noopener noreferrer">Xem trên TikTok<span aria-hidden="true"> ↗</span><span class="sr-only"> (video ${i+1}, mở tab mới)</span></a></li>`;
+    const media=`<img src="${photo}" srcset="${base}../assets/editorial/${v.photo}-640.webp 640w, ${photo} 1280w" sizes="(max-width:640px) 68vw, (max-width:900px) 50vw, 25vw" width="1280" height="853" alt="" loading="lazy" decoding="async" style="object-position:${v.pos||'50% 50%'}">`;
+    const stats=v.views||v.likes?`<span class="v-stats">${v.views?`<span aria-label="${v.views} lượt xem">${ic('eye')}${v.views}</span>`:''}${v.likes?`<span class="v-heart" aria-label="${v.likes} lượt tim">${VIDEO_HEART}${v.likes}</span>`:''}</span>`:'';
+    const info=`<span class="v-info"><span class="v-who">${esc(v.handle||'@poet.npo')}</span>${v.title?`<span class="v-title">${esc(v.title)}</span>`:''}${stats}</span>`;
+    return `<li><button type="button" class="v-card v${i%4}" data-v-tiktok="${v.id}" aria-label="Phát video TikTok${v.title?`: ${esc(v.title)}`:` ${i+1}`} của POET">${media}${v.duration?`<span class="v-dur">${v.duration}</span>`:''}<span class="v-play">${VIDEO_PLAY}</span>${info}</button><a class="v-src" href="${tiktok}/video/${v.id}" target="_blank" rel="noopener noreferrer">Xem trên TikTok<span aria-hidden="true"> ↗</span><span class="sr-only"> (video ${i+1}, mở tab mới)</span></a></li>`;
   };
-  return `<div class="volunteer-videos" id="thu-vien-video"><div class="v-head"><div><h2>POET qua <span>những thước phim</span></h2><p>Hậu trường, chuyến đi và những khoảnh khắc của các bạn tình nguyện viên POET.</p></div><a class="v-more" href="${tiktok}" target="_blank" rel="noopener noreferrer">Theo dõi TikTok POET${ic('arrow-up-right')}</a></div><ul class="v-rail" data-v-rail>${list.map(card).join('')}</ul><div class="v-nav"><button type="button" data-v-prev aria-label="Video trước">${ic('chevron-left')}</button><button type="button" data-v-next aria-label="Video sau">${ic('chevron-right')}</button></div></div>`;
+  return `<div class="volunteer-videos" id="thu-vien-video"><div class="v-head"><h2>Thư viện <span>video</span></h2><a class="v-more" href="${tiktok}" target="_blank" rel="noopener noreferrer">Xem thêm trên TikTok POET${ic('arrow-up-right')}</a></div><ul class="v-rail" data-v-rail>${list.map(card).join('')}</ul><div class="v-nav"><button type="button" data-v-prev aria-label="Video trước">${ic('chevron-left')}</button><button type="button" data-v-next aria-label="Video sau">${ic('chevron-right')}</button></div></div>`;
 }
 // Blog: two preview cards (Về chúng tôi, Tình nguyện viên) and one detail page per post (built by build-site.mjs). Copy lives in data/blog.mjs.
 const blogImg=(base,c,w)=>`${base}../assets/blog/${c.id}-${w}.webp`;
