@@ -2,7 +2,7 @@ import '../config.js';
 import '../ung-ho/checkout.js';
 import {initLocalFundraisingPreview} from './fundraising-preview.mjs';
 import {initFundraisingProgress} from './fundraising-progress.mjs?v=home-005-3';
-import {initFundraisingLive} from './fundraising-live.mjs?v=fund-live-1';
+import {initFundraisingLive} from './fundraising-live.mjs?v=fund-live-2';
 initLocalFundraisingPreview();
 initFundraisingProgress();
 initFundraisingLive();

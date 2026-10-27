@@ -11,12 +11,20 @@ const server=http.createServer(async(req,res)=>{
   if(!['GET','HEAD'].includes(req.method)){res.writeHead(405,{Allow:'GET, HEAD'}).end();return;}
   let file;
   try{
-    let name=decodeURIComponent(new URL(req.url,'http://127.0.0.1').pathname);
+    const url=new URL(req.url,'http://127.0.0.1');
+    let name=decodeURIComponent(url.pathname);
     if(name.startsWith('/poet/'))name=name.slice(5);
     file=path.resolve(root,'.'+name);
     const relative=path.relative(root,file);
     if(relative==='..'||relative.startsWith('..'+path.sep)||path.isAbsolute(relative)){res.writeHead(403).end();return;}
-    if((await fs.stat(file)).isDirectory())file=path.join(file,'index.html');
+    // Directory URLs without a trailing slash break relative CSS/JS (e.g. /v2/admin).
+    if((await fs.stat(file)).isDirectory()){
+      if(!name.endsWith('/')){
+        res.writeHead(308,{Location:name+'/'+url.search, 'Cache-Control':'no-store'}).end();
+        return;
+      }
+      file=path.join(file,'index.html');
+    }
     const data=await fs.readFile(file);
     res.writeHead(200,{'Content-Type':types[path.extname(file).toLowerCase()]||'application/octet-stream','Content-Length':data.length,'Cache-Control':'no-store'});
     res.end(req.method==='HEAD'?undefined:data);

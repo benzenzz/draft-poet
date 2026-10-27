@@ -28,6 +28,10 @@ import {
   handleAdminLogout,
   handleAdminRecoverPassword,
   handleAdminShow,
+  handleBusinessCreate,
+  handleBusinessDelete,
+  handleBusinessList,
+  handleBusinessUpdate,
   handleGetAdminSettings,
   handleUpdateAdminSettings,
   withAdmin,
@@ -40,6 +44,7 @@ import {
 
 const SHOW_RE = /^\/api\/admin\/donations\/\d+\/(show|publish)$/;
 const HIDE_RE = /^\/api\/admin\/donations\/\d+\/hide$/;
+const BUSINESS_ID_RE = /^\/api\/admin\/business-deals\/[0-9a-f]+$/;
 
 function orderCodeFromAdminPath(pathname) {
   return pathname.split('/')[4];
@@ -94,6 +99,22 @@ async function route(request, env, url, ctx) {
   }
   if (method === 'POST' && HIDE_RE.test(pathname)) {
     return withAdmin(request, env, () => handleAdminHide(env, orderCodeFromAdminPath(pathname), url));
+  }
+  if (method === 'GET' && pathname === '/api/admin/business-deals') {
+    return withAdmin(request, env, () => handleBusinessList(env));
+  }
+  if (method === 'POST' && pathname === '/api/admin/business-deals') {
+    return withAdmin(request, env, (session) => handleBusinessCreate(request, env, session, url));
+  }
+  // Deal ids are randomHex(16): 32 hex characters.
+  if (BUSINESS_ID_RE.test(pathname)) {
+    const id = pathname.split('/')[4];
+    if (method === 'PATCH') {
+      return withAdmin(request, env, (session) => handleBusinessUpdate(request, env, session, id, url));
+    }
+    if (method === 'DELETE') {
+      return withAdmin(request, env, () => handleBusinessDelete(env, id, url));
+    }
   }
   if (method === 'GET' && pathname === '/return') {
     return handleReturnRedirect(url);

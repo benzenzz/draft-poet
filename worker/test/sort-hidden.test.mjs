@@ -29,15 +29,17 @@ describe('public wall sort param', () => {
     const { env, log } = fakeEnv();
     const res = await handleListPublic(env, null, new URL('http://w/api/donations'));
     assert.equal(res.status, 200);
-    assert.equal(log.length, 2);
+    // Wall list + wall totals + business aggregate, one D1 batch.
+    assert.equal(log.length, 3);
     assert.match(norm(log[0]), /CASE WHEN hidden = 1 THEN '' ELSE message END/);
     assert.match(norm(log[0]), /ORDER BY paid_at DESC LIMIT 30/);
+    assert.match(norm(log[2]), /FROM business_deals WHERE status = 'received'/);
   });
   it('sort=amount orders by amount DESC with same limit, hidden still blanked', async () => {
     const { env, log } = fakeEnv();
     const res = await handleListPublic(env, null, new URL('http://w/api/donations?sort=amount'));
     assert.equal(res.status, 200);
-    assert.equal(log.length, 2);
+    assert.equal(log.length, 3);
     assert.match(norm(log[0]), /WHERE status = 'success' ORDER BY amount DESC, paid_at DESC LIMIT 30/);
     assert.match(norm(log[0]), /CASE WHEN hidden = 1 THEN '' ELSE message END/);
   });

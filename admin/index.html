@@ -2,6 +2,18 @@
 <html lang="vi" class="admin-page" style="color-scheme: light only; background-color: #f4e6cf">
 <head>
   <meta charset="utf-8">
+  <!-- /admin (no trailing slash) resolves relative assets against /, so admin.js
+       404s and the login stays blank. Pin a base to this directory. -->
+  <script>
+    (function () {
+      var path = location.pathname;
+      if (path.endsWith('/') || /\.html?$/i.test(path)) return;
+      document.write('<base href="' + path + '/">');
+      if (history.replaceState) {
+        history.replaceState(null, '', path + '/' + location.search + location.hash);
+      }
+    })();
+  </script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#f4e6cf">
   <meta name="color-scheme" content="light only">
@@ -30,7 +42,7 @@
       <p>Bật/tắt nhận ủng hộ, theo dõi lịch sử, xuất Excel và đổi mật khẩu.</p>
     </section> -->
 
-    <section class="section-pad container" id="login-section" aria-labelledby="login-title" hidden>
+    <section class="section-pad container" id="login-section" aria-labelledby="login-title">
       <div class="admin-card admin-card-center">
         <div class="section-kicker">ĐĂNG NHẬP</div>
         <h2 id="login-title">Vào khu vực quản trị.</h2>

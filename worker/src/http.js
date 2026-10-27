@@ -24,7 +24,7 @@ export function html(body, status = 200) {
 export function corsHeaders(origin) {
   return {
     'Access-Control-Allow-Origin': origin,
-    'Access-Control-Allow-Methods': 'GET, POST',
+    'Access-Control-Allow-Methods': 'GET, POST, PATCH, DELETE',
     'Access-Control-Allow-Headers': 'Content-Type, Authorization',
     'Access-Control-Max-Age': '86400',
     Vary: 'Origin',
@@ -51,15 +51,35 @@ export function isLocalDevOrigin(origin) {
   }
 }
 
+/** Split ALLOWED_ORIGIN on commas; trim; drop empties. Trailing slashes are stripped. */
+export function parseAllowedOrigins(raw) {
+  if (typeof raw !== 'string' || !raw.trim()) return [];
+  return raw
+    .split(',')
+    .map((part) => part.trim().replace(/\/+$/, ''))
+    .filter(Boolean);
+}
+
+export function isAllowedOrigin(origin, allowedOrigin) {
+  if (!origin) return false;
+  return parseAllowedOrigins(allowedOrigin).includes(origin);
+}
+
 /** Returns { origin, allowed, corsOrigin, sameHost } for the CORS gate. */
 export function resolveCors(request, env, url) {
   const origin = request.headers.get('Origin');
   const allowed = env.ALLOWED_ORIGIN;
+  const allowedList = parseAllowedOrigins(allowed);
   const sameHost = origin === url.origin;
   // localhost is only trusted when this Worker is itself configured for dev
-  // (ALLOWED_ORIGIN is localhost, or ALLOW_LOCALHOST_ORIGINS=1).
-  const devMode = isLocalDevOrigin(allowed) || String(env.ALLOW_LOCALHOST_ORIGINS || '') === '1';
-  const corsOrigin = origin === allowed || (devMode && isLocalDevOrigin(origin)) ? origin : '';
+  // (an ALLOWED_ORIGIN entry is localhost, or ALLOW_LOCALHOST_ORIGINS=1).
+  const devMode =
+    allowedList.some((entry) => isLocalDevOrigin(entry)) ||
+    String(env.ALLOW_LOCALHOST_ORIGINS || '') === '1';
+  const corsOrigin =
+    (origin && allowedList.includes(origin)) || (devMode && isLocalDevOrigin(origin))
+      ? origin
+      : '';
   return { origin, allowed, corsOrigin, sameHost };
 }
 

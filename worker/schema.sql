@@ -65,3 +65,22 @@ UPDATE donations SET status = 'pending' WHERE status = 'cancelled';
 CREATE INDEX IF NOT EXISTS idx_donations_success_amount ON donations (status, amount);
 
 CREATE INDEX IF NOT EXISTS idx_donations_created ON donations (created_at);
+
+-- Manual business-deal ledger (migration 0005). Never shown on the message
+-- wall; only `received` rows count toward the public fundraising total.
+CREATE TABLE IF NOT EXISTS business_deals (
+  id TEXT PRIMARY KEY,
+  business_name TEXT NOT NULL,
+  contact_name TEXT,
+  contact_email TEXT,
+  contact_phone TEXT,
+  tax_code TEXT,
+  amount INTEGER NOT NULL,
+  status TEXT NOT NULL,
+  note TEXT,
+  created_at TEXT NOT NULL,
+  updated_at TEXT NOT NULL,
+  created_by TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_business_deals_status_amount
+  ON business_deals (status, amount);
