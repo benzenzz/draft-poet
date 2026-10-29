@@ -178,7 +178,8 @@ document.querySelectorAll('.tier-section').forEach(section=>{
   range?.addEventListener('input',()=>cards[+range.value].click());
   let picked=null;
   const letter=()=>`Chào POET,\n\nMình là [Tên] từ [Tên thương hiệu]. Thương hiệu mình muốn đồng hành cùng POET trong chiến dịch Big Joy Little Joy. POET gửi giúp mình thông tin chi tiết và lịch trao đổi nhé.\n\nCảm ơn POET!`;
-  const fill=()=>{mail.href=`mailto:${email}?subject=${encodeURIComponent('Đồng hành Big Joy Little Joy')}&body=${encodeURIComponent(msg.value)}`;copy.dataset.copy=msg.value;};
+  // Gmail compose in a new tab: a mailto link does nothing on machines without a mail app.
+  const fill=()=>{mail.href=`https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(email)}&su=${encodeURIComponent('Đồng hành Big Joy Little Joy')}&body=${encodeURIComponent(msg.value)}`;copy.dataset.copy=msg.value;};
   msg.addEventListener('input',fill);
   // Follows aria-selected, so tab clicks, arrow keys and deep links all update the ladder the same way.
   const sync=()=>{

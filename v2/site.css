@@ -2093,3 +2093,5 @@ button.v-card{width:100%;padding:0;border:0;font:inherit;cursor:pointer}
 @media(max-width:1100px){.tier-slider{margin:10px 0 0}}
 @media(max-width:760px){.tier-section{--tier-thumb:40px}}
 @media(prefers-reduced-motion:reduce){.tier-slider::after,.tier-range::-webkit-slider-thumb,.tier-range::-moz-range-thumb{transition:none}}
+/* fb-41: outline buttons in the tier section turn dark green on hover, so their text and icon go white. */
+.tier-section .btn--line:hover{background:var(--poet-green-dark);border-color:var(--poet-green-dark);color:#fff!important}
