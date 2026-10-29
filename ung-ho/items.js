@@ -14,12 +14,11 @@ window.POET_DONATE_CONFIG = {
   // Mặc định khi mở trang (id: số lượng). Để {} nếu muốn bắt đầu từ 0.
   defaultQty: {},
   // Thiệp cảm ơn
-  // Địa chỉ trên thiệp lấy theo trang người ủng hộ đang mở (benzenzz, maiphh hay bản xem thử), không ghi cứng.
+  // Link chia sẻ thiệp lấy theo trang đang mở (benzenzz, maiphh hay bản xem thử), không ghi cứng.
   card: (() => {
     const root = new URL('../', document.currentScript.src);
     return {
       slogan: 'Tuổi trẻ · Nhiệt huyết · Nghệ thuật',
-      siteLabel: (root.host + root.pathname).replace(/\/$/, ''),
       shareUrl: new URL('v2/dong-hanh/', root).href,
     };
   })(),

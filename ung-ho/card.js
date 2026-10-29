@@ -2,7 +2,6 @@
 window.POETCard = (() => {
   const CFG = (window.POET_DONATE_CONFIG && window.POET_DONATE_CONFIG.card) || {};
   const SLOGAN = CFG.slogan || 'Tuổi trẻ · Nhiệt huyết · Nghệ thuật';
-  const SITE = CFG.siteLabel || 'maiphh.github.io/poet';
   const SHARE_URL = CFG.shareUrl || 'https://maiphh.github.io/poet/ung-ho/';
 
   // Name rule enforced HERE, not in the UI: anonymous never shows a name.
@@ -109,8 +108,6 @@ window.POETCard = (() => {
     c.fillText('Ngày ' + date, 540, 1130);
     c.fillStyle = '#ff8a76'; c.font = font(52, bold);
     c.fillText(SLOGAN, 540, 1210, 900);
-    c.fillStyle = '#7a5b45'; c.font = font(34, bold);
-    c.fillText(SITE, 540, 1262);
   }
 
   const fileName = () => 'poet-cam-on-' + new Date().toISOString().slice(0, 10) + '.png';
