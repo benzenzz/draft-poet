@@ -1,0 +1,14 @@
+{
+  "name": "poet-v2-animation",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Pinned animation runtime for the static POET hero.",
+  "scripts": {
+    "preview": "node tools/preview.mjs",
+    "build:site": "node tools/build-site.mjs",
+    "vendor:gsap": "node tools/vendor-gsap.mjs"
+  },
+  "dependencies": {
+    "gsap": "3.13.0"
+  }
+}

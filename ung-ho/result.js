@@ -9,17 +9,6 @@
   const orderCode = new URLSearchParams(location.search).get('orderCode');
   const validCode = orderCode && /^\d{1,10}$/.test(orderCode);
 
-  // Details saved by donate.js in this browser before going to payOS.
-  // The public status API never returns names or messages.
-  function loadLocal() {
-    if (!validCode) return null;
-    const key = 'poet-donation-' + orderCode;
-    let raw = null;
-    try { raw = sessionStorage.getItem(key); } catch { /* ignore */ }
-    if (!raw) { try { raw = localStorage.getItem(key); } catch { /* ignore */ } }
-    try { return raw ? JSON.parse(raw) : null; } catch { return null; }
-  }
-
   function showWait(text, title) {
     $('thanks-success').hidden = true;
     $('thanks-wait').hidden = false;
@@ -66,20 +55,12 @@
     else document.body.classList.add('thanks-no-anim'); // don't re-pop the gift box on reload
   }
 
-  function showSuccess(data, local) {
+  function showSuccess() {
     $('thanks-wait').hidden = true;
     $('thanks-success').hidden = false;
     statusEl.className = 'thanks-status is-ok';
     statusEl.textContent = '✓ Đã nhận thanh toán';
     celebrateOnce();
-
-    // The letter needs the donor details; without them (other device/browser) skip it.
-    if (local && window.POETCard) {
-      $('thanks-card').hidden = false;
-      const canvas = $('card-canvas');
-      window.POETCard.draw(canvas, local);
-      window.POETCard.bind(canvas, { save: $('card-save'), fb: $('card-fb'), toast: $('card-toast') });
-    }
   }
 
   if (!validCode) {
@@ -87,14 +68,13 @@
     return;
   }
 
-  const local = loadLocal();
   let tries = 0;
   function check() {
     tries++;
     fetch(`${API_BASE}/api/donations/${encodeURIComponent(orderCode)}`)
       .then((res) => (res.ok ? res.json() : null))
       .then((data) => {
-        if (data && data.status === 'success') return showSuccess(data, local);
+        if (data && data.status === 'success') return showSuccess();
         if (data && data.status === 'pending') {
           showWait('Đang chờ xác nhận thanh toán…');
           if (tries < 3) setTimeout(check, 3000); // at most 3 reads per visit

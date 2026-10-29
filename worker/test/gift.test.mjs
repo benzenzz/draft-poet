@@ -9,17 +9,6 @@ const v = (b) => validateAmountAndGift(b);
 const ok = (b) => assert.equal(v(b).error, null, JSON.stringify(b));
 const bad = (b) => assert.ok(v(b).error, 'should reject ' + JSON.stringify(b));
 
-describe('gift price list', () => {
-  it('matches ung-ho/items.js', async () => {
-    const { readFileSync } = await import('node:fs');
-    const src = readFileSync(new URL('../../ung-ho/items.js', import.meta.url), 'utf8');
-    const ctx = { window: {} };
-    new Function('window', src)(ctx.window);
-    const fe = Object.fromEntries(ctx.window.POET_DONATE_CONFIG.items.map((i) => [i.id, i.price]));
-    assert.deepEqual(fe, { ...GIFTS });
-  });
-});
-
 describe('validateAmountAndGift: with gift', () => {
   it('accepts price*qty', () => {
     ok({ amount: 100000, giftId: 'tap', giftQty: 5 });

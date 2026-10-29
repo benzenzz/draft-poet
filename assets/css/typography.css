@@ -1,10 +1,10 @@
 /* POET typography: original OTF binaries are never renamed or modified.
    Metadata/provenance/license review: docs/PRODUCT_SANS_TYPOGRAPHY.md.
    Only the supplied real 400/700 faces are registered. */
-@font-face{font-family:'Product Sans';src:url('../../v2/fonts/Product%20Sans%20Regular.otf') format('opentype');font-weight:400;font-style:normal;font-display:swap}
-@font-face{font-family:'Product Sans';src:url('../../v2/fonts/Product%20Sans%20Italic.otf') format('opentype');font-weight:400;font-style:italic;font-display:swap}
-@font-face{font-family:'Product Sans';src:url('../../v2/fonts/Product%20Sans%20Bold.otf') format('opentype');font-weight:700;font-style:normal;font-display:swap}
-@font-face{font-family:'Product Sans';src:url('../../v2/fonts/Product%20Sans%20Bold%20Italic.otf') format('opentype');font-weight:700;font-style:italic;font-display:swap}
+@font-face{font-family:'Product Sans';src:url('../../fonts/Product%20Sans%20Regular.otf') format('opentype');font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:'Product Sans';src:url('../../fonts/Product%20Sans%20Italic.otf') format('opentype');font-weight:400;font-style:italic;font-display:swap}
+@font-face{font-family:'Product Sans';src:url('../../fonts/Product%20Sans%20Bold.otf') format('opentype');font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:'Product Sans';src:url('../../fonts/Product%20Sans%20Bold%20Italic.otf') format('opentype');font-weight:700;font-style:italic;font-display:swap}
 
 :root{
   --font-family-primary:'Product Sans',sans-serif;
