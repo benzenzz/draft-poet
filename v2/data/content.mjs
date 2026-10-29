@@ -219,7 +219,7 @@ export const tiers = [
 export const tierIntro = {
   eyebrow: 'Mức đồng hành Little Joy',
   title: 'Hành trình niềm vui<br><span>bắt đầu.</span>',
-  text: 'Hành trình tài trợ linh hoạt với <b>10 cột mốc từ 1.000.000 đến 40.000.000 VNĐ</b>.',
+  text: 'Hành trình đồng hành linh hoạt với <b>10 cột mốc từ 1.000.000 đến 40.000.000 VNĐ</b>.',
   phases: [
     ['01 / Trước sự kiện', 'Lan toả trên mạng xã hội'],
     ['02 / Pop Up · 20–22.12.2026', 'Chạm nhau ngoài đời'],
