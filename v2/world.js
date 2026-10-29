@@ -440,8 +440,8 @@
         .call(land,null,.88)
         .to(overlay,{y:-innerHeight*1.9,duration:.65,ease:'power3.inOut'},.9)
         .to(wave,{attr:{d:waveA},duration:.65,ease:'sine.inOut'},.9);
-      // fb-44: the whole hand-off (authored at ~1.55s) plays in 0.3s; timeScale keeps the beats in proportion.
-      tl.timeScale(tl.duration()/.3);
+      // fb-46: the whole hand-off (authored at ~1.55s) plays in 0.4s; timeScale keeps the beats in proportion.
+      tl.timeScale(tl.duration()/.4);
     }
     joinLink?.addEventListener('click',event=>{
       if(!resolved){event.preventDefault();return;}
