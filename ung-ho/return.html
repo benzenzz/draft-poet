@@ -1,64 +1,70 @@
 <!doctype html>
-<html lang="vi" style="color-scheme: light only; background-color: #f4e6cf">
+<html lang="vi">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f4e6cf">
-  <meta name="color-scheme" content="light only">
-  <meta name="supported-color-schemes" content="light">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#fbf8f2">
   <meta name="robots" content="noindex">
-  <style>html,body{color-scheme:light only;background-color:#f4e6cf}</style>
   <meta name="description" content="Cảm ơn bạn đã ủng hộ POET.">
   <title>Cảm ơn bạn — POET</title>
-  <link rel="icon" type="image/jpeg" href="../assets/logo/1555047679990943.jpg">
-  <link rel="apple-touch-icon" href="../assets/logo/1555047679990943.jpg">
-  <link rel="stylesheet" href="../style.css">
-  <script src="../components/site-header.js" defer></script>
-  <script src="../components/site-footer.js" defer></script>
-  <script src="../app.js" defer></script>
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/brand/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="48x48" href="../assets/brand/favicon-48.png">
+  <link rel="apple-touch-icon" href="../assets/brand/favicon-180.png">
+  <link rel="preload" href="../v2/fonts/Product%20Sans%20Regular.otf" as="font" type="font/otf" crossorigin>
+  <!-- PayOS return page. The Worker only accepts this exact path, so it stays in /ung-ho/ inside the v2 shell. -->
+  <link rel="stylesheet" href="../v2/v2.css">
+  <link rel="stylesheet" href="../v2/site.css?v=fb-33">
   <script src="../config.js" defer></script>
-  <link rel="stylesheet" href="ung-ho.css">
   <script src="items.js" defer></script>
   <script src="card.js" defer></script>
   <script src="result.js" defer></script>
+  <script type="module" src="../v2/chrome.js?v=fb-33"></script>
+  <script type="module" src="../v2/site.js?v=fb-33"></script>
 </head>
 <body data-result="return">
-  <a class="skip-link" href="#main">Bỏ qua điều hướng</a>
-  <site-header active="donate"></site-header>
-
+  <a class="skip-link" href="#noi-dung">Bỏ qua điều hướng</a>
+  <poet-nav></poet-nav>
   <canvas class="thanks-confetti" id="thanks-confetti" aria-hidden="true"></canvas>
-  <main id="main" class="donate thanks">
-    <section class="container thanks-hero" aria-labelledby="result-title">
+  <main class="site-content pay-result" id="noi-dung">
+    <section class="section-shell pay-result-shell">
       <p class="thanks-status" id="result-status" role="status">Đang kiểm tra thanh toán…</p>
 
       <!-- Shown only after /api/donations/:code says success -->
-      <div id="thanks-success" hidden>
-        <p class="eyebrow thanks-eyebrow">💜 Chung tay cùng POET Mùa 6</p>
-        <p class="thanks-sub">Cùng nhau xây dựng “Công viên niềm vui” · Ea&nbsp;Kiết, Đắk&nbsp;Lắk</p>
-        <h1 id="result-title">✨ Cảm ơn tấm lòng của&nbsp;bạn!</h1>
-        <p class="thanks-lead" id="thanks-lead">POET đã nhận trọn vẹn đóng góp và lời nhắn ấm áp từ bạn. Tất cả sẽ được gói ghém cẩn thận và mang đến “Công viên niềm vui” cho các em nhỏ trong thời gian tới. Cảm ơn bạn đã gieo thêm những nụ cười!</p>
-
+      <div class="pay-result-grid" id="thanks-success" hidden>
+        <div class="pay-result-copy">
+          <img class="pay-result-mascot" src="../assets/mascot/be-cuc/vui-tuoi.webp" width="180" height="200" alt="">
+          <p class="eyebrow">Chung tay cùng POET Mùa 6</p>
+          <p class="pay-result-sub">Cùng nhau xây dựng “Công viên niềm vui” · Ea&nbsp;Kiết, Đắk&nbsp;Lắk</p>
+          <h1 id="result-title">Cảm ơn tấm lòng<br><span>của&nbsp;bạn!</span></h1>
+          <p class="pay-result-lead" id="thanks-lead">POET đã nhận trọn vẹn đóng góp và lời nhắn ấm áp từ bạn. Tất cả sẽ được gói ghém cẩn thận và mang đến “Công viên niềm vui” cho các em nhỏ trong thời gian tới. Cảm ơn bạn đã gieo thêm những nụ cười!</p>
+          <div class="pay-result-actions">
+            <a class="btn btn--line" href="../v2/dong-hanh/#ca-nhan">Về trang ủng hộ</a>
+            <a class="btn btn--line" href="../v2/">Về trang chủ</a>
+          </div>
+        </div>
         <div class="thanks-letter" id="thanks-card" hidden>
           <canvas id="card-canvas" width="1080" height="1350" role="img" aria-label="Thư cảm ơn của bạn"></canvas>
           <div class="thanks-card-actions">
-            <button class="button" id="card-save" type="button">⬇ Lưu thư</button>
-            <button class="button thanks-fb" id="card-fb" type="button">Chia sẻ lên Facebook</button>
+            <button class="btn btn--coral" id="card-save" type="button"><span class="prototype-icon" style="--icon:url('../assets/icons/lucide/download.svg');-webkit-mask-image:url('../assets/icons/lucide/download.svg');mask-image:url('../assets/icons/lucide/download.svg')" aria-hidden="true"></span>Lưu thư</button>
+            <button class="btn btn--line" id="card-fb" type="button"><span class="prototype-icon" style="--icon:url('../assets/icons/lucide/facebook.svg');-webkit-mask-image:url('../assets/icons/lucide/facebook.svg');mask-image:url('../assets/icons/lucide/facebook.svg')" aria-hidden="true"></span>Chia sẻ lên Facebook</button>
           </div>
           <p class="thanks-toast" id="card-toast" role="status"></p>
         </div>
-        <p class="thanks-back"><a href="index.html">← Về trang ủng hộ</a></p>
       </div>
 
       <!-- Pending / unknown -->
-      <div id="thanks-wait" hidden>
-        <div class="section-kicker">ỦNG HỘ POET</div>
+      <div class="pay-result-copy" id="thanks-wait" hidden>
+        <img class="pay-result-mascot" src="../assets/mascot/be-cuc/vui-tuoi.webp" width="180" height="200" alt="">
+        <p class="eyebrow">Ủng hộ POET</p>
         <h1 id="thanks-wait-title">Đang chờ xác nhận thanh toán</h1>
-        <p>Nếu bạn đã chuyển khoản, POET sẽ ghi nhận ngay khi ngân hàng báo về. Bạn có thể tải lại trang sau ít phút.</p>
-        <p class="thanks-cta"><a class="button button-purple" href="index.html">Quay lại trang ủng hộ</a> <a class="button" href="../">← Về trang chủ</a></p>
+        <p class="pay-result-lead">Nếu bạn đã chuyển khoản, POET sẽ ghi nhận ngay khi ngân hàng báo về. Bạn có thể tải lại trang sau ít phút.</p>
+        <div class="pay-result-actions">
+          <a class="btn btn--coral" href="../v2/dong-hanh/#ca-nhan">Quay lại trang ủng hộ</a>
+          <a class="btn btn--line" href="../v2/">Về trang chủ</a>
+        </div>
       </div>
     </section>
   </main>
-
-  <site-footer></site-footer>
+  <poet-footer></poet-footer>
 </body>
 </html>

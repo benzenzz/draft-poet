@@ -2042,3 +2042,32 @@ button.v-card{width:100%;padding:0;border:0;font:inherit;cursor:pointer}
 /* fb-21: one style for every small label above a heading or story step. Colours stay per block. */
 :root{--label-size:clamp(15px,1.1vw,17px);--label-weight:700;--label-tracking:.01em;--label-leading:1.4}
 .site-content :is(.eyebrow,.when,.tier-kicker,.campaign-season,.blog-kicker,.blog-card-kicker),.site-dialog .eyebrow{font-size:var(--label-size)!important;font-weight:var(--label-weight)!important;letter-spacing:var(--label-tracking)!important;line-height:var(--label-leading)!important;text-transform:none!important}
+/* PayOS result pages (ung-ho/return.html, ung-ho/cancel.html) in the v2 shell; class names thanks-* are set by ung-ho/result.js. */
+.pay-result [hidden]{display:none!important}
+.pay-result-shell{max-width:1180px;padding-top:clamp(36px,5vw,72px);padding-bottom:clamp(64px,8vw,112px)}
+.pay-result-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:48px clamp(40px,7vw,104px);align-items:center}
+@media(min-width:901px){.pay-result-grid:has(>.thanks-letter:not([hidden])){grid-template-columns:minmax(0,1fr) minmax(0,.8fr)}}
+.pay-result-copy{max-width:38em}
+.pay-result-mascot{display:block;width:clamp(72px,7vw,96px);height:auto;margin:0 0 20px;transform:rotate(-7deg);transform-origin:50% 90%}
+.site-content .pay-result-copy .eyebrow{color:var(--green-mid);margin:0 0 12px!important}
+.pay-result-sub{margin:0 0 18px;font-size:var(--font-size-meta);line-height:1.5;color:var(--poet-muted)}
+.site-content.pay-result h1{margin:0;font-size:clamp(40px,5vw,68px);font-weight:var(--font-weight-bold);letter-spacing:-.04em;line-height:1.1;color:var(--poet-heading);text-wrap:balance}
+.pay-result h1 span{color:var(--coral-deep)}
+.pay-result-lead{margin:clamp(18px,2vw,26px) 0 0;max-width:32em;font-size:clamp(17px,1.4vw,20px);line-height:1.65;color:var(--poet-muted)}
+.pay-result-actions,.thanks-card-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:clamp(26px,3vw,36px)}
+.pay-result .btn{gap:10px}
+.pay-result .btn--coral{background:var(--coral);border-color:var(--coral);color:#fff!important}
+.pay-result .btn--coral:hover{background:var(--coral-hover);border-color:var(--coral-hover)}
+.pay-result .btn--line{background:var(--poet-white);border:1px solid var(--poet-border);color:var(--poet-ink)!important}
+.pay-result .btn--line:hover{background:var(--poet-white);border-color:var(--poet-ink)}
+.thanks-status{display:inline-flex;align-items:center;gap:8px;margin:0 0 clamp(24px,3vw,36px);font-size:14px;font-weight:var(--font-weight-bold);color:var(--poet-muted)}
+.thanks-status.is-ok{color:var(--poet-green-dark)}
+.thanks-status.is-wait{color:var(--yellow-ink)}
+.thanks-letter{width:100%;max-width:440px;justify-self:center}
+.thanks-letter canvas{display:block;width:100%;height:auto;border-radius:var(--radius-feature);box-shadow:0 22px 44px -26px rgba(51,43,39,.5);transform:rotate(1.5deg)}
+.thanks-card-actions{margin-top:28px}
+.thanks-card-actions .btn{flex:1 1 auto;min-width:0;min-height:52px;justify-content:center;white-space:nowrap}
+.thanks-toast{min-height:1.5em;margin:12px 0 0;font-size:14px;font-weight:var(--font-weight-bold);color:var(--poet-green-dark)}
+.thanks-confetti{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:50}
+@media(max-width:480px){.pay-result-actions .btn,.thanks-card-actions .btn{flex:1 1 100%;justify-content:center}.thanks-letter canvas{transform:none}}
+@media(prefers-reduced-motion:reduce){.thanks-confetti{display:none}}
