@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="vi" class="admin-page" style="color-scheme: light only; background-color: #f4e6cf">
+<html lang="vi">
 <head>
   <meta charset="utf-8">
-  <!-- /admin (no trailing slash) resolves relative assets against /, so admin.js
-       404s and the login stays blank. Pin a base to this directory. -->
+  <!-- /admin (no trailing slash) resolves relative CSS/JS against /, so
+       assets 404 and the login stays blank. Pin a base to this directory. -->
   <script>
     (function () {
       var path = location.pathname;
@@ -15,227 +15,287 @@
     })();
   </script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f4e6cf">
-  <meta name="color-scheme" content="light only">
-  <meta name="supported-color-schemes" content="light">
-  <style>html,body{color-scheme:light only;background-color:#f4e6cf}</style>
-  <meta name="description" content="Trang quản trị POET: bật/tắt ủng hộ, xem lịch sử, xuất Excel, đổi mật khẩu.">
   <meta name="robots" content="noindex, nofollow">
-  <title>Admin — POET</title>
-  <link rel="icon" type="image/jpeg" href="../assets/logo/1555047679990943.jpg">
-  <link rel="apple-touch-icon" href="../assets/logo/1555047679990943.jpg">
-  <link rel="stylesheet" href="../style.css">
-  <script src="../components/site-header.js" defer></script>
-  <script src="../components/site-footer.js" defer></script>
-  <script src="../app.js" defer></script>
+  <title>Quản trị — POET</title>
+  <meta name="description" content="Trang quản trị POET (v2): bật/tắt ủng hộ, sổ cá nhân và doanh nghiệp, xuất Excel, đổi mật khẩu.">
+  <meta name="theme-color" content="#fbf8f2">
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/brand/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="48x48" href="../assets/brand/favicon-48.png">
+  <link rel="apple-touch-icon" href="../assets/brand/favicon-180.png">
+  <link rel="preload" href="../fonts/Product%20Sans%20Regular.otf" as="font" type="font/otf" crossorigin data-site-font>
+  <!-- Tokens only: no poet-nav, no donate dialog, no GSAP, no playground. -->
+  <link rel="stylesheet" href="../v2.css">
+  <link rel="stylesheet" href="../site.css?v=fb-30">
+  <link rel="stylesheet" href="admin.css?v=fb-48">
+  <!-- Classic script; config.js must load first so window.POET_API_BASE exists. -->
   <script src="../config.js" defer></script>
   <script src="admin.js" defer></script>
 </head>
-<body>
-  <a class="skip-link" href="#main">Bỏ qua điều hướng</a>
-  <site-header></site-header>
+<body class="admin-body">
+  <a class="skip-link" href="#noi-dung">Bỏ qua điều hướng</a>
+  <main id="noi-dung">
 
-  <main id="main" class="admin">
-    <!-- <section class="page-hero container page-hero-center" aria-labelledby="admin-title">
-      <div class="section-kicker">QUẢN TRỊ</div>
-      <h1 id="admin-title">Chào team,<br><span class="underline-swoosh">giữ nhịp ở đây.</span></h1>
-      <p>Bật/tắt nhận ủng hộ, theo dõi lịch sử, xuất Excel và đổi mật khẩu.</p>
-    </section> -->
-
-    <section class="section-pad container" id="login-section" aria-labelledby="login-title">
-      <div class="admin-card admin-card-center">
-        <div class="section-kicker">ĐĂNG NHẬP</div>
-        <h2 id="login-title">Vào khu vực quản trị.</h2>
+    <section class="admin-login" id="login-section" aria-labelledby="login-title">
+      <div class="admin-login-card">
+        <p class="admin-kicker">Đăng nhập</p>
+        <h1 id="login-title">Vào khu vực quản trị.</h1>
         <p class="admin-hint">Lần đầu dùng tài khoản mặc định <strong>admin</strong> / <strong>admin</strong>, rồi đổi mật khẩu ngay.</p>
         <form id="login-form" novalidate>
-          <label class="donate-field" for="login-username">
+          <label class="admin-field" for="login-username">
             <span>Tên đăng nhập</span>
             <input id="login-username" name="username" type="text" autocomplete="username" required>
           </label>
-          <label class="donate-field" for="login-password">
+          <label class="admin-field" for="login-password">
             <span>Mật khẩu</span>
             <input id="login-password" name="password" type="password" autocomplete="current-password" required>
           </label>
-          <p class="donate-error" id="login-error" role="alert" hidden></p>
-          <button class="button button-purple button-big" id="login-submit" type="submit">Đăng nhập</button>
+          <p class="admin-error" id="login-error" role="alert" hidden></p>
+          <button class="btn" id="login-submit" type="submit">Đăng nhập</button>
         </form>
 
-        <details class="admin-recover" id="recover-panel">
+        <details class="admin-recover">
           <summary>Quên mật khẩu? Khôi phục bằng mã dev</summary>
           <p class="admin-hint">Dành cho người giữ Worker secret <code>ADMIN_TOKEN</code> (file <code>.admin-token</code>). Đặt lại mật khẩu đăng nhập khi bị quên.</p>
           <form id="recover-form" novalidate>
-            <label class="donate-field" for="recover-username">
+            <label class="admin-field" for="recover-username">
               <span>Tên đăng nhập</span>
               <input id="recover-username" type="text" value="admin" autocomplete="username">
             </label>
-            <label class="donate-field" for="recover-token">
+            <label class="admin-field" for="recover-token">
               <span>Mã khôi phục (ADMIN_TOKEN)</span>
               <input id="recover-token" type="password" autocomplete="off" required>
             </label>
-            <label class="donate-field" for="recover-password">
+            <label class="admin-field" for="recover-password">
               <span>Mật khẩu mới (từ 4 ký tự)</span>
               <input id="recover-password" type="password" autocomplete="new-password" required>
             </label>
-            <label class="donate-field" for="recover-confirm">
+            <label class="admin-field" for="recover-confirm">
               <span>Nhập lại mật khẩu mới</span>
               <input id="recover-confirm" type="password" autocomplete="new-password" required>
             </label>
-            <p class="donate-error" id="recover-error" role="alert" hidden></p>
+            <p class="admin-error" id="recover-error" role="alert" hidden></p>
             <p class="admin-status" id="recover-status" role="status"></p>
-            <button class="button button-outline" id="recover-submit" type="submit">Đặt lại mật khẩu</button>
+            <button class="btn btn--outline" id="recover-submit" type="submit">Đặt lại mật khẩu</button>
           </form>
         </details>
       </div>
     </section>
 
     <div id="dashboard" hidden>
-      <div class="admin-layout" id="admin-layout" aria-label="Bảng quản trị">
-        <aside class="admin-sidebar" id="admin-sidebar" aria-label="Menu quản trị">
-          <div class="admin-sidebar-top">
-            <button
-              type="button"
-              class="admin-nav-toggle"
-              id="admin-nav-toggle"
-              aria-expanded="true"
-              aria-controls="admin-sidebar"
-              title="Thu gọn menu"
-            >
-              <span class="admin-nav-toggle-icon" aria-hidden="true"></span>
-              <span class="admin-nav-toggle-label">Thu gọn</span>
-            </button>
-          </div>
-          <nav class="admin-side-nav" id="admin-side-nav" aria-label="Tab quản trị">
-            <button type="button" class="admin-nav-btn is-active" data-tab="donations" aria-current="page" title="Ủng hộ">
-              <span class="admin-nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></span>
-              <span class="admin-nav-label">Ủng hộ</span>
-            </button>
-            <button type="button" class="admin-nav-btn" data-tab="password" title="Mật khẩu">
-              <span class="admin-nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><rect x="4.5" y="10.5" width="15" height="10" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/><circle cx="12" cy="15.5" r="1.3" fill="currentColor" stroke="none"/></svg></span>
-              <span class="admin-nav-label">Mật khẩu</span>
-            </button>
-          </nav>
-          <div class="admin-sidebar-foot">
-            <p class="admin-sidebar-user">
-              <span class="admin-sidebar-user-label">Đăng nhập bằng</span>
-              <strong id="current-user"></strong>
-            </p>
-            <button class="button button-outline admin-logout-btn" id="logout-btn" type="button" title="Đăng xuất">
-              <span class="admin-nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M14 4h3.5A2.5 2.5 0 0 1 20 6.5v11a2.5 2.5 0 0 1-2.5 2.5H14"/><path d="M10 16l-4-4 4-4"/><path d="M6 12h9"/></svg></span>
-              <span class="admin-nav-label">Đăng xuất</span>
-            </button>
-          </div>
-        </aside>
+      <header class="admin-bar">
+        <a class="admin-wordmark" href="../" aria-label="POET, trang chủ">
+          <img src="../assets/brand/poet-logo.webp" alt="" width="30" height="39">
+          <span class="admin-wordmark-letters" aria-hidden="true"><span>P</span><span>O</span><span>E</span><span>T</span></span>
+        </a>
+        <span class="admin-bar-label">Quản trị</span>
+        <span class="admin-bar-user" id="current-user"></span>
+        <button class="btn btn--outline admin-logout" id="logout-btn" type="button">Đăng xuất</button>
+      </header>
+
+      <div class="admin-shell">
+        <nav class="admin-side" aria-label="Tab quản trị">
+          <button type="button" class="admin-side-btn is-active" data-tab="ung-ho" id="side-ung-ho" aria-current="page">Ủng hộ</button>
+          <button type="button" class="admin-side-btn" data-tab="mat-khau" id="side-mat-khau">Mật khẩu</button>
+        </nav>
 
         <div class="admin-main">
-          <div class="admin-panels">
-            <div class="admin-panel is-active" id="tab-donations" data-panel="donations">
-              <div class="admin-card">
-                <div class="section-kicker">TRANG ỦNG HỘ</div>
-                <h2 id="settings-title">Bật / tắt nhận ủng hộ.</h2>
+          <section class="admin-panel is-active" id="ung-ho" data-panel="ung-ho" aria-labelledby="side-ung-ho">
+            <div class="admin-card">
+              <div class="admin-card-head">
+                <p class="admin-kicker">Trang ủng hộ</p>
+                <h2>Nhận ủng hộ cá nhân.</h2>
                 <p class="admin-hint">Khi tắt, trang Ủng hộ ẩn form và không tạo được link thanh toán mới. Tường lời nhắn vẫn hiện.</p>
-                <label class="admin-switch">
-                  <input id="donations-toggle" type="checkbox">
-                  <span class="admin-switch-ui" aria-hidden="true"></span>
-                  <span id="donations-toggle-label">Đang tải…</span>
+              </div>
+              <label class="admin-switch">
+                <input id="donations-toggle" type="checkbox">
+                <span class="admin-switch-ui" aria-hidden="true"></span>
+                <span id="donations-toggle-label">Đang tải…</span>
+              </label>
+              <p class="admin-status" id="settings-status" role="status"></p>
+            </div>
+
+            <!-- One line, not a card grid. The goal is a content fact owned by
+                 data/content.mjs (season.targetAmount); the script only labels it. -->
+            <p class="admin-fund-summary" id="fund-summary" role="status">
+              Cá nhân đã nhận <strong id="sum-individual">—</strong>
+              <span aria-hidden="true"> · </span>
+              Doanh nghiệp đã nhận <strong id="sum-business">—</strong>
+              <span aria-hidden="true"> · </span>
+              Tổng tiến độ <strong id="sum-total">—</strong>
+              <span aria-hidden="true"> · </span>
+              Mục tiêu công khai <strong id="sum-goal">—</strong>
+            </p>
+
+            <div class="admin-subtabs" role="tablist" aria-label="Loại khoản gây quỹ">
+              <button type="button" role="tab" id="sub-ca-nhan" aria-controls="ca-nhan" aria-selected="true" tabindex="0">Cá nhân</button>
+              <button type="button" role="tab" id="sub-doanh-nghiep" aria-controls="doanh-nghiep" aria-selected="false" tabindex="-1">Doanh nghiệp</button>
+            </div>
+
+            <div class="admin-subpanel" role="tabpanel" id="ca-nhan" aria-labelledby="sub-ca-nhan" tabindex="0">
+              <p class="admin-fund-summary" id="individual-totals" role="status">
+                Đã nhận <strong id="total-received">—</strong><span id="total-received-count"></span>
+                <span aria-hidden="true"> · </span>
+                Đang xem <strong id="total-filtered">—</strong>
+              </p>
+              <div class="admin-filters">
+                <label class="admin-filter" for="status-filter">
+                  <span>Trạng thái</span>
+                  <select id="status-filter">
+                    <option value="">Tất cả</option>
+                    <option value="pending">pending — chờ thanh toán</option>
+                    <option value="expired">hết hạn — link quá 30 phút</option>
+                    <option value="success">success — đã nhận</option>
+                  </select>
                 </label>
-                <p class="admin-status" id="settings-status" role="status"></p>
+                <label class="admin-filter" for="hidden-filter">
+                  <span>Lời nhắn</span>
+                  <select id="hidden-filter">
+                    <option value="all">Tất cả</option>
+                    <option value="hidden">Đang ẩn</option>
+                    <option value="visible">Đang hiện</option>
+                  </select>
+                </label>
+                <label class="admin-filter" for="search-input">
+                  <span>Tìm kiếm</span>
+                  <input id="search-input" type="search" placeholder="Tên, lời nhắn, mã đơn, TK NH…">
+                </label>
+                <button class="btn btn--outline" id="reload-btn" type="button">Tải lại</button>
+                <button class="btn btn--outline" id="export-btn" type="button">Xuất Excel</button>
               </div>
-
-              <div class="admin-card admin-card-wide">
-                <div class="section-kicker">LỊCH SỬ ỦNG HỘ</div>
-                <h2 id="history-title">Theo dõi mọi món quà.</h2>
-                <div class="admin-totals" id="admin-totals" role="status">
-                  <div class="admin-total-pill">
-                    <span>Đã nhận (success)</span>
-                    <strong id="total-received">—</strong>
-                  </div>
-                  <div class="admin-total-pill">
-                    <span>Số khoản đã nhận</span>
-                    <strong id="total-received-count">—</strong>
-                  </div>
-                  <div class="admin-total-pill">
-                    <span>Đang xem (lọc)</span>
-                    <strong id="total-filtered">—</strong>
-                  </div>
-                </div>
-                <div class="admin-filters">
-                  <label class="admin-filter" for="status-filter">
-                    <span>Trạng thái</span>
-                    <select id="status-filter">
-                      <option value="">Tất cả</option>
-                      <option value="pending">pending — chờ thanh toán</option>
-                      <option value="expired">hết hạn — link quá 30 phút</option>
-                      <option value="success">success — đã nhận</option>
-                    </select>
-                  </label>
-                  <label class="admin-filter" for="hidden-filter">
-                    <span>Lời nhắn</span>
-                    <select id="hidden-filter">
-                      <option value="all">Tất cả</option>
-                      <option value="hidden">Đang ẩn</option>
-                      <option value="visible">Đang hiện</option>
-                    </select>
-                  </label>
-                  <label class="admin-filter" for="search-input">
-                    <span>Tìm kiếm</span>
-                    <input id="search-input" type="search" placeholder="Tên, lời nhắn, mã đơn, TK NH…">
-                  </label>
-                  <button class="button button-outline" id="reload-btn" type="button">Tải lại</button>
-                  <button class="button button-purple" id="export-btn" type="button">Xuất Excel</button>
-                </div>
-                <p class="admin-summary" id="history-summary" role="status"></p>
-                <div class="admin-table-wrap">
-                  <table class="admin-table" id="history-table">
-                    <thead>
-                      <tr>
-                        <th>Mã đơn</th>
-                        <th>Trạng thái</th>
-                        <th>Số tiền</th>
-                        <th>Tên</th>
-                        <th>Lời nhắn</th>
-                        <th>Ẩn</th>
-                        <th>Ẩn danh</th>
-                        <th>Tạo lúc</th>
-                        <th>Trả lúc</th>
-                        <th>Thao tác</th>
-                      </tr>
-                    </thead>
-                    <tbody id="history-body"></tbody>
-                  </table>
-                </div>
+              <p class="admin-summary" id="history-summary" role="status"></p>
+              <div class="admin-table-wrap" data-individual="true">
+                <table class="admin-table" id="history-table">
+                  <thead>
+                    <tr>
+                      <th scope="col">Mã đơn</th>
+                      <th scope="col">Trạng thái</th>
+                      <th scope="col">Số tiền</th>
+                      <th scope="col">Tên</th>
+                      <th scope="col">Lời nhắn</th>
+                      <th scope="col">Ẩn</th>
+                      <th scope="col">Ẩn danh</th>
+                      <th scope="col">Tạo lúc</th>
+                      <th scope="col">Trả lúc</th>
+                      <th scope="col">Thao tác</th>
+                    </tr>
+                  </thead>
+                  <tbody id="history-body"></tbody>
+                </table>
               </div>
+              <!-- Under 700px each row becomes a stacked block; admin.js fills this. -->
+              <div class="admin-cards" id="history-cards" hidden></div>
             </div>
 
-            <div class="admin-panel" id="tab-password" data-panel="password" hidden>
-              <div class="admin-card">
-                <div class="section-kicker">BẢO MẬT</div>
-                <h2 id="password-title">Đổi mật khẩu.</h2>
+            <div class="admin-subpanel" role="tabpanel" id="doanh-nghiep" aria-labelledby="sub-doanh-nghiep" tabindex="0" hidden>
+              <div class="admin-filters">
+                <label class="admin-filter" for="business-status-filter">
+                  <span>Trạng thái</span>
+                  <select id="business-status-filter">
+                    <option value="">Tất cả</option>
+                    <option value="pledged">Đang thương lượng</option>
+                    <option value="received">Đã nhận</option>
+                    <option value="cancelled">Đã huỷ</option>
+                  </select>
+                </label>
+                <label class="admin-filter" for="business-search">
+                  <span>Tìm kiếm</span>
+                  <input id="business-search" type="search" placeholder="Tên, người liên hệ, email, SĐT, ghi chú…">
+                </label>
+                <button class="btn btn--outline" id="business-reload-btn" type="button">Tải lại</button>
+                <button class="btn btn--outline" id="business-export-btn" type="button">Xuất Excel</button>
+                <button class="btn" id="business-add-btn" type="button">Thêm doanh nghiệp</button>
+              </div>
+              <p class="admin-summary" id="business-summary" role="status"></p>
+              <div class="admin-table-wrap">
+                <table class="admin-table" id="business-table">
+                  <thead>
+                    <tr>
+                      <th scope="col">Tên</th>
+                      <th scope="col">Người liên hệ</th>
+                      <th scope="col">Số tiền</th>
+                      <th scope="col">Trạng thái</th>
+                      <th scope="col">Ngày cập nhật</th>
+                      <th scope="col">Thao tác</th>
+                    </tr>
+                  </thead>
+                  <tbody id="business-body"></tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+
+          <section class="admin-panel" id="mat-khau" data-panel="mat-khau" aria-labelledby="side-mat-khau" hidden>
+            <div class="admin-card">
+              <div class="admin-card-head">
+                <p class="admin-kicker">Bảo mật</p>
+                <h2>Đổi mật khẩu.</h2>
                 <p class="admin-hint">Đổi mật khẩu đăng nhập hiện tại. Nếu quên mật khẩu, đăng xuất rồi dùng mục khôi phục trên màn hình đăng nhập (cần mã <code>ADMIN_TOKEN</code>).</p>
-                <form id="password-form" novalidate>
-                  <label class="donate-field" for="current-password">
-                    <span>Mật khẩu hiện tại</span>
-                    <input id="current-password" type="password" autocomplete="current-password" required>
-                  </label>
-                  <label class="donate-field" for="new-password">
-                    <span>Mật khẩu mới (từ 4 ký tự)</span>
-                    <input id="new-password" type="password" autocomplete="new-password" required>
-                  </label>
-                  <label class="donate-field" for="confirm-password">
-                    <span>Nhập lại mật khẩu mới</span>
-                    <input id="confirm-password" type="password" autocomplete="new-password" required>
-                  </label>
-                  <p class="donate-error" id="password-error" role="alert" hidden></p>
-                  <p class="admin-status" id="password-status" role="status"></p>
-                  <button class="button button-purple" id="password-submit" type="submit">Đổi mật khẩu</button>
-                </form>
               </div>
+              <form id="password-form" novalidate>
+                <label class="admin-field" for="current-password">
+                  <span>Mật khẩu hiện tại</span>
+                  <input id="current-password" type="password" autocomplete="current-password" required>
+                </label>
+                <label class="admin-field" for="new-password">
+                  <span>Mật khẩu mới (4–72 ký tự)</span>
+                  <input id="new-password" type="password" autocomplete="new-password" required minlength="4" maxlength="72">
+                </label>
+                <label class="admin-field" for="confirm-password">
+                  <span>Nhập lại mật khẩu mới</span>
+                  <input id="confirm-password" type="password" autocomplete="new-password" required>
+                </label>
+                <p class="admin-error" id="password-error" role="alert" hidden></p>
+                <p class="admin-status" id="password-status" role="status"></p>
+                <button class="btn" id="password-submit" type="submit">Đổi mật khẩu</button>
+              </form>
             </div>
-          </div>
+          </section>
         </div>
       </div>
     </div>
   </main>
 
-  <site-footer></site-footer>
+  <dialog id="business-dialog" class="admin-dialog" aria-labelledby="business-dialog-title">
+    <form id="business-form" novalidate>
+      <h2 id="business-dialog-title">Thêm doanh nghiệp</h2>
+      <label class="admin-field" for="business-name">
+        <span>Tên doanh nghiệp</span>
+        <input id="business-name" name="businessName" type="text" maxlength="160" required>
+      </label>
+      <label class="admin-field" for="business-contact">
+        <span>Người liên hệ</span>
+        <input id="business-contact" name="contactName" type="text" maxlength="80">
+      </label>
+      <label class="admin-field" for="business-email">
+        <span>Email <small>(không bắt buộc)</small></span>
+        <input id="business-email" name="contactEmail" type="email" maxlength="120" placeholder="ten@congty.vn">
+      </label>
+      <label class="admin-field" for="business-phone">
+        <span>Số điện thoại <small>(không bắt buộc)</small></span>
+        <input id="business-phone" name="contactPhone" type="tel" maxlength="30">
+      </label>
+      <label class="admin-field" for="business-amount">
+        <span>Số tiền (VNĐ)</span>
+        <input id="business-amount" name="amount" type="number" inputmode="numeric" min="1" max="2000000000" step="1" required>
+      </label>
+      <label class="admin-field" for="business-status">
+        <span>Trạng thái</span>
+        <select id="business-status" name="status" required>
+          <option value="received" selected>Đã nhận</option>
+          <option value="pledged">Đang thương lượng</option>
+          <option value="cancelled">Đã huỷ</option>
+        </select>
+      </label>
+      <label class="admin-field" for="business-note">
+        <span>Ghi chú nội bộ</span>
+        <textarea id="business-note" name="note" maxlength="500" rows="3"></textarea>
+      </label>
+      <p class="admin-error" id="business-error" role="alert" hidden></p>
+      <div class="admin-dialog-actions">
+        <button type="button" class="btn btn--outline" id="business-cancel-btn">Huỷ</button>
+        <button type="submit" class="btn" id="business-submit">Lưu</button>
+      </div>
+    </form>
+  </dialog>
 </body>
 </html>

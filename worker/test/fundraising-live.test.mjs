@@ -1,9 +1,9 @@
-// Pure check of the v2 live module's fundraising mapping: no DOM, no fetch.
+// Pure check of the live module's fundraising mapping: no DOM, no fetch.
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
-import { parseFundraising } from '../../v2/fundraising-live.mjs';
+import { parseFundraising } from '../../fundraising-live.mjs';
 
-describe('parseFundraising (v2 fundraising-live.mjs)', () => {
+describe('parseFundraising (fundraising-live.mjs)', () => {
   it('fundraising object present -> raised plus both counts', () => {
     const data = {
       donations: [],

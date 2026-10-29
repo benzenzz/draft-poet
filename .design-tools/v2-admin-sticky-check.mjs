@@ -24,7 +24,7 @@ await page.addInitScript(() => {
   sessionStorage.setItem('poetAdminToken', 't');
   sessionStorage.setItem('poetAdminUser', 'admin');
 });
-await page.goto('http://127.0.0.1:8139/v2/admin/');
+await page.goto('http://127.0.0.1:8139/admin/');
 await page.waitForTimeout(400);
 const atTop = await page.evaluate(() => {
   const bar = document.querySelector('.admin-bar');

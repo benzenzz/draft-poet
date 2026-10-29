@@ -1,4 +1,4 @@
-// v2/admin + fundraising card QA. Headless Edge via the project-local playwright.
+// admin + fundraising card QA. Headless Edge via the project-local playwright.
 // No live API traffic: every Worker call is intercepted. Nothing is submitted.
 import { createRequire } from 'node:module';
 import { spawn } from 'node:child_process';
@@ -109,7 +109,7 @@ try {
   for (const [label, width, height] of [['desktop', 1280, 900], ['narrow', 390, 844]]) {
     const ctx = await browser.newContext({ viewport: { width, height } });
     const page = await ctx.newPage();
-    await page.goto('http://127.0.0.1:8137/v2/admin/');
+    await page.goto('http://127.0.0.1:8137/admin/');
     await page.waitForTimeout(300);
     check(`login form visible (${label})`, await page.locator('#login-form').isVisible());
     check(`no horizontal overflow (${label})`, (await overflow(page)) <= 0, `delta=${await overflow(page)}`);
@@ -143,7 +143,7 @@ try {
     const ctx = await browser.newContext({ viewport: { width: 1280, height: 900 } });
     const page = await ctx.newPage();
     await fundraisingRoute(page, oldShape);
-    await page.goto('http://127.0.0.1:8137/v2/');
+    await page.goto('http://127.0.0.1:8137/');
     await page.waitForTimeout(800);
     const card = page.locator('[data-fund-animate]').first();
     await card.scrollIntoViewIfNeeded();
@@ -172,7 +172,7 @@ try {
     const ctx = await browser.newContext({ viewport: { width: 1280, height: 900 } });
     const page = await ctx.newPage();
     await fundraisingRoute(page, newShape);
-    await page.goto('http://127.0.0.1:8137/v2/');
+    await page.goto('http://127.0.0.1:8137/');
     await page.waitForTimeout(800);
     const card = page.locator('[data-fund-animate]').first();
     await card.scrollIntoViewIfNeeded();
@@ -199,7 +199,7 @@ try {
     await page.screenshot({ path: path.join(OUT, 'home-new-shape.png') });
 
     // ?fundraisingPreview wins on localhost and skips the live write.
-    await page.goto('http://127.0.0.1:8137/v2/?fundraisingPreview=99999999');
+    await page.goto('http://127.0.0.1:8137/?fundraisingPreview=99999999');
     await page.waitForTimeout(2000);
     const preview = await page.evaluate(() => {
       const c = document.querySelector('[data-fund-animate]');
@@ -212,7 +212,7 @@ try {
     const ctx2 = await browser.newContext({ viewport: { width: 1280, height: 900 }, reducedMotion: 'reduce' });
     const page2 = await ctx2.newPage();
     await fundraisingRoute(page2, newShape);
-    await page2.goto('http://127.0.0.1:8137/v2/');
+    await page2.goto('http://127.0.0.1:8137/');
     await page2.waitForTimeout(1200);
     const reduced = await page2.evaluate(() => {
       const c = document.querySelector('[data-fund-animate]');
@@ -232,7 +232,7 @@ try {
     const ctx = await browser.newContext({ viewport: { width: 1280, height: 900 } });
     const page = await ctx.newPage();
     await fundraisingRoute(page, newShape);
-    await page.goto('http://127.0.0.1:8137/v2/du-an/');
+    await page.goto('http://127.0.0.1:8137/du-an/');
     await page.waitForTimeout(800);
     await page.locator('[data-fund-animate]').first().scrollIntoViewIfNeeded();
     await page.waitForTimeout(2600);
@@ -262,7 +262,7 @@ try {
     });
     const dialogs = [];
     page.on('dialog', async (d) => { dialogs.push(d.message()); await d.accept(); });
-    await page.goto('http://127.0.0.1:8137/v2/admin/');
+    await page.goto('http://127.0.0.1:8137/admin/');
     await page.waitForTimeout(500);
 
     check('dashboard visible when session token exists', await page.locator('#dashboard').isVisible());
@@ -345,7 +345,7 @@ try {
     });
     const dialogs3 = [];
     page3.on('dialog', async (d) => { dialogs3.push(d.message()); await d.accept(); });
-    await page3.goto('http://127.0.0.1:8137/v2/admin/#doanh-nghiep');
+    await page3.goto('http://127.0.0.1:8137/admin/#doanh-nghiep');
     await page3.waitForTimeout(500);
     const selects = page3.locator('#business-body .admin-status-select');
     await selects.nth(0).selectOption('pledged'); // received -> pledged, confirm + fail
@@ -400,7 +400,7 @@ try {
       sessionStorage.setItem('poetAdminToken', 'test-token');
       sessionStorage.setItem('poetAdminUser', 'admin');
     });
-    await pageM.goto('http://127.0.0.1:8137/v2/admin/');
+    await pageM.goto('http://127.0.0.1:8137/admin/');
     await pageM.waitForTimeout(500);
     check('narrow: no horizontal overflow', (await overflow(pageM)) <= 0, `delta=${await overflow(pageM)}`);
     check('narrow: side items become a row', await pageM.evaluate(() => {
@@ -426,7 +426,7 @@ try {
       sessionStorage.setItem('poetAdminToken', 'test-token');
       sessionStorage.setItem('poetAdminUser', 'admin');
     });
-    await pageD.goto('http://127.0.0.1:8137/v2/admin/');
+    await pageD.goto('http://127.0.0.1:8137/admin/');
     await pageD.waitForTimeout(500);
     await pageD.screenshot({ path: path.join(OUT, 'admin-dashboard-desktop.png'), fullPage: true });
     await ctxD.close();

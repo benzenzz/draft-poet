@@ -93,7 +93,7 @@ try {
     const gsap = await call('browser_evaluate', { function: `async () => { const deadline = Date.now() + 15000; while (!window.gsap && Date.now() < deadline) await new Promise(resolve => setTimeout(resolve, 200)); return {version: window.gsap?.version ?? null, title: document.title}; }` });
     evidence.gsapRuntime = gsap.text;
     check('Original homepage opened; GSAP runtime observation', gsap.text);
-    await call('browser_navigate', { url: base + '/v2/' });
+    await call('browser_navigate', { url: base + '/' });
     for (const [name, width, height] of [['desktop', 1440, 1000], ['tablet', 768, 1024], ['mobile', 390, 844]]) {
       await call('browser_resize', { width, height });
       const measurement = await call('browser_evaluate', { function: `async () => { await document.fonts.ready; return {width: innerWidth, scrollWidth: document.documentElement.scrollWidth, horizontalOverflow: document.documentElement.scrollWidth > innerWidth, heading: document.querySelector('h1')?.textContent?.trim()}; }` });
@@ -122,7 +122,7 @@ try {
     assert.match(scroll.text, /"scrollY":\s*[1-9]/);
     check('Page scroll through MCP', scroll.text);
     await call('browser_emulate_media', { reducedMotion: 'reduce' });
-    await call('browser_navigate', { url: base + '/v2/' });
+    await call('browser_navigate', { url: base + '/' });
     const reduced = await call('browser_evaluate', { function: `() => ({ reducedMotion: matchMedia('(prefers-reduced-motion: reduce)').matches, heading: document.querySelector('h1')?.textContent?.trim(), horizontalOverflow: document.documentElement.scrollWidth > innerWidth })` });
     assert.match(reduced.text, /"reducedMotion":\s*true/);
     check('Reduced-motion browser emulation', reduced.text);

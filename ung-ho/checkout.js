@@ -1,5 +1,5 @@
 // Shared existing Worker/PayOS checkout contract. The provider supplies the QR.
-// API base comes from root config.js: v2/site.js imports it first, and ung-ho
+// API base comes from root config.js: site.js imports it first, and ung-ho
 // pages load it as a defer script before this one.
 (() => {
   const API_BASE = window.POET_API_BASE;
