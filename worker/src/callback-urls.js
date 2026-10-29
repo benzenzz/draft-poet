@@ -1,6 +1,6 @@
 /** PayOS return/cancel URL validation. Pure, unit-tested. */
 import { PROD_CANCEL_URL, PROD_RETURN_URL } from './config.js';
-import { isLocalDevOrigin } from './http.js';
+import { isAllowedOrigin, isLocalDevOrigin } from './http.js';
 
 function isAllowedCallback(url, origin, pathSuffix) {
   return (
@@ -18,13 +18,14 @@ function isAllowedCallback(url, origin, pathSuffix) {
  * - No Origin header (curl, PayOS server calls): fall back to production URLs.
  * - Otherwise the supplied URLs must live on the same origin and end with
  *   /ung-ho/return.html and /ung-ho/cancel.html (no query, hash or userinfo).
+ * - allowedOrigin may be a single origin or a comma-separated list.
  */
 export function resolvePayosReturnUrls({ origin, allowedOrigin, returnUrl, cancelUrl }) {
   if (!origin) {
     return { returnUrl: PROD_RETURN_URL, cancelUrl: PROD_CANCEL_URL };
   }
 
-  if (origin !== allowedOrigin && !isLocalDevOrigin(origin)) {
+  if (!isAllowedOrigin(origin, allowedOrigin) && !isLocalDevOrigin(origin)) {
     return null;
   }
 

@@ -147,7 +147,7 @@ describe('store gift columns', () => {
     const r = await listPublicDonations(env);
     assert.equal(r.donations[0].giftId, 'tap');
     assert.equal(r.donations[0].giftQty, 5);
-    assert.equal(log.length, 2); // the two statements of one batch, no extra reads
+    assert.equal(log.length, 3); // wall list + totals + business aggregate, one batch
   });
   it('public list falls back if migration 0004 is missing', async () => {
     const { env } = fakeEnv({ hasGiftColumns: false });

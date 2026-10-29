@@ -156,10 +156,10 @@ export async function setPaymentLinkId(env, orderCode, paymentLinkId) {
     .run();
 }
 
-function publicListStatements(env, withGift, sort) {
+function publicListStatements(env, withGift, withBusiness, sort) {
   // sort=amount uses idx_donations_success_amount (status, amount).
   const order = sort === 'amount' ? 'amount DESC, paid_at DESC' : 'paid_at DESC';
-  return [
+  const statements = [
     env.DB.prepare(
       `SELECT display_name AS displayName,
               CASE WHEN hidden = 1 THEN '' ELSE message END AS message,
@@ -175,27 +175,69 @@ function publicListStatements(env, withGift, sort) {
        WHERE status = 'success'`,
     ),
   ];
+  if (withBusiness) {
+    // Fundraising object: only `received` deals count (migration 0005).
+    statements.push(
+      env.DB.prepare(
+        `SELECT COALESCE(SUM(amount), 0) AS businessAmount, COUNT(*) AS businessCount
+         FROM business_deals
+         WHERE status = 'received'`,
+      ),
+    );
+  }
+  return statements;
 }
 
 export async function listPublicDonations(env, sort = 'new') {
-  // One round trip for both queries. idx_donations_success_amount makes the
+  // One round trip for every query. idx_donations_success_amount makes the
   // SUM/COUNT an index-only scan instead of reading whole donation rows.
-  // Falls back to the pre-0004 columns if the gift migration is not applied.
+  // Falls back progressively: pre-0004 columns when the gift migration is not
+  // applied, and zero business figures when business_deals is missing, so an
+  // old database never breaks the wall response.
   let list;
   let totals;
-  try {
-    [list, totals] = await env.DB.batch(publicListStatements(env, true, sort));
-  } catch (err) {
-    if (!/gift_/i.test(String(err?.message || err))) throw err;
-    [list, totals] = await env.DB.batch(publicListStatements(env, false, sort));
+  let businessRow;
+  let withGift = true;
+  let withBusiness = true;
+  for (let attempt = 0; attempt < 4; attempt++) {
+    try {
+      [list, totals, businessRow] = await env.DB.batch(
+        publicListStatements(env, withGift, withBusiness, sort),
+      );
+      break;
+    } catch (err) {
+      const msg = String(err?.message || err);
+      let retry = false;
+      if (withGift && /gift_/i.test(msg)) {
+        withGift = false;
+        retry = true;
+      }
+      if (withBusiness && /business_deals/i.test(msg)) {
+        withBusiness = false;
+        retry = true;
+      }
+      if (!retry) throw err;
+    }
   }
   const results = list.results;
   const totalRow = totals.results?.[0];
+  const business = businessRow?.results?.[0] || {};
+  const individualAmount = Number(totalRow?.totalAmount) || 0;
+  const individualCount = Number(totalRow?.totalCount) || 0;
+  const businessAmount = Number(business.businessAmount) || 0;
+  const businessCount = Number(business.businessCount) || 0;
 
   return {
     donations: results || [],
-    totalAmount: Number(totalRow?.totalAmount) || 0,
-    totalCount: Number(totalRow?.totalCount) || 0,
+    totalAmount: individualAmount,
+    totalCount: individualCount,
+    fundraising: {
+      individualAmount,
+      individualCount,
+      businessAmount,
+      businessCount,
+      raisedAmount: individualAmount + businessAmount,
+    },
   };
 }
 
@@ -365,5 +407,89 @@ export async function findAdminPasswordHash(env, username) {
   return env.DB.prepare('SELECT password_hash FROM admin_users WHERE username = ?')
     .bind(username)
     .first();
+}
+
+/* -- business deals (migration 0005) -- */
+
+const BUSINESS_LIST_LIMIT = 500;
+
+const BUSINESS_SELECT = `SELECT id, business_name AS businessName,
+    contact_name AS contactName, contact_email AS contactEmail,
+    contact_phone AS contactPhone, tax_code AS taxCode,
+    amount, status, note, created_at AS createdAt, updated_at AS updatedAt,
+    created_by AS createdBy
+ FROM business_deals`;
+
+export async function listBusinessDeals(env) {
+  const { results } = await env.DB.prepare(
+    `${BUSINESS_SELECT} ORDER BY updated_at DESC LIMIT ${BUSINESS_LIST_LIMIT}`,
+  ).all();
+  return results || [];
+}
+
+/** Public aggregate: only `received` deals count toward the fundraising total. */
+export async function businessReceivedTotals(env) {
+  try {
+    const row = await env.DB.prepare(
+      `SELECT COALESCE(SUM(amount), 0) AS businessAmount, COUNT(*) AS businessCount
+       FROM business_deals WHERE status = 'received'`,
+    ).first();
+    return {
+      businessAmount: Number(row?.businessAmount) || 0,
+      businessCount: Number(row?.businessCount) || 0,
+    };
+  } catch {
+    // Migration not applied yet: the wall keeps working with zero business money.
+    return { businessAmount: 0, businessCount: 0 };
+  }
+}
+
+export async function createBusinessDeal(env, deal, username, nowIso) {
+  const id = randomHex(16);
+  await env.DB.prepare(
+    `INSERT INTO business_deals (
+       id, business_name, contact_name, contact_email, contact_phone,
+       tax_code, amount, status, note, created_at, updated_at, created_by
+     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+  )
+    .bind(
+      id, deal.businessName, deal.contactName, deal.contactEmail, deal.contactPhone,
+      deal.taxCode, deal.amount, deal.status, deal.note, nowIso, nowIso, username,
+    )
+    .run();
+  return findBusinessDeal(env, id);
+}
+
+export async function findBusinessDeal(env, id) {
+  return env.DB.prepare(`${BUSINESS_SELECT} WHERE id = ?`).bind(id).first();
+}
+
+const BUSINESS_COLUMNS = {
+  businessName: 'business_name',
+  contactName: 'contact_name',
+  contactEmail: 'contact_email',
+  contactPhone: 'contact_phone',
+  taxCode: 'tax_code',
+  amount: 'amount',
+  status: 'status',
+  note: 'note',
+};
+
+/** fields is a validated subset from business.js; updated_at is bumped here. */
+export async function updateBusinessDeal(env, id, fields, nowIso) {
+  const keys = Object.keys(fields).filter((key) => BUSINESS_COLUMNS[key]);
+  const sets = keys.map((key) => `${BUSINESS_COLUMNS[key]} = ?`);
+  sets.push('updated_at = ?');
+  const res = await env.DB.prepare(
+    `UPDATE business_deals SET ${sets.join(', ')} WHERE id = ?`,
+  )
+    .bind(...keys.map((key) => fields[key]), nowIso, id)
+    .run();
+  return res.meta?.changes ? findBusinessDeal(env, id) : null;
+}
+
+export async function deleteBusinessDeal(env, id) {
+  const res = await env.DB.prepare('DELETE FROM business_deals WHERE id = ?').bind(id).run();
+  return Boolean(res.meta?.changes);
 }
 
