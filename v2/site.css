@@ -585,9 +585,9 @@ poet-nav.site-nav{height:74px;background:#fbf9f3;border-color:#e7e3de}
 .site-nav .site-wordmark img{width:42px;height:42px}
 .site-brand-letters{display:inline-flex;align-items:baseline;font-family:var(--font-family-primary);font-size:36px;font-weight:var(--font-weight-bold);line-height:1;letter-spacing:0}
 .site-brand-letters>span:nth-child(1){color:var(--coral)}
-.site-brand-letters>span:nth-child(2){color:#5ca6d4}
-.site-brand-letters>span:nth-child(3){color:var(--poet-green)}
-.site-brand-letters>span:nth-child(4){color:var(--yellow-bright)}
+.site-brand-letters>span:nth-child(2){color:var(--yellow-bright)}
+.site-brand-letters>span:nth-child(3){color:#5ca6d4}
+.site-brand-letters>span:nth-child(4){color:var(--poet-green)}
 .site-nav .site-nav-links{gap:32px;font-size:14px}
 .site-nav .site-nav-links a[aria-current=page]{font-weight:var(--font-weight-bold);text-underline-offset:9px;text-decoration-color:var(--poet-green)}
 .site-nav .site-dropdown>button{display:flex;align-items:center;gap:7px;min-height:36px;padding:7px 15px;border:1px solid var(--yellow-bright);border-radius:8px;background:#fffcef;font-size:14px}

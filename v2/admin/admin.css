@@ -144,9 +144,9 @@
   font-weight: var(--font-weight-bold);
 }
 .admin-wordmark-letters span:nth-child(1) { color: var(--coral); }
-.admin-wordmark-letters span:nth-child(2) { color: #5ca6d4; }
-.admin-wordmark-letters span:nth-child(3) { color: var(--poet-green); }
-.admin-wordmark-letters span:nth-child(4) { color: var(--yellow-bright); }
+.admin-wordmark-letters span:nth-child(2) { color: var(--yellow-bright); }
+.admin-wordmark-letters span:nth-child(3) { color: #5ca6d4; }
+.admin-wordmark-letters span:nth-child(4) { color: var(--poet-green); }
 .admin-bar-label {
   font-size: 13px;
   font-weight: var(--font-weight-bold);
