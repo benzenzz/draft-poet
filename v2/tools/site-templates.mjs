@@ -54,7 +54,7 @@ function homeFundraising(base) {
     <strong class="fund-target">${numeric(raised,'data-fund-raised')}<span class="sr-only" data-fund-raised-label>${number(raised)} VNĐ</span> <span aria-hidden="true">VNĐ</span></strong>
     <p class="fund-goal">Mục tiêu công khai ${s.name}: <strong><span data-fund-target>${number(s.targetAmount)}</span> VNĐ</strong></p>
     ${fundProgress(state,provisional)}
-    <div class="supporter-stats"><div><span>${uiIcon(base,'users')}Cá nhân</span><strong>${numeric(value('individuals'),`data-fund-count="${value('individuals')}"`)}<small aria-hidden="true"> người</small><span class="sr-only">${number(value('individuals'))} người</span></strong></div><div><span>${uiIcon(base,'building-2')}Doanh nghiệp</span><strong>${numeric(value('businesses'),`data-fund-count="${value('businesses')}"`)}<small aria-hidden="true"> đối tác</small><span class="sr-only">${number(value('businesses'))} đối tác</span></strong></div></div>
+    <div class="supporter-stats"><div><span>${uiIcon(base,'users')}Cá nhân</span><strong>${numeric(value('individuals'),`data-fund-kind="individual" data-fund-count="${value('individuals')}"`)}<small aria-hidden="true"> người</small><span class="sr-only">${number(value('individuals'))} người</span></strong></div><div><span>${uiIcon(base,'building-2')}Doanh nghiệp</span><strong>${numeric(value('businesses'),`data-fund-kind="business" data-fund-count="${value('businesses')}"`)}<small aria-hidden="true"> đối tác</small><span class="sr-only">${number(value('businesses'))} đối tác</span></strong></div></div>
     <div class="fund-actions">${fundDonate(base)}${link(base+'dong-hanh/#loi-nhan','Xem tường lời nhắn','btn btn--outline')}</div>
   </aside>`;
 }

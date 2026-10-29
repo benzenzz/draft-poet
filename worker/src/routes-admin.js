@@ -6,10 +6,19 @@ import { timingSafeEqual } from './payos.js';
 import { requireAdmin } from './auth.js';
 import { checkRateLimit, purgePublicListCache } from './routes-donations.js';
 import {
+  validateBusinessDeal,
+  validateBusinessPatch,
+} from './business.js';
+import {
   createAdminSession,
+  createBusinessDeal,
   deleteAdminSession,
   deleteAdminSessionsForUser,
+  deleteBusinessDeal,
   deleteOtherAdminSessions,
+  findBusinessDeal,
+  listBusinessDeals,
+  businessReceivedTotals,
   pruneAllAttempts,
   pruneExpiredAdminSessions,
   recordAttempt,
@@ -23,6 +32,7 @@ import {
   setSetting,
   totalsForAdmin,
   updateAdminPassword,
+  updateBusinessDeal,
   upsertAdminPassword,
 } from './store.js';
 
@@ -178,6 +188,55 @@ export async function handleUpdateAdminSettings(request, env) {
   }
   await setSetting(env, 'donations_enabled', body.donationsEnabled ? '1' : '0');
   return json({ ok: true, donationsEnabled: body.donationsEnabled });
+}
+
+/* -- business deals: manual ledger, never on the public wall -- */
+
+/** Admin list: newest `updated_at` first, capped at 500, plus received totals. */
+export async function handleBusinessList(env) {
+  const [deals, totals] = await Promise.all([
+    listBusinessDeals(env),
+    businessReceivedTotals(env),
+  ]);
+  return json({
+    deals,
+    receivedAmount: totals.businessAmount,
+    receivedCount: totals.businessCount,
+  });
+}
+
+export async function handleBusinessCreate(request, env, session, url) {
+  const { body, response: badBody } = await readJsonBody(request);
+  if (badBody) return badBody;
+  const { value, error: vErr } = validateBusinessDeal(body);
+  if (vErr) return error(vErr, 400);
+  const nowIso = new Date().toISOString();
+  const row = await createBusinessDeal(env, value, session.username, nowIso);
+  // Status changes the public total only for `received`, but purging is cheap
+  // and keeps every deal mutation on the same cache path.
+  await purgePublicListCache(url);
+  return json(row, 201);
+}
+
+/** PATCH accepts any subset of the editable fields; unknown id -> 404. */
+export async function handleBusinessUpdate(request, env, session, id, url) {
+  const existing = await findBusinessDeal(env, id);
+  if (!existing) return error('Không tìm thấy khoản doanh nghiệp.', 404);
+  const { body, response: badBody } = await readJsonBody(request);
+  if (badBody) return badBody;
+  const { value, error: vErr } = validateBusinessPatch(body);
+  if (vErr) return error(vErr, 400);
+  const row = await updateBusinessDeal(env, id, value, new Date().toISOString());
+  if (!row) return error('Không tìm thấy khoản doanh nghiệp.', 404);
+  await purgePublicListCache(url);
+  return json(row);
+}
+
+export async function handleBusinessDelete(env, id, url) {
+  const removed = await deleteBusinessDeal(env, id);
+  if (!removed) return error('Không tìm thấy khoản doanh nghiệp.', 404);
+  await purgePublicListCache(url);
+  return json({ ok: true });
 }
 
 /** Show a gift's message on the public wall (hidden = 0). */

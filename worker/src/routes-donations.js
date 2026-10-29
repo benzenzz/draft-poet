@@ -167,9 +167,9 @@ export async function handleListPublic(env, ctx, url) {
       if (hit) return new Response(hit.body, hit);
     } catch {}
   }
-  const { donations, totalAmount, totalCount } = await listPublicDonations(env, sort);
+  const { donations, totalAmount, totalCount, fundraising } = await listPublicDonations(env, sort);
   const res = json(
-    { donations, totalAmount, totalCount },
+    { donations, totalAmount, totalCount, fundraising },
     200,
     { 'Cache-Control': `public, max-age=${PUBLIC_CACHE_SECONDS}` },
   );

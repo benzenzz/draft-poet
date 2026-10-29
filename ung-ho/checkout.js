@@ -1,6 +1,8 @@
 // Shared existing Worker/PayOS checkout contract. The provider supplies the QR.
+// API base comes from root config.js: v2/site.js imports it first, and ung-ho
+// pages load it as a defer script before this one.
 (() => {
-  const API_BASE='https://poet-donations.poet-ung-ho.workers.dev';
+  const API_BASE = window.POET_API_BASE;
   async function open(details,{resultBase=new URL('.',location.href)}={}){
     const response=await fetch(`${API_BASE}/api/donations`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({...details,returnUrl:new URL('return.html',resultBase).href,cancelUrl:new URL('cancel.html',resultBase).href})});
     const data=await response.json().catch(()=>({}));

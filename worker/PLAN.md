@@ -30,11 +30,11 @@ Wrangler is already logged in as maiphh29@gmail.com with `workers_scripts:write`
 
 These resources already exist. Do not create them again:
 
-- workers.dev subdomain: `poet-ung-ho`
+- workers.dev subdomain: `lucasmai` (account subdomain; previously `poet-ung-ho`, renamed on Cloudflare's side).
 - D1 database name: `poet-donations`
 - D1 database id: `824e865d-428f-4fe2-aa68-a097809ba78c`
 
-Worker URL: `https://poet-donations.poet-ung-ho.workers.dev`.
+Worker URL: `https://poet-donations.lucasmai.workers.dev`. The front-end reads it from one place only: root `config.js` (`window.POET_API_BASE`), which `ung-ho/donate.js`, `ung-ho/result.js`, `ung-ho/checkout.js` (v2 bridge) and `admin/admin.js` consume.
 
 1. Apply `worker/schema.sql` with `npx wrangler@4 d1 execute poet-donations --remote --file worker/schema.sql`.
 2. Put the real database id in `worker/wrangler.toml`.

@@ -27,6 +27,20 @@ describe('resolvePayosReturnUrls', () => {
     assert.deepEqual(result, { returnUrl: PROD_RETURN, cancelUrl: PROD_CANCEL });
   });
 
+  it('accepts an origin from a comma-separated ALLOWED_ORIGIN list', () => {
+    const origin = 'https://benzenzz.github.io';
+    const result = resolvePayosReturnUrls({
+      origin,
+      allowedOrigin: 'https://maiphh.github.io,https://benzenzz.github.io',
+      returnUrl: `${origin}/poet/ung-ho/return.html`,
+      cancelUrl: `${origin}/poet/ung-ho/cancel.html`,
+    });
+    assert.deepEqual(result, {
+      returnUrl: `${origin}/poet/ung-ho/return.html`,
+      cancelUrl: `${origin}/poet/ung-ho/cancel.html`,
+    });
+  });
+
   it('accepts localhost:8080 with /ung-ho paths', () => {
     const origin = 'http://localhost:8080';
     const result = resolvePayosReturnUrls({
