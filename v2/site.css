@@ -2048,7 +2048,6 @@ button.v-card{width:100%;padding:0;border:0;font:inherit;cursor:pointer}
 .pay-result-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:48px clamp(40px,7vw,104px);align-items:center}
 @media(min-width:901px){.pay-result-grid:has(>.thanks-letter:not([hidden])){grid-template-columns:minmax(0,1fr) minmax(0,.8fr)}}
 .pay-result-copy{max-width:38em}
-.pay-result-mascot{display:block;width:clamp(72px,7vw,96px);height:auto;margin:0 0 20px;transform:rotate(-7deg);transform-origin:50% 90%}
 .site-content .pay-result-copy .eyebrow{color:var(--green-mid);margin:0 0 12px!important}
 .pay-result-sub{margin:0 0 18px;font-size:var(--font-size-meta);line-height:1.5;color:var(--poet-muted)}
 .site-content.pay-result h1{margin:0;font-size:clamp(40px,5vw,68px);font-weight:var(--font-weight-bold);letter-spacing:-.04em;line-height:1.1;color:var(--poet-heading);text-wrap:balance}
@@ -2098,6 +2097,7 @@ button.v-card{width:100%;padding:0;border:0;font:inherit;cursor:pointer}
 /* fb-43: result pages without the letter: copy, buttons and status centred on the page. */
 .pay-result-shell{text-align:center}
 .pay-result-copy{margin-inline:auto}
-.pay-result-mascot{margin-inline:auto}
 .pay-result-lead{margin-inline:auto}
 .pay-result-actions{justify-content:center}
+/* fb-47: no mascot between the status line and the eyebrow, so the status keeps its own gap (a generic p rule zeroed it). */
+.site-content.pay-result .thanks-status{margin:0 0 clamp(20px,2.4vw,28px)}
