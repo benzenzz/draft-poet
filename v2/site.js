@@ -304,12 +304,12 @@ document.querySelectorAll('[data-v-tiktok]').forEach(card=>card.addEventListener
   card.replaceWith(f);f.focus();
 }));
 
-// Client-side correspondence only. A reviewed mailto draft never submits data.
+// Client-side correspondence only. The reviewed draft opens in Gmail compose (new tab); nothing is submitted.
 // Shared copy feedback: buttons with .copy-idle/.copy-done swap to "Đã sao chép" for 1.6s.
 function flashCopied(b){const idle=b.querySelector('.copy-idle'),done=b.querySelector('.copy-done');if(!idle||!done)return;idle.hidden=true;done.hidden=false;clearTimeout(b.copyTimer);b.copyTimer=setTimeout(()=>{idle.hidden=false;done.hidden=true;},1600);}
 document.querySelectorAll('[data-partner-form]').forEach(partnerForm=>{
   const draft=partnerForm.querySelector('.partner-draft'),text=partnerForm.elements.draft,mail=partnerForm.querySelector('[data-partner-mail]'),copyDraft=draft.querySelector('[data-copy]'),email=mail.getAttribute('href').replace('mailto:','');
-  const sync=()=>{mail.href=`mailto:${email}?subject=${encodeURIComponent('Đồng hành POET Mùa 6 — '+partnerForm.elements.company.value.trim())}&body=${encodeURIComponent(text.value)}`;copyDraft.dataset.copy=text.value;};
+  const sync=()=>{mail.href=`https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(email)}&su=${encodeURIComponent('Đồng hành POET Mùa 6 — '+partnerForm.elements.company.value.trim())}&body=${encodeURIComponent(text.value)}`;copyDraft.dataset.copy=text.value;};
   partnerForm.addEventListener('submit',e=>{
     e.preventDefault();if(!partnerForm.reportValidity())return;
     const f=partnerForm.elements,v=n=>f[n].value.trim(),phone=v('phone');
