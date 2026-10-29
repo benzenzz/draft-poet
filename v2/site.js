@@ -177,22 +177,22 @@ document.querySelectorAll('.tier-section').forEach(section=>{
   const range=section.querySelector('.tier-range');
   range?.addEventListener('input',()=>cards[+range.value].click());
   let picked=null;
-  const letter=name=>`Chào POET,\n\nMình là [Tên] từ [Tên thương hiệu]. Thương hiệu mình quan tâm gói ${name} trong chiến dịch Big Joy Little Joy. POET gửi giúp mình thông tin chi tiết và lịch trao đổi nhé.\n\nCảm ơn POET!`;
-  const fill=()=>{mail.href=`mailto:${email}?subject=${encodeURIComponent('Đồng hành Big Joy Little Joy · gói '+picked.name)}&body=${encodeURIComponent(msg.value)}`;copy.dataset.copy=msg.value;};
+  const letter=()=>`Chào POET,\n\nMình là [Tên] từ [Tên thương hiệu]. Thương hiệu mình muốn đồng hành cùng POET trong chiến dịch Big Joy Little Joy. POET gửi giúp mình thông tin chi tiết và lịch trao đổi nhé.\n\nCảm ơn POET!`;
+  const fill=()=>{mail.href=`mailto:${email}?subject=${encodeURIComponent('Đồng hành Big Joy Little Joy')}&body=${encodeURIComponent(msg.value)}`;copy.dataset.copy=msg.value;};
   msg.addEventListener('input',fill);
   // Follows aria-selected, so tab clicks, arrow keys and deep links all update the ladder the same way.
   const sync=()=>{
     const i=cards.findIndex(c=>c.getAttribute('aria-selected')==='true');
     cards.forEach((c,k)=>c.classList.toggle('is-included',k<i));
     picked={amount:cards[i].getAttribute('aria-controls').replace('tier-',''),name:cards[i].querySelector('.tier-card__name').textContent};
-    if(range){range.value=i;range.parentElement.style.setProperty('--p',(i/(cards.length-1)).toFixed(4));range.setAttribute('aria-valuetext',`${picked.name} / ${picked.amount} triệu`);}
-    if(!box.hidden){msg.value=letter(picked.name);fill();}
+    if(range){range.value=i;range.parentElement.style.setProperty('--p',(i/(cards.length-1)).toFixed(4));range.setAttribute('aria-valuetext',`${picked.name} / ${picked.amount} triệu`);section.querySelectorAll('.tier-stop').forEach((d,k)=>d.classList.toggle('is-passed',k<=i));}
+    if(!box.hidden){msg.value=letter();fill();}
   };
   new MutationObserver(sync).observe(list,{subtree:true,attributes:true,attributeFilter:['aria-selected']});
   sync();
   section.querySelectorAll('[data-tier-compose]').forEach(btn=>btn.addEventListener('click',()=>{
     picked={amount:btn.dataset.tierCompose,name:btn.dataset.tierName};
-    msg.value=letter(picked.name);fill();box.hidden=false;
+    msg.value=letter();fill();box.hidden=false;
     msg.focus({preventScroll:true});
     box.scrollIntoView({block:'nearest',behavior:reduced?'auto':'smooth'});
   }));
