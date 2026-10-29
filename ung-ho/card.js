@@ -2,7 +2,6 @@
 window.POETCard = (() => {
   const CFG = (window.POET_DONATE_CONFIG && window.POET_DONATE_CONFIG.card) || {};
   const SLOGAN = CFG.slogan || 'Tuổi trẻ · Nhiệt huyết · Nghệ thuật';
-  const SHARE_URL = CFG.shareUrl || 'https://maiphh.github.io/poet/ung-ho/';
 
   // Name rule enforced HERE, not in the UI: anonymous never shows a name.
   function cardName(d) {
@@ -113,11 +112,8 @@ window.POETCard = (() => {
   const fileName = () => 'poet-cam-on-' + new Date().toISOString().slice(0, 10) + '.png';
   const toBlob = (canvas) => new Promise((r) => canvas.toBlob(r, 'image/png'));
 
-  const SHARE_TEXT = 'Mình vừa gửi quà cho các em nhỏ vùng cao cùng POET 💛 Cùng mình ủng hộ nhé!';
-
   function bind(canvas, els) {
     const toast = (t) => { if (els.toast) els.toast.textContent = t; };
-    const fileOf = async () => new File([await toBlob(canvas)], fileName(), { type: 'image/png' });
     els.save.addEventListener('click', async () => {
       const blob = await toBlob(canvas);
       const file = new File([blob], fileName(), { type: 'image/png' });
@@ -133,26 +129,6 @@ window.POETCard = (() => {
       a.remove();
       setTimeout(() => URL.revokeObjectURL(a.href), 2000);
       toast('Đã lưu ảnh ✓');
-    });
-    // Phones: share sheet with the letter PNG + message + link (pick Facebook there).
-    // Desktop: Facebook's sharer only takes a URL; the og: tags on ung-ho/ give the preview.
-    els.fb.addEventListener('click', async () => {
-      let file = null;
-      try { file = await fileOf(); } catch { /* ignore */ }
-      if (file && navigator.canShare && navigator.canShare({ files: [file] })) {
-        try {
-          await navigator.share({ files: [file], title: 'Thư cảm ơn POET', text: SHARE_TEXT, url: SHARE_URL });
-          return;
-        } catch (err) {
-          if (err && err.name === 'AbortError') return;
-        }
-      }
-      const url = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(SHARE_URL);
-      // No 'noopener' feature: it makes window.open return null even on success.
-      const w = window.open(url, '_blank', 'width=640,height=560');
-      if (w) w.opener = null;
-      else location.href = url; // popup blocked
-
     });
   }
 

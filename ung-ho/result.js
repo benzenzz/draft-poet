@@ -78,7 +78,7 @@
       $('thanks-card').hidden = false;
       const canvas = $('card-canvas');
       window.POETCard.draw(canvas, local);
-      window.POETCard.bind(canvas, { save: $('card-save'), fb: $('card-fb'), toast: $('card-toast') });
+      window.POETCard.bind(canvas, { save: $('card-save'), toast: $('card-toast') });
     }
   }
 
