@@ -2095,3 +2095,9 @@ button.v-card{width:100%;padding:0;border:0;font:inherit;cursor:pointer}
 @media(prefers-reduced-motion:reduce){.tier-slider::after,.tier-range::-webkit-slider-thumb,.tier-range::-moz-range-thumb{transition:none}}
 /* fb-41: outline buttons in the tier section turn dark green on hover, so their text and icon go white. */
 .tier-section .btn--line:hover{background:var(--poet-green-dark);border-color:var(--poet-green-dark);color:#fff!important}
+/* fb-43: result pages without the letter: copy, buttons and status centred on the page. */
+.pay-result-shell{text-align:center}
+.pay-result-copy{margin-inline:auto}
+.pay-result-mascot{margin-inline:auto}
+.pay-result-lead{margin-inline:auto}
+.pay-result-actions{justify-content:center}
