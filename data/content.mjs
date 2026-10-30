@@ -124,13 +124,13 @@ export const recruitment = {
   closedLabel: 'Mùa 6 · đã đóng đơn',
   applicationUrl: null,
   deadline: null,
-  // POET TikTok videos (@poet.npo), id only. Cards are brand-tone gradients: TikTok oEmbed no longer returns thumbnail_url.
+  // POET TikTok videos (@poet.npo), id only. Thumbnails use existing photos: TikTok oEmbed no longer returns thumbnail_url.
   // TikTok videos on @poet.npo. title, views, likes, duration are optional; fill them from the TikTok app (empty ones are hidden).
   videos: [
-    {id: '7691974748988869895', title: null, views: null, likes: null, duration: null},
-    {id: '7692724969809120530', title: null, views: null, likes: null, duration: null},
-    {id: '7692340261279616274', title: null, views: null, likes: null, duration: null},
-    {id: '7696858799683964167', title: null, views: null, likes: null, duration: null}
+    {id: '7691974748988869895', photo: 'community-day', title: null, views: null, likes: null, duration: null},
+    {id: '7692724969809120530', photo: 'school-friends', title: null, views: null, likes: null, duration: null},
+    {id: '7692340261279616274', photo: 'playground-joy', title: null, views: null, likes: null, duration: null},
+    {id: '7696858799683964167', photo: 'big-joy-little-joy', title: null, views: null, likes: null, duration: null}
   ],
   notice: {
     kicker: 'Thông báo tuyển quân',
