@@ -219,20 +219,18 @@ function volunteerNotice(base) {
   const status=open?`${recruitment.seasonLabel} · đang mở đơn${recruitment.deadline?` · hạn ${recruitment.deadline}`:''}`:recruitment.closedLabel;
   return `<section class="section-shell volunteer-notice"><div class="notice-banner"><div><span class="notice-chip">${ic('megaphone')}${n.kicker}</span><h2>${copy.title}</h2><p class="lead">${copy.text}</p><div class="notice-status"><span class="${open?'is-open':''}"><i aria-hidden="true"></i>${status}</span></div><div class="notice-cta"><a class="btn btn--blue" href="${href}" target="_blank" rel="noopener noreferrer">${open?'':ic('facebook')}${copy.cta}${ic('arrow-up-right')}</a></div></div><figure class="notice-photo"><img src="${base}assets/editorial/poet-volunteers-1280.webp" srcset="${base}assets/editorial/poet-volunteers-640.webp 640w, ${base}assets/editorial/poet-volunteers-1280.webp 1280w" sizes="(max-width:640px) 100vw, 45vw" width="1280" height="853" loading="lazy" alt="Các tình nguyện viên POET mặc áo đồng phục cười vui bên nhau"></figure></div></section>`;
 }
-// UI-015: video library. Each card is a photo + play button; site.js swaps in TikTok's player iframe only on click, so nothing from TikTok loads with the page.
+// UI-015: video library. Each card is a brand-tone gradient + play button; site.js swaps in TikTok's player iframe only on click, so nothing from TikTok loads with the page.
 const VIDEO_PLAY='<svg class="v-play-ic" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7 4.5v15a1 1 0 0 0 1.52.85l12-7.5a1 1 0 0 0 0-1.7l-12-7.5A1 1 0 0 0 7 4.5Z"/></svg>';
 const VIDEO_HEART='<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>';
 function videoLibrary(base) {
   const list=recruitment.videos;
   if(!list.length)return '';
   const ic=name=>uiIcon(base,name),tiktok=socials.find(([name])=>name==='TikTok')[1];
-  // Same card as the approved "Thư viện video" design: handle, title and stats sit on the photo. Empty fields are left out until POET fills them in content.mjs.
+  // Same card as the approved "Thư viện video" design: handle, title and stats sit on the gradient. Empty fields are left out until POET fills them in content.mjs.
   const card=(v,i)=>{
-    const photo=`${base}assets/editorial/${v.photo}-1280.webp`;
-    const media=`<img src="${photo}" srcset="${base}assets/editorial/${v.photo}-640.webp 640w, ${photo} 1280w" sizes="(max-width:640px) 68vw, (max-width:900px) 50vw, 25vw" width="1280" height="853" alt="" loading="lazy" decoding="async" style="object-position:${v.pos||'50% 50%'}">`;
-    const stats=v.views||v.likes?`<span class="v-stats">${v.views?`<span aria-label="${v.views} lượt xem">${ic('eye')}${v.views}</span>`:''}${v.likes?`<span class="v-heart" aria-label="${v.likes} lượt tim">${VIDEO_HEART}${v.likes}</span>`:''}</span>`:'';
+    const stats=v.views||v.likes?`<span class="v-stats">${v.views?`<span>${v.views} lượt xem</span>`:''}${v.likes?`<span class="v-heart" aria-label="${v.likes} lượt tim">${VIDEO_HEART}${v.likes}</span>`:''}</span>`:'';
     const info=`<span class="v-info"><span class="v-who">${esc(v.handle||'@poet.npo')}</span>${v.title?`<span class="v-title">${esc(v.title)}</span>`:''}${stats}</span>`;
-    return `<li><button type="button" class="v-card v${i%4}" data-v-tiktok="${v.id}" aria-label="Phát video TikTok${v.title?`: ${esc(v.title)}`:` ${i+1}`} của POET">${media}${v.duration?`<span class="v-dur">${v.duration}</span>`:''}<span class="v-play">${VIDEO_PLAY}</span>${info}</button><a class="v-src" href="${tiktok}/video/${v.id}" target="_blank" rel="noopener noreferrer">Xem trên TikTok${arrowSvg('arrow-up-right','icon-inline')}<span class="sr-only"> (video ${i+1}, mở tab mới)</span></a></li>`;
+    return `<li><button type="button" class="v-card v${i%4}" data-v-tiktok="${v.id}" aria-label="Phát video TikTok${v.title?`: ${esc(v.title)}`:` ${i+1}`} của POET">${v.duration?`<span class="v-dur">${v.duration}</span>`:''}<span class="v-play">${VIDEO_PLAY}</span>${info}</button><a class="v-src" href="${tiktok}/video/${v.id}" target="_blank" rel="noopener noreferrer">Xem trên TikTok${arrowSvg('arrow-up-right','icon-inline')}<span class="sr-only"> (video ${i+1}, mở tab mới)</span></a></li>`;
   };
   return `<div class="volunteer-videos" id="thu-vien-video"><div class="v-head"><h2>Thư viện <span>video</span></h2><a class="v-more" href="${tiktok}" target="_blank" rel="noopener noreferrer">Xem thêm trên TikTok POET${ic('arrow-up-right')}</a></div><ul class="v-rail" data-v-rail>${list.map(card).join('')}</ul><div class="v-nav"><button type="button" data-v-prev aria-label="Video trước">${ic('chevron-left')}</button><button type="button" data-v-next aria-label="Video sau">${ic('chevron-right')}</button></div></div>`;
 }
